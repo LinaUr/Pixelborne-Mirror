@@ -1,0 +1,167 @@
+{
+    "name": "PlayerInputMaster",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "6b778778-7ebe-4acf-80af-235979b236bd",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "id": "63955eb5-3f2e-4272-a6b5-068c37319f5d",
+                    "expectedControlLayout": "",
+                    "continuous": false,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
+                },
+                {
+                    "name": "Movement",
+                    "id": "1a89c1a4-4da8-4b1b-af70-042e2b206075",
+                    "expectedControlLayout": "",
+                    "continuous": true,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "Press,Hold",
+                    "bindings": []
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Jump",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Jump",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/leftStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "arrowKeys",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": true,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Negative",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Positive",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "dpad",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": true,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Negative",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Positive",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard",
+            "basedOn": "",
+            "bindingGroup": "Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Gamepad",
+            "basedOn": "",
+            "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
