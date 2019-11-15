@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Player_1_sword
+  - Player_1
+  - Player_2
+  - Player_2_sword
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Player
   - 
   - 
   - 

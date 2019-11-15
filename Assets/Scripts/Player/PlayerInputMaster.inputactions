@@ -24,6 +24,16 @@
                     "processors": "",
                     "interactions": "Press,Hold",
                     "bindings": []
+                },
+                {
+                    "name": "Attack",
+                    "id": "0445b7b7-9321-4b03-80e0-66bcc9bafaf1",
+                    "expectedControlLayout": "",
+                    "continuous": true,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "Press,Hold",
+                    "bindings": []
                 }
             ],
             "bindings": [
@@ -133,6 +143,66 @@
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "1D Axis",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": true,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Negative",
+                    "path": "<NPad>/acceleration",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard1",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Positive",
+                    "path": "<DualShockGamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard1",
+                    "action": "Movement",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Attack",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Attack",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
                     "modifiers": ""
                 }
             ]
