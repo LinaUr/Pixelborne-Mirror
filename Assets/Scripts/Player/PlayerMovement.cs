@@ -47,14 +47,12 @@ public class PlayerMovement : MonoBehaviour
         return time;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckY, whatIsGround);
         isGrounded = Physics2D.OverlapArea((Vector2) playerCollider.bounds.min, 
                         (Vector2) playerCollider.bounds.min + new Vector2(playerCollider.bounds.size.x, groundCheckY), whatIsGround);
-        if (isGrounded){
-            animator.SetBool("IsJumping", false);
-        }
+        animator.SetBool("IsJumping", !isGrounded);
         if(attacking){
             lastTimeAttacked -= Time.deltaTime;
             if(lastTimeAttacked < 0){
