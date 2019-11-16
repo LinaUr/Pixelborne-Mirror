@@ -572,7 +572,7 @@ MonoBehaviour:
   jumpForce: 20
   facingRight: 1
   groundCheckPoint: {fileID: 918047275}
-  groundCheckY: 0.1
+  groundCheckY: 0.01
   whatIsGround:
     serializedVersion: 2
     m_Bits: 55
