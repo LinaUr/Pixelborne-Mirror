@@ -358,9 +358,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1205548510}
+  - {fileID: 1204311612}
   - {fileID: 1947226955}
   - {fileID: 1545539563}
-  - {fileID: 1204311612}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 1204311614}
   - component: {fileID: 1204311613}
   m_Layer: 8
-  m_Name: Player2_Blue (1)
+  m_Name: Player2_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -567,7 +567,7 @@ Transform:
   - {fileID: 1828138564}
   - {fileID: 393457408}
   m_Father: {fileID: 754377875}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1204311613
 Animator:
@@ -1367,7 +1367,7 @@ GameObject:
   - component: {fileID: 1545539565}
   - component: {fileID: 1545539564}
   m_Layer: 8
-  m_Name: Player2_Blue
+  m_Name: Player2_Blue_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1387,7 +1387,7 @@ Transform:
   - {fileID: 1098563250}
   - {fileID: 757543608}
   m_Father: {fileID: 754377875}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1545539564
 Animator:
@@ -2041,7 +2041,7 @@ Transform:
   m_Children:
   - {fileID: 587595733}
   m_Father: {fileID: 754377875}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1947226956
 MonoBehaviour:
