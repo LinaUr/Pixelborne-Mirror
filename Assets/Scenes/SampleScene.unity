@@ -582,6 +582,7 @@ MonoBehaviour:
   otherPlayerTag: 
   rigidbody2D: {fileID: 0}
   playerCollider: {fileID: 0}
+  attackDirection: 0
 --- !u!114 &1205548512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,6 +1096,7 @@ MonoBehaviour:
   otherPlayerTag: 
   rigidbody2D: {fileID: 0}
   playerCollider: {fileID: 0}
+  attackDirection: 0
 --- !u!114 &1545539566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1699,6 +1701,7 @@ MonoBehaviour:
   otherPlayerTag: Player_1
   rigidbody2D: {fileID: 0}
   playerCollider: {fileID: 0}
+  attackDirection: 0
 --- !u!114 &1947226957
 MonoBehaviour:
   m_ObjectHideFlags: 0

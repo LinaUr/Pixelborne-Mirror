@@ -18,11 +18,16 @@ public class PlayerMovement : MonoBehaviour
     public string otherPlayerTag;
     public Rigidbody2D rigidbody2D;
     public Collider2D playerCollider;
+    public float attackDirection;
 
-    private float lastTimeAttacked = -10000;
-    private float attackDuration;
+    private double lastTimeAttacked = -10000;
+    private double attackDuration;
     private bool attacking = false;
     private Collider2D blackSwordCollider;
+    private int currentAttackAnimationParameter = 0;
+    
+    public static float ATTACK_DIRECTION_DEADZONE = 0.1f;
+    private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     
 
     void Start ()
@@ -57,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
             lastTimeAttacked -= Time.deltaTime;
             if(lastTimeAttacked < 0){
                 attacking = false;
-                animator.SetBool("Attacking", false);
+                animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[currentAttackAnimationParameter], attacking);
             }
         }
 
@@ -72,9 +77,22 @@ public class PlayerMovement : MonoBehaviour
     void OnAttack(InputValue value){
         if(lastTimeAttacked < 0){
             attacking = true;
-            animator.SetBool("Attacking", true);
+            determineAttackingParameter(attackDirection);
+            animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[currentAttackAnimationParameter], attacking);
             lastTimeAttacked = attackDuration;
         }
+    }
+
+    private void determineAttackingParameter(float attackDirectionAxisValue){
+        if(attackDirectionAxisValue > ATTACK_DIRECTION_DEADZONE){
+            currentAttackAnimationParameter = 0;
+        } else if(attackDirectionAxisValue > -ATTACK_DIRECTION_DEADZONE){
+            currentAttackAnimationParameter = 1;
+        } else {
+            currentAttackAnimationParameter = 2;
+        }
+        Debug.Log(currentAttackAnimationParameter);
+    
     }
 
     void OnJump(InputValue value)
@@ -84,6 +102,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", true);
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
         }
+    }
+
+    void OnAttackDirection(InputValue value){
+        attackDirection = value.Get<float>();
     }
 
     void OnMovement(InputValue value)

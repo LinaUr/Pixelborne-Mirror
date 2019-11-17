@@ -34,12 +34,22 @@
                     "processors": "",
                     "interactions": "Press,Hold",
                     "bindings": []
+                },
+                {
+                    "name": "AttackDirection",
+                    "id": "d701efde-99a3-4e87-8b20-73c9546a328b",
+                    "expectedControlLayout": "",
+                    "continuous": true,
+                    "passThrough": false,
+                    "processors": "",
+                    "interactions": "Press,Hold",
+                    "bindings": []
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/space",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
@@ -183,7 +193,7 @@
                 },
                 {
                     "name": "",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
@@ -203,6 +213,90 @@
                     "chainWithPrevious": false,
                     "isComposite": false,
                     "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "1D Axis",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": true,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Negative",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Positive",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Gamepad>/leftStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "dpad y",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": true,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Negative",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
+                    "modifiers": ""
+                },
+                {
+                    "name": "Positive",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AttackDirection",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": true,
                     "modifiers": ""
                 }
             ]
