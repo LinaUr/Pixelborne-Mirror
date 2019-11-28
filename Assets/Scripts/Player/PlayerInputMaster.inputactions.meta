@@ -5,6 +5,11 @@ ScriptedImporter:
     11400000: <root>
     11400002: Player/Jump
     11400004: Player/Movement
+<<<<<<< HEAD:Assets/Scripts/Player/PlayerInputMaster.inputactions.meta
+=======
+    11400006: Player/Attack
+    11400008: Player/AttackDirection
+>>>>>>> origin/4-make-camera-switch-between-level-screens:Assets/Scripts/Player/PlayerInputMaster.inputactions.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
