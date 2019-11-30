@@ -22,6 +22,8 @@ public class PlayerInputMaster : InputActionAssetReference
         m_Player = asset.GetActionMap("Player");
         m_Player_Jump = m_Player.GetAction("Jump");
         m_Player_Movement = m_Player.GetAction("Movement");
+        m_Player_Attack = m_Player.GetAction("Attack");
+        m_Player_AttackDirection = m_Player.GetAction("AttackDirection");
         m_Initialized = true;
     }
     private void Uninitialize()
@@ -29,6 +31,8 @@ public class PlayerInputMaster : InputActionAssetReference
         m_Player = null;
         m_Player_Jump = null;
         m_Player_Movement = null;
+        m_Player_Attack = null;
+        m_Player_AttackDirection = null;
         m_Initialized = false;
     }
     public void SetAsset(InputActionAsset newAsset)
@@ -45,12 +49,16 @@ public class PlayerInputMaster : InputActionAssetReference
     private InputActionMap m_Player;
     private InputAction m_Player_Jump;
     private InputAction m_Player_Movement;
+    private InputAction m_Player_Attack;
+    private InputAction m_Player_AttackDirection;
     public struct PlayerActions
     {
         private PlayerInputMaster m_Wrapper;
         public PlayerActions(PlayerInputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump { get { return m_Wrapper.m_Player_Jump; } }
         public InputAction @Movement { get { return m_Wrapper.m_Player_Movement; } }
+        public InputAction @Attack { get { return m_Wrapper.m_Player_Attack; } }
+        public InputAction @AttackDirection { get { return m_Wrapper.m_Player_AttackDirection; } }
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
