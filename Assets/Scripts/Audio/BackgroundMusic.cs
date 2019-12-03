@@ -17,11 +17,12 @@ public class BackgroundMusic : MonoBehaviour
     {
         audioPlayer = GetComponent<AudioSource>();
 
-        string username = Environment.UserName;
-        playlist = GetFiles($"C:/Users/{username}", "*.mp3").ToList();
+        var userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        playlist = GetFiles(userPath, "*.mp3").ToList();
 
         elapsedTime = 0;
-        StartCoroutine(LoadAudio());
+        audio = null;
+        StartCoroutine(ChangeBackgroundAudio());
     }
 
     void Update()
@@ -34,24 +35,31 @@ public class BackgroundMusic : MonoBehaviour
         if (elapsedTime >= audio.length)
         {
             elapsedTime -= audio.length;
-            StartCoroutine(LoadAudio());
+            StartCoroutine(ChangeBackgroundAudio());
         }
 
     }
 
-    IEnumerator LoadAudio()
+    IEnumerator ChangeBackgroundAudio()
     {
         int index = UnityEngine.Random.Range(0, playlist.Count);
 
-        WWW request = new WWW("file://" + playlist[index]);
-        while (!request.isDone)
-            yield return 0;
+        if (playlist.Count != 0)
+        {
+            WWW request = new WWW("file://" + playlist[index]);
+            while (!request.isDone)
+                yield return 0;
 
-        audio = NAudioPlayer.FromMp3Data(request.bytes);
-        audio.name = playlist[index];
+            audio = NAudioPlayer.FromMp3Data(request.bytes);
+            audio.name = playlist[index];
 
-        audioPlayer.clip = audio;
-        audioPlayer.Play();
+            audioPlayer.clip = audio;
+            audioPlayer.Play();
+        }
+        else
+        {
+            Debug.Log("No mp3-files were found. Can't play any background audio.");
+        }
     }
 
     // This method returns all file paths for files with a certain ending.
@@ -59,6 +67,7 @@ public class BackgroundMusic : MonoBehaviour
     // Therefore implementing recursion ourselves is the best way to avoid those exceptions.
     private IEnumerable<string> GetFiles(string root, string fileEnding)
     {
+        //Methode asynchron in neuem Task/Thread ausführen!
         Stack<string> pending = new Stack<string>();
         pending.Push(root);
         while (pending.Count != 0)
