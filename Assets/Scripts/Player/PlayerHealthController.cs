@@ -12,7 +12,4 @@ public static class PlayerHealthController
 
     public static PlayerHealth player1Health = new PlayerHealth(maxhealth, respawnTime);
     public static PlayerHealth player2Health = new PlayerHealth(maxhealth, respawnTime);
-
-
-
 }

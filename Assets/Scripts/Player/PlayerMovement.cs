@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MediatableMonoBehavior
 {
     public float moveSpeed = 10f;
     public float jumpForce = 20f;
@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     private bool attacking = false;
     private Collider2D blackSwordCollider;
     private int currentAttackAnimationParameter = 0;
+    public bool IsInputLocked {
+        get { return IsInputLocked; }
+        set { IsInputLocked = value; }
+    }
     
     public static float ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
@@ -37,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
         attackDuration = getAnimationLength("Player_1_attack");
         blackSwordCollider = GameObject.Find("BlackSword").GetComponent<Collider2D>();
         blackSwordCollider.enabled = false;
-        
     }
 
     float getAnimationLength(string name)
@@ -147,4 +150,11 @@ public class PlayerMovement : MonoBehaviour
         blackSwordCollider.enabled = false;
     }
 
+    public void OnRecord(Input value){
+        _gameMediator.Record();
+    }
+
+    public void Die(){
+        _gameMediator.handleDeath(this.gameObject);
+    }
 }

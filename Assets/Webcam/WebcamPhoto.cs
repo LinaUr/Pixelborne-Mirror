@@ -16,7 +16,8 @@ public class WebcamPhoto : MonoBehaviour
         _webcamtex = new WebCamTexture();
     }
 
-    public void SaveWebcamPhoto(){
+     //TODO
+    public void Record(){
         _webcamtex.Play();
         StartCoroutine(CaptureTextureAsPNG());
     }

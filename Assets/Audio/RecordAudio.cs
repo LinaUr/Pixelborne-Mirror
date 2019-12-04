@@ -42,7 +42,7 @@ public class RecordAudio : MonoBehaviour
         return string.IsNullOrEmpty(_selectedDevice);
     }
 
-    public void StartRecording(){
+    public void Record(){
         _microphone_clip = Microphone.Start(_selectedDevice, false, RecordDuration, 44100);
         _time_left_recording = ((float) RecordDuration) * 1.1f; // puffer
     }
