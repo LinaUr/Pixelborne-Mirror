@@ -16,6 +16,7 @@ public class RecordAudio : MonoBehaviour
     private bool _recording = false;
     private float _time_left_recording = 0.0f;
     private static string _AUDIO_RECORD_DIR = "records";
+    private string filedir;
 
 
     // Start is called before the first frame update
@@ -24,6 +25,8 @@ public class RecordAudio : MonoBehaviour
         if(Microphone.devices.Length > 0) 
         {
             _selectedDevice = Microphone.devices[0].ToString();
+            filedir = Path.Combine(Application.dataPath, _AUDIO_RECORD_DIR);
+            Directory.CreateDirectory(filedir);
         }
     }
 
@@ -49,8 +52,7 @@ public class RecordAudio : MonoBehaviour
 
     private void SaveRecording(){
         string filename = "sound_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".wav";
-        var filepath = Path.Combine(Application.dataPath, _AUDIO_RECORD_DIR);
-        filepath = Path.Combine(filepath, filename);
+        var filepath = Path.Combine(filedir, filename);
         
         SavWav.Save(filepath, _microphone_clip);
     }

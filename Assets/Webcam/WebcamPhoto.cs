@@ -6,20 +6,28 @@ using System;
 
 public class WebcamPhoto : MonoBehaviour
 {
-
     public WebCamTexture _webcamtex;
     private static string _PHOTO_RECORD_DIR = "photos";
+    private string filedir;
 
     // Start is called before the first frame update
     void Start()
     {
-        _webcamtex = new WebCamTexture();
+        WebCamDevice[] webcamDevices = WebCamTexture.devices;
+        if (webcamDevices.Length > 0){
+            _webcamtex = new WebCamTexture(webcamDevices[0].name);
+            filedir = Path.Combine(Application.dataPath, _PHOTO_RECORD_DIR);
+            Directory.CreateDirectory(filedir);
+            _webcamtex.Play();
+        } else {
+            Debug.Log("No webcam device found. Therefore Photos are not supported.");
+        }
     }
 
-     //TODO
     public void Record(){
-        _webcamtex.Play();
-        StartCoroutine(CaptureTextureAsPNG());
+        if(_webcamtex != null){
+            StartCoroutine(CaptureTextureAsPNG());
+        }
     }
 
     private IEnumerator CaptureTextureAsPNG()
@@ -28,11 +36,11 @@ public class WebcamPhoto : MonoBehaviour
         Texture2D _TextureFromCamera = new Texture2D(_webcamtex.width, _webcamtex.height);
         _TextureFromCamera.SetPixels(_webcamtex.GetPixels());
         _TextureFromCamera.Apply();
-        _webcamtex.Stop();
+        //_webcamtex.Stop();
         byte[] bytes = _TextureFromCamera.EncodeToPNG();
+
         string filename = "img_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".png";
-        var filepath = Path.Combine(Application.dataPath, _PHOTO_RECORD_DIR);
-        filepath = Path.Combine(filepath, filename);
+        var filepath = Path.Combine(filedir, filename);
 
         File.WriteAllBytes(filepath, bytes);
     }

@@ -11,9 +11,10 @@ public class GameMediator : MonoBehaviour
     private PlayerMovement _player2Movement;
     private RecordAudio _audioRecorder;
     private WebcamPhoto _photoRecorder;
+    private CurrentMode mode;
     public enum CurrentMode { None, MainMenu, SinglePlayer, MultiPlayer };
 
-    public CurrentMode mode {
+    public CurrentMode Mode {
         get { return mode; }
         set { mode = value; }
     }
@@ -38,6 +39,7 @@ public class GameMediator : MonoBehaviour
     }
 
     public void Record(){
+        Debug.Log("Recording");
         _audioRecorder.Record();
         _photoRecorder.Record();
     }

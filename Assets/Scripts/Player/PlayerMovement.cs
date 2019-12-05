@@ -36,6 +36,7 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void Start ()
     {
+        base.Start();
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         playerCollider = gameObject.GetComponent<Collider2D>();
         attackDuration = getAnimationLength("Player_1_attack");
@@ -94,8 +95,6 @@ public class PlayerMovement : MediatableMonoBehavior
         } else {
             currentAttackAnimationParameter = 2;
         }
-        Debug.Log(currentAttackAnimationParameter);
-    
     }
 
     void OnJump(InputValue value)
@@ -149,12 +148,11 @@ public class PlayerMovement : MediatableMonoBehavior
     {
         blackSwordCollider.enabled = false;
     }
-
-    public void OnRecord(Input value){
-        _gameMediator.Record();
+    void OnRecord(InputValue value){
+        gameMediator.Record();
     }
 
     public void Die(){
-        _gameMediator.handleDeath(this.gameObject);
+        gameMediator.handleDeath(this.gameObject);
     }
 }

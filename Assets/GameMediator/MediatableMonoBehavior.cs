@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class MediatableMonoBehavior : MonoBehaviour
 {
-    protected GameMediator _gameMediator {
-        get { return _gameMediator; }
+    private GameMediator _gameMediator;
+
+    protected GameMediator gameMediator {
+        get { 
+                if (_gameMediator == null){
+                    var gameMediatorObject = GameObject.FindGameObjectWithTag("GameMediator");
+                    if(gameMediatorObject != null){
+                        _gameMediator = gameMediatorObject.GetComponent<GameMediator>();
+                    } else {
+                        Debug.Log("ERROR: NO GAME_MEDIATOR_OBJECT WAS FOUND!!!");
+                    }
+                }
+                return _gameMediator;
+            }
         set { _gameMediator = value; }
     }
 
     //NOTE: maybe a super() is missing?
     public void Start(){
-        var gameMediatorObject = GameObject.Find("GameMediatorObject");
-        if(_gameMediator != null){
-            _gameMediator = gameMediatorObject.GetComponent<GameMediator>();
+        /*Debug.Log(GameObject.FindObjectsOfType(GameObject));
+        var gameMediatorObject = GameObject.FindGameObjectWithTag("GameMediator");
+        if(gameMediator != null){
+            gameMediator = gameMediatorObject.GetComponent<GameMediator>();
         } else {
             Debug.Log("ERROR: NO GAME_MEDIATOR_OBJECT WAS FOUND!!!");
-        }
+        }*/
     }
 }
