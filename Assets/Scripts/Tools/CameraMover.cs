@@ -103,7 +103,7 @@ public class CameraMover : MediatableMonoBehavior
 
     /* Slowly fades the game in
      */
-    void FadeIn()
+    public void FadeIn()
     {
         fadeStartTime = Toolkit.currentTimeMillisecondsToday();
         fadeMode = 2;
