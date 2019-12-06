@@ -39,7 +39,6 @@ public class GameMediator : MonoBehaviour
     }
 
     public void Record(){
-        Debug.Log("Recording");
         _audioRecorder.Record();
         _photoRecorder.Record();
     }

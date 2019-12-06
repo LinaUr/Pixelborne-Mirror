@@ -49,10 +49,10 @@
                     "name": "Record",
                     "id": "51d3bbf6-b100-41f2-afde-826c1c83a527",
                     "expectedControlLayout": "",
-                    "continuous": true,
+                    "continuous": false,
                     "passThrough": false,
                     "processors": "",
-                    "interactions": "Press,Hold",
+                    "interactions": "Press",
                     "bindings": []
                 }
             ],
