@@ -16,7 +16,7 @@ public class PlayerMovement : MediatableMonoBehavior
     public bool isGrounded = true;
     public Animator animator;
     public string otherPlayerTag;
-    public Rigidbody2D rigidbody2D;
+    public Rigidbody2D myRigidbody2D;
     public Collider2D playerCollider;
     public float attackDirection;
 
@@ -36,8 +36,7 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void Start ()
     {
-        base.Start();
-        rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        myRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         playerCollider = gameObject.GetComponent<Collider2D>();
         attackDuration = getAnimationLength("Player_1_attack");
         blackSwordCollider = GameObject.Find("BlackSword").GetComponent<Collider2D>();
@@ -58,7 +57,6 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void FixedUpdate()
     {
-        // isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckY, whatIsGround);
         isGrounded = Physics2D.OverlapArea((Vector2) playerCollider.bounds.min, 
                         (Vector2) playerCollider.bounds.min + new Vector2(playerCollider.bounds.size.x, groundCheckY), whatIsGround);
         animator.SetBool("IsJumping", !isGrounded);
@@ -102,7 +100,7 @@ public class PlayerMovement : MediatableMonoBehavior
         if (isGrounded)
         {
             animator.SetBool("IsJumping", true);
-            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpForce);
+            myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, jumpForce);
         }
     }
 
@@ -129,8 +127,7 @@ public class PlayerMovement : MediatableMonoBehavior
         }
 
         // PHYSICS
-        var rigibody2D = gameObject.GetComponent<Rigidbody2D>();
-        rigibody2D.velocity = new Vector2(moveX * moveSpeed, rigibody2D.velocity.y);
+        myRigidbody2D.velocity = new Vector2(moveX * moveSpeed, myRigidbody2D.velocity.y);
     }
 
     private void FlipPlayer()

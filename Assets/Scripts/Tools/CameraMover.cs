@@ -7,11 +7,8 @@ using System;
 [System.Serializable]//makes sure this shows up in the inspector
 
 
-public class CameraMover : MonoBehaviour
+public class CameraMover : MediatableMonoBehavior
 {
-    [SerializeField]
-    GameObject gameMediator;
-
     [SerializeField]
     GameObject fadeImage;
 
@@ -20,7 +17,6 @@ public class CameraMover : MonoBehaviour
 
     int fadeStartTime;
     int fadeMode;
-
     // Start is called before the first frame update, used for initialisation
     void Start()
     {
@@ -59,7 +55,7 @@ public class CameraMover : MonoBehaviour
                 tmp.a = 1.0f;
                 fadeImage.GetComponent<SpriteRenderer>().color = tmp;
                 fadeMode = 0;
-                gameMediator.GetComponent<GameMediator>().FadedOut();
+                gameMediator.FadedOut();
             }
         }
         //Fade in
@@ -76,7 +72,7 @@ public class CameraMover : MonoBehaviour
                 tmp.a = 0.0f;
                 fadeImage.GetComponent<SpriteRenderer>().color = tmp;
                 fadeMode = 0;
-                gameMediator.GetComponent<GameMediator>().FadedIn();
+                gameMediator.FadedIn();
             }
         }
         //Somehow wrong fadeMode

@@ -20,15 +20,4 @@ public class MediatableMonoBehavior : MonoBehaviour
             }
         set { _gameMediator = value; }
     }
-
-    //NOTE: maybe a super() is missing?
-    public void Start(){
-        /*Debug.Log(GameObject.FindObjectsOfType(GameObject));
-        var gameMediatorObject = GameObject.FindGameObjectWithTag("GameMediator");
-        if(gameMediator != null){
-            gameMediator = gameMediatorObject.GetComponent<GameMediator>();
-        } else {
-            Debug.Log("ERROR: NO GAME_MEDIATOR_OBJECT WAS FOUND!!!");
-        }*/
-    }
 }
