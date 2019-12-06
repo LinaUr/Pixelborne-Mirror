@@ -18,7 +18,7 @@ public class WebcamPhoto : MonoBehaviour
             _webcamtex = new WebCamTexture(webcamDevices[0].name);
             filedir = Path.Combine(Application.dataPath, _PHOTO_RECORD_DIR);
             Directory.CreateDirectory(filedir);
-            _webcamtex.Play();
+            //_webcamtex.Play();
         } else {
             Debug.Log("No webcam device found. Therefore Photos are not supported.");
         }
@@ -26,6 +26,7 @@ public class WebcamPhoto : MonoBehaviour
 
     public void Record(){
         if(_webcamtex != null){
+            _webcamtex.Play();
             StartCoroutine(CaptureTextureAsPNG());
         }
     }
