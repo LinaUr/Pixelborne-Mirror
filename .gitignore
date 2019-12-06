@@ -10,6 +10,8 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /[Aa]ssets/[Rr]ecords/
+/[Aa]ssets/[Rr]ecords.meta
+/[Aa]ssets/[Pp]hotos.meta
 /[Aa]ssets/[Pp]hotos/
 
 # Never ignore Asset meta data
