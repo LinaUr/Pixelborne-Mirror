@@ -52,9 +52,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Pictures
+    uniqueID: 3869052335
+    locked: 0
   - name: level
     uniqueID: 765317395
     locked: 0
   - name: Foreground
     uniqueID: 4072669561
+    locked: 0
+  - name: MainMenu
+    uniqueID: 1480247883
     locked: 0

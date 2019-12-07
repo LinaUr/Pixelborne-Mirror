@@ -6,33 +6,33 @@ public class MultiPlayer : MediatableMonoBehavior
 {
 
     private Vector2[] cameraPositions = {
-            new Vector2(-30.54f, 1.95f),
+            new Vector2(30.29f, 1.06f),
             new Vector2(0.3683965f, 0.373381f),
-            new Vector2(30.29f, 1.06f)
+            new Vector2(-30.54f, 1.95f),
     };
     private Vector2[] player1SpawnPositions = {
-            new Vector2(0f, 0f),
-            new Vector2(0f, 0f),
-            new Vector2(0f, 0f)
+            new Vector2(25f, 2.5f),
+            new Vector2(-8f, -1.5f),
+            new Vector2(-34.5f, 3.5f),
     };
 
     private Vector2[] player2SpawnPositions = {
-            new Vector2(0f, 0f),
-            new Vector2(0f, 0f),
-            new Vector2(0f, 0f)
+            new Vector2(38f, 2.5f),
+            new Vector2(8f, -1.5f),
+            new Vector2(-22f, 3.5f),
     };
     private int currentCameraPositionIndex;
     private GameObject player1;
     private GameObject player2;
+    private CameraMover cameraMover;
     // Start is called before the first frame update
     void Start()
     {
-        currentCameraPositionIndex = cameraPositions.Length / 2;
-        player1 = GameObject.Find("Player1_Blue");
-        player2 = GameObject.Find("Player2_Blue");
+        ResetMultiplayer();
     }
 
-    public Vector2 GetCameraSpawnPoint(GameObject player){
+
+    public void PlayerDied(GameObject player){
         if (player == player1){
             currentCameraPositionIndex--;
         } else if(player == player2){
@@ -41,27 +41,45 @@ public class MultiPlayer : MediatableMonoBehavior
             Debug.Log("ERROR no player was given!");
         }
         testForWin(player);
-        return cameraPositions[currentCameraPositionIndex];
-    }
-
-    public Vector2 GetPlayerSpawnPoint(GameObject player){
-        if(player == player1){
-            return player1SpawnPositions[currentCameraPositionIndex];
-        } else if(player == player2){
-            return player2SpawnPositions[currentCameraPositionIndex];
-        } else {
-            Debug.Log("ERROR: no player was given!");
-            return new Vector2();
-        }
     }
 
     private void testForWin(GameObject player){
-        if(currentCameraPositionIndex < 0 &&
-            currentCameraPositionIndex <= cameraPositions.Length) {
+        if(currentCameraPositionIndex < 0 ||
+            currentCameraPositionIndex >= cameraPositions.Length) {
             GameObject winningPlayer = player == player1 ? player2 : player1;
             gameMediator.triggerWin(winningPlayer);
             // reset the currentCameraPositionIndex
-            currentCameraPositionIndex = cameraPositions.Length / 2;
+            StopMultiplayer();
         }
+    }
+
+    public void ResetMultiplayer(){
+        currentCameraPositionIndex = cameraPositions.Length / 2;
+    }
+
+    public void SetPlayerPositions(){
+        player1.GetComponent<PlayerMovement>().setPosition(player1SpawnPositions[currentCameraPositionIndex]);
+        player2.GetComponent<PlayerMovement>().setPosition(player2SpawnPositions[currentCameraPositionIndex]);
+    }
+
+    public void SetCameraPosition(){
+        Vector2 newPosition = cameraPositions[currentCameraPositionIndex];
+        cameraMover.MoveCamera(newPosition.x, newPosition.y);
+    }
+
+    public void StartMultiplayer(){
+        ResetMultiplayer();
+        player1 = GameObject.Find("Player1_Blue");
+        player2 = GameObject.Find("Player2_Blue");
+        cameraMover = GameObject.Find("Main Camera").GetComponent<CameraMover>();
+        SetPlayerPositions();
+        SetCameraPosition();
+    }
+
+    public void StopMultiplayer(){
+        ResetMultiplayer();
+        player1 = null;
+        player2 = null;
+        cameraMover = null;
     }
 }

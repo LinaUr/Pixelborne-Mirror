@@ -10,15 +10,14 @@ public class PlayerMovement : MediatableMonoBehavior
     public float jumpForce = 20f;
     public bool facingRight = true;
 
-    public Transform groundCheckPoint;
     public float groundCheckY = 0.1f;
     public LayerMask whatIsGround;
     public bool isGrounded = true;
     public Animator animator;
-    public string otherPlayerTag;
     public Rigidbody2D myRigidbody2D;
     public Collider2D playerCollider;
     public float attackDirection;
+    public GameObject playerSword;
 
     private double lastTimeAttacked = -10000;
     private double attackDuration;
@@ -36,7 +35,7 @@ public class PlayerMovement : MediatableMonoBehavior
         myRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         playerCollider = gameObject.GetComponent<Collider2D>();
         attackDuration = getAnimationLength("Player_1_attack");
-        blackSwordCollider = GameObject.Find("BlackSword").GetComponent<Collider2D>();
+        blackSwordCollider = playerSword.GetComponent<Collider2D>();
         blackSwordCollider.enabled = false;
     }
 
@@ -64,14 +63,14 @@ public class PlayerMovement : MediatableMonoBehavior
                 animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[currentAttackAnimationParameter], attacking);
             }
         }
-
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(!inputIsLocked){
-            // Debug.Log(collider.gameObject.name + " : " + collider.gameObject.tag + " : " + Time.time);
-            Debug.Log("Got HIT!!!!!!¹11!!");
+            if(collider.gameObject != gameObject){
+                Die();
+            }
         }
     }
 
@@ -116,6 +115,7 @@ public class PlayerMovement : MediatableMonoBehavior
     void OnMovement(InputValue value)
     {
         if(!inputIsLocked){
+
             // CONTROLS
             var moveX = value.Get<float>();
 
@@ -158,7 +158,7 @@ public class PlayerMovement : MediatableMonoBehavior
     }
 
     public void Die(){
-        gameMediator.handleDeath(this.gameObject);
+        gameMediator.handleDeath(gameObject);
     }
 
     public void setPosition(Vector2 position){

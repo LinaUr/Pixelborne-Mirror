@@ -23,6 +23,7 @@ public class CameraMover : MediatableMonoBehavior
         fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
         fadeStartTime = 0;
         fadeMode = 0;
+        Camera.main.fieldOfView = Camera.main.fieldOfView * 1.5f;
     }
 
 

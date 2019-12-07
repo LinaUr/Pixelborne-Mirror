@@ -26,16 +26,33 @@ public class GameMediator : MonoBehaviour
     void Start()
     {
         mode = CurrentMode.MainMenu;
+        GameObject cameraObject = GameObject.Find("Main Camera");
+        cameraMover = cameraObject.GetComponent<CameraMover>();
+
+        _audioRecorder = gameObject.AddComponent<RecordAudio>();
+        _photoRecorder = gameObject.AddComponent<WebcamPhoto>();
+    }
+
+    public void StartMultiplayer(){
+        mode = CurrentMode.MultiPlayer;
+        
+        // get Multiplayer references
         _player1Object = GameObject.Find("Players/Player1_Blue");
         _player1Movement = _player1Object.GetComponent<PlayerMovement>();
         _player2Object = GameObject.Find("Players/Player2_Blue");
         _player2Movement = _player2Object.GetComponent<PlayerMovement>();
-        GameObject cameraObject = GameObject.Find("Main Camera");
-        cameraMover = cameraObject.GetComponent<CameraMover>();
         multiPlayer = gameObject.GetComponent<MultiPlayer>();
 
-        _audioRecorder = gameObject.AddComponent<RecordAudio>();
-        _photoRecorder = gameObject.AddComponent<WebcamPhoto>();
+        multiPlayer.StartMultiplayer();
+    }
+
+    public void StopMultiplayer(){
+        mode = CurrentMode.MainMenu;
+        _player1Object = null;
+        _player1Movement = null;
+        _player2Object = null;
+        _player2Movement = null;
+        multiPlayer.StopMultiplayer();
     }
 
     // Update is called once per frame
@@ -68,15 +85,19 @@ public class GameMediator : MonoBehaviour
     }
 
     public void triggerWin(GameObject player){
+        mode = CurrentMode.MainMenu;
         Debug.Log(player.name + " has won the game!");
+        Application.Quit();
     }
 
     public void FadedOut() {
-        Vector2 newCameraPosition = multiPlayer.GetCameraSpawnPoint(lastDiedPlayer);
-        cameraMover.MoveCamera(newCameraPosition.x, newCameraPosition.y);
-        _player1Movement.setPosition(multiPlayer.GetPlayerSpawnPoint(_player1Object));
-        _player2Movement.setPosition(multiPlayer.GetPlayerSpawnPoint(_player2Object));
-        cameraMover.FadeIn();
+        multiPlayer.PlayerDied(lastDiedPlayer);
+        if(mode != CurrentMode.MainMenu){
+            multiPlayer.SetPlayerPositions();
+            multiPlayer.SetCameraPosition();
+            cameraMover.FadeIn();
+            lastDiedPlayer = null;
+        }
     }
 
     public void FadedIn() {
