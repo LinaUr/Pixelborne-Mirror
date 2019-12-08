@@ -9,6 +9,8 @@ TagManager:
   - Player_2
   - Player_2_sword
   - GameMediator
+  - WindowLandscape
+  - WindowPortrait
   layers:
   - Default
   - TransparentFX
