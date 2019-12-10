@@ -96,8 +96,8 @@ public class GameMediator : MonoBehaviour
             multiPlayer.SetPlayerPositions();
             multiPlayer.SetCameraPosition();
             cameraMover.FadeIn();
-            lastDiedPlayer = null;
         }
+        lastDiedPlayer = null;
     }
 
     public void FadedIn() {
