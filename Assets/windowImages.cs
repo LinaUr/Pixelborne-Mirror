@@ -9,8 +9,7 @@ using UnityEngine.Networking;
 //using System.Threading.Tasks;
 
 /* This class handles the change of the background.
- * It searches for pictures on the current PC and inserts them into the scene as a texture and
- * changes them at a certain time interval.
+ * It searches for pictures on the current PC and inserts them into the scene as a texture.
  */
 
 public class windowImages : MonoBehaviour
@@ -57,8 +56,10 @@ public class windowImages : MonoBehaviour
         // put in each window in the scene one downloaded image:
         foreach (GameObject window in windows)
         {
-            // find an suitable image:
-            while(!window.GetComponent<RawImage>().texture) {
+            RawImage windowImage = window.GetComponent<RawImage>();
+
+            // find an image:
+            while (!windowImage.texture) {
 
                 // take one random image and "download" it:          
                 int num = UnityEngine.Random.Range(0, imagePaths.Count());
@@ -73,6 +74,13 @@ public class windowImages : MonoBehaviour
                 // show only images which are wider than high to avoid image deformation:
                 if (image.width > image.height)
                 {
+                    /* change alpha channel of RawImages in the scene to visible 
+                     * if an suitable image is found:
+                     * source: https://forum.unity.com/threads/changing-a-new-ui-images-alpha-value.289755/#post-1912745
+                     */
+                    Color c = windowImage.color;
+                    c.a = 1f;
+                    windowImage.color = c;
                     window.GetComponent<RawImage>().texture = image;
                 }
             }
@@ -81,16 +89,20 @@ public class windowImages : MonoBehaviour
         //Debug.Log(imagePaths[num]);
     }
 
+    /* -------------------------------------------------------------------
+     * Following code is for now not needed.
+     * -------------------------------------------------------------------
+     */
+
     // Update is called once per frame;
     // changes the background image every 10 sec via a Coroutine:
-    // Edit: For now not needed.
     /*void Update()
     {
         elapsedTime += Time.deltaTime;
 
-        if (elapsedTime >= 2)
+        if (elapsedTime >= 10)
         {
-            elapsedTime -= 2;
+            elapsedTime -= 10;
             StartCoroutine("Load_image");
         }
         
