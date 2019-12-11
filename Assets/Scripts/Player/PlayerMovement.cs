@@ -25,10 +25,23 @@ public class PlayerMovement : MediatableMonoBehavior
     private Collider2D blackSwordCollider;
     private int currentAttackAnimationParameter = 0;
     public bool inputIsLocked = false;
+
     
     public static float ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     
+
+    public void resetPlayerAnimations(){
+        animator.SetBool("IsJumping", false);
+        animator.SetFloat("Speed", 0);
+        animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[0], attacking);
+        animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[1], attacking);
+        animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[2], attacking);
+    }
+
+    public void resetMovement(){
+        myRigidbody2D.velocity = new Vector2(0, myRigidbody2D.velocity.y);
+    }
 
     void Start ()
     {
