@@ -81,6 +81,7 @@ public class PlayerMovement : MediatableMonoBehavior
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(!inputIsLocked){
+             // die if your got hit by something else than yourself
             if(collider.gameObject != gameObject){
                 Die();
             }

@@ -1258,7 +1258,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 19196639}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9f56a5c73c036a8a38d550ae3694bd2e, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1388,7 +1388,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 19196639}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9f56a5c73c036a8a38d550ae3694bd2e, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1414,7 +1414,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 19196639}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9f56a5c73c036a8a38d550ae3694bd2e, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1438,7 +1438,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19196639}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aab160bca28027d46a347b46f10edced, type: 3}
   m_Name: 
@@ -2420,7 +2420,7 @@ GameObject:
   - component: {fileID: 393457408}
   - component: {fileID: 393457410}
   - component: {fileID: 393457409}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BlackSword
   m_TagString: Player_2_sword
   m_Icon: {fileID: 0}
@@ -9736,7 +9736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918047275}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10792,7 +10792,7 @@ GameObject:
   - component: {fileID: 1204311615}
   - component: {fileID: 1204311614}
   - component: {fileID: 1204311613}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Player2_Blue
   m_TagString: Player_2
   m_Icon: {fileID: 0}
@@ -10868,7 +10868,7 @@ MonoBehaviour:
   groundCheckY: 0.01
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 2
+    m_Bits: 514
   isGrounded: 1
   animator: {fileID: 1204311613}
   myRigidbody2D: {fileID: 1204311618}
@@ -11022,7 +11022,7 @@ GameObject:
   - component: {fileID: 1205548511}
   - component: {fileID: 1205548513}
   - component: {fileID: 1205548514}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Player1_Blue
   m_TagString: Player_1
   m_Icon: {fileID: 0}
@@ -11158,7 +11158,7 @@ MonoBehaviour:
   groundCheckY: 0.01
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 2
+    m_Bits: 1026
   isGrounded: 1
   animator: {fileID: 1205548514}
   myRigidbody2D: {fileID: 1205548507}
@@ -14363,7 +14363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828138564}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14395,7 +14395,7 @@ GameObject:
   - component: {fileID: 1854587249}
   - component: {fileID: 1854587250}
   - component: {fileID: 1854587251}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlackSword
   m_TagString: Player_1_sword
   m_Icon: {fileID: 0}

@@ -30,7 +30,8 @@ public class windowImages : MonoBehaviour
         /* source of code: 
          * https://stackoverflow.com/questions/8443524/using-directory-getfiles-with-a-regex-in-c/8443597#8443597
          */
-        imagePaths = Directory.GetFiles(userPath + @"\Pictures", "*.*", SearchOption.AllDirectories)
+        var picturesPath = Path.Combine(new string[] {userPath, "Pictures"});
+        imagePaths = Directory.GetFiles(picturesPath, "*.*", SearchOption.AllDirectories)
                                 .Where(extension => extension.EndsWith(".jpg")
                                                  || extension.EndsWith(".jpeg")
                                                  || extension.EndsWith(".png"))
