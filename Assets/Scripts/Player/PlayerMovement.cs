@@ -12,21 +12,21 @@ public class PlayerMovement : MediatableMonoBehavior
 
     public float groundCheckY = 0.1f;
     public LayerMask whatIsGround;
-    public bool isGrounded = true;
+    public bool isGrounded = true; // TODO: muss nicht public sein, lieber beim Start überprüfen und im script bestimmen.
     public Animator animator;
     public Rigidbody2D myRigidbody2D;
     public Collider2D playerCollider;
-    public float attackDirection;
+    public float attackDirection; // Warum muss das public sein?
     public GameObject playerSword;
 
     private double lastTimeAttacked = -10000;
     private double attackDuration;
     private bool attacking = false;
     private Collider2D blackSwordCollider;
-    private int currentAttackAnimationParameter = 0;
-    public bool inputIsLocked = false;
+    private int currentAttackAnimationParameter = 0; 
+    public bool inputIsLocked = false; // Warum muss das public sein?
 
-    
+
     public static float ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     
@@ -45,10 +45,8 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void Start ()
     {
-        myRigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-        playerCollider = gameObject.GetComponent<Collider2D>();
         attackDuration = getAnimationLength("Player_1_attack");
-        blackSwordCollider = playerSword.GetComponent<Collider2D>();
+        blackSwordCollider = playerSword.GetComponent<Collider2D>(); 
         blackSwordCollider.enabled = false;
     }
 
@@ -81,8 +79,10 @@ public class PlayerMovement : MediatableMonoBehavior
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(!inputIsLocked){
-             // die if your got hit by something else than yourself
-            if(collider.gameObject != gameObject){
+             // Die if your got hit by something else than yourself.
+             // We have to explicitely look for a sword as a collider because else
+             // the winning player could also be colliding with the other player and would die instead.
+            if(collider.gameObject.name == playerSword.name){
                 Die();
             }
         }

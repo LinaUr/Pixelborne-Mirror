@@ -2550,7 +2550,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80dac3f1067719e46b727caf27461d89, type: 3}
   m_Name: 
@@ -10846,7 +10846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fbd248b57c0904ead07e3f98cfb69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 1
+  player: 2
   kill: 0
   isAlive: 0
   showHealth: 0
@@ -10872,7 +10872,7 @@ MonoBehaviour:
   isGrounded: 1
   animator: {fileID: 1204311613}
   myRigidbody2D: {fileID: 1204311618}
-  playerCollider: {fileID: 0}
+  playerCollider: {fileID: 1204311617}
   attackDirection: 0
   playerSword: {fileID: 393457407}
   inputIsLocked: 0
@@ -11162,7 +11162,7 @@ MonoBehaviour:
   isGrounded: 1
   animator: {fileID: 1205548514}
   myRigidbody2D: {fileID: 1205548507}
-  playerCollider: {fileID: 0}
+  playerCollider: {fileID: 1205548508}
   attackDirection: 0
   playerSword: {fileID: 1854587248}
   inputIsLocked: 0
@@ -11213,7 +11213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fbd248b57c0904ead07e3f98cfb69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 2
+  player: 1
   kill: 0
   isAlive: 0
   showHealth: 0
