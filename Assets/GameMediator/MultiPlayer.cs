@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class MultiPlayer : MediatableMonoBehavior
 {
-
     private Vector2[] cameraPositions = {
-            new Vector2(30.29f, 1.06f),
-            new Vector2(0.3683965f, 0.373381f),
-            new Vector2(-30.54f, 1.95f),
+        new Vector2(-30.54f, 1.95f),
+        new Vector2(0.0f, -1.0f),
+        new Vector2(30.29f, 1.06f)
     };
+
     private Vector2[] player1SpawnPositions = {
-            new Vector2(25f, 2.5f),
-            new Vector2(-8f, -1.5f),
-            new Vector2(-34.5f, 3.5f),
+        new Vector2(-34.5f, 3.5f),
+        new Vector2(-8f, -1.5f),
+        new Vector2(25f, 2.5f)
     };
 
     private Vector2[] player2SpawnPositions = {
-            new Vector2(38f, 2.5f),
-            new Vector2(8f, -1.5f),
-            new Vector2(-22f, 3.5f),
+        new Vector2(-22f, 3.5f),
+        new Vector2(8f, -1.5f),
+        new Vector2(38f, 2.5f)
     };
+
     private int currentCameraPositionIndex;
     private GameObject player1;
     private GameObject player2;

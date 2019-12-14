@@ -5,6 +5,7 @@ using System;
 
 public class GameMediator : MonoBehaviour
 {
+    // TODO: würde hier so ziemlich alles (zumindestest vieles) in public variablen übergeben und nicht selbst im code suchen.
     private GameObject _player1Object;
     private GameObject _player2Object;
     private GameObject lastDiedPlayer;
@@ -26,7 +27,7 @@ public class GameMediator : MonoBehaviour
     void Start()
     {
         mode = CurrentMode.MainMenu;
-        GameObject cameraObject = GameObject.Find("Main Camera");
+        GameObject cameraObject = GameObject.Find("Main Camera"); // TODO: lieber das Obejct in einer Public Variable übergeben
         cameraMover = cameraObject.GetComponent<CameraMover>();
 
         _audioRecorder = gameObject.AddComponent<RecordAudio>();
