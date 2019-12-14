@@ -6,7 +6,7 @@ public class MultiPlayer : MediatableMonoBehavior
 {
     private Vector2[] cameraPositions = {
         new Vector2(-30.54f, 1.95f),
-        new Vector2(0.3683965f, 0.373381f),
+        new Vector2(0.0f, -1.0f),
         new Vector2(30.29f, 1.06f)
     };
 
