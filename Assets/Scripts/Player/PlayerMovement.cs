@@ -82,7 +82,7 @@ public class PlayerMovement : MediatableMonoBehavior
              // Die if your got hit by something else than yourself.
              // We have to explicitely look for a sword as a collider because else
              // the winning player could also be colliding with the other player and would die instead.
-            if(collider.gameObject.name == playerSword.name){
+            if(collider.gameObject.name == playerSword.name || collider.gameObject.name == "DeathZones"){
                 Die();
             }
         }

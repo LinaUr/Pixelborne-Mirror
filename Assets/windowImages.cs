@@ -39,10 +39,13 @@ public class windowImages : MonoBehaviour
 
         // maybe for later (for now, it costs to much time):
         //imagePaths = await Task.Run(() => GetFiles(userPath, "*.*"));
-        
-        // find all windows in the scene:
-        windows = GameObject.FindGameObjectsWithTag("WindowLandscape");
-        StartCoroutine("Load_image");
+
+        if (imagePaths.Count() > 0)
+        {
+            // find all windows in the scene:
+            windows = GameObject.FindGameObjectsWithTag("WindowLandscape");
+            StartCoroutine("Load_image");
+        }
     }
 
     // here starts a Coroutine:
