@@ -1,23 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Audio;
+﻿using UnityEngine;
 using System.IO;
 using System;
 
 public class RecordAudio : MonoBehaviour
 {
-
-    // Microphone input
-    public AudioClip _microphone_clip;
-    public AudioMixerGroup mixerGroupMicrophone;
     public int RecordDuration = 10; // in seconds
+    private AudioClip _microphone_clip;
     private string _selectedDevice;
-    private bool _recording = false;
     private float _time_left_recording = 0.0f;
     private static string _AUDIO_RECORD_DIR = "records";
     private string filedir;
-
 
     // Start is called before the first frame update
     void Start()
