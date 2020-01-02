@@ -18,6 +18,7 @@ public class PlayerMovement : MediatableMonoBehavior
     public Collider2D playerCollider;
     public float attackDirection; // Warum muss das public sein?
     public GameObject playerSword;
+    public EntityHealth playerHealth;
 
     private double lastTimeAttacked = -10000;
     private double attackDuration;
@@ -30,6 +31,18 @@ public class PlayerMovement : MediatableMonoBehavior
     public static float ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     
+    void Start ()
+    {
+        attackDuration = getAnimationLength("Player_1_attack");
+        blackSwordCollider = playerSword.GetComponent<Collider2D>(); 
+        blackSwordCollider.enabled = false;
+    }
+
+    public void resetPlayer(){
+        playerHealth.revive();
+        resetPlayerAnimations();
+        resetMovement();
+    }
 
     public void resetPlayerAnimations(){
         animator.SetBool("IsJumping", false);
@@ -41,13 +54,6 @@ public class PlayerMovement : MediatableMonoBehavior
 
     public void resetMovement(){
         myRigidbody2D.velocity = new Vector2(0, myRigidbody2D.velocity.y);
-    }
-
-    void Start ()
-    {
-        attackDuration = getAnimationLength("Player_1_attack");
-        blackSwordCollider = playerSword.GetComponent<Collider2D>(); 
-        blackSwordCollider.enabled = false;
     }
 
     float getAnimationLength(string name)
@@ -79,11 +85,17 @@ public class PlayerMovement : MediatableMonoBehavior
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(!inputIsLocked){
-             // Die if your got hit by something else than yourself.
-             // We have to explicitely look for a sword as a collider because else
-             // the winning player could also be colliding with the other player and would die instead.
-            if(collider.gameObject.name == playerSword.name || collider.gameObject.name == "DeathZones"){
+            // Die if your got hit by something else than yourself.
+            // We have to explicitely look for a sword as a collider because else
+            // the winning player could also be colliding with the other player and would die instead.
+            if(collider.gameObject.name == "DeathZones") {
                 Die();
+            }
+            if(collider.gameObject.name == playerSword.name && collider.gameObject != playerSword){
+                playerHealth.takeDamage(1);
+                if(playerHealth.isDead) {
+                    Die();
+                }
             }
         }
     }
@@ -112,7 +124,7 @@ public class PlayerMovement : MediatableMonoBehavior
     void OnJump(InputValue value)
     {
         if(!inputIsLocked){
-        if (isGrounded)
+            if (isGrounded)
             {
                 animator.SetBool("IsJumping", true);
                 myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, jumpForce);

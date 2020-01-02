@@ -2381,6 +2381,7 @@ GameObject:
   - component: {fileID: 393457408}
   - component: {fileID: 393457410}
   - component: {fileID: 393457409}
+  - component: {fileID: 393457411}
   m_Layer: 10
   m_Name: BlackSword
   m_TagString: Player_2_sword
@@ -2476,6 +2477,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &393457411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393457407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -10810,6 +10824,7 @@ GameObject:
   - component: {fileID: 1204311615}
   - component: {fileID: 1204311614}
   - component: {fileID: 1204311613}
+  - component: {fileID: 1204311620}
   m_Layer: 10
   m_Name: Player2_Blue
   m_TagString: Player_2
@@ -10893,6 +10908,7 @@ MonoBehaviour:
   playerCollider: {fileID: 1204311617}
   attackDirection: 0
   playerSword: {fileID: 393457407}
+  playerHealth: {fileID: 1204311620}
   inputIsLocked: 0
 --- !u!114 &1204311616
 MonoBehaviour:
@@ -11024,6 +11040,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1204311620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204311611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
 --- !u!1 &1205548506
 GameObject:
   m_ObjectHideFlags: 0
@@ -11040,6 +11069,7 @@ GameObject:
   - component: {fileID: 1205548511}
   - component: {fileID: 1205548513}
   - component: {fileID: 1205548514}
+  - component: {fileID: 1205548515}
   m_Layer: 9
   m_Name: Player1_Blue
   m_TagString: Player_1
@@ -11183,6 +11213,7 @@ MonoBehaviour:
   playerCollider: {fileID: 1205548508}
   attackDirection: 0
   playerSword: {fileID: 1854587248}
+  playerHealth: {fileID: 1205548515}
   inputIsLocked: 0
 --- !u!114 &1205548512
 MonoBehaviour:
@@ -11254,6 +11285,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1205548515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205548506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 5
 --- !u!1 &1221649776
 GameObject:
   m_ObjectHideFlags: 0
@@ -12420,8 +12464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f8988c65b4383372b2e0c62e072ecdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _microphone_clip: {fileID: 0}
-  mixerGroupMicrophone: {fileID: 0}
   RecordDuration: 10
 --- !u!4 &1429234005
 Transform:
