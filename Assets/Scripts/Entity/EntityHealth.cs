@@ -17,7 +17,7 @@ public class EntityHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        revive();
     }
 
     // Update is called once per frame

@@ -10825,6 +10825,7 @@ GameObject:
   - component: {fileID: 1204311614}
   - component: {fileID: 1204311613}
   - component: {fileID: 1204311620}
+  - component: {fileID: 1204311621}
   m_Layer: 10
   m_Name: Player2_Blue
   m_TagString: Player_2
@@ -10902,13 +10903,11 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 514
-  isGrounded: 1
   animator: {fileID: 1204311613}
   myRigidbody2D: {fileID: 1204311618}
   playerCollider: {fileID: 1204311617}
-  attackDirection: 0
-  playerSword: {fileID: 393457407}
   playerHealth: {fileID: 1204311620}
+  playerAttack: {fileID: 1204311621}
   inputIsLocked: 0
 --- !u!114 &1204311616
 MonoBehaviour:
@@ -11053,6 +11052,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
+--- !u!114 &1204311621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204311611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSword: {fileID: 393457407}
 --- !u!1 &1205548506
 GameObject:
   m_ObjectHideFlags: 0
@@ -11070,6 +11082,7 @@ GameObject:
   - component: {fileID: 1205548513}
   - component: {fileID: 1205548514}
   - component: {fileID: 1205548515}
+  - component: {fileID: 1205548516}
   m_Layer: 9
   m_Name: Player1_Blue
   m_TagString: Player_1
@@ -11207,13 +11220,11 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1026
-  isGrounded: 1
   animator: {fileID: 1205548514}
   myRigidbody2D: {fileID: 1205548507}
   playerCollider: {fileID: 1205548508}
-  attackDirection: 0
-  playerSword: {fileID: 1854587248}
   playerHealth: {fileID: 1205548515}
+  playerAttack: {fileID: 1205548516}
   inputIsLocked: 0
 --- !u!114 &1205548512
 MonoBehaviour:
@@ -11298,6 +11309,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
+--- !u!114 &1205548516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205548506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSword: {fileID: 1854587248}
 --- !u!1 &1221649776
 GameObject:
   m_ObjectHideFlags: 0

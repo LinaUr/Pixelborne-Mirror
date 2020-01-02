@@ -61,8 +61,11 @@ public class MultiPlayer : MediatableMonoBehavior
     public void SetPlayerPositions(){
         player1.GetComponent<PlayerMovement>().setPosition(player1SpawnPositions[currentCameraPositionIndex]);
         player2.GetComponent<PlayerMovement>().setPosition(player2SpawnPositions[currentCameraPositionIndex]);
-        player1.GetComponent<PlayerMovement>().resetPlayer();
-        player2.GetComponent<PlayerMovement>().resetPlayer();
+    }
+
+    public void resetPlayersActions(){
+        player1.GetComponent<PlayerMovement>().resetPlayerActions();
+        player2.GetComponent<PlayerMovement>().resetPlayerActions();
     }
 
     public void SetCameraPosition(){
