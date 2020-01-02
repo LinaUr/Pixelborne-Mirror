@@ -4,31 +4,30 @@ using UnityEngine;
 
 public class MultiPlayer : MediatableMonoBehavior
 {
-    private Vector2[] cameraPositions = {
-        new Vector2(-30.54f, 1.95f),
-        new Vector2(0.0f, -1.0f),
-        new Vector2(30.29f, 1.06f)
-    };
+    // SerializeField to make variable appear in the inspector to pass objects.
+    [SerializeField]
+    // Transforms from outer left to outer right stage.
+    private Transform cameraPositionsTransform;
 
-    private Vector2[] player1SpawnPositions = {
-        new Vector2(-34.5f, 3.5f),
-        new Vector2(-8f, -1.5f),
-        new Vector2(25f, 2.5f)
-    };
-
-    private Vector2[] player2SpawnPositions = {
-        new Vector2(-22f, 3.5f),
-        new Vector2(8f, -1.5f),
-        new Vector2(38f, 2.5f)
-    };
+    // Positions from outer left to outer right stage.
+    private IList<Vector2> cameraPositions;
+    private const int PLAYER_DISTANCE_TO_CENTER_X = 7;
+    private const int PLAYER_DISTANCE_TO_CENTER_Y = 0;
 
     private int currentCameraPositionIndex;
     private GameObject player1;
     private GameObject player2;
     private CameraMover cameraMover;
+
     // Start is called before the first frame update
     void Start()
     {
+        cameraPositions = new List<Vector2>();
+        foreach (Transform positionsTransform in cameraPositionsTransform)
+        {
+            cameraPositions.Add(positionsTransform.position);
+        }
+
         ResetMultiplayer();
     }
 
@@ -46,7 +45,7 @@ public class MultiPlayer : MediatableMonoBehavior
 
     private void testForWin(GameObject player){
         if(currentCameraPositionIndex < 0 ||
-            currentCameraPositionIndex >= cameraPositions.Length) {
+            currentCameraPositionIndex >= cameraPositions.Count) {
             GameObject winningPlayer = player == player1 ? player2 : player1;
             gameMediator.triggerWin(winningPlayer);
             // reset the currentCameraPositionIndex
@@ -55,12 +54,15 @@ public class MultiPlayer : MediatableMonoBehavior
     }
 
     public void ResetMultiplayer(){
-        currentCameraPositionIndex = cameraPositions.Length / 2;
+        currentCameraPositionIndex = cameraPositions.Count / 2;
     }
 
     public void SetPlayerPositions(){
-        player1.GetComponent<PlayerMovement>().setPosition(player1SpawnPositions[currentCameraPositionIndex]);
-        player2.GetComponent<PlayerMovement>().setPosition(player2SpawnPositions[currentCameraPositionIndex]);
+        var cameraPosition = cameraPositions[currentCameraPositionIndex];
+        var spawnDistance = new Vector2(PLAYER_DISTANCE_TO_CENTER_X, PLAYER_DISTANCE_TO_CENTER_Y);
+
+        player1.GetComponent<PlayerMovement>().setPosition(cameraPosition - spawnDistance);
+        player2.GetComponent<PlayerMovement>().setPosition(cameraPosition + spawnDistance);
     }
 
     public void resetPlayersActions(){

@@ -29,7 +29,7 @@
                     "name": "Attack",
                     "id": "0445b7b7-9321-4b03-80e0-66bcc9bafaf1",
                     "expectedControlLayout": "",
-                    "continuous": true,
+                    "continuous": false,
                     "passThrough": false,
                     "processors": "",
                     "interactions": "Press,Hold",
