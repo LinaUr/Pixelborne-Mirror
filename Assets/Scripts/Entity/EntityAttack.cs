@@ -15,18 +15,20 @@ public class EntityAttack : MonoBehaviour
     private bool attacking;
     private static float ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
+    private SpriteRenderer swordRenderer;
     private Collider2D blackSwordCollider;
     private PlayerMovement playerMovement;
 
     // Start is called before the first frame update
     void Start()
     {
-        attacking = false;
+        swordRenderer = playerSword.GetComponent<SpriteRenderer>();
         playerMovement = gameObject.GetComponent<PlayerMovement>();
         animator = playerMovement.animator;
         blackSwordCollider = playerSword.GetComponent<Collider2D>(); 
         blackSwordCollider.enabled = false;
         attackDuration = getAnimationLength("Player_1_attack");
+        attacking = false;
     }
 
     // Update is called once per frame
@@ -100,5 +102,9 @@ public class EntityAttack : MonoBehaviour
     public void stopAttacking()
     {
         blackSwordCollider.enabled = false;
+    }
+
+    public void ChangeOrderInLayer(){
+        swordRenderer.sortingOrder = swordRenderer.sortingOrder * -1;
     }
 }

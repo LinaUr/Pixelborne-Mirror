@@ -112,6 +112,8 @@ public class PlayerMovement : MediatableMonoBehavior
     {
         facingRight = !facingRight;
         gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
+        // Flip the layer of the sword
+        playerAttack.ChangeOrderInLayer();
     }
 
     void OnRecord(InputValue value){
