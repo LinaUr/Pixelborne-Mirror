@@ -3,104 +3,96 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
-using System.Linq;
 using System.Threading.Tasks;
 
+// NOTE:
+// Unity is not Thread safe, so they decided to make it impossible 
+// to call their API from another Thread by adding a mechanism to 
+// throw an exception when its API is used from another Thread.
+// (see https://stackoverflow.com/questions/41330771/use-unity-api-from-another-thread-or-call-a-function-in-the-main-thread )
+// That is why I cannot run ChangeBackgroundAudio() in a new Task
+// (or anything inside it really), because then an Exception like 
+// "Xxx() can only be called from the main thread" gets thrown.
 
-/** NOTE: 
- * [..don't know where to exactly put it yet]
- * 
- * Unity is not Thread safe, so they decided to make it impossible 
- * to call their API from another Thread by adding a mechanism to 
- * throw an exception when its API is used from another Thread.
- * (see https://stackoverflow.com/questions/41330771/use-unity-api-from-another-thread-or-call-a-function-in-the-main-thread )
- * 
- * That's why I can't run ChangeBackgroundAudio() in a new Task
- * (or anything inside it really), 
- * because the an Exception like "Xxx() can only be called from the main thread".
- */
-
+// This class searches for mp3-files in the user folder of the current user,
+// assignes them randomly to an Audio Source component in the scene and plays them.
 public class BackgroundMusic : MonoBehaviour
 {
-    private AudioSource audioPlayer;
-    private AudioClip audio = null;
-    private List<string> playlist = new List<string>(); // contains paths to mp3 files on drive
-    private float elapsedTime = 0;
+    private AudioSource m_audioPlayer;
+    private AudioClip m_audioClip;
+    private float m_elapsedTime;
 
+    // Playlist stores paths to mp3 files.
+    private List<string> m_playlist = new List<string>(); 
+    
     async void Start()
     {
-        audioPlayer = GetComponent<AudioSource>();
+        m_audioPlayer = GetComponent<AudioSource>();
+        m_audioClip = null;
+        m_elapsedTime = 0;
 
         // Path to windows user folder of current user regardless of the username.
-        var userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         
         // Running GetFiles() asynchronously in new task prevents game from stopping/pausing
         // when starting a new game.
-        playlist = await Task.Run(() => GetFiles(userPath, "*.mp3"));
+        m_playlist = await Task.Run(() => GetFiles(userPath, "*.mp3"));
 
         StartCoroutine(ChangeBackgroundAudio());
     }
 
     void Update()
     {
-        elapsedTime += Time.deltaTime;
+        m_elapsedTime += Time.deltaTime;
 
-        if(audio == null)
+        if (m_audioClip == null)
             return;
 
-        if (elapsedTime >= audio.length)
+        if (m_elapsedTime >= m_audioClip.length)
         {
-            elapsedTime -= audio.length;
+            m_elapsedTime -= m_audioClip.length;
             StartCoroutine(ChangeBackgroundAudio());
         }
-
     }
 
-
-    /// <summary>This method picks a random file from the playlist, converts the
-    /// mp3 file to wav, assigns it to the audioPlayer and plays it.
-    /// </summary>
-    /// NOTE: It can currently only handle mp3 files.
-    IEnumerator ChangeBackgroundAudio()
+    // This method picks a random file from the playlist, converts the
+    // mp3 file to wav, assigns it to the audioPlayer and plays it.
+    // NOTE: It can currently only handle mp3 files.
+    private IEnumerator ChangeBackgroundAudio()
     {
-        int index = UnityEngine.Random.Range(0, playlist.Count);
+        int index = UnityEngine.Random.Range(0, m_playlist.Count);
 
-        // TODO: prevent game from stopping/lagging somewhere in this method when changing audio
-        if (playlist.Count != 0)
+        if (m_playlist.Count != 0)
         {
-            WWW request = new WWW("file://" + playlist[index]);
+            WWW request = new WWW("file://" + m_playlist[index]);
             while (!request.isDone)
                 yield return 0;
 
-            audio = NAudioPlayer.FromMp3Data(request.bytes);
-            audio.name = playlist[index];
-            audioPlayer.clip = audio;
-            audioPlayer.Play();
+            m_audioClip = NAudioPlayer.FromMp3Data(request.bytes);
+            m_audioClip.name = m_playlist[index];
+            m_audioPlayer.clip = m_audioClip;
+            m_audioPlayer.Play();
         }
         else
         {
-            Debug.Log("No mp3-files were found. Can't play any background audio.");
+            Debug.Log("No mp3-files were found. Cannot play any background audio.");
         }
     }
 
-    /// <summary>This method returns all file paths for files with a certain <paramref name="fileEnding"/>
-    /// in the <paramref name="root"/> directory and all subdirectories.
-    /// Access to certain paths or folders can be denied and so using Directory.GetFiles() could cause exceptions.
-    /// Therefore implementing recursion ourselves is the best way to avoid those exceptions.
-    /// <see cref="https://social.msdn.microsoft.com/Forums/vstudio/en-US/ae61e5a6-97f9-4eaa-9f1a-856541c6dcce/directorygetfiles-gives-me-access-denied?forum=csharpgeneral"/>
-    /// </summary>
-    /// <param name="root">The root directory.</param>
-    /// <param name="fileEnding">The file ending.</param>
+    // This method returns all file paths for files with a certain fileEnding in the root
+    // directory and all subdirectories.
+    // Access to certain paths can be denied, so using Directory.GetFiles() could cause exceptions.
+    // Therefore, implementing recursion ourselves is the best way to avoid those exceptions.
+    // (see https://social.msdn.microsoft.com/Forums/vstudio/en-US/ae61e5a6-97f9-4eaa-9f1a-856541c6dcce/directorygetfiles-gives-me-access-denied?forum=csharpgeneral )
     private List<string> GetFiles(string root, string fileEnding)
     {
-        var fileList = new List<string>();
+        List<string> fileList = new List<string>();
 
         Stack<string> pending = new Stack<string>();
         pending.Push(root);
         while (pending.Count != 0)
         {
-            var path = pending.Pop();
+            string path = pending.Pop();
             string[] next = null;
             try
             {
@@ -108,11 +100,11 @@ public class BackgroundMusic : MonoBehaviour
             }
             catch { }
             if (next != null && next.Length != 0)
-                foreach (var file in next) fileList.Add(file);
+                foreach (string file in next) fileList.Add(file);
             try
             {
                 next = Directory.GetDirectories(path);
-                foreach (var subdir in next) pending.Push(subdir);
+                foreach (string subdir in next) pending.Push(subdir);
             }
             catch { }
         }

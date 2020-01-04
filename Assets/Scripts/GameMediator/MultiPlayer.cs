@@ -61,13 +61,13 @@ public class MultiPlayer : MediatableMonoBehavior
         var cameraPosition = cameraPositions[currentCameraPositionIndex];
         var spawnDistance = new Vector2(PLAYER_DISTANCE_TO_CENTER_X, PLAYER_DISTANCE_TO_CENTER_Y);
 
-        player1.GetComponent<PlayerMovement>().setPosition(cameraPosition - spawnDistance);
-        player2.GetComponent<PlayerMovement>().setPosition(cameraPosition + spawnDistance);
+        player1.GetComponent<PlayerMovement>().SetPosition(cameraPosition - spawnDistance);
+        player2.GetComponent<PlayerMovement>().SetPosition(cameraPosition + spawnDistance);
     }
 
     public void resetPlayersActions(){
-        player1.GetComponent<PlayerMovement>().resetPlayerActions();
-        player2.GetComponent<PlayerMovement>().resetPlayerActions();
+        player1.GetComponent<PlayerMovement>().ResetPlayerActions();
+        player2.GetComponent<PlayerMovement>().ResetPlayerActions();
     }
 
     public void SetCameraPosition(){

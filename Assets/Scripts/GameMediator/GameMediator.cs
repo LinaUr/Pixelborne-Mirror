@@ -79,8 +79,8 @@ public class GameMediator : MonoBehaviour
     }
 
     public void playerDied(GameObject player){
-        _player1Movement.inputIsLocked = true;
-        _player2Movement.inputIsLocked = true;
+        _player1Movement.m_inputIsLocked = true;
+        _player2Movement.m_inputIsLocked = true;
         lastDiedPlayer = player;
         cameraMover.FadeOut();
     }
@@ -103,7 +103,7 @@ public class GameMediator : MonoBehaviour
     }
 
     public void FadedIn() {
-        _player1Movement.inputIsLocked = false;
-        _player2Movement.inputIsLocked = false;
+        _player1Movement.m_inputIsLocked = false;
+        _player2Movement.m_inputIsLocked = false;
     }
 }
