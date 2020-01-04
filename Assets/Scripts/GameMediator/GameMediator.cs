@@ -95,6 +95,7 @@ public class GameMediator : MonoBehaviour
         multiPlayer.PlayerDied(lastDiedPlayer);
         if(mode != CurrentMode.MainMenu){
             multiPlayer.SetPlayerPositions();
+            multiPlayer.resetPlayersActions();
             multiPlayer.SetCameraPosition();
             cameraMover.FadeIn();
         }
