@@ -10986,19 +10986,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 25
-  facingRight: 1
-  groundCheckY: 0.01
-  whatIsGround:
+  m_inputIsLocked: 0
+  m_animator: {fileID: 1204311613}
+  m_myRigidbody2D: {fileID: 1204311618}
+  m_playerCollider: {fileID: 1204311617}
+  m_playerHealth: {fileID: 1204311620}
+  m_playerAttack: {fileID: 1204311621}
+  m_moveSpeed: 10
+  m_jumpForce: 20
+  m_facingRight: 1
+  m_groundCheckY: 0.1
+  m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 514
-  animator: {fileID: 1204311613}
-  myRigidbody2D: {fileID: 1204311618}
-  playerCollider: {fileID: 1204311617}
-  playerHealth: {fileID: 1204311620}
-  playerAttack: {fileID: 1204311621}
-  inputIsLocked: 0
+    m_Bits: 1
 --- !u!114 &1204311616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11303,19 +11303,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 23
-  facingRight: 1
-  groundCheckY: 0.01
-  whatIsGround:
+  m_inputIsLocked: 0
+  m_animator: {fileID: 1205548514}
+  m_myRigidbody2D: {fileID: 1205548507}
+  m_playerCollider: {fileID: 1205548508}
+  m_playerHealth: {fileID: 1205548515}
+  m_playerAttack: {fileID: 1205548516}
+  m_moveSpeed: 10
+  m_jumpForce: 20
+  m_facingRight: 1
+  m_groundCheckY: 0.1
+  m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 1026
-  animator: {fileID: 1205548514}
-  myRigidbody2D: {fileID: 1205548507}
-  playerCollider: {fileID: 1205548508}
-  playerHealth: {fileID: 1205548515}
-  playerAttack: {fileID: 1205548516}
-  inputIsLocked: 0
+    m_Bits: 1
 --- !u!114 &1205548512
 MonoBehaviour:
   m_ObjectHideFlags: 0

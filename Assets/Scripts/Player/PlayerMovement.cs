@@ -32,7 +32,7 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void FixedUpdate()
     {
-        m_isGrounded = Physics2D.OverlapArea((Vector2)m_playerCollider.bounds.min,
+        m_isGrounded = Physics2D.OverlapArea(m_playerCollider.bounds.min,
                         (Vector2)m_playerCollider.bounds.min + new Vector2(m_playerCollider.bounds.size.x, m_groundCheckY), m_whatIsGround);
         m_animator.SetBool("IsJumping", !m_isGrounded);
     }
