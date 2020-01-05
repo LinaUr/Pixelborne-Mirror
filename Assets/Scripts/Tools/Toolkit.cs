@@ -2,27 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+// This Class contains various miscellaneous utility methods for other classes
 public static class Toolkit
 {
-    //Collection of various utility functions
-
-    //Returns current time in Unix format
+    // This method returns the current time in the unix format
     public static int currentTime()
     {
         return ((int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds);
     }
 
-    public static int currentTimeMilliseconds()
-    {
-        return ((int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalMilliseconds);
-    }
-
+    // This method returns the number of milliseconds that passed since the start of the current day
     public static int currentTimeMillisecondsToday()
     {
         return ((int)(System.DateTime.UtcNow.Subtract(System.DateTime.Today)).TotalMilliseconds);
     }
-
-
-
 }
