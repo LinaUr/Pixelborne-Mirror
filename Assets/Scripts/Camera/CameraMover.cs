@@ -3,80 +3,81 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// Makes sure this shows up in the inspector.
+[Serializable]
 
-[System.Serializable]//makes sure this shows up in the inspector
-
-
+// This class controlls the camera movement and fade to black of the multiplayer scene camera.
 public class CameraMover : MediatableMonoBehavior
 {
     [SerializeField]
-    GameObject fadeImage;
+    GameObject m_fadeImage;
 
     [SerializeField]
-    int fadeTime;
+    int m_fadeTime;
 
-    int fadeStartTime;
-    int fadeMode;
-    // Start is called before the first frame update, used for initialisation
+    int m_fadeStartTime;
+    int m_fadeMode;
+
     void Start()
     {
-        fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
-        fadeStartTime = 0;
-        fadeMode = 0;
+        m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
+        m_fadeStartTime = 0;
+        m_fadeMode = 0;
         Camera.main.fieldOfView = Camera.main.fieldOfView * 1.5f;
     }
 
-
-    // Update is called once per frame
     void Update()
     {
-        
-        //Call fade to black calculation
-        fade();
+        Fade();
     }
 
-    void fade()
+    // This method implements the fade in and fade out logic.
+    void Fade()
     {
-        //Skip function if no player has died since last fade to black ended
-        if (fadeMode == 0)
+        // Skip function if fade in / fade out was succesfully completed and has not been triggered again.
+        if (m_fadeMode == 0)
         {
             return;
         }
-        //Fade to black
-        if (fadeMode == 1)
+        // Fade to black
+        if (m_fadeMode == 1)
         {
-            Color tmp = fadeImage.GetComponent<SpriteRenderer>().color;
-            float takenTime = (Toolkit.currentTimeMillisecondsToday() - fadeStartTime) * 1.0f; //Possible better solution
-            float floatFadeTime = fadeTime * 1.0f;   //Possible better solution
+            // Lower the opacity of the fade to black canvas object based on the time passed since the fade to black trigger.
+            Color tmp = m_fadeImage.GetComponent<SpriteRenderer>().color;
+            float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
+            float floatFadeTime = m_fadeTime * 1.0f;
             float percentage = takenTime / floatFadeTime;
             tmp.a = percentage;
-            fadeImage.GetComponent<SpriteRenderer>().color = tmp;
-            if(Toolkit.currentTimeMillisecondsToday() - fadeStartTime >= fadeTime)
+            m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
+            // Complete the fade to black when enough time has passed.
+            if(Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
                 tmp.a = 1.0f;
-                fadeImage.GetComponent<SpriteRenderer>().color = tmp;
-                fadeMode = 0;
+                m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
+                m_fadeMode = 0;
                 gameMediator.FadedOut();
             }
         }
-        //Fade in
-        else if (fadeMode == 2)
+        // Fade in
+        else if (m_fadeMode == 2)
         {
-            Color tmp = fadeImage.GetComponent<SpriteRenderer>().color;
-            float takenTime = (Toolkit.currentTimeMillisecondsToday() - fadeStartTime) * 1.0f; //Possible better solution
-            float floatFadeTime = fadeTime * 1.0f;   //Possible better solution
+            // Increase the opacity of the fade to black canvas object based on the time passed since the fade in trigger.
+            Color tmp = m_fadeImage.GetComponent<SpriteRenderer>().color;
+            float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
+            float floatFadeTime = m_fadeTime * 1.0f;
             float percentage = 1 - takenTime / floatFadeTime;
             tmp.a = percentage;
-            fadeImage.GetComponent<SpriteRenderer>().color = tmp;
-            if (Toolkit.currentTimeMillisecondsToday() - fadeStartTime >= fadeTime)
+            m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
+            // Complete the fade in when enough time has passed.
+            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
                 tmp.a = 0.0f;
-                fadeImage.GetComponent<SpriteRenderer>().color = tmp;
-                fadeMode = 0;
+                m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
+                m_fadeMode = 0;
                 gameMediator.FadedIn();
             }
         }
-        //Somehow wrong fadeMode
+        // Somehow wrong fadeMode was triggered.
         else
         {
             Debug.Log("Error: Wrong fade mode");
@@ -84,29 +85,24 @@ public class CameraMover : MediatableMonoBehavior
 
     }
 
-    /* Moves the center of the camera and the center of the fadeImage to the given coordinates
-     * the z-value of both objects remains the same
-     * x, y: the coordinates
-     */
+    // This method moves the center of both the camera and the fade to black canvas object to the given position while retaining the z-position.
     public void MoveCamera(float x, float y)
     {
         transform.position = new Vector3(x, y, transform.position[2]);
-        fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
+        m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
     }
 
-    /* Slowly fades the game out and shows the fadeImage
-     */
+    // This method triggers the fade to black animation.
     public void FadeOut()
     {
-        fadeStartTime = Toolkit.currentTimeMillisecondsToday();
-        fadeMode = 1;
+        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_fadeMode = 1;
     }
 
-    /* Slowly fades the game in
-     */
+    // This method triggers the fade in animation.
     public void FadeIn()
     {
-        fadeStartTime = Toolkit.currentTimeMillisecondsToday();
-        fadeMode = 2;
+        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_fadeMode = 2;
     }
 }
