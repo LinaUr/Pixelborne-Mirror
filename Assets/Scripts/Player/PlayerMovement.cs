@@ -136,7 +136,7 @@ public class PlayerMovement : MediatableMonoBehavior
 
     public void Die()
     {
-        gameMediator.handleDeath(gameObject);
+        gameMediator.HandleDeath(gameObject);
     }
 
     public void SetPosition(Vector2 position)

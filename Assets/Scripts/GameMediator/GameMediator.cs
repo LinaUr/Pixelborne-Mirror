@@ -67,7 +67,7 @@ public class GameMediator : MonoBehaviour
         _photoRecorder.Record();
     }
 
-    public void handleDeath(GameObject diedObject){
+    public void HandleDeath(GameObject diedObject){
         switch(mode){
             case CurrentMode.MultiPlayer:
                 PlayerDied(diedObject);
