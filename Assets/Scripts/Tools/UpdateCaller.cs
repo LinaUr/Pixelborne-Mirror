@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This Class allows other objects to register themselfes so that they can use the Update() method without being attached to a game object
+// This class allows other objects to register themselfes so that they can use the Update() method without being attached to a game object.
 public class UpdateCaller : MonoBehaviour
 {
     private static UpdateCaller m_instance = null;
