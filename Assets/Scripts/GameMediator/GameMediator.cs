@@ -70,7 +70,7 @@ public class GameMediator : MonoBehaviour
     public void handleDeath(GameObject diedObject){
         switch(mode){
             case CurrentMode.MultiPlayer:
-                playerDied(diedObject);
+                PlayerDied(diedObject);
                 break;
             case CurrentMode.None:
             default:
@@ -78,14 +78,14 @@ public class GameMediator : MonoBehaviour
         }
     }
 
-    public void playerDied(GameObject player){
+    public void PlayerDied(GameObject player){
         _player1Movement.m_inputIsLocked = true;
         _player2Movement.m_inputIsLocked = true;
         lastDiedPlayer = player;
         cameraMover.FadeOut();
     }
 
-    public void triggerWin(GameObject player){
+    public void TriggerWin(GameObject player){
         mode = CurrentMode.MainMenu;
         Debug.Log(player.name + " has won the game!");
         Application.Quit();
@@ -95,7 +95,7 @@ public class GameMediator : MonoBehaviour
         multiPlayer.PlayerDied(lastDiedPlayer);
         if(mode != CurrentMode.MainMenu){
             multiPlayer.SetPlayerPositions();
-            multiPlayer.resetPlayersActions();
+            multiPlayer.ResetPlayersActions();
             multiPlayer.SetCameraPosition();
             cameraMover.FadeIn();
         }
