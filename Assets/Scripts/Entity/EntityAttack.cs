@@ -24,7 +24,7 @@ public class EntityAttack : MonoBehaviour
     {
         swordRenderer = playerSword.GetComponent<SpriteRenderer>();
         playerMovement = gameObject.GetComponent<PlayerMovement>();
-        animator = playerMovement.animator;
+        animator = playerMovement.m_animator;
         blackSwordCollider = playerSword.GetComponent<Collider2D>(); 
         blackSwordCollider.enabled = false;
         attackDuration = getAnimationLength("Player_1_attack");
@@ -55,7 +55,7 @@ public class EntityAttack : MonoBehaviour
         return time;
     }
 
-    public void resetAttackAnimation(){
+    public void ResetAttackAnimation(){
         attacking = false;
         animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[0], false);
         animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[1], false);
@@ -63,7 +63,7 @@ public class EntityAttack : MonoBehaviour
     }
     
     void OnAttack(InputValue value){
-        if(!playerMovement.inputIsLocked){
+        if(!playerMovement.m_inputIsLocked){
             if(lastTimeAttacked < 0){
                 attacking = true;
                 determineAttackingParameter(attackDirection);
@@ -89,7 +89,7 @@ public class EntityAttack : MonoBehaviour
     }
 
     void OnAttackDirection(InputValue value){
-        if(!playerMovement.inputIsLocked){
+        if(!playerMovement.m_inputIsLocked){
             attackDirection = value.Get<float>();
         }
     }

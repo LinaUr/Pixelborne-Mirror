@@ -40,14 +40,14 @@ public class MultiPlayer : MediatableMonoBehavior
         } else {
             Debug.Log("ERROR no player was given!");
         }
-        testForWin(player);
+        TestForWin(player);
     }
 
-    private void testForWin(GameObject player){
+    private void TestForWin(GameObject player){
         if(currentCameraPositionIndex < 0 ||
             currentCameraPositionIndex >= cameraPositions.Count) {
             GameObject winningPlayer = player == player1 ? player2 : player1;
-            gameMediator.triggerWin(winningPlayer);
+            gameMediator.TriggerWin(winningPlayer);
             // reset the currentCameraPositionIndex
             StopMultiplayer();
         }
@@ -61,13 +61,13 @@ public class MultiPlayer : MediatableMonoBehavior
         var cameraPosition = cameraPositions[currentCameraPositionIndex];
         var spawnDistance = new Vector2(PLAYER_DISTANCE_TO_CENTER_X, PLAYER_DISTANCE_TO_CENTER_Y);
 
-        player1.GetComponent<PlayerMovement>().setPosition(cameraPosition - spawnDistance);
-        player2.GetComponent<PlayerMovement>().setPosition(cameraPosition + spawnDistance);
+        player1.GetComponent<PlayerMovement>().SetPosition(cameraPosition - spawnDistance);
+        player2.GetComponent<PlayerMovement>().SetPosition(cameraPosition + spawnDistance);
     }
 
-    public void resetPlayersActions(){
-        player1.GetComponent<PlayerMovement>().resetPlayerActions();
-        player2.GetComponent<PlayerMovement>().resetPlayerActions();
+    public void ResetPlayersActions(){
+        player1.GetComponent<PlayerMovement>().ResetPlayerActions();
+        player2.GetComponent<PlayerMovement>().ResetPlayerActions();
     }
 
     public void SetCameraPosition(){

@@ -1,70 +1,82 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Experimental.Input;
+﻿using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
 public class PlayerMovement : MediatableMonoBehavior
 {
-    public float moveSpeed = 10f;
-    public float jumpForce = 20f;
-    public bool facingRight = true;
+    [HideInInspector]
+    public bool m_inputIsLocked = false;
 
-    public float groundCheckY = 0.1f;
-    public LayerMask whatIsGround;
-    private bool isGrounded = true; 
-    public Animator animator;
-    public Rigidbody2D myRigidbody2D;
-    public Collider2D playerCollider;
-    public EntityHealth playerHealth;
+    [SerializeField]
+    public Animator m_animator;
 
-    public EntityAttack playerAttack;
-    public bool inputIsLocked = false;
+    [SerializeField]
+    private Rigidbody2D m_myRigidbody2D;
+    [SerializeField]
+    private Collider2D m_playerCollider;
+    [SerializeField]
+    private EntityHealth m_playerHealth;
+    [SerializeField]
+    private EntityAttack m_playerAttack;
+    [SerializeField]
+    private float m_moveSpeed = 10f;
+    [SerializeField]
+    private float m_jumpForce = 20f;
+    [SerializeField]
+    private bool m_facingRight = true;
+    [SerializeField]
+    private float m_groundCheckY = 0.1f;
+    [SerializeField]
+    private LayerMask m_whatIsGround;
 
-
-    void Start ()
-    {
-    }
+    private bool m_isGrounded = true;
 
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapArea((Vector2) playerCollider.bounds.min, 
-                        (Vector2) playerCollider.bounds.min + new Vector2(playerCollider.bounds.size.x, groundCheckY), whatIsGround);
-        animator.SetBool("IsJumping", !isGrounded);
-    }
-    
-    public void resetPlayerActions(){
-        playerHealth.revive();
-        resetPlayerAnimations();
-        resetMovement();
+        m_isGrounded = Physics2D.OverlapArea(m_playerCollider.bounds.min,
+                        (Vector2)m_playerCollider.bounds.min + new Vector2(m_playerCollider.bounds.size.x, m_groundCheckY), m_whatIsGround);
+        m_animator.SetBool("IsJumping", !m_isGrounded);
     }
 
-    public void resetPlayerAnimations(){
-        animator.SetBool("IsJumping", false);
-        animator.SetFloat("Speed", 0);
-        playerAttack.resetAttackAnimation();
+    public void ResetPlayerActions()
+    {
+        m_playerHealth.Revive();
+        ResetPlayerAnimations();
+        ResetMovement();
     }
 
-    public void resetMovement(){
-        myRigidbody2D.velocity = new Vector2(0, myRigidbody2D.velocity.y);
+    public void ResetPlayerAnimations()
+    {
+        m_animator.SetBool("IsJumping", false);
+        m_animator.SetFloat("Speed", 0);
+        m_playerAttack.ResetAttackAnimation();
     }
 
+    public void ResetMovement()
+    {
+        m_myRigidbody2D.velocity = new Vector2(0, m_myRigidbody2D.velocity.y);
+    }
+
+    // This methods checks if the collider kills the player.
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(!inputIsLocked){
-            // Die if your got hit by something else than yourself.
-            // We have to explicitely look for a sword as a collider because else
-            // the winning player could also be colliding with the other player and would die instead.
-            if(collider.gameObject.name == "DeathZones") {
+        if (!m_inputIsLocked)
+        {
+            if (collider.gameObject.name == "DeathZones")
+            {
                 Die();
             }
-            if(collider.gameObject.name == playerAttack.playerSword.name && collider.gameObject != playerAttack.playerSword){
-                // test if the attacks are canceling each other
+            // We have to explicitely look for a sword as a collider because else
+            // the winning player could also be colliding with this player and would die instead.
+            if (collider.gameObject.name == m_playerAttack.playerSword.name && collider.gameObject != m_playerAttack.playerSword)
+            {
+                // Test if the attacks are canceling each other.
                 EntityAttack attackerEntityAttack = collider.gameObject.GetComponentInParent<EntityAttack>();
-                // if the attacker has an Entity Attack the attack might be cancelled
-                if(attackerEntityAttack == null || !playerAttack.attackIsCancelling(attackerEntityAttack)){
-                    playerHealth.takeDamage(1);
-                    if(playerHealth.isDead) {
+                // If the attacker has an EntityAttack the attack might be cancelled.
+                if (attackerEntityAttack == null || !m_playerAttack.attackIsCancelling(attackerEntityAttack))
+                {
+                    m_playerHealth.takeDamage(1);
+                    if (m_playerHealth.isDead)
+                    {
                         Die();
                     }
                 }
@@ -74,59 +86,62 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void OnJump(InputValue value)
     {
-        if(!inputIsLocked){
-            if (isGrounded)
+        if (!m_inputIsLocked)
+        {
+            if (m_isGrounded)
             {
-                animator.SetBool("IsJumping", true);
-                myRigidbody2D.velocity = new Vector2(myRigidbody2D.velocity.x, jumpForce);
+                m_animator.SetBool("IsJumping", true);
+                m_myRigidbody2D.velocity = new Vector2(m_myRigidbody2D.velocity.x, m_jumpForce);
             }
         }
     }
 
     void OnMovement(InputValue value)
     {
-        if(!inputIsLocked){
-
-            // CONTROLS
+        if (!m_inputIsLocked)
+        {
+            // Controls.
             var moveX = value.Get<float>();
+            // Animation.
+            m_animator.SetFloat("Speed", Mathf.Abs(moveX));
 
-            // ANIMATIONS
-            animator.SetFloat("Speed", Mathf.Abs(moveX));
-
-            // PLAYER DIRECTION
-            if (moveX < 0.0f && facingRight)
+            // Player Direction.
+            if (moveX < 0.0f && m_facingRight)
             {
                 FlipPlayer();
             }
-            else if (moveX > 0.0f && !facingRight)
+            else if (moveX > 0.0f && !m_facingRight)
             {
                 FlipPlayer();
             }
 
-            // PHYSICS
-            myRigidbody2D.velocity = new Vector2(moveX * moveSpeed, myRigidbody2D.velocity.y);
+            // Physics.
+            m_myRigidbody2D.velocity = new Vector2(moveX * m_moveSpeed, m_myRigidbody2D.velocity.y);
         }
     }
 
     private void FlipPlayer()
     {
-        facingRight = !facingRight;
+        m_facingRight = !m_facingRight;
         gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
-        // Flip the layer of the sword
-        playerAttack.ChangeOrderInLayer();
+        // Flip the layer of the sword.
+        m_playerAttack.ChangeOrderInLayer();
     }
 
-    void OnRecord(InputValue value){
-        // ignore locked input
+    void OnRecord(InputValue value)
+    {
+        // Ignore locked input.
         gameMediator.Record();
     }
 
-    public void Die(){
-        gameMediator.handleDeath(gameObject);
+    public void Die()
+    {
+        gameMediator.HandleDeath(gameObject);
     }
 
-    public void setPosition(Vector2 position){
-        gameObject.transform.position = new Vector3(position.x, position.y, 
+    public void SetPosition(Vector2 position)
+    {
+        gameObject.transform.position = new Vector3(position.x, position.y,
             gameObject.transform.position.z);
     }
 }
