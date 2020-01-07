@@ -2531,7 +2531,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420030}
   - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
@@ -2548,29 +2547,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
---- !u!114 &519420030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80dac3f1067719e46b727caf27461d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPosition: 1
-  coordinates:
-  - x: -4
-    y: 0
-  - x: 0
-    y: 0
-  - x: 4
-    y: 0
-  fadeImage: {fileID: 2143651672}
-  fadeTime: 1000
-  blackTime: 1000
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -2640,8 +2616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae84f9afdab7ed143bcf4f8f15f392b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeImage: {fileID: 2143651672}
-  fadeTime: 1000
+  m_fadeImage: {fileID: 2143651672}
+  m_fadeTime: 0
 --- !u!1 &610486750
 GameObject:
   m_ObjectHideFlags: 0
@@ -10912,7 +10888,6 @@ GameObject:
   - component: {fileID: 1204311617}
   - component: {fileID: 1204311616}
   - component: {fileID: 1204311615}
-  - component: {fileID: 1204311614}
   - component: {fileID: 1204311613}
   - component: {fileID: 1204311620}
   - component: {fileID: 1204311621}
@@ -10958,22 +10933,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1204311614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204311611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39fbd248b57c0904ead07e3f98cfb69b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: 2
-  kill: 0
-  isAlive: 0
-  showHealth: 0
 --- !u!114 &1204311615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10998,7 +10957,7 @@ MonoBehaviour:
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 515
 --- !u!114 &1204311616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11169,7 +11128,6 @@ GameObject:
   - component: {fileID: 1205548508}
   - component: {fileID: 1205548512}
   - component: {fileID: 1205548511}
-  - component: {fileID: 1205548513}
   - component: {fileID: 1205548514}
   - component: {fileID: 1205548515}
   - component: {fileID: 1205548516}
@@ -11315,7 +11273,7 @@ MonoBehaviour:
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1027
 --- !u!114 &1205548512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11351,22 +11309,6 @@ MonoBehaviour:
   m_DefaultActionMap: '{6b778778-7ebe-4acf-80af-235979b236bd}'
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1205548513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1205548506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39fbd248b57c0904ead07e3f98cfb69b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: 1
-  kill: 0
-  isAlive: 0
-  showHealth: 0
 --- !u!95 &1205548514
 Animator:
   serializedVersion: 3
