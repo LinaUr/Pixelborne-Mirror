@@ -1,22 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using System;
 
-// This class manages the display of the health of a player via a TextMeshProUGUI
+// This class manages the display of the health of a player via a TextMeshProUGUI.
 public class HealthTracker : MonoBehaviour
 {
     [SerializeField]
-    GameObject m_player;
+    private EntityHealth m_playerHealth;
 
     private TextMeshProUGUI m_text;
-    private EntityHealth m_playerHealth;
 
     void Start()
     {
         m_text = gameObject.GetComponent<TextMeshProUGUI>();
-        m_playerHealth = m_player.GetComponent<EntityHealth>();
     }
 
     
@@ -27,7 +23,7 @@ public class HealthTracker : MonoBehaviour
         {
             health = 0;
         }
-        m_text.SetText("" + health);
+        m_text.SetText($"{health}");
 
         Color32 color;
         if (health >= Math.Ceiling((double)m_playerHealth.maxHealth * 3 / 4))
