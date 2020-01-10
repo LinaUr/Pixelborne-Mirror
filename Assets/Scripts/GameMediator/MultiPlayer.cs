@@ -17,7 +17,7 @@ public class MultiPlayer : MediatableMonoBehavior
     private int currentCameraPositionIndex;
     private GameObject player1;
     private GameObject player2;
-    private CameraMover cameraMover;
+    private CameraMultiplayer cameraMultiplayer;
 
     // Start is called before the first frame update
     void Start()
@@ -72,14 +72,14 @@ public class MultiPlayer : MediatableMonoBehavior
 
     public void SetCameraPosition(){
         Vector2 newPosition = cameraPositions[currentCameraPositionIndex];
-        cameraMover.MoveCamera(newPosition.x, newPosition.y);
+        cameraMultiplayer.MoveCamera(newPosition.x, newPosition.y);
     }
 
     public void StartMultiplayer(){
         ResetMultiplayer();
         player1 = GameObject.Find("Player1_Blue");
         player2 = GameObject.Find("Player2_Blue");
-        cameraMover = GameObject.Find("Main Camera").GetComponent<CameraMover>();
+        cameraMultiplayer = GameObject.Find("Main Camera").GetComponent<CameraMultiplayer>();
         SetPlayerPositions();
         SetCameraPosition();
     }
@@ -88,6 +88,6 @@ public class MultiPlayer : MediatableMonoBehavior
         ResetMultiplayer();
         player1 = null;
         player2 = null;
-        cameraMover = null;
+        cameraMultiplayer = null;
     }
 }

@@ -7,7 +7,7 @@ using System;
 [Serializable]
 
 // This class controlls the camera movement and fade to black of the multiplayer scene camera.
-public class CameraMover : MediatableMonoBehavior
+public class CameraMultiplayer : MediatableMonoBehavior
 {
     [SerializeField]
     GameObject m_fadeImage;

@@ -136,6 +136,8 @@ public class PlayerMovement : MediatableMonoBehavior
 
     public void Die()
     {
+        int maxHealth = gameObject.GetComponent<EntityHealth>().maxHealth;
+        gameObject.GetComponent<EntityHealth>().takeDamage(maxHealth);
         gameMediator.HandleDeath(gameObject);
     }
 

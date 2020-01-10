@@ -14,7 +14,7 @@ public class GameMediator : MonoBehaviour
     private RecordAudio _audioRecorder;
     private WebcamPhoto _photoRecorder;
     private CurrentMode mode;
-    private CameraMover cameraMover;
+    private CameraMultiplayer cameraMultiplayer;
     private MultiPlayer multiPlayer;
     public enum CurrentMode { None, MainMenu, SinglePlayer, MultiPlayer };
 
@@ -28,7 +28,7 @@ public class GameMediator : MonoBehaviour
     {
         mode = CurrentMode.MainMenu;
         GameObject cameraObject = GameObject.Find("Main Camera"); // TODO: lieber das Obejct in einer Public Variable übergeben
-        cameraMover = cameraObject.GetComponent<CameraMover>();
+        cameraMultiplayer = cameraObject.GetComponent<CameraMultiplayer>();
 
         _audioRecorder = gameObject.AddComponent<RecordAudio>();
         _photoRecorder = gameObject.AddComponent<WebcamPhoto>();
@@ -82,7 +82,7 @@ public class GameMediator : MonoBehaviour
         _player1Movement.m_inputIsLocked = true;
         _player2Movement.m_inputIsLocked = true;
         lastDiedPlayer = player;
-        cameraMover.FadeOut();
+        cameraMultiplayer.FadeOut();
     }
 
     public void TriggerWin(GameObject player){
@@ -97,7 +97,7 @@ public class GameMediator : MonoBehaviour
             multiPlayer.SetPlayerPositions();
             multiPlayer.ResetPlayersActions();
             multiPlayer.SetCameraPosition();
-            cameraMover.FadeIn();
+            cameraMultiplayer.FadeIn();
         }
         lastDiedPlayer = null;
     }
