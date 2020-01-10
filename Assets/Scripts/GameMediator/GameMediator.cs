@@ -5,7 +5,7 @@ using System;
 public class GameMediator : MonoBehaviour
 {
     [SerializeField]
-    private CameraMover m_cameraMover;
+    private CameraMover m_cameraMultiplayer;
     [SerializeField]
     private PlayerMovement m_player1Movement;
     [SerializeField]
@@ -72,7 +72,7 @@ public class GameMediator : MonoBehaviour
         m_player1Movement.m_inputIsLocked = true;
         m_player2Movement.m_inputIsLocked = true;
         m_lastDiedPlayer = player;
-        m_cameraMover.FadeOut();
+        m_cameraMultiplayer.FadeOut();
     }
 
     // This methods reacts to one player successfully winning the multiplayer game. 
@@ -92,7 +92,7 @@ public class GameMediator : MonoBehaviour
             m_multiPlayer.SetPlayerPositions();
             m_multiPlayer.ResetPlayersActions();
             m_multiPlayer.SetCameraPosition();
-            m_cameraMover.FadeIn();
+            m_cameraMultiplayer.FadeIn();
         }
         m_lastDiedPlayer = null;
     }

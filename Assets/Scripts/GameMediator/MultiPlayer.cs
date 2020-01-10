@@ -5,7 +5,7 @@ using UnityEngine;
 public class MultiPlayer : MediatableMonoBehavior
 {
     [SerializeField]
-    private CameraMover m_cameraMover;
+    private CameraMover m_cameraMultiplayer;
     [SerializeField]
     // Transforms from outer left to outer right stage.
     private Transform m_cameraPositionsTransform;
@@ -81,7 +81,7 @@ public class MultiPlayer : MediatableMonoBehavior
     public void SetCameraPosition()
     {
         Vector2 newPosition = m_cameraPositions[m_currentCameraPositionIndex];
-        m_cameraMover.MoveCamera(newPosition.x, newPosition.y);
+        m_cameraMultiplayer.MoveCamera(newPosition.x, newPosition.y);
     }
 
     public void StartMultiplayer()
@@ -101,6 +101,6 @@ public class MultiPlayer : MediatableMonoBehavior
         ResetMultiplayer();
         m_player1 = null;
         m_player2 = null;
-        m_cameraMover = null;
+        m_cameraMultiplayer = null;
     }
 }
