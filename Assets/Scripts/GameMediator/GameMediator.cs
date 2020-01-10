@@ -1,109 +1,106 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
+// This class serves as a mediator between various components of the game.
 public class GameMediator : MonoBehaviour
 {
-    // TODO: würde hier so ziemlich alles (zumindestest vieles) in public variablen übergeben und nicht selbst im code suchen.
-    private GameObject _player1Object;
-    private GameObject _player2Object;
-    private GameObject lastDiedPlayer;
-    private PlayerMovement _player1Movement;
-    private PlayerMovement _player2Movement;
-    private RecordAudio _audioRecorder;
-    private WebcamPhoto _photoRecorder;
-    private CurrentMode mode;
-    private CameraMover cameraMover;
-    private MultiPlayer multiPlayer;
-    public enum CurrentMode { None, MainMenu, SinglePlayer, MultiPlayer };
+    [SerializeField]
+    private CameraMover m_cameraMultiplayer;
+    [SerializeField]
+    private PlayerMovement m_player1Movement;
+    [SerializeField]
+    private PlayerMovement m_player2Movement;
 
-    public CurrentMode Mode {
-        get { return mode; }
-        set { mode = value; }
-    }
+    private MultiPlayer m_multiPlayer;
+    private GameObject m_lastDiedPlayer;
+    private RecordAudio m_audioRecorder;
+    private WebcamPhoto m_photoRecorder;
 
-    // Start is called before the first frame update
+    private enum CurrentMode
+    {
+        None,
+        MainMenu,
+        SinglePlayer,
+        MultiPlayer
+    };
+
+    private CurrentMode Mode { get; set; }
+
     void Start()
     {
-        mode = CurrentMode.MainMenu;
-        GameObject cameraObject = GameObject.Find("Main Camera"); // TODO: lieber das Obejct in einer Public Variable übergeben
-        cameraMover = cameraObject.GetComponent<CameraMover>();
-
-        _audioRecorder = gameObject.AddComponent<RecordAudio>();
-        _photoRecorder = gameObject.AddComponent<WebcamPhoto>();
+        Mode = CurrentMode.MainMenu;
+        m_audioRecorder = gameObject.AddComponent<RecordAudio>();
+        m_photoRecorder = gameObject.AddComponent<WebcamPhoto>();
     }
 
-    public void StartMultiplayer(){
-        mode = CurrentMode.MultiPlayer;
-        
-        // get Multiplayer references
-        _player1Object = GameObject.Find("Players/Player1_Blue");
-        _player1Movement = _player1Object.GetComponent<PlayerMovement>();
-        _player2Object = GameObject.Find("Players/Player2_Blue");
-        _player2Movement = _player2Object.GetComponent<PlayerMovement>();
-        multiPlayer = gameObject.GetComponent<MultiPlayer>();
-
-        multiPlayer.StartMultiplayer();
-    }
-
-    public void StopMultiplayer(){
-        mode = CurrentMode.MainMenu;
-        _player1Object = null;
-        _player1Movement = null;
-        _player2Object = null;
-        _player2Movement = null;
-        multiPlayer.StopMultiplayer();
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void StartMultiplayer()
     {
-        
+        Mode = CurrentMode.MultiPlayer;
+        m_multiPlayer = gameObject.GetComponent<MultiPlayer>();
+        m_multiPlayer.StartMultiplayer();
     }
 
-    public void Record(){
-        _audioRecorder.Record();
-        _photoRecorder.Record();
+    public void StopMultiplayer()
+    {
+        Mode = CurrentMode.MainMenu;
+        m_player1Movement = null;
+        m_player2Movement = null;
+        m_multiPlayer.StopMultiplayer();
     }
 
-    public void HandleDeath(GameObject diedObject){
-        switch(mode){
+    public void Record()
+    {
+        m_audioRecorder.Record();
+        m_photoRecorder.Record();
+    }
+
+    public void HandleDeath(GameObject diedObject)
+    {
+        switch (Mode)
+        {
             case CurrentMode.MultiPlayer:
                 PlayerDied(diedObject);
                 break;
             case CurrentMode.None:
             default:
-                throw new Exception("Mode is: " + mode + " which is an invalid state!");
+                throw new Exception($"Mode is: {Mode} which is an invalid state!");
         }
     }
 
-    public void PlayerDied(GameObject player){
-        _player1Movement.m_inputIsLocked = true;
-        _player2Movement.m_inputIsLocked = true;
-        lastDiedPlayer = player;
-        cameraMover.FadeOut();
+    public void PlayerDied(GameObject player)
+    {
+        m_player1Movement.m_inputIsLocked = true;
+        m_player2Movement.m_inputIsLocked = true;
+        m_lastDiedPlayer = player;
+        m_cameraMultiplayer.FadeOut();
     }
 
-    public void TriggerWin(GameObject player){
-        mode = CurrentMode.MainMenu;
-        Debug.Log(player.name + " has won the game!");
+    // This methods reacts to one player successfully winning the multiplayer game. 
+    public void TriggerWin(GameObject player)
+    {
+        Mode = CurrentMode.MainMenu;
+        Debug.Log($"{player.name} has won the game!");
         Application.Quit();
     }
 
-    public void FadedOut() {
-        multiPlayer.PlayerDied(lastDiedPlayer);
-        if(mode != CurrentMode.MainMenu){
-            multiPlayer.SetPlayerPositions();
-            multiPlayer.ResetPlayersActions();
-            multiPlayer.SetCameraPosition();
-            cameraMover.FadeIn();
+    // This methods prepares the Multiplayer after a camera fade out before fading in again.
+    public void FadedOut()
+    {
+        m_multiPlayer.PlayerDied(m_lastDiedPlayer);
+        if (Mode != CurrentMode.MainMenu)
+        {
+            m_multiPlayer.SetPlayerPositions();
+            m_multiPlayer.ResetPlayersActions();
+            m_multiPlayer.SetCameraPosition();
+            m_cameraMultiplayer.FadeIn();
         }
-        lastDiedPlayer = null;
+        m_lastDiedPlayer = null;
     }
 
-    public void FadedIn() {
-        _player1Movement.m_inputIsLocked = false;
-        _player2Movement.m_inputIsLocked = false;
+    // This methods allows players to accept inputs again when the camera has successfully faded in.
+    public void FadedIn()
+    {
+        m_player1Movement.m_inputIsLocked = false;
+        m_player2Movement.m_inputIsLocked = false;
     }
 }
