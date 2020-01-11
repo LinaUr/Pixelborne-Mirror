@@ -14997,6 +14997,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc389b9ef9b1a49c8a973156b13619e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_cameraMover: {fileID: 519420033}
+  m_player1Movement: {fileID: 1205548511}
+  m_player2Movement: {fileID: 1204311615}
 --- !u!4 &1816979079
 Transform:
   m_ObjectHideFlags: 0
@@ -15023,7 +15026,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85f44f82a34e46e39b6247c352f6480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPositionsTransform: {fileID: 2082141908}
+  m_cameraMover: {fileID: 519420033}
+  m_cameraPositionsTransform: {fileID: 2082141908}
+  m_player1: {fileID: 1205548506}
+  m_player2: {fileID: 1204311611}
 --- !u!1 &1828138563
 GameObject:
   m_ObjectHideFlags: 0
