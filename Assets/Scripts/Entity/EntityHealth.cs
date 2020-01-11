@@ -30,7 +30,7 @@ public class EntityHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void takeDamage(int damage){
+    public void TakeDamage(int damage){
         currentHealth -= damage;
         // ensure that hp cannot be negative
         currentHealth = currentHealth < 0 ? 0 : currentHealth;

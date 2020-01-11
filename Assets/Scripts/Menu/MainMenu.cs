@@ -1,10 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Tools;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    void Awake()
+    {
+        GameMediator.Instance.CurrentMode = Mode.MainMenu;
+    }
+
+    public void StartMultiplayer()
+    {
+        SceneChanger.SetMultiplayerAsActiveScene();
+    }
+
     public void QuitGame()
     {
         Application.Quit();

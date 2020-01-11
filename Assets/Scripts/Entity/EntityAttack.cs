@@ -19,13 +19,18 @@ public class EntityAttack : MonoBehaviour
     private Collider2D blackSwordCollider;
     private PlayerMovement playerMovement;
 
-    // Start is called before the first frame update
-    void Start()
+    // Components should be gathered on Awake for safety reasons.
+    private void Awake()
     {
         swordRenderer = playerSword.GetComponent<SpriteRenderer>();
         playerMovement = gameObject.GetComponent<PlayerMovement>();
-        animator = playerMovement.m_animator;
-        blackSwordCollider = playerSword.GetComponent<Collider2D>(); 
+        blackSwordCollider = playerSword.GetComponent<Collider2D>();
+        animator = playerMovement.Animator;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         blackSwordCollider.enabled = false;
         attackDuration = getAnimationLength("Player_1_attack");
         attacking = false;
@@ -63,7 +68,7 @@ public class EntityAttack : MonoBehaviour
     }
     
     void OnAttack(InputValue value){
-        if(!playerMovement.m_inputIsLocked){
+        if(!playerMovement.InputIsLocked){
             if(lastTimeAttacked < 0){
                 attacking = true;
                 determineAttackingParameter(attackDirection);
@@ -89,7 +94,7 @@ public class EntityAttack : MonoBehaviour
     }
 
     void OnAttackDirection(InputValue value){
-        if(!playerMovement.m_inputIsLocked){
+        if(!playerMovement.InputIsLocked){
             attackDirection = value.Get<float>();
         }
     }
