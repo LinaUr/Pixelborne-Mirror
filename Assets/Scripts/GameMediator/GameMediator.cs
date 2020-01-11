@@ -5,7 +5,7 @@ using System;
 public class GameMediator : MonoBehaviour
 {
     [SerializeField]
-    private CameraMover m_cameraMultiplayer;
+    private CameraMultiplayer m_cameraMultiplayer;
     [SerializeField]
     private PlayerMovement m_player1Movement;
     [SerializeField]

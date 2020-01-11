@@ -5,7 +5,7 @@ using UnityEngine;
 public class MultiPlayer : MediatableMonoBehavior
 {
     [SerializeField]
-    private CameraMover m_cameraMultiplayer;
+    private CameraMultiplayer m_cameraMultiplayer;
     [SerializeField]
     // Transforms from outer left to outer right stage.
     private Transform m_cameraPositionsTransform;

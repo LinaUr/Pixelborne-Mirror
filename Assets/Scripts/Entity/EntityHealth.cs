@@ -35,4 +35,9 @@ public class EntityHealth : MonoBehaviour
         // ensure that hp cannot be negative
         currentHealth = currentHealth < 0 ? 0 : currentHealth;
     }
+
+    public int GetHealth()
+    {
+        return currentHealth;
+    }
 }
