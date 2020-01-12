@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using Assets.Scripts.Tools;
 
 // This class serves as a mediator between various components of the game.
 // It is a Singleton.

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {

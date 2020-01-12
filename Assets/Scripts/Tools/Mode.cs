@@ -1,9 +1,6 @@
-﻿namespace Assets.Scripts.Tools
+﻿public enum Mode
 {
-    public enum Mode
-    {
-        MainMenu,
-        Multiplayer,
-        Singleplayer
-    }
+    MainMenu,
+    Multiplayer,
+    Singleplayer
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using Assets.Scripts.Tools;
 using System.Collections.Generic;
 
 // Makes sure this shows up in the inspector.
