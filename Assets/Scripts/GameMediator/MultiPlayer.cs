@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Interfaces;
-using System;
+﻿using System;
 using UnityEngine;
 
 // This class contains the Multiplayer game mode logic.
