@@ -14,7 +14,7 @@ public class EntityAttack : MonoBehaviour
     private double m_attackDuration;
     private int m_currentAttackAnimationParameter = 0; 
     private double m_lastTimeAttacked = -10000;
-    private bool m_attacking;
+    public bool Attacking { get; private set; }
     private static float m_ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     private SpriteRenderer m_swordRenderer;
@@ -33,43 +33,28 @@ public class EntityAttack : MonoBehaviour
     void Start()
     {
         m_blackSwordCollider.enabled = false;
-        m_attackDuration = getAnimationLength("Player_1_attack");
-        m_attacking = false;
+        m_attackDuration = Utils.GetAnimationLength(m_animator, "Player_1_attack");
+        Attacking = false;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         // Set the player as not attacking when the time that the attack animation needs is over.
         // Set the Animator variable as well.
-        if(m_attacking)
+        if(Attacking)
         {
             m_lastTimeAttacked -= Time.deltaTime;
             if(m_lastTimeAttacked < 0)
             {
-                m_attacking = false;
-                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], m_attacking);
+                Attacking = false;
+                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], Attacking);
             }
         }
-    }
-
-    // This method returns the time of the animation that is identified by the provided parameter string name.
-    float getAnimationLength(string name)
-    {
-        float time = 0;
-        RuntimeAnimatorController ac = m_animator.runtimeAnimatorController;
-        for(int i = 0; i < ac.animationClips.Length; ++i)
-        {
-            if(ac.animationClips[i].name == name) 
-            {
-                time = ac.animationClips[i].length;
-            }
-        }
-        return time;
     }
 
     // This method resets the attack including the animator.
     public void ResetAttackAnimation(){
-        m_attacking = false;
+        Attacking = false;
         m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[0], false);
         m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[1], false);
         m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[2], false);
@@ -83,9 +68,9 @@ public class EntityAttack : MonoBehaviour
         {
             if(m_lastTimeAttacked < 0)
             {
-                m_attacking = true;
+                Attacking = true;
                 determineAttackingParameter(m_attackDirection);
-                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], m_attacking);
+                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], Attacking);
                 m_lastTimeAttacked = m_attackDuration;
             }
         }
@@ -108,7 +93,7 @@ public class EntityAttack : MonoBehaviour
     // This method tests if both entities are executing the same attack. This would cancel both attacks.
     public bool attackIsCancelling(EntityAttack attacker)
     {
-        return attacker != null && attacker.m_attacking && this.m_attacking && 
+        return attacker != null && attacker.Attacking && this.Attacking && 
             attacker.m_currentAttackAnimationParameter == this.m_currentAttackAnimationParameter;
     }
 

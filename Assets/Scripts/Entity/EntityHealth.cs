@@ -22,11 +22,6 @@ public class EntityHealth : MonoBehaviour
         Revive();
     }
 
-    void Update()
-    {
-        
-    }
-
     // This method revives the entity by resetting its m_currentHealth.
     public void Revive()
     {

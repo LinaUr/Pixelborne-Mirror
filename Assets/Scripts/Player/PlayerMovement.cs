@@ -18,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     private Recorder m_recorder;
 
     private bool m_isGrounded = true;
+    private bool m_invincible = false;
+    private bool m_isRolling = false;
+    private double m_rollingDuration;
+    private double m_lasTimeRolled;
     private Rigidbody2D m_rigidbody2D;
     private Collider2D m_playerCollider;
     private EntityHealth m_playerHealth;
@@ -33,13 +37,23 @@ public class PlayerMovement : MonoBehaviour
         m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
         m_playerHealth = gameObject.GetComponent<EntityHealth>();
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
+        m_rollingDuration = Utils.GetAnimationLength(Animator, "Player_1_roll");
     }
 
-    void FixedUpdate()
+    void Update()
     {
         m_isGrounded = Physics2D.OverlapArea(m_playerCollider.bounds.min,
                         (Vector2)m_playerCollider.bounds.min + new Vector2(m_playerCollider.bounds.size.x, m_groundCheckY), m_whatIsGround);
         Animator.SetBool("IsJumping", !m_isGrounded);
+        if(m_isRolling) 
+        {
+            m_lasTimeRolled -= Time.deltaTime;
+            if(m_lasTimeRolled < 0) 
+            {
+                Animator.SetBool("Rolling", false);
+                m_isRolling = false;
+            }
+        }
     }
 
     public void ResetPlayerActions()
@@ -53,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Animator.SetBool("IsJumping", false);
         Animator.SetFloat("Speed", 0);
+        Animator.SetBool("Rolling", false);
         m_playerAttack.ResetAttackAnimation();
     }
 
@@ -64,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
     // This methods checks if the collider kills the player.
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!InputIsLocked)
+        if (!InputIsLocked && !m_invincible)
         {
             if (collider.gameObject.name == "DeathZones")
             {
@@ -149,5 +164,24 @@ public class PlayerMovement : MonoBehaviour
     {
         gameObject.transform.position = new Vector3(position.x, position.y,
             gameObject.transform.position.z);
+    }
+
+    // This method starts the player roll if he is not already rolling, is on the ground,
+    // the input is not locked and the player is not attacking.
+    public void OnRoll(InputValue value)
+    {
+        if(!InputIsLocked && !m_playerAttack.Attacking && !m_isRolling && !m_isGrounded)
+        {
+            Animator.SetBool("Rolling", false);
+            m_lasTimeRolled = m_rollingDuration;
+        }
+    }
+
+    public void StartRolling(){
+        m_invincible = true;
+    }
+
+    public void StopRolling(){
+        m_invincible = false;
     }
 }
