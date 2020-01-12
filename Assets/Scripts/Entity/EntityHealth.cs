@@ -5,7 +5,9 @@ using UnityEngine;
 // This class manages the the Health of an entity.
 public class EntityHealth : MonoBehaviour
 {
-    public int m_maxHealth;
+    [SerializeField]
+    public int MaxHealth;
+    public bool Invincible;
     public int CurrentHealth { get; private set;} 
 
     public bool isAlive 
@@ -25,14 +27,18 @@ public class EntityHealth : MonoBehaviour
     // This method revives the entity by resetting its m_currentHealth.
     public void Revive()
     {
-        CurrentHealth = m_maxHealth;
+        CurrentHealth = MaxHealth;
+        Invincible = false;
     }
 
     // This method deals damage to the entity by reducing it's m_currentHealth.
     public void TakeDamage(int damage)
     {
-        CurrentHealth -= damage;
-        // ensure that hp cannot be negative
-        CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
+        if(!Invincible)
+        {
+            CurrentHealth -= damage;
+            // ensure that hp cannot be negative
+            CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
+        }
     }
 }

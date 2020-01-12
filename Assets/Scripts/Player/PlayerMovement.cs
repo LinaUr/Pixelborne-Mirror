@@ -18,10 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Recorder m_recorder;
 
     private bool m_isGrounded = true;
-    private bool m_invincible = false;
-    private bool m_isRolling = false;
-    private double m_rollingDuration;
-    private double m_lasTimeRolled;
+    public bool IsRolling {get; private set;}
     private Rigidbody2D m_rigidbody2D;
     private Collider2D m_playerCollider;
     private EntityHealth m_playerHealth;
@@ -37,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
         m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
         m_playerHealth = gameObject.GetComponent<EntityHealth>();
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
-        m_rollingDuration = Utils.GetAnimationLength(Animator, "Player_1_roll");
     }
 
     void Update()
@@ -45,15 +41,6 @@ public class PlayerMovement : MonoBehaviour
         m_isGrounded = Physics2D.OverlapArea(m_playerCollider.bounds.min,
                         (Vector2)m_playerCollider.bounds.min + new Vector2(m_playerCollider.bounds.size.x, m_groundCheckY), m_whatIsGround);
         Animator.SetBool("IsJumping", !m_isGrounded);
-        if(m_isRolling) 
-        {
-            m_lasTimeRolled -= Time.deltaTime;
-            if(m_lasTimeRolled < 0) 
-            {
-                Animator.SetBool("Rolling", false);
-                m_isRolling = false;
-            }
-        }
     }
 
     public void ResetPlayerActions()
@@ -67,19 +54,20 @@ public class PlayerMovement : MonoBehaviour
     {
         Animator.SetBool("IsJumping", false);
         Animator.SetFloat("Speed", 0);
-        Animator.SetBool("Rolling", false);
+        //Animator.SetBool("Rolling", false);
         m_playerAttack.ResetAttackAnimation();
     }
 
     public void ResetMovement()
     {
         m_rigidbody2D.velocity = new Vector2(0, m_rigidbody2D.velocity.y);
+        IsRolling = false;
     }
 
     // This methods checks if the collider kills the player.
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!InputIsLocked && !m_invincible)
+        if (!InputIsLocked)
         {
             if (collider.gameObject.name == "DeathZones")
             {
@@ -143,7 +131,10 @@ public class PlayerMovement : MonoBehaviour
     private void FlipPlayer()
     {
         m_facingRight = !m_facingRight;
-        gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
+        //gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
+        Vector3 currentScale = gameObject.transform.localScale;
+        currentScale.x *= -1;
+        gameObject.transform.localScale = currentScale;
         // Flip the layer of the sword.
         m_playerAttack.ChangeOrderInLayer();
     }
@@ -155,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        int maxHealth = m_playerHealth.m_maxHealth;
+        int maxHealth = m_playerHealth.MaxHealth;
         m_playerHealth.TakeDamage(maxHealth);
         GameMediator.Instance.HandleDeath(gameObject);
     }
@@ -170,18 +161,27 @@ public class PlayerMovement : MonoBehaviour
     // the input is not locked and the player is not attacking.
     public void OnRoll(InputValue value)
     {
-        if(!InputIsLocked && !m_playerAttack.Attacking && !m_isRolling && !m_isGrounded)
+        if(!InputIsLocked && !m_playerAttack.Attacking && !IsRolling && m_isGrounded)
         {
-            Animator.SetBool("Rolling", false);
-            m_lasTimeRolled = m_rollingDuration;
+            Animator.SetBool("Rolling", true);
+            IsRolling = true;
         }
     }
 
-    public void StartRolling(){
-        m_invincible = true;
+    public void StopRolling()
+    {
+        Animator.SetBool("Rolling", false);
+        IsRolling = false;
     }
 
-    public void StopRolling(){
-        m_invincible = false;
+
+    public void StartRollingInvincibility()
+    {
+        m_playerHealth.Invincible = true;
+    }
+
+    public void StopRollingInvincibility()
+    {
+        m_playerHealth.Invincible = false;
     }
 }

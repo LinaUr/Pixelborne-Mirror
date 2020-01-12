@@ -64,7 +64,7 @@ public class EntityAttack : MonoBehaviour
     // According to the current attack direction based on the player input the attack is executed
     // unless the input is locked or the entity is already attacking.
     void OnAttack(InputValue value){
-        if(!m_playerMovement.InputIsLocked)
+        if(!m_playerMovement.InputIsLocked && !m_playerMovement.IsRolling)
         {
             if(m_lastTimeAttacked < 0)
             {
