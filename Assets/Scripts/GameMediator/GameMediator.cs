@@ -2,105 +2,68 @@
 using System;
 
 // This class serves as a mediator between various components of the game.
-public class GameMediator : MonoBehaviour
+// It is a Singleton.
+public class GameMediator : ScriptableObject
 {
-    [SerializeField]
-    private CameraMultiplayer m_cameraMultiplayer;
-    [SerializeField]
-    private PlayerMovement m_player1Movement;
-    [SerializeField]
-    private PlayerMovement m_player2Movement;
-
-    private MultiPlayer m_multiPlayer;
     private GameObject m_lastDiedPlayer;
-    private RecordAudio m_audioRecorder;
-    private WebcamPhoto m_photoRecorder;
+    private static GameMediator m_instance = null;
 
-    private enum CurrentMode
+    public static GameMediator Instance
     {
-        None,
-        MainMenu,
-        SinglePlayer,
-        MultiPlayer
-    };
-
-    private CurrentMode Mode { get; set; }
-
-    void Start()
-    {
-        Mode = CurrentMode.MainMenu;
-        m_audioRecorder = gameObject.AddComponent<RecordAudio>();
-        m_photoRecorder = gameObject.AddComponent<WebcamPhoto>();
+        get
+        {
+            return (m_instance == null) ? new GameMediator() : m_instance;
+        }
     }
 
-    public void StartMultiplayer()
-    {
-        Mode = CurrentMode.MultiPlayer;
-        m_multiPlayer = gameObject.GetComponent<MultiPlayer>();
-        m_multiPlayer.StartMultiplayer();
-    }
+    // Every scene need to have a corresponding script that set the mode
+    public Mode CurrentMode { get; set; }
+    public IGame ActiveGame { get; set; }
+    public ICamera ActiveCamera { get; set; }
 
-    public void StopMultiplayer()
+    public GameMediator()
     {
-        Mode = CurrentMode.MainMenu;
-        m_player1Movement = null;
-        m_player2Movement = null;
-        m_multiPlayer.StopMultiplayer();
-    }
-
-    public void Record()
-    {
-        m_audioRecorder.Record();
-        m_photoRecorder.Record();
+        m_instance = this;
     }
 
     public void HandleDeath(GameObject diedObject)
     {
-        switch (Mode)
+        if (CurrentMode != Mode.MainMenu)
         {
-            case CurrentMode.MultiPlayer:
-                PlayerDied(diedObject);
-                break;
-            case CurrentMode.None:
-            default:
-                throw new Exception($"Mode is: {Mode} which is an invalid state!");
+            PlayerDied(diedObject);
+        }
+        else
+        {
+            throw new Exception($"Mode is: {CurrentMode} which is an invalid state for an object to die!");
         }
     }
 
     public void PlayerDied(GameObject player)
     {
-        m_player1Movement.m_inputIsLocked = true;
-        m_player2Movement.m_inputIsLocked = true;
+        ActiveGame.LockPlayerInput(true);
         m_lastDiedPlayer = player;
-        m_cameraMultiplayer.FadeOut();
+        ActiveCamera.FadeOut();
     }
 
-    // This methods reacts to one player successfully winning the multiplayer game. 
-    public void TriggerWin(GameObject player)
-    {
-        Mode = CurrentMode.MainMenu;
-        Debug.Log($"{player.name} has won the game!");
-        Application.Quit();
-    }
-
-    // This methods prepares the Multiplayer after a camera fade out before fading in again.
+    // This methods prepares the game after a camera fade out before fading in again.
     public void FadedOut()
     {
-        m_multiPlayer.PlayerDied(m_lastDiedPlayer);
-        if (Mode != CurrentMode.MainMenu)
+        ActiveGame.PlayerDied(m_lastDiedPlayer);
+        if (CurrentMode != Mode.MainMenu)
         {
-            m_multiPlayer.SetPlayerPositions();
-            m_multiPlayer.ResetPlayersActions();
-            m_multiPlayer.SetCameraPosition();
-            m_cameraMultiplayer.FadeIn();
+            ActiveGame.PrepareGame();
+            ActiveCamera.FadeIn();
         }
         m_lastDiedPlayer = null;
     }
 
-    // This methods allows players to accept inputs again when the camera has successfully faded in.
     public void FadedIn()
     {
-        m_player1Movement.m_inputIsLocked = false;
-        m_player2Movement.m_inputIsLocked = false;
+        ActiveGame.LockPlayerInput(false);
+    }
+
+    public void GameHasFinished()
+    {
+        SceneChanger.SetMainMenuAsActiveScene();
     }
 }

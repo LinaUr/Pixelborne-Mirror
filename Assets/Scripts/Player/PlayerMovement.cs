@@ -1,22 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Recording;
+using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
-public class PlayerMovement : MediatableMonoBehavior
+public class PlayerMovement : MonoBehaviour
 {
-    [HideInInspector]
-    public bool m_inputIsLocked = false;
-
-    [SerializeField]
-    public Animator m_animator;
-
-    [SerializeField]
-    private Rigidbody2D m_myRigidbody2D;
-    [SerializeField]
-    private Collider2D m_playerCollider;
-    [SerializeField]
-    private EntityHealth m_playerHealth;
-    [SerializeField]
-    private EntityAttack m_playerAttack;
     [SerializeField]
     private float m_moveSpeed = 10f;
     [SerializeField]
@@ -27,14 +14,32 @@ public class PlayerMovement : MediatableMonoBehavior
     private float m_groundCheckY = 0.1f;
     [SerializeField]
     private LayerMask m_whatIsGround;
+    [SerializeField]
+    private Recorder m_recorder;
 
     private bool m_isGrounded = true;
+    private Rigidbody2D m_rigidbody2D;
+    private Collider2D m_playerCollider;
+    private EntityHealth m_playerHealth;
+    private EntityAttack m_playerAttack;
+
+    public bool InputIsLocked { get; set; } = false;
+    public Animator Animator { get; private set; }
+
+    private void Awake()
+    {
+        Animator = gameObject.GetComponent<Animator>();
+        m_rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
+        m_playerHealth = gameObject.GetComponent<EntityHealth>();
+        m_playerAttack = gameObject.GetComponent<EntityAttack>();
+    }
 
     void FixedUpdate()
     {
         m_isGrounded = Physics2D.OverlapArea(m_playerCollider.bounds.min,
                         (Vector2)m_playerCollider.bounds.min + new Vector2(m_playerCollider.bounds.size.x, m_groundCheckY), m_whatIsGround);
-        m_animator.SetBool("IsJumping", !m_isGrounded);
+        Animator.SetBool("IsJumping", !m_isGrounded);
     }
 
     public void ResetPlayerActions()
@@ -46,20 +51,20 @@ public class PlayerMovement : MediatableMonoBehavior
 
     public void ResetPlayerAnimations()
     {
-        m_animator.SetBool("IsJumping", false);
-        m_animator.SetFloat("Speed", 0);
+        Animator.SetBool("IsJumping", false);
+        Animator.SetFloat("Speed", 0);
         m_playerAttack.ResetAttackAnimation();
     }
 
     public void ResetMovement()
     {
-        m_myRigidbody2D.velocity = new Vector2(0, m_myRigidbody2D.velocity.y);
+        m_rigidbody2D.velocity = new Vector2(0, m_rigidbody2D.velocity.y);
     }
 
     // This methods checks if the collider kills the player.
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!m_inputIsLocked)
+        if (!InputIsLocked)
         {
             if (collider.gameObject.name == "DeathZones")
             {
@@ -74,7 +79,7 @@ public class PlayerMovement : MediatableMonoBehavior
                 // If the attacker has an EntityAttack the attack might be cancelled.
                 if (attackerEntityAttack == null || !m_playerAttack.attackIsCancelling(attackerEntityAttack))
                 {
-                    m_playerHealth.takeDamage(1);
+                    m_playerHealth.TakeDamage(1);
                     if (m_playerHealth.isDead)
                     {
                         Die();
@@ -86,24 +91,24 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void OnJump(InputValue value)
     {
-        if (!m_inputIsLocked)
+        if (!InputIsLocked)
         {
             if (m_isGrounded)
             {
-                m_animator.SetBool("IsJumping", true);
-                m_myRigidbody2D.velocity = new Vector2(m_myRigidbody2D.velocity.x, m_jumpForce);
+                Animator.SetBool("IsJumping", true);
+                m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
             }
         }
     }
 
     void OnMovement(InputValue value)
     {
-        if (!m_inputIsLocked)
+        if (!InputIsLocked)
         {
             // Controls.
             var moveX = value.Get<float>();
             // Animation.
-            m_animator.SetFloat("Speed", Mathf.Abs(moveX));
+            Animator.SetFloat("Speed", Mathf.Abs(moveX));
 
             // Player Direction.
             if (moveX < 0.0f && m_facingRight)
@@ -116,7 +121,7 @@ public class PlayerMovement : MediatableMonoBehavior
             }
 
             // Physics.
-            m_myRigidbody2D.velocity = new Vector2(moveX * m_moveSpeed, m_myRigidbody2D.velocity.y);
+            m_rigidbody2D.velocity = new Vector2(moveX * m_moveSpeed, m_rigidbody2D.velocity.y);
         }
     }
 
@@ -130,15 +135,14 @@ public class PlayerMovement : MediatableMonoBehavior
 
     void OnRecord(InputValue value)
     {
-        // Ignore locked input.
-        gameMediator.Record();
+        m_recorder.Record();
     }
 
     public void Die()
     {
         int maxHealth = m_playerHealth.maxHealth;
-        m_playerHealth.takeDamage(maxHealth);
-        gameMediator.HandleDeath(gameObject);
+        m_playerHealth.TakeDamage(maxHealth);
+        GameMediator.Instance.HandleDeath(gameObject);
     }
 
     public void SetPosition(Vector2 position)

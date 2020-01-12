@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // This class allows other objects to register themselfes so that they can use the Update() method without being attached to a game object.
 public class UpdateCaller : MonoBehaviour
@@ -21,7 +19,6 @@ public class UpdateCaller : MonoBehaviour
 
     void Update()
     {
-        if (OnUpdate != null)
-            OnUpdate();
+        OnUpdate?.Invoke();
     }
 }

@@ -1,25 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 // Makes sure this shows up in the inspector.
 [Serializable]
 
 // This class controlls the camera movement and fade to black of the multiplayer scene camera.
-public class CameraMultiplayer : MediatableMonoBehavior
+public class CameraMultiplayer : MonoBehaviour, ICamera
 {
     [SerializeField]
-    GameObject m_fadeImage;
-
+    // Transforms from outer left to outer right stage.
+    private Transform m_cameraPositionsTransform;
     [SerializeField]
-    int m_fadeTime;
+    private GameObject m_fadeImage;
+    [SerializeField]
+    private int m_fadeTime;
 
-    int m_fadeStartTime;
-    int m_fadeMode;
+    private int m_fadeStartTime;
+    private int m_fadeMode;
+
+    // Positions from outer left to outer right stage as they are in the scene.
+    public IList<Vector2> Positions { get; set; }
+
+    // We need to get the positions on Awake so we can externally access them on Start.
+    void Awake()
+    {
+        Positions = new List<Vector2>();
+        foreach (Transform positionsTransform in m_cameraPositionsTransform)
+        {
+            Positions.Add(positionsTransform.position);
+        }
+    }
 
     void Start()
     {
+
+
         m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
         m_fadeStartTime = 0;
         m_fadeMode = 0;
@@ -50,12 +66,12 @@ public class CameraMultiplayer : MediatableMonoBehavior
             tmp.a = percentage;
             m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
             // Complete the fade to black when enough time has passed.
-            if(Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
                 tmp.a = 1.0f;
                 m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
                 m_fadeMode = 0;
-                gameMediator.FadedOut();
+                GameMediator.Instance.FadedOut();
             }
         }
         // Fade in
@@ -74,7 +90,7 @@ public class CameraMultiplayer : MediatableMonoBehavior
                 tmp.a = 0.0f;
                 m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
                 m_fadeMode = 0;
-                gameMediator.FadedIn();
+                GameMediator.Instance.FadedIn();
             }
         }
         // Somehow wrong fadeMode was triggered.
@@ -86,9 +102,10 @@ public class CameraMultiplayer : MediatableMonoBehavior
     }
 
     // This method moves the center of both the camera and the fade to black canvas object to the given position while retaining the z-position.
-    public void MoveCamera(float x, float y)
+    public void MoveCamera(int index)
     {
-        transform.position = new Vector3(x, y, transform.position[2]);
+        Vector2 position = Positions[index];
+        transform.position = new Vector3(position.x, position.y, transform.position[2]);
         m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
     }
 
