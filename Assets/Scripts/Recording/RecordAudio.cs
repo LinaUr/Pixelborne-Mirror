@@ -4,48 +4,62 @@ using System;
 
 public class RecordAudio : MonoBehaviour
 {
-    public int RecordDuration = 10; // in seconds
-    private AudioClip _microphone_clip;
-    private string _selectedDevice;
-    private float _time_left_recording = 0.0f;
-    private static string _AUDIO_RECORD_DIR = "records";
-    private string filedir;
+    private static int m_RECORD_DURATION = 10; // in seconds
+    private AudioClip m_microphone_clip;
+    private string m_selectedDevice;
+    private float m_time_left_recording = 0.0f;
+    private static string m_AUDIO_RECORD_DIR = "records";
+    private string m_filedir;
 
-    // Start is called before the first frame update
+    // This method sets the microphone to the first device that has been found
     void Start()
     {
         if(Microphone.devices.Length > 0) 
         {
-            _selectedDevice = Microphone.devices[0].ToString();
-            filedir = Path.Combine(Application.dataPath, _AUDIO_RECORD_DIR);
-            Directory.CreateDirectory(filedir);
+            m_selectedDevice = Microphone.devices[0].ToString();
+            m_filedir = Path.Combine(Application.dataPath, m_AUDIO_RECORD_DIR);
+            Directory.CreateDirectory(m_filedir);
+        } else
+        {
+            Debug.Log("No microphone device found. Therefore recordings are not supported.");
         }
     }
 
-    // Update is called once per frame
+    // This method counts down the time until the recording is over and then saves the file.
     void FixedUpdate()
     {
-        if(_time_left_recording > 0){
-            _time_left_recording -= Time.fixedDeltaTime;
-            if(_time_left_recording <= 0 ){
+        if(m_time_left_recording > 0)
+        {
+            m_time_left_recording -= Time.fixedDeltaTime;
+            if(m_time_left_recording <= 0 )
+            {
                 SaveRecording();
             }
         }
     }
 
-    public bool MicrophoneAviable(){
-        return string.IsNullOrEmpty(_selectedDevice);
+    // This message returns if a microphone device was found in Start().
+    public bool MicrophoneAviable()
+    {
+        return string.IsNullOrEmpty(m_selectedDevice);
     }
 
-    public void Record(){
-        _microphone_clip = Microphone.Start(_selectedDevice, false, RecordDuration, 44100);
-        _time_left_recording = ((float) RecordDuration) * 1.1f; // puffer
+    // This method starts the recording.
+    public void Record()
+    {
+        if (MicrophoneAviable()) 
+        {
+            m_microphone_clip = Microphone.Start(m_selectedDevice, false, m_RECORD_DURATION, 44100);
+            m_time_left_recording = ((float) m_RECORD_DURATION) * 1.1f; // puffer
+        }
     }
 
-    private void SaveRecording(){
+    // This method converts the recording to a Wav file and saves it on th disk.
+    private void SaveRecording()
+    {
         string filename = "sound_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".wav";
-        var filepath = Path.Combine(filedir, filename);
+        var filepath = Path.Combine(m_filedir, filename);
         
-        SavWav.Save(filepath, _microphone_clip);
+        SavWav.Save(filepath, m_microphone_clip);
     }
 }

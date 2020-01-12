@@ -2139,7 +2139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  m_maxHealth: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -9924,7 +9924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  m_maxHealth: 5
 --- !u!114 &1204311621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9937,7 +9937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSword: {fileID: 393457407}
+  PlayerSword: {fileID: 393457407}
 --- !u!1 &1205548506
 GameObject:
   m_ObjectHideFlags: 0
@@ -10159,7 +10159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  m_maxHealth: 5
 --- !u!114 &1205548516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10172,7 +10172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSword: {fileID: 1854587248}
+  PlayerSword: {fileID: 1854587248}
 --- !u!1 &1309910152
 GameObject:
   m_ObjectHideFlags: 0

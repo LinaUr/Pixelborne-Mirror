@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
             }
             // We have to explicitely look for a sword as a collider because else
             // the winning player could also be colliding with this player and would die instead.
-            if (collider.gameObject.name == m_playerAttack.playerSword.name && collider.gameObject != m_playerAttack.playerSword)
+            if (collider.gameObject.name == m_playerAttack.PlayerSword.name && collider.gameObject != m_playerAttack.PlayerSword)
             {
                 // Test if the attacks are canceling each other.
                 EntityAttack attackerEntityAttack = collider.gameObject.GetComponentInParent<EntityAttack>();
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        int maxHealth = m_playerHealth.maxHealth;
+        int maxHealth = m_playerHealth.m_maxHealth;
         m_playerHealth.TakeDamage(maxHealth);
         GameMediator.Instance.HandleDeath(gameObject);
     }

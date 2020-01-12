@@ -4,112 +4,141 @@ using UnityEngine;
 using UnityEngine.Experimental.Input;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
+// This class manages the basic attack functionality of an entity.
 public class EntityAttack : MonoBehaviour
 {
-    public GameObject playerSword;
-    private Animator animator;
-    private float attackDirection;
-    private double attackDuration;
-    private int currentAttackAnimationParameter = 0; 
-    private double lastTimeAttacked = -10000;
-    private bool attacking;
-    private static float ATTACK_DIRECTION_DEADZONE = 0.1f;
-    private static string[] ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
-    private SpriteRenderer swordRenderer;
-    private Collider2D blackSwordCollider;
-    private PlayerMovement playerMovement;
+    [SerializeField]
+    public GameObject PlayerSword;
+    private Animator m_animator;
+    private float m_attackDirection;
+    private double m_attackDuration;
+    private int m_currentAttackAnimationParameter = 0; 
+    private double m_lastTimeAttacked = -10000;
+    private bool m_attacking;
+    private static float m_ATTACK_DIRECTION_DEADZONE = 0.1f;
+    private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
+    private SpriteRenderer m_swordRenderer;
+    private Collider2D m_blackSwordCollider;
+    private PlayerMovement m_playerMovement;
 
     // Components should be gathered on Awake for safety reasons.
     private void Awake()
     {
-        swordRenderer = playerSword.GetComponent<SpriteRenderer>();
-        playerMovement = gameObject.GetComponent<PlayerMovement>();
-        blackSwordCollider = playerSword.GetComponent<Collider2D>();
-        animator = playerMovement.Animator;
+        m_swordRenderer = PlayerSword.GetComponent<SpriteRenderer>();
+        m_playerMovement = gameObject.GetComponent<PlayerMovement>();
+        m_blackSwordCollider = PlayerSword.GetComponent<Collider2D>();
+        m_animator = m_playerMovement.Animator;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        blackSwordCollider.enabled = false;
-        attackDuration = getAnimationLength("Player_1_attack");
-        attacking = false;
+        m_blackSwordCollider.enabled = false;
+        m_attackDuration = getAnimationLength("Player_1_attack");
+        m_attacking = false;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        if(attacking){
-            lastTimeAttacked -= Time.deltaTime;
-            if(lastTimeAttacked < 0){
-                attacking = false;
-                animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[currentAttackAnimationParameter], attacking);
+        // Set the player as not attacking when the time that the attack animation needs is over.
+        // Set the Animator variable as well.
+        if(m_attacking)
+        {
+            m_lastTimeAttacked -= Time.deltaTime;
+            if(m_lastTimeAttacked < 0)
+            {
+                m_attacking = false;
+                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], m_attacking);
             }
         }
     }
 
+    // This method returns the time of the animation that is identified by the provided parameter string name.
     float getAnimationLength(string name)
     {
         float time = 0;
-        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
-        for(int i = 0; i < ac.animationClips.Length; ++i){
-            if(ac.animationClips[i].name == name) {
+        RuntimeAnimatorController ac = m_animator.runtimeAnimatorController;
+        for(int i = 0; i < ac.animationClips.Length; ++i)
+        {
+            if(ac.animationClips[i].name == name) 
+            {
                 time = ac.animationClips[i].length;
             }
         }
         return time;
     }
 
+    // This method resets the attack including the animator.
     public void ResetAttackAnimation(){
-        attacking = false;
-        animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[0], false);
-        animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[1], false);
-        animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[2], false);
+        m_attacking = false;
+        m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[0], false);
+        m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[1], false);
+        m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[2], false);
     }
     
+    // This method is triggered when the player presses the attack button.
+    // According to the current attack direction based on the player input the attack is executed
+    // unless the input is locked or the entity is already attacking.
     void OnAttack(InputValue value){
-        if(!playerMovement.InputIsLocked){
-            if(lastTimeAttacked < 0){
-                attacking = true;
-                determineAttackingParameter(attackDirection);
-                animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[currentAttackAnimationParameter], attacking);
-                lastTimeAttacked = attackDuration;
+        if(!m_playerMovement.InputIsLocked)
+        {
+            if(m_lastTimeAttacked < 0)
+            {
+                m_attacking = true;
+                determineAttackingParameter(m_attackDirection);
+                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], m_attacking);
+                m_lastTimeAttacked = m_attackDuration;
             }
         }
     }
 
+    // This method determines the attack direction
     private void determineAttackingParameter(float attackDirectionAxisValue){
-        if(attackDirectionAxisValue > ATTACK_DIRECTION_DEADZONE){
-            currentAttackAnimationParameter = 0;
-        } else if(attackDirectionAxisValue > -ATTACK_DIRECTION_DEADZONE){
-            currentAttackAnimationParameter = 1;
-        } else {
-            currentAttackAnimationParameter = 2;
+        if(attackDirectionAxisValue > m_ATTACK_DIRECTION_DEADZONE)
+        {
+            m_currentAttackAnimationParameter = 0;
+        } else if(attackDirectionAxisValue > -m_ATTACK_DIRECTION_DEADZONE)
+        {
+            m_currentAttackAnimationParameter = 1;
+        } else 
+        {
+            m_currentAttackAnimationParameter = 2;
         }
     }
 
-    public bool attackIsCancelling(EntityAttack attacker){
-        return attacker != null && attacker.attacking && this.attacking && 
-            attacker.currentAttackAnimationParameter == this.currentAttackAnimationParameter;
+    // This method tests if both entities are executing the same attack. This would cancel both attacks.
+    public bool attackIsCancelling(EntityAttack attacker)
+    {
+        return attacker != null && attacker.m_attacking && this.m_attacking && 
+            attacker.m_currentAttackAnimationParameter == this.m_currentAttackAnimationParameter;
     }
 
-    void OnAttackDirection(InputValue value){
-        if(!playerMovement.InputIsLocked){
-            attackDirection = value.Get<float>();
+    // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
+    void OnAttackDirection(InputValue value)
+    {
+        if(!m_playerMovement.InputIsLocked)
+        {
+            m_attackDirection = value.Get<float>();
         }
     }
 
+    // This method is executed by an Animation event and marks the beginning 
+    // of the time where the sword actually can deal damage in the attack animation.
     public void startAttacking()
     {
-        blackSwordCollider.enabled = true;
+        m_blackSwordCollider.enabled = true;
     }
 
+    // This method is executed by an Animation event and marks the end
+    // of the time where the sword actually can deal damage in the attack animation.
     public void stopAttacking()
     {
-        blackSwordCollider.enabled = false;
+        m_blackSwordCollider.enabled = false;
     }
 
-    public void ChangeOrderInLayer(){
-        swordRenderer.sortingOrder = swordRenderer.sortingOrder * -1;
+    // This method changes the weapon of the entity to alternate between these two states:
+    // Weapon rendered before player, Weapon rendered behind player.
+    public void ChangeOrderInLayer()
+    {
+        m_swordRenderer.sortingOrder = m_swordRenderer.sortingOrder * -1;
     }
 }

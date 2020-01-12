@@ -18,7 +18,7 @@ public class HealthTracker : MonoBehaviour
     
     void Update()
     {
-        int health = m_playerHealth.GetHealth();
+        int health = m_playerHealth.CurrentHealth;
         if (m_playerHealth.isDead)
         {
             health = 0;
@@ -26,11 +26,11 @@ public class HealthTracker : MonoBehaviour
         m_text.SetText($"{health}");
 
         Color32 color;
-        if (health >= Math.Ceiling((double)m_playerHealth.maxHealth * 3 / 4))
+        if (health >= Math.Ceiling((double)m_playerHealth.m_maxHealth * 3 / 4))
         {
             color = new Color32(0, 200, 0, 255);
         }
-        else if (health >= Math.Ceiling((double)m_playerHealth.maxHealth * 1 / 4))
+        else if (health >= Math.Ceiling((double)m_playerHealth.m_maxHealth * 1 / 4))
         {
             color = new Color32(255, 255, 0, 255);
         }
