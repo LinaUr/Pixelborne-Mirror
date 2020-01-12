@@ -91,6 +91,8 @@ public class Multiplayer : MonoBehaviour, IGame
             m_currentStageIndex >= m_cameraMultiplayer.Positions.Count)
         {
             GameObject winningPlayer = player == m_player1 ? m_player2 : m_player1;
+            // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
+            ResetGame();
 
             Debug.Log($"{winningPlayer.name} has won the game!");
             GameMediator.Instance.GameHasFinished();
