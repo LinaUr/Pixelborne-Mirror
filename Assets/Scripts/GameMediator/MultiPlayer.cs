@@ -46,7 +46,7 @@ public class Multiplayer : MonoBehaviour, IGame
     {
         // Since the player positions are based on the camera position we have to set the camera first.
         SetCameraPosition();
-        SetPlayerPositions(m_cameraMultiplayer.Positions[m_currentStageIndex]);
+        SetPlayerPositions(m_cameraMultiplayer.transform.position);
         ResetPlayersActions();
     }
 
