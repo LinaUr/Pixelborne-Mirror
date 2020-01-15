@@ -7,19 +7,21 @@ using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 // This class manages the basic attack functionality of an entity.
 public class EntityAttack : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject PlayerSword;
+    [SerializeField] 
+    private GameObject m_playerSword;
     private Animator m_animator;
     private float m_attackDirection;
     private double m_attackDuration;
     private int m_currentAttackAnimationParameter = 0; 
     private double m_lastTimeAttacked = -10000;
-    public bool Attacking { get; private set; }
     private static float m_ATTACK_DIRECTION_DEADZONE = 0.1f;
     private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     private SpriteRenderer m_swordRenderer;
     private Collider2D m_blackSwordCollider;
     private PlayerMovement m_playerMovement;
+
+    public GameObject PlayerSword { get { return m_playerSword; } set{ m_playerSword = value; }}  
+    public bool Attacking { get; private set; }
 
     // Components should be gathered on Awake for safety reasons.
     private void Awake()
@@ -33,7 +35,7 @@ public class EntityAttack : MonoBehaviour
     void Start()
     {
         m_blackSwordCollider.enabled = false;
-        m_attackDuration = Utils.GetAnimationLength(m_animator, "Player_1_attack");
+        m_attackDuration = Toolkit.GetAnimationLength(m_animator, "Player_1_attack");
         Attacking = false;
     }
 
@@ -53,17 +55,20 @@ public class EntityAttack : MonoBehaviour
     }
 
     // This method resets the attack including the animator.
-    public void ResetAttackAnimation(){
+    public void ResetAttackAnimation()
+    {
         Attacking = false;
-        m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[0], false);
-        m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[1], false);
-        m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[2], false);
+        foreach(string parameter in m_ATTACK_ANIMATOR_PARAMETERS)
+        {
+            m_animator.SetBool(parameter, false);
+        }
     }
     
     // This method is triggered when the player presses the attack button.
     // According to the current attack direction based on the player input the attack is executed
     // unless the input is locked or the entity is already attacking.
-    void OnAttack(InputValue value){
+    void OnAttack(InputValue value)
+    {
         if(!m_playerMovement.InputIsLocked && !m_playerMovement.IsRolling)
         {
             if(m_lastTimeAttacked < 0)
@@ -76,8 +81,9 @@ public class EntityAttack : MonoBehaviour
         }
     }
 
-    // This method determines the attack direction
-    private void determineAttackingParameter(float attackDirectionAxisValue){
+    // This method determines the attack direction.
+    private void determineAttackingParameter(float attackDirectionAxisValue)
+    {
         if(attackDirectionAxisValue > m_ATTACK_DIRECTION_DEADZONE)
         {
             m_currentAttackAnimationParameter = 0;

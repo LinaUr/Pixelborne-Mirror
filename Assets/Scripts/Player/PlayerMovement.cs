@@ -18,12 +18,12 @@ public class PlayerMovement : MonoBehaviour
     private Recorder m_recorder;
 
     private bool m_isGrounded = true;
-    public bool IsRolling {get; private set;}
     private Rigidbody2D m_rigidbody2D;
     private Collider2D m_playerCollider;
     private EntityHealth m_playerHealth;
     private EntityAttack m_playerAttack;
 
+    public bool IsRolling {get; private set;}
     public bool InputIsLocked { get; set; } = false;
     public Animator Animator { get; private set; }
 
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Animator.SetBool("IsJumping", false);
         Animator.SetFloat("Speed", 0);
-        //Animator.SetBool("Rolling", false);
+        Animator.SetBool("Rolling", false);
         m_playerAttack.ResetAttackAnimation();
     }
 
@@ -131,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
     private void FlipPlayer()
     {
         m_facingRight = !m_facingRight;
-        //gameObject.transform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
         Vector3 currentScale = gameObject.transform.localScale;
         currentScale.x *= -1;
         gameObject.transform.localScale = currentScale;
@@ -173,7 +172,6 @@ public class PlayerMovement : MonoBehaviour
         Animator.SetBool("Rolling", false);
         IsRolling = false;
     }
-
 
     public void StartRollingInvincibility()
     {

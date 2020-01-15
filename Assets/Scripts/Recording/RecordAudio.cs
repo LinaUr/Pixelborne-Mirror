@@ -5,13 +5,13 @@ using System;
 public class RecordAudio : MonoBehaviour
 {
     private static int m_RECORD_DURATION = 10; // in seconds
-    private AudioClip m_microphone_clip;
+    private AudioClip m_microphoneClip;
     private string m_selectedDevice;
-    private float m_time_left_recording = 0.0f;
+    private float m_timeLeftRecording = 0.0f;
     private static string m_AUDIO_RECORD_DIR = "records";
     private string m_filedir;
 
-    // This method sets the microphone to the first device that has been found
+    // This method sets the microphone to the first device that has been found.
     void Start()
     {
         if(Microphone.devices.Length > 0) 
@@ -28,10 +28,10 @@ public class RecordAudio : MonoBehaviour
     // This method counts down the time until the recording is over and then saves the file.
     void FixedUpdate()
     {
-        if(m_time_left_recording > 0)
+        if(m_timeLeftRecording > 0)
         {
-            m_time_left_recording -= Time.fixedDeltaTime;
-            if(m_time_left_recording <= 0 )
+            m_timeLeftRecording -= Time.fixedDeltaTime;
+            if(m_timeLeftRecording <= 0 )
             {
                 SaveRecording();
             }
@@ -49,17 +49,17 @@ public class RecordAudio : MonoBehaviour
     {
         if (MicrophoneAviable()) 
         {
-            m_microphone_clip = Microphone.Start(m_selectedDevice, false, m_RECORD_DURATION, 44100);
-            m_time_left_recording = ((float) m_RECORD_DURATION) * 1.1f; // puffer
+            m_microphoneClip = Microphone.Start(m_selectedDevice, false, m_RECORD_DURATION, 44100);
+            m_timeLeftRecording = ((float) m_RECORD_DURATION) * 1.1f; // puffer
         }
     }
 
     // This method converts the recording to a Wav file and saves it on th disk.
     private void SaveRecording()
     {
-        string filename = "sound_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".wav";
+        string filename = $"sound_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.wav";
         var filepath = Path.Combine(m_filedir, filename);
         
-        SavWav.Save(filepath, m_microphone_clip);
+        SavWav.Save(filepath, m_microphoneClip);
     }
 }

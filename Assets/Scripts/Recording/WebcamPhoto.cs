@@ -27,8 +27,10 @@ public class WebcamPhoto : MonoBehaviour
     }
 
     // This method takes the webcam photo if a device has been found.
-    public void Record(){
-        if(m_webcamtex != null){
+    public void Record()
+    {
+        if(m_webcamtex != null)
+        {
             m_webcamtex.Play();
             StartCoroutine(CaptureTextureAsPNG());
         }
@@ -39,12 +41,12 @@ public class WebcamPhoto : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
 
-        Texture2D _TextureFromCamera = new Texture2D(m_webcamtex.width, m_webcamtex.height);
-        _TextureFromCamera.SetPixels(m_webcamtex.GetPixels());
-        _TextureFromCamera.Apply();
-        byte[] bytes = _TextureFromCamera.EncodeToPNG();
+        Texture2D textureFromCamera = new Texture2D(m_webcamtex.width, m_webcamtex.height);
+        textureFromCamera.SetPixels(m_webcamtex.GetPixels());
+        textureFromCamera.Apply();
+        byte[] bytes = textureFromCamera.EncodeToPNG();
 
-        string filename = "img_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".png";
+        string filename = $"img_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.png";
         var filepath = Path.Combine(m_filedir, filename);
 
         File.WriteAllBytes(filepath, bytes);

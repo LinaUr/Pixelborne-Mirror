@@ -9939,7 +9939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSword: {fileID: 393457407}
+  m_playerSword: {fileID: 393457407}
 --- !u!1 &1205548506
 GameObject:
   m_ObjectHideFlags: 0
@@ -10175,7 +10175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSword: {fileID: 1854587248}
+  m_playerSword: {fileID: 1854587248}
 --- !u!1 &1309910152
 GameObject:
   m_ObjectHideFlags: 0
