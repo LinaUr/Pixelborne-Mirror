@@ -17,11 +17,11 @@ public class PlayerSpriteSwapper : MonoBehaviour
     [SerializeField]
     private SpriteColor m_spriteColor = SpriteColor.red;
 
-    // The name of the currently loaded sprite sheet
+    // The name of the currently loaded sprite sheet.
     private SpriteColor m_loadedSpriteColor;
-    // The dictionary containing all the sliced up sprites in the sprite sheet
+    // The dictionary containing all the sliced up sprites in the sprite sheet.
     private Dictionary<string, Sprite> m_spriteSheet;
-    // The Unity sprite renderer so that we don't have to get it multiple times
+    // The Unity sprite renderer so that we don't have to get it multiple times.
     private SpriteRenderer m_spriteRenderer;
 
     private enum SpriteColor
@@ -37,7 +37,7 @@ public class PlayerSpriteSwapper : MonoBehaviour
         SwapSpriteSheet();
     }
 
-    // Runs after the animation has done its work
+    // Runs after the animation has done its work.
     private void LateUpdate()
     {
         if (m_loadedSpriteColor != m_spriteColor)
@@ -45,7 +45,7 @@ public class PlayerSpriteSwapper : MonoBehaviour
             SwapSpriteSheet();
         }
 
-        // Swap out the sprite to be rendered by its name
+        // Swap out the sprite to be rendered by its name.
         // Important: The base name of the sprite must be the same!
         m_spriteRenderer.sprite = m_spriteSheet[m_spriteRenderer.sprite.name];
     }
@@ -53,7 +53,7 @@ public class PlayerSpriteSwapper : MonoBehaviour
     private void SwapSpriteSheet()
     {
         LoadSpriteSheet();
-        ChangeHudSymbol();
+        SwapHudSymbol();
     }
 
     // This method loads the sprites from a sprite sheet.
@@ -63,7 +63,7 @@ public class PlayerSpriteSwapper : MonoBehaviour
         string spriteSheetPath = Path.Combine(new string[] { m_resourceSubfolderName, spriteSheetName });
 
          // Load the sprites from a sprite sheet file (png). 
-         // Note: The file specified must exist in a folder named Resources
+         // Note: The file specified must exist in a folder named Resources.
         Sprite[] sprites = Resources.LoadAll<Sprite>(spriteSheetPath);
 
         m_spriteSheet = sprites.ToDictionary(x => $"{m_spriteBaseName}_{x.name.Split('_').Last().ToString()}", x => x);
@@ -71,7 +71,7 @@ public class PlayerSpriteSwapper : MonoBehaviour
         m_loadedSpriteColor = m_spriteColor;
     }
 
-    private void ChangeHudSymbol()
+    private void SwapHudSymbol()
     {
         GameMediator.Instance.SwapHudSymbol(gameObject, m_spriteSheet[$"{m_spriteBaseName}_0"]);
     }
