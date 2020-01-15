@@ -66,4 +66,9 @@ public class GameMediator : ScriptableObject
     {
         SceneChanger.SetMainMenuAsActiveScene();
     }
+
+    public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
+    {
+        ActiveCamera.SwapHudSymbol(gameObject, sprite);
+    }
 }

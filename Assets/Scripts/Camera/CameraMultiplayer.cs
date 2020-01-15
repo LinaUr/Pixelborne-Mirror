@@ -34,8 +34,6 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
 
     void Start()
     {
-
-
         m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
         m_fadeStartTime = 0;
         m_fadeMode = 0;
@@ -121,5 +119,12 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     {
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
         m_fadeMode = 2;
+    }
+
+    public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
+    {
+        GameObject hudObject = transform.Find($"{gameObject.name}HudSymbol").gameObject;
+        SpriteRenderer spriteRenderer = hudObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
     }
 }
