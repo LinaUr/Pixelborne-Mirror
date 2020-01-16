@@ -20,7 +20,16 @@ public class EntityAttack : MonoBehaviour
     private Collider2D m_blackSwordCollider;
     private PlayerMovement m_playerMovement;
 
-    public GameObject PlayerSword { get { return m_playerSword; } set{ m_playerSword = value; }}  
+    public GameObject PlayerSword { 
+        get 
+        { 
+            return m_playerSword; 
+        } 
+        set
+        { 
+            m_playerSword = value; 
+        }
+    }  
     public bool Attacking { get; private set; }
 
     // Components should be gathered on Awake for safety reasons.
