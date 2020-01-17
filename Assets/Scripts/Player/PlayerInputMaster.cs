@@ -25,6 +25,7 @@ public class PlayerInputMaster : InputActionAssetReference
         m_Player_Attack = m_Player.GetAction("Attack");
         m_Player_AttackDirection = m_Player.GetAction("AttackDirection");
         m_Player_Record = m_Player.GetAction("Record");
+        m_Player_Roll = m_Player.GetAction("Roll");
         m_Initialized = true;
     }
     private void Uninitialize()
@@ -35,6 +36,7 @@ public class PlayerInputMaster : InputActionAssetReference
         m_Player_Attack = null;
         m_Player_AttackDirection = null;
         m_Player_Record = null;
+        m_Player_Roll = null;
         m_Initialized = false;
     }
     public void SetAsset(InputActionAsset newAsset)
@@ -54,6 +56,7 @@ public class PlayerInputMaster : InputActionAssetReference
     private InputAction m_Player_Attack;
     private InputAction m_Player_AttackDirection;
     private InputAction m_Player_Record;
+    private InputAction m_Player_Roll;
     public struct PlayerActions
     {
         private PlayerInputMaster m_Wrapper;
@@ -63,6 +66,7 @@ public class PlayerInputMaster : InputActionAssetReference
         public InputAction @Attack { get { return m_Wrapper.m_Player_Attack; } }
         public InputAction @AttackDirection { get { return m_Wrapper.m_Player_AttackDirection; } }
         public InputAction @Record { get { return m_Wrapper.m_Player_Record; } }
+        public InputAction @Roll { get { return m_Wrapper.m_Player_Roll; } }
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
