@@ -2,42 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class manages the the Health of an entity.
 public class EntityHealth : MonoBehaviour
 {
-    public int maxHealth;
-    private int currentHealth;
+    [SerializeField]
+    public int MaxHealth;
+    public bool Invincible;
+    public int CurrentHealth { get; private set;} 
 
-    public bool isAlive {
-        get { return currentHealth > 0; }
+    public bool isAlive 
+    {
+        get { return CurrentHealth > 0; }
     }
-    public bool isDead {
-        get { return currentHealth <= 0; }
+    public bool isDead 
+    {
+        get { return CurrentHealth <= 0; }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         Revive();
     }
 
-    // Update is called once per frame
-    void Update()
+    // This method revives the entity by resetting its m_currentHealth.
+    public void Revive()
     {
-        
+        CurrentHealth = MaxHealth;
+        Invincible = false;
     }
 
-    public void Revive(){
-        currentHealth = maxHealth;
-    }
-
-    public void TakeDamage(int damage){
-        currentHealth -= damage;
-        // ensure that hp cannot be negative
-        currentHealth = currentHealth < 0 ? 0 : currentHealth;
-    }
-
-    public int GetHealth()
+    // This method deals damage to the entity by reducing it's m_currentHealth.
+    public void TakeDamage(int damage)
     {
-        return currentHealth;
+        if(!Invincible)
+        {
+            CurrentHealth -= damage;
+            // ensure that hp cannot be negative
+            CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
+        }
     }
 }
