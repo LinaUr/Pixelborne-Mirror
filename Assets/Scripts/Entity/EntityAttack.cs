@@ -83,7 +83,7 @@ public class EntityAttack : MonoBehaviour
             if(m_lastTimeAttacked < 0)
             {
                 Attacking = true;
-                determineAttackingParameter(m_attackDirection);
+                DetermineAttackingParameter(m_attackDirection);
                 m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackAnimationParameter], Attacking);
                 m_lastTimeAttacked = m_attackDuration;
             }
@@ -91,7 +91,7 @@ public class EntityAttack : MonoBehaviour
     }
 
     // This method determines the attack direction.
-    private void determineAttackingParameter(float attackDirectionAxisValue)
+    private void DetermineAttackingParameter(float attackDirectionAxisValue)
     {
         if(attackDirectionAxisValue > m_ATTACK_DIRECTION_DEADZONE)
         {
@@ -106,7 +106,7 @@ public class EntityAttack : MonoBehaviour
     }
 
     // This method tests if both entities are executing the same attack. This would cancel both attacks.
-    public bool attackIsCancelling(EntityAttack attacker)
+    public bool AttackIsCancelling(EntityAttack attacker)
     {
         return attacker != null && attacker.Attacking && this.Attacking && 
             attacker.m_currentAttackAnimationParameter == this.m_currentAttackAnimationParameter;
@@ -123,14 +123,14 @@ public class EntityAttack : MonoBehaviour
 
     // This method is executed by an Animation event and marks the beginning 
     // of the time where the sword actually can deal damage in the attack animation.
-    public void startAttacking()
+    public void StartAttacking()
     {
         m_blackSwordCollider.enabled = true;
     }
 
     // This method is executed by an Animation event and marks the end
     // of the time where the sword actually can deal damage in the attack animation.
-    public void stopAttacking()
+    public void StopAttacking()
     {
         m_blackSwordCollider.enabled = false;
     }

@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 // Test if the attacks are canceling each other.
                 EntityAttack attackerEntityAttack = collider.gameObject.GetComponentInParent<EntityAttack>();
                 // If the attacker has an EntityAttack the attack might be cancelled.
-                if (attackerEntityAttack == null || !m_playerAttack.attackIsCancelling(attackerEntityAttack))
+                if (attackerEntityAttack == null || !m_playerAttack.AttackIsCancelling(attackerEntityAttack))
                 {
                     m_playerHealth.TakeDamage(1);
                     if (m_playerHealth.isDead)
