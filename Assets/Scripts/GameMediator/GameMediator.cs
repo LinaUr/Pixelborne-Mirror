@@ -16,7 +16,7 @@ public class GameMediator : ScriptableObject
         }
     }
 
-    // Every scene need to have a corresponding script that set the mode
+    // Every scene need to have a corresponding script that set the mode.
     public Mode CurrentMode { get; set; }
     public IGame ActiveGame { get; set; }
     public ICamera ActiveCamera { get; set; }
@@ -65,5 +65,10 @@ public class GameMediator : ScriptableObject
     public void GameHasFinished()
     {
         SceneChanger.SetMainMenuAsActiveScene();
+    }
+
+    public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
+    {
+        ActiveCamera.SwapHudSymbol(gameObject, sprite);
     }
 }

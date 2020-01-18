@@ -1,50 +1,50 @@
 fileFormatVersion: 2
-guid: 1cacac7711fafe68d8e6163ab347641e
+guid: 8618d8f425d4fa341a97616413a47dbd
 TextureImporter:
   fileIDToRecycleName:
-    21300000: VaiDrogulChar_0
-    21300002: VaiDrogulChar_1
-    21300004: VaiDrogulChar_2
-    21300006: VaiDrogulChar_3
-    21300008: VaiDrogulChar_4
-    21300010: VaiDrogulChar_5
-    21300012: VaiDrogulChar_6
-    21300014: VaiDrogulChar_7
-    21300016: VaiDrogulChar_8
-    21300018: VaiDrogulChar_9
-    21300020: VaiDrogulChar_10
-    21300022: VaiDrogulChar_11
-    21300024: VaiDrogulChar_12
-    21300026: VaiDrogulChar_13
-    21300028: VaiDrogulChar_14
-    21300030: VaiDrogulChar_15
-    21300032: VaiDrogulChar_16
-    21300034: VaiDrogulChar_17
-    21300036: VaiDrogulChar_18
-    21300038: VaiDrogulChar_19
-    21300040: VaiDrogulChar_20
-    21300042: VaiDrogulChar_21
-    21300044: VaiDrogulChar_22
-    21300046: VaiDrogulChar_23
-    21300048: VaiDrogulChar_24
-    21300050: VaiDrogulChar_25
-    21300052: VaiDrogulChar_26
-    21300054: VaiDrogulChar_27
-    21300056: VaiDrogulChar_28
-    21300058: VaiDrogulChar_29
-    21300060: VaiDrogulChar_30
-    21300062: VaiDrogulChar_31
-    21300064: VaiDrogulChar_32
-    21300066: VaiDrogulChar_33
-    21300068: VaiDrogulChar_34
-    21300070: VaiDrogulChar_35
-    21300072: VaiDrogulChar_36
-    21300074: VaiDrogulChar_37
-    21300076: VaiDrogulChar_38
-    21300078: VaiDrogulChar_39
-    21300080: VaiDrogulChar_40
-    21300082: VaiDrogulChar_41
-    21300084: VaiDrogulChar_42
+    21300000: VaiDrogulChar_red_0
+    21300002: VaiDrogulChar_red_1
+    21300004: VaiDrogulChar_red_2
+    21300006: VaiDrogulChar_red_3
+    21300008: VaiDrogulChar_red_4
+    21300010: VaiDrogulChar_red_5
+    21300012: VaiDrogulChar_red_6
+    21300014: VaiDrogulChar_red_7
+    21300016: VaiDrogulChar_red_8
+    21300018: VaiDrogulChar_red_9
+    21300020: VaiDrogulChar_red_10
+    21300022: VaiDrogulChar_red_11
+    21300024: VaiDrogulChar_red_12
+    21300026: VaiDrogulChar_red_13
+    21300028: VaiDrogulChar_red_14
+    21300030: VaiDrogulChar_red_15
+    21300032: VaiDrogulChar_red_16
+    21300034: VaiDrogulChar_red_17
+    21300036: VaiDrogulChar_red_18
+    21300038: VaiDrogulChar_red_19
+    21300040: VaiDrogulChar_red_20
+    21300042: VaiDrogulChar_red_21
+    21300044: VaiDrogulChar_red_22
+    21300046: VaiDrogulChar_red_23
+    21300048: VaiDrogulChar_red_24
+    21300050: VaiDrogulChar_red_25
+    21300052: VaiDrogulChar_red_26
+    21300054: VaiDrogulChar_red_27
+    21300056: VaiDrogulChar_red_28
+    21300058: VaiDrogulChar_red_29
+    21300060: VaiDrogulChar_red_30
+    21300062: VaiDrogulChar_red_31
+    21300064: VaiDrogulChar_red_32
+    21300066: VaiDrogulChar_red_33
+    21300068: VaiDrogulChar_red_34
+    21300070: VaiDrogulChar_red_35
+    21300072: VaiDrogulChar_red_36
+    21300074: VaiDrogulChar_red_37
+    21300076: VaiDrogulChar_red_38
+    21300078: VaiDrogulChar_red_39
+    21300080: VaiDrogulChar_red_40
+    21300082: VaiDrogulChar_red_41
+    21300084: VaiDrogulChar_red_42
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -127,7 +127,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VaiDrogulChar_0
+      name: VaiDrogulChar_red_0
       rect:
         serializedVersion: 2
         x: 8
@@ -141,13 +141,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97921cbd9af0e0845a33d850e646ff25
+      spriteID: 25a3b7451ec52c647921dea46815d963
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_1
+      name: VaiDrogulChar_red_1
       rect:
         serializedVersion: 2
         x: 72
@@ -161,13 +161,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 164e5ebfb01591f468282ad3410d6389
+      spriteID: d01765c2285d58440bed6872fb554ff8
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_2
+      name: VaiDrogulChar_red_2
       rect:
         serializedVersion: 2
         x: 136
@@ -181,13 +181,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57326eea53e5ff244964353e7c494d38
+      spriteID: 6127b243afd7db4438a008c2a04e375c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_3
+      name: VaiDrogulChar_red_3
       rect:
         serializedVersion: 2
         x: 198
@@ -201,13 +201,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85969bddc17f949498d61f1b1f0b0151
+      spriteID: 7eed531838ec7ea42824431ef3d5fe27
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_4
+      name: VaiDrogulChar_red_4
       rect:
         serializedVersion: 2
         x: 264
@@ -221,13 +221,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f992719df5550f4a8569f73fa55007c
+      spriteID: 720316d6229220c4d9efee54f2df7663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_5
+      name: VaiDrogulChar_red_5
       rect:
         serializedVersion: 2
         x: 8
@@ -241,13 +241,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72b7d55377d1fc1479c3fa54a1f979ec
+      spriteID: fd533db373a202d4aa5da1cddbef7077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_6
+      name: VaiDrogulChar_red_6
       rect:
         serializedVersion: 2
         x: 69
@@ -261,13 +261,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49ca0ebd03024a04c959721e4a783c29
+      spriteID: fc94d92e36c6fe64db057953be3009ef
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_7
+      name: VaiDrogulChar_red_7
       rect:
         serializedVersion: 2
         x: 136
@@ -281,13 +281,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59eb95effc02cbc44af44598b712616c
+      spriteID: a33644eb6bba21b4395126490a6d1a0d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_8
+      name: VaiDrogulChar_red_8
       rect:
         serializedVersion: 2
         x: 203
@@ -301,13 +301,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5659e177b74866441bdccdafa1d588cf
+      spriteID: 53233a688e4a093448ada99f322a82dc
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_9
+      name: VaiDrogulChar_red_9
       rect:
         serializedVersion: 2
         x: 273
@@ -321,13 +321,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b025f147aa9cdb940ac9f32d594ac73d
+      spriteID: 834972eac2d825148a4cbef87e015941
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_10
+      name: VaiDrogulChar_red_10
       rect:
         serializedVersion: 2
         x: 327
@@ -341,13 +341,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0df3be7ddb6df484396b2d042f82844b
+      spriteID: e687219ca3f3cfd4da8b6118c79e5fbd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_11
+      name: VaiDrogulChar_red_11
       rect:
         serializedVersion: 2
         x: 392
@@ -361,13 +361,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ce9150cd9c8b4a42917ff5d99bb8834
+      spriteID: 88bc418b6cefc894b91a1abde54bb370
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_12
+      name: VaiDrogulChar_red_12
       rect:
         serializedVersion: 2
         x: 459
@@ -381,13 +381,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1a4dac20a43efd498b1b0b541e71254
+      spriteID: 8767fc1bdc36cb945bdce8e28c04fbc7
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_13
+      name: VaiDrogulChar_red_13
       rect:
         serializedVersion: 2
         x: 524
@@ -401,13 +401,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 524d9ab957e745e4ea915977504f74bb
+      spriteID: aa10f00fcfeca5e46aeed21332309346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_14
+      name: VaiDrogulChar_red_14
       rect:
         serializedVersion: 2
         x: 8
@@ -421,13 +421,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d345c58194ae9df4eacaeebea275136f
+      spriteID: a333d00f18ef245488dbed4272f342a4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_15
+      name: VaiDrogulChar_red_15
       rect:
         serializedVersion: 2
         x: 72
@@ -441,13 +441,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 054271b895dd9d5479f0f469df2da371
+      spriteID: 5a66ac212fc2c0246be86b7ab555ccb0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_16
+      name: VaiDrogulChar_red_16
       rect:
         serializedVersion: 2
         x: 137
@@ -461,13 +461,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4ad0e3dd004c2a4793124933b3f9c4e
+      spriteID: 2641a51b52cf31047b2ba0f771e1de16
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_17
+      name: VaiDrogulChar_red_17
       rect:
         serializedVersion: 2
         x: 201
@@ -481,13 +481,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db182822f06717d49a5d1be6c1500571
+      spriteID: ef7c5a50d35f8fb4eb1e28cdf3a3a4ae
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_18
+      name: VaiDrogulChar_red_18
       rect:
         serializedVersion: 2
         x: 265
@@ -501,13 +501,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a6fe40c9bed7b844a95549ad7c6eb2b
+      spriteID: e260d1e1f04208246832a8bbd3262bda
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_19
+      name: VaiDrogulChar_red_19
       rect:
         serializedVersion: 2
         x: 329
@@ -521,13 +521,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: efd436abce9131643ba2d161a36448da
+      spriteID: 82402c35353612c48955133ce6f297da
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_20
+      name: VaiDrogulChar_red_20
       rect:
         serializedVersion: 2
         x: 393
@@ -541,13 +541,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fe38651946be4d4d913c7311cec01f9
+      spriteID: 5e0a6a8d1f0728745a6546cc987b5fcb
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_21
+      name: VaiDrogulChar_red_21
       rect:
         serializedVersion: 2
         x: 457
@@ -561,13 +561,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07a0519d54068fa42aa85328538f7cfa
+      spriteID: 25db13ea0dab46c4da1d05b7434c0d09
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_22
+      name: VaiDrogulChar_red_22
       rect:
         serializedVersion: 2
         x: 6
@@ -581,13 +581,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97e7e0d39e4b3b2458b3c463c14ed37d
+      spriteID: d91a58b1dd9bbd84f8bc74c5c4cef805
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_23
+      name: VaiDrogulChar_red_23
       rect:
         serializedVersion: 2
         x: 72
@@ -601,13 +601,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9497c1e69394ed947ad35a433baeb6dd
+      spriteID: a51406cb6ba37c846990083b808484cc
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_24
+      name: VaiDrogulChar_red_24
       rect:
         serializedVersion: 2
         x: 137
@@ -621,13 +621,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a75d3b3fd31776f419a0c548eb49458e
+      spriteID: 7000fa589dd5e9941ada10db1a0035af
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_25
+      name: VaiDrogulChar_red_25
       rect:
         serializedVersion: 2
         x: 201
@@ -641,13 +641,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2c983936ac878e48b0445e5fc5ab233
+      spriteID: fe0d7961984db3a4a9bca56dd886f43f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_26
+      name: VaiDrogulChar_red_26
       rect:
         serializedVersion: 2
         x: 249
@@ -661,13 +661,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c2c15785adb6ea4e89964089700234f
+      spriteID: 21948d91ea31aae4ea2a17e6ef90a7d5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_27
+      name: VaiDrogulChar_red_27
       rect:
         serializedVersion: 2
         x: 313
@@ -681,13 +681,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e5466d11192f30428ffe537b6cc7b93
+      spriteID: c52127685cb3f7a4ba97e5eca3aa8fd4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_28
+      name: VaiDrogulChar_red_28
       rect:
         serializedVersion: 2
         x: 383
@@ -701,13 +701,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4229fcbb92d50b4eaa5b8b31869312b
+      spriteID: b6f10e9c17c8bb448854010aaf6a13c4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_29
+      name: VaiDrogulChar_red_29
       rect:
         serializedVersion: 2
         x: 456
@@ -721,13 +721,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f830ba6c1e2c64c499cbb09c22b799f8
+      spriteID: 8d97fdd0570e8db41a189f46b0dcdb41
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_30
+      name: VaiDrogulChar_red_30
       rect:
         serializedVersion: 2
         x: 9
@@ -741,13 +741,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee61bfc3dded188409a0a4aa559d2ce2
+      spriteID: 27e5446b487d17e439b25f369bef4d15
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_31
+      name: VaiDrogulChar_red_31
       rect:
         serializedVersion: 2
         x: 73
@@ -761,13 +761,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23efe0cd2dd3c8d419dc47fcfa218ad3
+      spriteID: aed81d8c7d143e74cb8c9d3ec8441b7d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_32
+      name: VaiDrogulChar_red_32
       rect:
         serializedVersion: 2
         x: 137
@@ -781,13 +781,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a085558b25d2904fa56f8e81da74bb6
+      spriteID: 1c0bf258191a2154d96ae50bfb2fbb23
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_33
+      name: VaiDrogulChar_red_33
       rect:
         serializedVersion: 2
         x: 201
@@ -801,13 +801,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa987f98580ffe04980568018b005c8f
+      spriteID: 6ff43aca47a92e44b98080f2be8c6efd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_34
+      name: VaiDrogulChar_red_34
       rect:
         serializedVersion: 2
         x: 265
@@ -821,13 +821,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fea632e0ce749048affe71ea1a63821
+      spriteID: 721e50b0bea6f484292eef95738c8d57
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_35
+      name: VaiDrogulChar_red_35
       rect:
         serializedVersion: 2
         x: 15
@@ -841,13 +841,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86cb7c5586c86d6449119f5cfcc95652
+      spriteID: 6b96c574aae11ae4daf2b9994bf0476c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_36
+      name: VaiDrogulChar_red_36
       rect:
         serializedVersion: 2
         x: 79
@@ -861,13 +861,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b6ac3ffe1c58a348bb735b9224a8c95
+      spriteID: bf2ac182c1099cc498b546f2dacddb64
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_37
+      name: VaiDrogulChar_red_37
       rect:
         serializedVersion: 2
         x: 143
@@ -881,13 +881,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 418ac018ad8637148941b2fdc31204bd
+      spriteID: aacbb923806f82d488c3d5ff686d4533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_38
+      name: VaiDrogulChar_red_38
       rect:
         serializedVersion: 2
         x: 207
@@ -901,13 +901,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ab12adacfb9142947adaa00290d1875b
+      spriteID: 824a92f13c49d6f428ef3d57f8b395b3
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_39
+      name: VaiDrogulChar_red_39
       rect:
         serializedVersion: 2
         x: 271
@@ -921,13 +921,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1122ee73cebbb2d458ec08092dca6c18
+      spriteID: 3ea7a7dc73b8d124992edc98315eccad
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_40
+      name: VaiDrogulChar_red_40
       rect:
         serializedVersion: 2
         x: 335
@@ -941,13 +941,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2aefe28bf039e964581f022b0eb2cf1d
+      spriteID: 3bdb0a7a379228148bb4d68413bbcc4b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_41
+      name: VaiDrogulChar_red_41
       rect:
         serializedVersion: 2
         x: 399
@@ -961,13 +961,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c8d29b1a1e71a74db27c8d68895a1c5
+      spriteID: 855a28a64483dc84fa275c901f9bb934
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: VaiDrogulChar_42
+      name: VaiDrogulChar_red_42
       rect:
         serializedVersion: 2
         x: 464
@@ -981,7 +981,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3cac797d40952b749a60a3ef5454da7a
+      spriteID: e9406f299c634c842bafa4afca4ee919
       vertices: []
       indices: 
       edges: []
@@ -989,7 +989,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 0163bf0c93e979b308a8a239233df114
+    spriteID: e2a3226adde946544a00f081c46cfd46
     vertices: []
     indices: 
     edges: []
