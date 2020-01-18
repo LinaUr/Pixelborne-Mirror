@@ -1,7 +1,7 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using System.IO;
 
 // This class is used to take photos with the webcam.
 public class WebcamPhoto : MonoBehaviour
@@ -46,7 +46,7 @@ public class WebcamPhoto : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         Texture2D textureFromCamera = new Texture2D(m_webcamtex.width, m_webcamtex.height);
-        var image = m_webcamtex.GetPixels32();
+        Color32[] image = m_webcamtex.GetPixels32();
         processImage(ref image, m_webcamtex.width, m_webcamtex.height);
         m_webcamtex.Stop();
     }

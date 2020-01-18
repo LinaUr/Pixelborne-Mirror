@@ -2,28 +2,28 @@
 
 public class CreditsScroller : MonoBehaviour
 {
-    public GameObject credits;
-    public GameObject mainMenu;
+    public GameObject m_credits;
+    public GameObject m_mainMenu;
 
-    Vector3 originalPos;
+    Vector3 m_originalPos;
     
     void Start()
     {
-        // save the original position of credits for reset:
-        originalPos = credits.transform.position;
+        // Save the original position of credits for reset.
+        m_originalPos = m_credits.transform.position;
     }
     
     void Update()
     {
-        // scroll the credits:
-        credits.transform.Translate(Vector3.up * 0.05f);
+        // Scroll the credits.
+        m_credits.transform.Translate(Vector3.up * 0.05f);
 
-        // if the credits are out of screen, reset the position of credits and activate the main menu:
+        // If the credits are out of screen, reset the position of credits and activate the main menu.
         if (transform.position.y >= 15)
         {
-            credits.SetActive(false);
-            credits.transform.position = originalPos;
-            mainMenu.SetActive(true);
+            m_credits.SetActive(false);
+            m_credits.transform.position = m_originalPos;
+            m_mainMenu.SetActive(true);
         }
     }
 }
