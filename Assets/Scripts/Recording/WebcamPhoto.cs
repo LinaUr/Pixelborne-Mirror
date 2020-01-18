@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using System.IO;
-using System;
 
 // This class is used to take photos with the webcam.
 public class WebcamPhoto : MonoBehaviour
@@ -10,6 +9,9 @@ public class WebcamPhoto : MonoBehaviour
     public WebCamTexture m_webcamtex;
     private static string m_PHOTO_RECORD_DIR = "photos";
     private string m_filedir;
+
+    [DllImport("ImageEditing")]
+    private static extern void processImage(ref Color32[] rawImage, int width, int height);
 
     // This method sets the webcam device if aviable.
     void Start()
@@ -36,20 +38,16 @@ public class WebcamPhoto : MonoBehaviour
         }
     }
 
-    // This method is a Coroutine function that takes the screen shot and writes it to the disk.
+    // This method is a Coroutine function that takes the taken webcam photo 
+    // and call the processImage() function in the ImageEditing.dll 
+    // which find the faces and save they as images in Assets/photos.
     private IEnumerator CaptureTextureAsPNG()
     {
         yield return new WaitForSeconds(0.5f);
 
         Texture2D textureFromCamera = new Texture2D(m_webcamtex.width, m_webcamtex.height);
-        textureFromCamera.SetPixels(m_webcamtex.GetPixels());
-        textureFromCamera.Apply();
-        byte[] bytes = textureFromCamera.EncodeToPNG();
-
-        string filename = $"img_{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.png";
-        var filepath = Path.Combine(m_filedir, filename);
-
-        File.WriteAllBytes(filepath, bytes);
+        var image = m_webcamtex.GetPixels32();
+        processImage(ref image, m_webcamtex.width, m_webcamtex.height);
         m_webcamtex.Stop();
     }
 }
