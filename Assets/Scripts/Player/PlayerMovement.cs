@@ -23,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private EntityHealth m_playerHealth;
     private EntityAttack m_playerAttack;
 
-    private Vector2 NON_ROLLING_COLLIDER_SIZE;
-    private Vector2 ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
+    private Vector2 m_NON_ROLLING_COLLIDER_SIZE;
+    private Vector2 m_ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
     private float m_rollingMovementX;
 
     public bool IsRolling {get; private set;}
@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
         m_playerHealth = gameObject.GetComponent<EntityHealth>();
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
-        NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
-        ROLLING_COLLIDER_SIZE = (NON_ROLLING_COLLIDER_SIZE / 2);
+        m_NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
+        m_ROLLING_COLLIDER_SIZE = (m_NON_ROLLING_COLLIDER_SIZE / 2);
     }
 
     void Update()
@@ -189,14 +189,14 @@ public class PlayerMovement : MonoBehaviour
     public void StartRollingInvincibility()
     {
         m_playerHealth.Invincible = true;
-        m_playerCollider.size = ROLLING_COLLIDER_SIZE;
+        m_playerCollider.size = m_ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.EnableEntityCollision(gameObject);
     }
 
     public void StopRollingInvincibility()
     {
         m_playerHealth.Invincible = false;
-        m_playerCollider.size = NON_ROLLING_COLLIDER_SIZE;
+        m_playerCollider.size = m_NON_ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.DisableEntityCollision(gameObject);
     }
 }
