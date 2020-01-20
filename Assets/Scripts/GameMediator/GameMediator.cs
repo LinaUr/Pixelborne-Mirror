@@ -71,4 +71,14 @@ public class GameMediator : ScriptableObject
     {
         ActiveCamera.SwapHudSymbol(gameObject, sprite);
     }
+
+    public void EnableEntityCollision(GameObject callingEntity)
+    {
+        ActiveGame.EnableEntityCollision(callingEntity);
+    }
+
+    public void DisableEntityCollision(GameObject callingEntity)
+    {
+        ActiveGame.DisableEntityCollision(callingEntity);
+    }
 }

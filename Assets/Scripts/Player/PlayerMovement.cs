@@ -19,9 +19,13 @@ public class PlayerMovement : MonoBehaviour
 
     private bool m_isGrounded = true;
     private Rigidbody2D m_rigidbody2D;
-    private Collider2D m_playerCollider;
+    private BoxCollider2D m_playerCollider;
     private EntityHealth m_playerHealth;
     private EntityAttack m_playerAttack;
+
+    private Vector2 m_NON_ROLLING_COLLIDER_SIZE;
+    private Vector2 m_ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
+    private float m_rollingMovementX;
 
     public bool IsRolling {get; private set;}
     public bool InputIsLocked { get; set; } = false;
@@ -34,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
         m_playerHealth = gameObject.GetComponent<EntityHealth>();
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
+        m_NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
+        m_ROLLING_COLLIDER_SIZE = (m_NON_ROLLING_COLLIDER_SIZE / 2);
     }
 
     void Update()
@@ -41,6 +47,12 @@ public class PlayerMovement : MonoBehaviour
         m_isGrounded = Physics2D.OverlapArea(m_playerCollider.bounds.min,
                         (Vector2)m_playerCollider.bounds.min + new Vector2(m_playerCollider.bounds.size.x, m_groundCheckY), m_whatIsGround);
         Animator.SetBool("IsJumping", !m_isGrounded);
+        // Since to ground is not slippery, we need to reapply the velocity
+        if(IsRolling) {
+            Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
+            manipulatedVelocity.x = m_rollingMovementX;
+            m_rigidbody2D.velocity = manipulatedVelocity;
+        }
     }
 
     public void ResetPlayerActions()
@@ -94,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        if (!InputIsLocked)
+        if (!InputIsLocked && !IsRolling)
         {
             if (m_isGrounded)
             {
@@ -106,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnMovement(InputValue value)
     {
-        if (!InputIsLocked)
+        if (!InputIsLocked && !IsRolling)
         {
             // Controls.
             var moveX = value.Get<float>();
@@ -163,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
         if(!InputIsLocked && !m_playerAttack.Attacking && !IsRolling && m_isGrounded)
         {
             Animator.SetBool("Rolling", true);
+            m_rollingMovementX = m_rigidbody2D.velocity.x;
             IsRolling = true;
         }
     }
@@ -176,10 +189,14 @@ public class PlayerMovement : MonoBehaviour
     public void StartRollingInvincibility()
     {
         m_playerHealth.Invincible = true;
+        m_playerCollider.size = m_ROLLING_COLLIDER_SIZE;
+        GameMediator.Instance.EnableEntityCollision(gameObject);
     }
 
     public void StopRollingInvincibility()
     {
         m_playerHealth.Invincible = false;
+        m_playerCollider.size = m_NON_ROLLING_COLLIDER_SIZE;
+        GameMediator.Instance.DisableEntityCollision(gameObject);
     }
 }

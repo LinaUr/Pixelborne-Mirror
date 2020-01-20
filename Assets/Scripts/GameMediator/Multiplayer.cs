@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // This class contains the Multiplayer game mode logic.
@@ -17,6 +18,9 @@ public class Multiplayer : MonoBehaviour, IGame
     private int m_currentStageIndex;
     private const int m_PLAYER_DISTANCE_TO_CENTER_X = 7;
     private const int m_PLAYER_DISTANCE_TO_CENTER_Y = 0;
+    private static int PLAYER_1_LAYER;
+    private static int PLAYER_2_LAYER;
+    private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
 
     // The GameMediator gets prepared for this game mode.
     // This should be done on awake for safety reasons.
@@ -25,6 +29,8 @@ public class Multiplayer : MonoBehaviour, IGame
         GameMediator.Instance.ActiveGame = this;
         GameMediator.Instance.ActiveCamera = m_cameraMultiplayer;
         GameMediator.Instance.CurrentMode = Mode.Multiplayer;
+        PLAYER_1_LAYER = LayerMask.NameToLayer("Player_1");
+        PLAYER_2_LAYER = LayerMask.NameToLayer("Player_2");
     }
 
     void Start()
@@ -103,5 +109,19 @@ public class Multiplayer : MonoBehaviour, IGame
     {
         m_player1Movement.InputIsLocked = isLocked;
         m_player2Movement.InputIsLocked = isLocked;
+    }
+
+    public void EnableEntityCollision(GameObject callingEntity)
+    {
+        m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
+        Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, true);
+    }
+    public void DisableEntityCollision(GameObject callingEntity)
+    {
+        m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
+        if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
+        {
+            Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, false);
+        }
     }
 }
