@@ -76,6 +76,7 @@ public class GameMediator : ScriptableObject
     {
         ActiveGame.EnableEntityCollision(callingEntity);
     }
+
     public void DisableEntityCollision(GameObject callingEntity)
     {
         ActiveGame.DisableEntityCollision(callingEntity);

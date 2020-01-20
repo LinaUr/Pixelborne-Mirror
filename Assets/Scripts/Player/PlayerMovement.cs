@@ -23,10 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private EntityHealth m_playerHealth;
     private EntityAttack m_playerAttack;
 
-    private static Vector2 NON_ROLLING_COLLIDER_OFFSET = new Vector2(-0.0004083663f, 0.0008796453f);
-    private static Vector2 NON_ROLLING_COLLIDER_SIZE = new Vector2(0.3196963f, 0.393949f);
-    private static Vector2 ROLLING_COLLIDER_OFFSET = new Vector2(-0.000407964f, -0.0006151944f);
-    private static Vector2 ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
+    private Vector2 NON_ROLLING_COLLIDER_SIZE;
+    private Vector2 ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
     private float m_rollingMovementX;
 
     public bool IsRolling {get; private set;}
@@ -40,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
         m_playerHealth = gameObject.GetComponent<EntityHealth>();
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
+        NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
+        ROLLING_COLLIDER_SIZE = (NON_ROLLING_COLLIDER_SIZE / 2);
     }
 
     void Update()
@@ -189,7 +189,6 @@ public class PlayerMovement : MonoBehaviour
     public void StartRollingInvincibility()
     {
         m_playerHealth.Invincible = true;
-        m_playerCollider.offset = ROLLING_COLLIDER_OFFSET;
         m_playerCollider.size = ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.EnableEntityCollision(gameObject);
     }
@@ -197,7 +196,6 @@ public class PlayerMovement : MonoBehaviour
     public void StopRollingInvincibility()
     {
         m_playerHealth.Invincible = false;
-        m_playerCollider.offset = NON_ROLLING_COLLIDER_OFFSET;
         m_playerCollider.size = NON_ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.DisableEntityCollision(gameObject);
     }

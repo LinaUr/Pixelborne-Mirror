@@ -9776,7 +9776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd54fc5d0bc3454a894861d7b2225de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_subfolderName: VaiDrogulChar 1
+  m_resourceSubfolderName: VaiDrogulChar 1
   m_spriteBaseName: VaiDrogulChar
   m_spriteColor: 2
 --- !u!114 &1204311615
