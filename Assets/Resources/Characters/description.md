@@ -48,11 +48,11 @@ jump
 run
 
 ## King:
-Hiervon wird nur Idle und run benötigt
+only use idle and run (both without swords)
 
 ## DemonKing:
 idle stand
 idle Attack
 run
-dead (von hinten nach vorne + Bild 4 aus Reihe 5)
-hit (Bild 1-3)
+dead (from right to left + sprite 4 in row 5)
+hit (sprite 1-3)
