@@ -46,3 +46,13 @@ hit
 idle
 jump
 run
+
+## King:
+Hiervon wird nur Idle und run benötigt
+
+## DemonKing:
+idle stand
+idle Attack
+run
+dead (von hinten nach vorne + Bild 4 aus Reihe 5)
+hit (Bild 1-3)
