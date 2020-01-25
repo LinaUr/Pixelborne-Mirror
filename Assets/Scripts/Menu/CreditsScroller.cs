@@ -2,8 +2,10 @@
 
 public class CreditsScroller : MonoBehaviour
 {
-    public GameObject m_credits;
-    public GameObject m_mainMenu;
+    [SerializeField]
+    private GameObject m_credits;
+    [SerializeField]
+    private GameObject m_mainMenu;
 
     Vector3 m_originalPos;
     

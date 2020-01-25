@@ -36,22 +36,44 @@ extern "C"
 	// This allows the export of the function processImage() as .dll in other programs like Unity.
 	__declspec(dllexport) void processImage(Color32 **rawImage, int width, int height)
 	{
-		// For debugging in Unity (only under Windows).
-		//AllocConsole();
-		//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-
 		// CascadeClassifier is an OpenCV class to detect objects in a video stream or image.
 		CascadeClassifier faceCascade;
 
 		// This loads the external CascadeClassifier which it should be in the root directory of the Unity project.
-		faceCascade.load("lbpcascade_frontalface.xml");
+		faceCascade.load("haarcascade_frontalface_alt.xml");
 
-		// If there is any trouble with lbpcascade take haarcascade instead of lbpcascade.
+		// If there is any trouble with haarcascade take lbpcascade instead of haarcascade.
 		// Haarcascade is slower than lbpcascade but it is more precise.
-		//faceCascade.load("haarcascade_frontalface_alt.xml");
+		//faceCascade.load("lbpcascade_frontalface_improved.xml");
 
 		// Create an opencv object sharing the same data space.
 		Mat image(height, width, CV_8UC4, *rawImage);
+		Mat origImage;
+
+		// Create an unique timestamp for the result image file name with the index of the found face.
+		// Code taken from: http://www.cplusplus.com/forum/general/205282/#msg972736
+		time_t rawtime;
+		struct tm * timeinfo;
+		char timestamp[80];
+
+		time(&rawtime);
+		timeinfo = localtime(&rawtime);
+
+		strftime(timestamp, 80, "%d-%m-%Y_%H-%M-%S", timeinfo);
+
+		// Create the string which contains the filepath (Assets/photos) and the filename.
+		// You can save the result image as .png, .jpg or .bmp.
+		std::stringstream ss1;
+		ss1 << "Assets/photos/" << std::string(timestamp) << ".png";
+		std::string origFilename = ss1.str();
+
+		// Convert the image to BGRA and flip the image vertically 
+		// to get the right color and orientation for correct saving.
+		cvtColor(image, origImage, COLOR_RGBA2BGRA);
+		flip(origImage, origImage, 0);
+
+		// Save the original image.
+		imwrite(origFilename, origImage);
 
 		// Start processing the image:
 		// ********************************************************************************************************
@@ -70,25 +92,14 @@ extern "C"
 		// The container for the mask, the temporary foreground and the temporary background 
 		// for future grabCut (foreground extraction).
 		Mat mask, bgdModel, fgdModel;
-
-		// For debugging if you want to know if a face was found.
-		/*
-		if (faces.size() == 0) {
-			std::cout << "0 faces!!" << std::endl;
-		}
-		else {
-		*/
 		
 		// The padding is used to cut out the found face a little larger.
 		// If the result image should be larger, you are free to increase this variable.
-		int padding = 20;
+		int padding = 30;
 
 		// Cut faces.
 		for (int i = 0; i < faces.size(); i++)
 		{
-			// For debugging to know, how many faces were found.
-			//std::cout << faces.size() << " faces!!" << std::endl;
-
 			// Check if the larger result image is still in the original for the extraction.
 			// If true then set the height, width and the top left corner on the new values.
 			if (faces[i].height + padding < image.rows && faces[i].y - padding / 2 < image.rows 
@@ -99,7 +110,7 @@ extern "C"
 				faces[i].x -= padding / 2;
 			}
 
-			// Foregroung extraction for every face and save the information of this algorithm in mask.
+			// Foreground extraction for every face and save the information of this algorithm in mask.
 			// For further information of grabCut() visit:
 			// https://docs.opencv.org/3.1.0/d7/d1b/group__imgproc__misc.html#ga909c1dda50efcbeaa3ce126be862b37f
 			grabCut(bgrImage, mask, faces[i], bgdModel, fgdModel, 1, GC_INIT_WITH_RECT);
@@ -131,35 +142,17 @@ extern "C"
 			// Flip the image vertically to get the right orientation.
 			flip(resultImage, resultImage, 0);
 
-			// Create an unique timestamp for the result image file name with the index of the found face.
-			// Code taken from: http://www.cplusplus.com/forum/general/205282/#msg972736
-			time_t rawtime;
-			struct tm * timeinfo;
-			char buffer[80];
-
-			time(&rawtime);
-			timeinfo = localtime(&rawtime);
-
-			strftime(buffer, 80, "%d-%m-%Y_%H-%M-%S", timeinfo);
-
 			// Create the string which contains the filepath (Assets/photos) and the filename.
 			// You can save the result image as .png, .jpg or .bmp.
-			std::stringstream ss;
-			ss << "Assets/photos/" << std::to_string(i) << "-" << std::string(buffer) << ".png";
-			std::string filename = ss.str();
+			std::stringstream ss2;
+			ss2 << "Assets/faces/" << std::string(timestamp) << "_" << std::to_string(i) << ".png";
+			std::string resultFilename = ss2.str();
 
 			// Save the result image.
-			imwrite(filename, resultImage);
+			imwrite(resultFilename, resultImage);
 		}
-
-		// Close else statement for debugging.
-		//}
 
 		// ********************************************************************************************************
 		// End processing the image.
-
-		// For debugging in Unity (to prevent a crash of Unity).
-		//_fcloseall();
-		//FreeConsole();
 	}
 }
