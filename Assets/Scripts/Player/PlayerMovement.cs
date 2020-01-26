@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
             // the winning player could also be colliding with this player and would die instead.
             if (collider.gameObject.name == m_playerAttack.PlayerSword.name && collider.gameObject != m_playerAttack.PlayerSword)
             {
+                // TODO refactor
                 // Test if the attacks are canceling each other.
                 EntityAttack attackerEntityAttack = collider.gameObject.GetComponentInParent<EntityAttack>();
                 // If the attacker has an EntityAttack the attack might be cancelled.

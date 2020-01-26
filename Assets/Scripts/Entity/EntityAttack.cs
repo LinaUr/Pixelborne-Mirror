@@ -5,8 +5,10 @@ using UnityEngine.Experimental.Input;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
 // This class manages the basic attack functionality of an entity.
-public class EntityAttack : MonoBehaviour
+public class EntityAttack : MonoBehaviour, IAttack
 {
+    [SerializeField]
+    private int m_attackDamage = 1;
     [SerializeField] 
     private GameObject m_playerSword;
     private Animator m_animator;
@@ -103,6 +105,16 @@ public class EntityAttack : MonoBehaviour
         {
             m_currentAttackAnimationParameter = 2;
         }
+    }
+
+    public int GetAttackDirection()
+    {
+        return m_currentAttackAnimationParameter;
+    }
+
+    public int GetAttackDamage()
+    {
+        return m_attackDamage;
     }
 
     // This method tests if both entities are executing the same attack. This would cancel both attacks.
