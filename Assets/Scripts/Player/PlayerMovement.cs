@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float m_jumpForce = 20f;
     [SerializeField]
-    private bool m_facingRight = true;
+    private bool m_isFacingRight = true;
     [SerializeField]
     private float m_groundCheckY = 0.1f;
     [SerializeField]
@@ -40,6 +40,14 @@ public class PlayerMovement : MonoBehaviour
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
         m_NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
         m_ROLLING_COLLIDER_SIZE = (m_NON_ROLLING_COLLIDER_SIZE / 2);
+    }
+
+    private void Start()
+    {
+       if (!m_isFacingRight)
+        {
+            FlipPlayer();
+        }
     }
 
     void Update()
@@ -126,12 +134,14 @@ public class PlayerMovement : MonoBehaviour
             Animator.SetFloat("Speed", Mathf.Abs(moveX));
 
             // Player Direction.
-            if (moveX < 0.0f && m_facingRight)
+            if (moveX < 0.0f && m_isFacingRight)
             {
+                m_isFacingRight = !m_isFacingRight;
                 FlipPlayer();
             }
-            else if (moveX > 0.0f && !m_facingRight)
+            else if (moveX > 0.0f && !m_isFacingRight)
             {
+                m_isFacingRight = !m_isFacingRight;
                 FlipPlayer();
             }
 
@@ -142,7 +152,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipPlayer()
     {
-        m_facingRight = !m_facingRight;
         Vector3 currentScale = gameObject.transform.localScale;
         currentScale.x *= -1;
         gameObject.transform.localScale = currentScale;
