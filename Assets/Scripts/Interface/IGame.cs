@@ -9,4 +9,5 @@ public interface IGame
     void LockPlayerInput(bool isLocked);
     void EnableEntityCollision(GameObject callingEntity);
     void DisableEntityCollision(GameObject callingEntity);
+    GameObject[] GetActivePlayers();
 }

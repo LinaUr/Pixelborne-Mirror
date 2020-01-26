@@ -124,4 +124,8 @@ public class Multiplayer : MonoBehaviour, IGame
             Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, false);
         }
     }
+
+    public GameObject[] GetActivePlayers(){
+        return new GameObject[]{m_player1, m_player2};
+    }
 }
