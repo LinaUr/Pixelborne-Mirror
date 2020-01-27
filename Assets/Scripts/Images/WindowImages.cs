@@ -12,8 +12,8 @@ using UnityEngine.Networking;
 
 public class WindowImages : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] m_windows;
+    //[SerializeField]
+    //private GameObject[] m_windows;
     private static List<string> m_imagePaths = new List<string>();
     //private float m_elapsedTime;
 
@@ -45,9 +45,11 @@ public class WindowImages : MonoBehaviour
     // source of code: https://forum.unity.com/threads/read-image-from-disk.117866/#post-787801
     IEnumerator LoadImage()
     {
-        for (int window = 0; window < m_windows.Length; window++)
+        for (int i = 0; i < gameObject.transform.childCount; i++)
         {
-            RawImage windowImage = m_windows[window].GetComponent<RawImage>();
+            //RawImage windowImage = m_windows[window].GetComponent<RawImage>();
+            //RawImage windowImage = m_windows[window].GetComponentInChildren<RawImage>();
+            RawImage windowImage = gameObject.transform.GetChild(i).GetComponent<RawImage>();
             int num = UnityEngine.Random.Range(0, m_imagePaths.Count());
             UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture("file://" + m_imagePaths[num]);
 
@@ -62,10 +64,10 @@ public class WindowImages : MonoBehaviour
                 Color c = windowImage.color;
                 c.a = 1f;
                 windowImage.color = c;
-                m_windows[window].GetComponent<RawImage>().texture = image;
+                windowImage.texture = image;
             } else
             {
-                window--;
+                i--;
             }
         }
     }
