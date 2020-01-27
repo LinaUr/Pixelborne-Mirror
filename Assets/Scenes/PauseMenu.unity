@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1005390520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65af0a919815387459fd1b315f02fb55, type: 3}
+  m_Script: {fileID: 11500000, guid: 064ab42d9bde8694399f5dbecd0b7911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1005390522
@@ -1636,26 +1636,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1647730878}
-  - component: {fileID: 1647730877}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1647730877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647730876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b54846ecd0a9f14280573310bb97bfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1647730878
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1676,8 +1663,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2, y: -1.8}
-  m_SizeDelta: {x: 789.8, y: 300.3}
+  m_AnchoredPosition: {x: 1.2, y: 0.6}
+  m_SizeDelta: {x: 789.8, y: 411.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1729078826
 GameObject:
