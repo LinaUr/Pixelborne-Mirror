@@ -59,7 +59,7 @@ extern "C"
 		time(&rawtime);
 		timeinfo = localtime(&rawtime);
 
-		strftime(timestamp, 80, "%d-%m-%Y_%H-%M-%S", timeinfo);
+		strftime(timestamp, 80, "%Y-%m-%d_%H-%M-%S", timeinfo);
 
 		// Create the string which contains the filepath (Assets/photos) and the filename.
 		// You can save the result image as .png, .jpg or .bmp.

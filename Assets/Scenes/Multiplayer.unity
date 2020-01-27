@@ -2046,13 +2046,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393457407}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7258668, w: 0.6878354}
-  m_LocalPosition: {x: 0.035, y: 0.014, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7069131, w: 0.7073004}
+  m_LocalPosition: {x: 0.034999847, y: 0.014000019, z: 0.000000029802322}
   m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 1204311612}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -93.082}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -89.969}
 --- !u!61 &393457409
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9845,7 +9845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_moveSpeed: 10
   m_jumpForce: 20
-  m_facingRight: 1
+  m_isFacingRight: 0
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
@@ -10157,7 +10157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_moveSpeed: 10
   m_jumpForce: 20
-  m_facingRight: 1
+  m_isFacingRight: 1
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2

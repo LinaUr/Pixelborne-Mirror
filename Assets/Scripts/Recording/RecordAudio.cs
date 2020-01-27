@@ -58,7 +58,7 @@ public class RecordAudio : MonoBehaviour
     private void SaveRecording()
     {
         DateTime now = DateTime.Now;
-        string filename = $"sound_{now.Day.ToString("d2")}-{now.Month.ToString("d2")}-{now.Year}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
+        string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
         var filepath = Path.Combine(m_filedir, filename);
         
         SavWav.Save(filepath, m_microphoneClip);
