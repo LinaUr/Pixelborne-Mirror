@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float m_moveSpeed = 10f;
     [SerializeField]
-    private float m_jumpForce = 20f;
+    private float m_jumpForce = 22f;
     [SerializeField]
     private bool m_isFacingRight = true;
     [SerializeField]
