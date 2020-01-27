@@ -14,7 +14,7 @@ public class EntityAttack : MonoBehaviour
     private double m_attackDuration;
     private int m_currentAttackAnimationParameter = 0; 
     private double m_lastTimeAttacked = -10000;
-    private static float m_ATTACK_DIRECTION_DEADZONE = 0.1f;
+    private static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
     private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     private SpriteRenderer m_swordRenderer;
     private Collider2D m_blackSwordCollider;
