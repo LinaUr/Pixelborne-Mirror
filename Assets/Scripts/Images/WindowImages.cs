@@ -41,7 +41,7 @@ public class WindowImages : MonoBehaviour
         }
     }
 
-    // Couroutine which puts in each window in the scene one downloaded image.
+    // This coroutine puts one downloaded image in each window in the scene.
     // source of code: https://forum.unity.com/threads/read-image-from-disk.117866/#post-787801
     IEnumerator LoadImage()
     {
@@ -71,7 +71,7 @@ public class WindowImages : MonoBehaviour
     }
 
     // This method is for the future if you want to include the temporal aspect.
-    // Changes the background image every 10 sec.
+    // It changes the background image every 10 sec.
     /*void Update()
     {
         m_elapsedTime += Time.deltaTime;
@@ -79,7 +79,7 @@ public class WindowImages : MonoBehaviour
         if (m_elapsedTime >= 10)
         {
             m_elapsedTime -= 10;
-            StartCoroutine("LoadImage");
+            StartCoroutine(LoadImage());
         }
         
     }*/

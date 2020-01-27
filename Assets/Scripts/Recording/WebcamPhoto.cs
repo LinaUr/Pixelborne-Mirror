@@ -8,7 +8,9 @@ using UnityEngine;
 public class WebcamPhoto : MonoBehaviour
 {
     public WebCamTexture m_webcamtex;
+    private static string m_FACES_RECORD_DIR = "faces";
     private static string m_PHOTO_RECORD_DIR = "photos";
+    private string m_facedir;
     private string m_filedir;
 
     [DllImport("ImageEditing")]
@@ -39,7 +41,7 @@ public class WebcamPhoto : MonoBehaviour
         }
     }
 
-    // This Coroutine takes the taken webcam photo 
+    // This coroutine takes the taken webcam photo 
     // and calls the processImage() function in the ImageEditing.dll 
     // which finds the faces and saves them as images in Assets/faces 
     // if the current PC is a Windows machine (the .dll works only for Windows).
@@ -53,6 +55,8 @@ public class WebcamPhoto : MonoBehaviour
 
         if ((Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.WindowsEditor))
         {
+            m_facedir = Path.Combine(Application.dataPath, m_FACES_RECORD_DIR);
+            Directory.CreateDirectory(m_facedir);
             processImage(ref image, m_webcamtex.width, m_webcamtex.height);
         } else
         {
@@ -61,7 +65,7 @@ public class WebcamPhoto : MonoBehaviour
             byte[] bytes = textureFromCamera.EncodeToPNG();
             DateTime now = DateTime.Now;
 
-            string filename = $"{now.Day.ToString("d2")}-{now.Month.ToString("d2")}-{now.Year}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.png";
+            string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.png";
             var filepath = Path.Combine(m_filedir, filename);
 
             File.WriteAllBytes(filepath, bytes);
