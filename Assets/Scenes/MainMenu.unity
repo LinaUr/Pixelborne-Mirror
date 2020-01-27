@@ -2369,8 +2369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d890229a1a9884cb09b3c5927978d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  credits: {fileID: 1561651848}
-  mainMenu: {fileID: 233485735}
+  m_credits: {fileID: 1561651848}
+  m_mainMenu: {fileID: 233485735}
 --- !u!1 &1568644620
 GameObject:
   m_ObjectHideFlags: 0
