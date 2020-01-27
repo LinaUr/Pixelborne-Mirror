@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class SceneChanger
 {
@@ -32,9 +33,25 @@ public class SceneChanger
     }
 
     // This method sets the PauseMenu scene as the active scene.
-    public static void SetPauseMenuAsActiveScene()
+    public static void LoadPauseMenuAsAdditiveScene()
     {
-        SceneManager.LoadScene(PAUSE_MENU_SCENE_INDEX);
+        bool sceneAlreadyLoaded = false;
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).buildIndex == PAUSE_MENU_SCENE_INDEX)
+            {
+                sceneAlreadyLoaded = true;
+            }
+        }
+
+        if (!sceneAlreadyLoaded)
+        {
+            SceneManager.LoadScene(PAUSE_MENU_SCENE_INDEX, LoadSceneMode.Additive);
+        }
+    }
+    public static void UnloadPauseMenuAsAdditiveScene()
+    {
+        SceneManager.UnloadSceneAsync(PAUSE_MENU_SCENE_INDEX);
     }
 
     // TODO: uncomment when Singleplayer Scene gets introduced.

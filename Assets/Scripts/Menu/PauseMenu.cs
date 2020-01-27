@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    void Update()
+    public void Resume()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Time.timeScale = 0;
-            SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
-        }
+        // Unfreeze game.
+        Time.timeScale = 1;
+        SceneChanger.UnloadPauseMenuAsAdditiveScene();
+    }
 
+    public void OpenMainMenu()
+    {
+        // Unfreeze game.
+        Time.timeScale = 1;
+        SceneChanger.SetMainMenuAsActiveScene();
     }
 }

@@ -15,9 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: a510a86566420d147b5a6b6cd76888c1
   - enabled: 1
-    path: Assets/Scenes/Multiplayer.unity
-    guid: d011cd83c507ad44884a1a0ae306c214
-  - enabled: 1
     path: Assets/Scenes/PauseMenu.unity
     guid: 229c1bff51208244895006c696562ccb
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer.unity
+    guid: d011cd83c507ad44884a1a0ae306c214
   m_configObjects: {}

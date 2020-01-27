@@ -208,4 +208,9 @@ public class PlayerMovement : MonoBehaviour
         m_playerCollider.size = m_NON_ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.DisableEntityCollision(gameObject);
     }
+
+    public void OnPauseGame()
+    {
+        GameMediator.Instance.PauseGame();
+    }
 }
