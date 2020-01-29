@@ -10163,7 +10163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_moveSpeed: 10
-  m_jumpForce: 20
+  m_jumpForce: 22
   m_isFacingRight: 0
   m_groundCheckY: 0.1
   m_whatIsGround:
@@ -10475,7 +10475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_moveSpeed: 10
-  m_jumpForce: 20
+  m_jumpForce: 22
   m_isFacingRight: 1
   m_groundCheckY: 0.1
   m_whatIsGround:
