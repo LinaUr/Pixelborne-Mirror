@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Recording;
+using System;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
@@ -7,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float m_moveSpeed = 10f;
     [SerializeField]
-    private float m_jumpForce = 20f;
+    private float m_jumpForce = 22f;
     [SerializeField]
     private bool m_isFacingRight = true;
     [SerializeField]
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 m_NON_ROLLING_COLLIDER_SIZE;
     private Vector2 m_ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
     private float m_rollingMovementX;
+
+    private const float m_CONTROLLER_DEADZONE = 0.30f;
 
     public bool IsRolling {get; private set;}
     public bool InputIsLocked { get; set; } = false;
@@ -129,7 +132,13 @@ public class PlayerMovement : MonoBehaviour
         if (!InputIsLocked && !IsRolling)
         {
             // Controls.
-            var moveX = value.Get<float>();
+            float moveX = value.Get<float>();
+
+            if (Math.Abs(moveX) < m_CONTROLLER_DEADZONE)
+            {
+                moveX = 0.0f;
+            }
+
             // Animation.
             Animator.SetFloat("Speed", Mathf.Abs(moveX));
 
@@ -146,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Physics.
-            m_rigidbody2D.velocity = new Vector2(moveX * m_moveSpeed, m_rigidbody2D.velocity.y);
+            m_rigidbody2D.velocity = new Vector2((float)Math.Round(moveX) * m_moveSpeed, m_rigidbody2D.velocity.y);
         }
     }
 
