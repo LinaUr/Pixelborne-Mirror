@@ -42,6 +42,13 @@ public class GameMediator : ScriptableObject
         });
     }
 
+    public void PauseGame()
+    {
+        // Freeze game.
+        Time.timeScale = 0;
+        SceneChanger.LoadPauseMenuAsAdditiveScene();
+    }
+
     public void HandleDeath(GameObject diedObject)
     {
         if (CurrentMode != Mode.MainMenu)

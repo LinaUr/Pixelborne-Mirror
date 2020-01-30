@@ -242,6 +242,11 @@ public class PlayerMovement : MonoBehaviour
         GameMediator.Instance.DisableEntityCollision(gameObject);
     }
 
+    public void OnPauseGame()
+    {
+        GameMediator.Instance.PauseGame();
+    }
+
     private void OnDestroy()
     {
         GameMediator.Instance.ActivePlayers.Remove(gameObject);
