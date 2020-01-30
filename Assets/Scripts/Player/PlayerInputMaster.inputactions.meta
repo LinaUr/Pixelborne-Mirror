@@ -9,6 +9,7 @@ ScriptedImporter:
     11400008: Player/AttackDirection
     11400010: Player/Record
     11400012: Player/Roll
+    11400014: Player/PauseGame
   externalObjects: {}
   userData: 
   assetBundleName: 

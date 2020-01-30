@@ -26,6 +26,13 @@ public class GameMediator : ScriptableObject
         m_instance = this;
     }
 
+    public void PauseGame()
+    {
+        // Freeze game.
+        Time.timeScale = 0;
+        SceneChanger.LoadPauseMenuAsAdditiveScene();
+    }
+
     public void HandleDeath(GameObject diedObject)
     {
         if (CurrentMode != Mode.MainMenu)
