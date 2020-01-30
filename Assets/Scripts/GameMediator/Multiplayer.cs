@@ -6,12 +6,11 @@ using UnityEngine;
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : MonoBehaviour, IGame
 {
+    [SerializeField]
+    private const int m_amountOfStages = 5;
+
     private int m_currentStageIndex;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
-
-    private const int m_AMOUNT_OF_STAGES = 3;
-    private static int PLAYER_1_LAYER;
-    private static int PLAYER_2_LAYER;
 
     // The GameMediator gets prepared for this game mode.
     // This should be done on awake for safety reasons.
@@ -19,8 +18,6 @@ public class Multiplayer : MonoBehaviour, IGame
     {
         GameMediator.Instance.ActiveGame = this;
         GameMediator.Instance.CurrentMode = Mode.Multiplayer;
-        PLAYER_1_LAYER = LayerMask.NameToLayer("Player_1");
-        PLAYER_2_LAYER = LayerMask.NameToLayer("Player_2");
     }
 
     void Start()
@@ -31,7 +28,7 @@ public class Multiplayer : MonoBehaviour, IGame
 
     public void ResetGame()
     {
-        m_currentStageIndex = m_AMOUNT_OF_STAGES / 2;
+        m_currentStageIndex = m_amountOfStages / 2;
     }
 
     public void PrepareGame()
@@ -61,7 +58,7 @@ public class Multiplayer : MonoBehaviour, IGame
     private void CheckHasWonGame(GameObject player)
     {
         if (m_currentStageIndex < 0 ||
-            m_currentStageIndex >= m_AMOUNT_OF_STAGES)
+            m_currentStageIndex >= m_amountOfStages)
         {
             List<GameObject> players = GameMediator.Instance.ActivePlayers;
             if(players.Count > 2)
@@ -78,17 +75,17 @@ public class Multiplayer : MonoBehaviour, IGame
         }
     }
 
-    public void EnableEntityCollision(GameObject callingEntity)
+    public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, true);
+        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
     }
-    public void DisableEntityCollision(GameObject callingEntity)
+    public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
-            Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, false);
+            Physics2D.IgnoreLayerCollision(layer1, layer2, false);
         }
     }
 }

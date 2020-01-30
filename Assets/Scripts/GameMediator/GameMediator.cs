@@ -97,11 +97,18 @@ public class GameMediator : ScriptableObject
 
     public void EnableEntityCollision(GameObject callingEntity)
     {
-        ActiveGame.EnableEntityCollision(callingEntity);
+        if (CurrentMode == Mode.Multiplayer)
+        {
+            ActiveGame.EnableEntityCollision(callingEntity, ActivePlayers[0].layer, ActivePlayers[1].layer);
+        }
+            
     }
 
     public void DisableEntityCollision(GameObject callingEntity)
     {
-        ActiveGame.DisableEntityCollision(callingEntity);
+        if (CurrentMode == Mode.Multiplayer)
+        {
+            ActiveGame.DisableEntityCollision(callingEntity, ActivePlayers[0].layer, ActivePlayers[1].layer);
+        }
     }
 }
