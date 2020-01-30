@@ -6,10 +6,11 @@
 using UnityEngine;
 using System.IO;
 using System;
-using NAudio;
 using NAudio.Wave;
+using System.Threading.Tasks;
 
-public static class NAudioPlayer {
+public static class NAudioPlayer
+{
     public static AudioClip FromMp3Data(byte[] data)
     {
         // Load the data into a stream
@@ -67,7 +68,6 @@ public class WAV  {
     public int Frequency {get;internal set;}
 
     public WAV(byte[] wav){
-
         // Determine if mono or stereo
         ChannelCount = wav[22];     // Forget byte 23 as 99.999% of WAVs are 1 or 2 channels
 

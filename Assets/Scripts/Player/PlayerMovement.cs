@@ -1,10 +1,17 @@
 ﻿using Assets.Scripts.Recording;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField]
+    // Transforms from outer left to outer right stage.
+    private int m_playerIndex;
+    [SerializeField]
+    // Transforms from outer left to outer right stage.
+    private Transform m_playerPositionsTransform;
     [SerializeField]
     private float m_moveSpeed = 10f;
     [SerializeField]
@@ -30,12 +37,24 @@ public class PlayerMovement : MonoBehaviour
 
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 
+    // Positions from outer left to outer right stage as they are in the scene.
+    public IList<Vector2> Positions { get; set; }
     public bool IsRolling {get; private set;}
     public bool InputIsLocked { get; set; } = false;
     public Animator Animator { get; private set; }
 
+    public int Index
+    {
+        get
+        {
+            return m_playerIndex;
+        }
+        private set { }
+    }
+
     private void Awake()
     {
+        GameMediator.Instance.ActivePlayers.Add(gameObject);
         Animator = gameObject.GetComponent<Animator>();
         m_rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         m_playerCollider = gameObject.GetComponent<BoxCollider2D>();
@@ -43,6 +62,12 @@ public class PlayerMovement : MonoBehaviour
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
         m_NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
         m_ROLLING_COLLIDER_SIZE = (m_NON_ROLLING_COLLIDER_SIZE / 2);
+
+        Positions = new List<Vector2>();
+        foreach (Transform positionsTransform in m_playerPositionsTransform)
+        {
+            Positions.Add(positionsTransform.position);
+        }
     }
 
     private void Start()
@@ -106,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
                 if (attackerEntityAttack == null || !m_playerAttack.AttackIsCancelling(attackerEntityAttack))
                 {
                     m_playerHealth.TakeDamage(1);
-                    if (m_playerHealth.isDead)
+                    if (m_playerHealth.IsDead)
                     {
                         Die();
                     }
@@ -180,10 +205,10 @@ public class PlayerMovement : MonoBehaviour
         GameMediator.Instance.HandleDeath(gameObject);
     }
 
-    public void SetPosition(Vector2 position)
+    public void SetPosition(int index)
     {
-        gameObject.transform.position = new Vector3(position.x, position.y,
-            gameObject.transform.position.z);
+        Vector2 position = Positions[index];
+        gameObject.transform.position = new Vector3(position.x, position.y, gameObject.transform.position.z);
     }
 
     // This method starts the player roll if he is not already rolling, is on the ground,
@@ -216,5 +241,10 @@ public class PlayerMovement : MonoBehaviour
         m_playerHealth.Invincible = false;
         m_playerCollider.size = m_NON_ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.DisableEntityCollision(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        GameMediator.Instance.ActivePlayers.Remove(gameObject);
     }
 }

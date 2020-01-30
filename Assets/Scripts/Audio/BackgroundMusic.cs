@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.Networking;
 
 // NOTE:
 // Unity is not Thread safe, so they decided to make it impossible 
@@ -36,7 +36,7 @@ public class BackgroundMusic : MonoBehaviour
         
         // Running GetFiles() asynchronously in new task prevents game from stopping/pausing
         // when starting a new game.
-        m_playlist = await Task.Run(() => GetFiles(userPath, "*.mp3"));
+        m_playlist = await Task.Run(() => Toolkit.GetFiles(userPath, "*.mp3"));
 
         StartCoroutine(ChangeBackgroundAudio());
     }
@@ -55,8 +55,8 @@ public class BackgroundMusic : MonoBehaviour
         }
     }
 
-    // This method picks a random file from the playlist, converts the
-    // mp3 file to wav, assigns it to the audioPlayer and plays it.
+    // This coroutine picks a random file from the playlist, converts the
+    // MP3 file to WAV, assigns it to the audioPlayer and plays it.
     // NOTE: It can currently only handle mp3 files.
     private IEnumerator ChangeBackgroundAudio()
     {
@@ -64,50 +64,19 @@ public class BackgroundMusic : MonoBehaviour
 
         if (m_playlist.Count != 0)
         {
-            WWW request = new WWW("file://" + m_playlist[index]);
-            while (!request.isDone)
-                yield return 0;
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip("file://" + m_playlist[index], AudioType.MPEG);
+            yield return request.SendWebRequest();
 
-            m_audioClip = NAudioPlayer.FromMp3Data(request.bytes);
+            // Apparently Unity does not allow the use of DownloadHandlerAudioClip.audioClip
+            // when the audiofile is MP3 format (it returns null). So we make use of the NAudio library.
+            m_audioClip = NAudioPlayer.FromMp3Data(request.downloadHandler.data);
             m_audioClip.name = m_playlist[index];
             m_audioPlayer.clip = m_audioClip;
             m_audioPlayer.Play();
         }
         else
         {
-            Debug.Log("No mp3-files were found. Cannot play any background audio.");
+            Debug.Log("No MP3-files were found. Cannot play any background audio.");
         }
-    }
-
-    // This method returns all file paths for files with a certain fileEnding in the root
-    // directory and all subdirectories.
-    // Access to certain paths can be denied, so using Directory.GetFiles() could cause exceptions.
-    // Therefore, implementing recursion ourselves is the best way to avoid those exceptions.
-    // (see https://social.msdn.microsoft.com/Forums/vstudio/en-US/ae61e5a6-97f9-4eaa-9f1a-856541c6dcce/directorygetfiles-gives-me-access-denied?forum=csharpgeneral )
-    private List<string> GetFiles(string root, string fileEnding)
-    {
-        List<string> fileList = new List<string>();
-
-        Stack<string> pending = new Stack<string>();
-        pending.Push(root);
-        while (pending.Count != 0)
-        {
-            string path = pending.Pop();
-            string[] next = null;
-            try
-            {
-                next = Directory.GetFiles(path, fileEnding);
-            }
-            catch { }
-            if (next != null && next.Length != 0)
-                foreach (string file in next) fileList.Add(file);
-            try
-            {
-                next = Directory.GetDirectories(path);
-                foreach (string subdir in next) pending.Push(subdir);
-            }
-            catch { }
-        }
-        return fileList;
     }
 }

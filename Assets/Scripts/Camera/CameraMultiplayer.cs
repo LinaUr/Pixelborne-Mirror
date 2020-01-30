@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections.Generic;
-
-// Makes sure this shows up in the inspector.
-[Serializable]
 
 // This class controlls the camera movement and fade to black of the multiplayer scene camera.
 public class CameraMultiplayer : MonoBehaviour, ICamera
@@ -25,6 +21,7 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     // We need to get the positions on Awake so we can externally access them on Start.
     void Awake()
     {
+        GameMediator.Instance.ActiveCamera = this;
         Positions = new List<Vector2>();
         foreach (Transform positionsTransform in m_cameraPositionsTransform)
         {
@@ -99,11 +96,12 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
 
     }
 
-    // This method moves the center of both the camera and the fade to black canvas object to the given position while retaining the z-position.
-    public void MoveCamera(int index)
+    // This method moves the center of both the camera and the fade to black canvas object to the given position
+    // while retaining the z-position.
+    public void SetPosition(int index)
     {
         Vector2 position = Positions[index];
-        transform.position = new Vector3(position.x, position.y, transform.position[2]);
+        gameObject.transform.position = new Vector3(position.x, position.y, gameObject.transform.position.z);
         m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
     }
 

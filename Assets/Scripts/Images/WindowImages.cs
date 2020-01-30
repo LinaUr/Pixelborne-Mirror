@@ -7,19 +7,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-// This class handles the change of the embedded background images.
-// It searches for pictures on the current PC and inserts them into the scene as a texture.
+// This class handles loading and of embedded images.
+// It searches for pictures on the current computer and applies them to canvases in the scene.
 
 public class WindowImages : MonoBehaviour
 {
-    //[SerializeField]
-    //private GameObject[] m_windows;
     private static List<string> m_imagePaths = new List<string>();
-    //private float m_elapsedTime;
-
-    // async is for the second possibility to load images from the whole computer.
-    // If you want to use the async possibility please import System.Threading.Tasks.
-    /*async*/ void Start()
+    
+    // async for Gitlab Issue #48
+    /*async*/
+    void Start()
     {
         string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
@@ -32,8 +29,9 @@ public class WindowImages : MonoBehaviour
                                                  || extension.ToLower().EndsWith(".png"))
                                 .ToList();
 
-        // Maybe for later (for now, it costs too much time). It has to do with the async possibility.
-        //m_imagePaths = await Task.Run(() => GetFiles(userPath, "*.*"));
+        // Gitlab Issue #48
+        // Load images from the entire user folder.
+        //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, "*.*"));
 
         if (m_imagePaths.Count() > 0)
         {
@@ -47,9 +45,7 @@ public class WindowImages : MonoBehaviour
     {
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
-            //RawImage windowImage = m_windows[window].GetComponent<RawImage>();
-            //RawImage windowImage = m_windows[window].GetComponentInChildren<RawImage>();
-            RawImage windowImage = gameObject.transform.GetChild(i).GetComponent<RawImage>();
+            RawImage rawImage = gameObject.transform.GetChild(i).GetComponent<RawImage>();
             int num = UnityEngine.Random.Range(0, m_imagePaths.Count());
             UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture("file://" + m_imagePaths[num]);
 
@@ -59,61 +55,13 @@ public class WindowImages : MonoBehaviour
 
             if (image.width > image.height)
             {
-                // Change alpha channel of RawImages in the scene to visible if an suitable image is found.
-                // source of code: https://forum.unity.com/threads/changing-a-new-ui-images-alpha-value.289755/#post-1912745
-                Color c = windowImage.color;
-                c.a = 1f;
-                windowImage.color = c;
-                windowImage.texture = image;
+                // Change alpha channel of rawImage to visible if a suitable image is found.
+                rawImage.color = new Color(1f,1f,1f,1f);
+                rawImage.texture = image;
             } else
             {
                 i--;
             }
         }
     }
-
-    // This method is for the future if you want to include the temporal aspect.
-    // It changes the background image every 10 sec.
-    /*void Update()
-    {
-        m_elapsedTime += Time.deltaTime;
-
-        if (m_elapsedTime >= 10)
-        {
-            m_elapsedTime -= 10;
-            StartCoroutine(LoadImage());
-        }
-        
-    }*/
-
-    // This method is for the second possibility to load images from the whole computer.
-    /*private List<string> GetFiles(string root, string fileEnding)
-    {
-        List<string> fileList = new List<string>();
-
-        Stack<string> pending = new Stack<string>();
-        pending.Push(root);
-        while (pending.Count != 0)
-        {
-            string path = pending.Pop();
-            string[] next = null;
-            try
-            {
-                next = Directory.GetFiles(path, fileEnding)
-                                    .Where(extension => extension.ToLower().EndsWith(".jpg")
-                                                    || extension.ToLower().EndsWith(".jpeg")
-                                                    || extension.ToLower().EndsWith(".png")).ToArray();
-            }
-            catch { }
-            if ((next != null) && (next.Length != 0))
-                foreach (string file in next) fileList.Add(file);
-            try
-            {
-                next = Directory.GetDirectories(path);
-                foreach (string subdir in next) pending.Push(subdir);
-            }
-            catch { }
-        }
-        return fileList;
-    }*/
 }
