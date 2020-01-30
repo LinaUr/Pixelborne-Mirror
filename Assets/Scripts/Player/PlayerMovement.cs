@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Recording;
+using System;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
@@ -7,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float m_moveSpeed = 10f;
     [SerializeField]
-    private float m_jumpForce = 20f;
+    private float m_jumpForce = 22f;
     [SerializeField]
-    private bool m_facingRight = true;
+    private bool m_isFacingRight = true;
     [SerializeField]
     private float m_groundCheckY = 0.1f;
     [SerializeField]
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 m_ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
     private float m_rollingMovementX;
 
+    private const float m_CONTROLLER_DEADZONE = 0.30f;
+
     public bool IsRolling {get; private set;}
     public bool InputIsLocked { get; set; } = false;
     public Animator Animator { get; private set; }
@@ -40,6 +43,14 @@ public class PlayerMovement : MonoBehaviour
         m_playerAttack = gameObject.GetComponent<EntityAttack>();
         m_NON_ROLLING_COLLIDER_SIZE = m_playerCollider.size;
         m_ROLLING_COLLIDER_SIZE = (m_NON_ROLLING_COLLIDER_SIZE / 2);
+    }
+
+    private void Start()
+    {
+       if (!m_isFacingRight)
+        {
+            FlipPlayer();
+        }
     }
 
     void Update()
@@ -121,28 +132,35 @@ public class PlayerMovement : MonoBehaviour
         if (!InputIsLocked && !IsRolling)
         {
             // Controls.
-            var moveX = value.Get<float>();
+            float moveX = value.Get<float>();
+
+            if (Math.Abs(moveX) < m_CONTROLLER_DEADZONE)
+            {
+                moveX = 0.0f;
+            }
+
             // Animation.
             Animator.SetFloat("Speed", Mathf.Abs(moveX));
 
             // Player Direction.
-            if (moveX < 0.0f && m_facingRight)
+            if (moveX < 0.0f && m_isFacingRight)
             {
+                m_isFacingRight = !m_isFacingRight;
                 FlipPlayer();
             }
-            else if (moveX > 0.0f && !m_facingRight)
+            else if (moveX > 0.0f && !m_isFacingRight)
             {
+                m_isFacingRight = !m_isFacingRight;
                 FlipPlayer();
             }
 
             // Physics.
-            m_rigidbody2D.velocity = new Vector2(moveX * m_moveSpeed, m_rigidbody2D.velocity.y);
+            m_rigidbody2D.velocity = new Vector2((float)Math.Round(moveX) * m_moveSpeed, m_rigidbody2D.velocity.y);
         }
     }
 
     private void FlipPlayer()
     {
-        m_facingRight = !m_facingRight;
         Vector3 currentScale = gameObject.transform.localScale;
         currentScale.x *= -1;
         gameObject.transform.localScale = currentScale;
@@ -198,5 +216,10 @@ public class PlayerMovement : MonoBehaviour
         m_playerHealth.Invincible = false;
         m_playerCollider.size = m_NON_ROLLING_COLLIDER_SIZE;
         GameMediator.Instance.DisableEntityCollision(gameObject);
+    }
+
+    public void OnPauseGame()
+    {
+        GameMediator.Instance.PauseGame();
     }
 }

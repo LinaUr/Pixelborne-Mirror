@@ -7,6 +7,11 @@ public class MainMenu : MonoBehaviour
         GameMediator.Instance.CurrentMode = Mode.MainMenu;
     }
 
+    public void StartSingleplayer()
+    {
+        SceneChanger.SetSingleplayerAsActiveScene();
+    }
+
     public void StartMultiplayer()
     {
         SceneChanger.SetMultiplayerAsActiveScene();
