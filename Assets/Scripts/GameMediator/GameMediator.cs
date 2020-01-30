@@ -99,7 +99,7 @@ public class GameMediator : ScriptableObject
     {
         if (CurrentMode == Mode.Multiplayer)
         {
-            ActiveGame.EnableEntityCollision(callingEntity, ActivePlayers[0].layer, ActivePlayers[1].layer);
+            ActiveGame.EnableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
         }
             
     }
@@ -108,7 +108,7 @@ public class GameMediator : ScriptableObject
     {
         if (CurrentMode == Mode.Multiplayer)
         {
-            ActiveGame.DisableEntityCollision(callingEntity, ActivePlayers[0].layer, ActivePlayers[1].layer);
+            ActiveGame.DisableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
         }
     }
 }
