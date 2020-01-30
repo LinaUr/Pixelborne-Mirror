@@ -7,9 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-// This class handles loading and of embedded images.
+// This class handles loading of embedded images.
 // It searches for pictures on the current computer and applies them to canvases in the scene.
-
 public class WindowImages : MonoBehaviour
 {
     private static List<string> m_imagePaths = new List<string>();

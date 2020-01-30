@@ -7,7 +7,6 @@ using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    // Transforms from outer left to outer right stage.
     private int m_playerIndex;
     [SerializeField]
     // Transforms from outer left to outer right stage.
@@ -26,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private Recorder m_recorder;
 
     private bool m_isGrounded = true;
+    private float m_rollingMovementX;
     private Rigidbody2D m_rigidbody2D;
     private BoxCollider2D m_playerCollider;
     private EntityHealth m_playerHealth;
@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 m_NON_ROLLING_COLLIDER_SIZE;
     private Vector2 m_ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
-    private float m_rollingMovementX;
 
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 

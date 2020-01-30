@@ -50,7 +50,7 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
         {
             return;
         }
-        // Fade to black
+        // Fade to black.
         if (m_fadeMode == 1)
         {
             // Lower the opacity of the fade to black canvas object based on the time passed since the fade to black trigger.
@@ -69,7 +69,7 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
                 GameMediator.Instance.FadedOut();
             }
         }
-        // Fade in
+        // Fade in.
         else if (m_fadeMode == 2)
         {
             // Increase the opacity of the fade to black canvas object based on the time passed since the fade in trigger.

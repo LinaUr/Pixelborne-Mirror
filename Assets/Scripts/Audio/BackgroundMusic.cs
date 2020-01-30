@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 // (or anything inside it really), because then an Exception like 
 // "Xxx() can only be called from the main thread" gets thrown.
 
-// This class searches for mp3-files in the user folder of the current user,
+// This class searches for MP3-files in the user folder of the current user,
 // assignes them randomly to an Audio Source component in the scene and plays them.
 public class BackgroundMusic : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class BackgroundMusic : MonoBehaviour
     private AudioClip m_audioClip;
     private float m_elapsedTime;
 
-    // Playlist stores paths to mp3 files.
+    // Playlist stores paths to MP3 files.
     private List<string> m_playlist = new List<string>(); 
     
     async void Start()
@@ -57,7 +57,7 @@ public class BackgroundMusic : MonoBehaviour
 
     // This coroutine picks a random file from the playlist, converts the
     // MP3 file to WAV, assigns it to the audioPlayer and plays it.
-    // NOTE: It can currently only handle mp3 files.
+    // NOTE: It can currently only handle MP3 files.
     private IEnumerator ChangeBackgroundAudio()
     {
         int index = UnityEngine.Random.Range(0, m_playlist.Count);
@@ -68,7 +68,7 @@ public class BackgroundMusic : MonoBehaviour
             yield return request.SendWebRequest();
 
             // Apparently Unity does not allow the use of DownloadHandlerAudioClip.audioClip
-            // when the audiofile is MP3 format (it returns null). So we make use of the NAudio library.
+            // when the audiofile is in MP3 format (it returns null). So we make use of the NAudio library.
             m_audioClip = NAudioPlayer.FromMp3Data(request.downloadHandler.data);
             m_audioClip.name = m_playlist[index];
             m_audioPlayer.clip = m_audioClip;

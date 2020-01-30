@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-// This class manages the the Health of an entity.
+// This class manages the health of an entity.
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField]

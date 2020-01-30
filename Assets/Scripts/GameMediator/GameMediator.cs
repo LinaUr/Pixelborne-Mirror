@@ -20,7 +20,7 @@ public class GameMediator : ScriptableObject
         private set { }
     }
 
-    // Every scene need to have a corresponding script that set the mode.
+    // Every scene needs to have a corresponding script that sets the CurrentMode.
     public Mode CurrentMode { get; set; }
     public IGame ActiveGame { get; set; }
     public ICamera ActiveCamera { get; set; }
