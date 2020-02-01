@@ -1,4 +1,5 @@
 ﻿// NOTE: for source of file see https://www.reddit.com/r/gamedev/comments/3sncql/hsv_shader_for_unity_2d/?utm_source=share&utm_medium=web2x
+// We added an alpha value.
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
@@ -8,6 +9,8 @@ Shader "Custom/HSVShader" {
         _HueShift("HueShift", Float ) = 0
         _Sat("Saturation", Float) = 1
         _Val("Value", Float) = 1
+        // Added alpha value.
+        _Alpha("Alpha", Float) = 1
     }
     SubShader {
  
@@ -65,13 +68,14 @@ Shader "Custom/HSVShader" {
             float _HueShift;
             float _Sat;
             float _Val;
+            float _Alpha;
  
             half4 frag(v2f i) : COLOR
             {
                 half4 col = tex2D(_MainTex, i.uv);
                 float3 shift = float3(_HueShift, _Sat, _Val);
-               
-                return half4( half3(shift_col(col, shift)), col.a);
+                // Apply alpha value.
+                return half4( half3(shift_col(col, shift)), _Alpha);
             }
             ENDCG
         }

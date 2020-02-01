@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HSV
+  m_Name: HSV_Alpha
   m_Shader: {fileID: 4800000, guid: 3675b3a1bce8e9c43a4dc2095180e4db, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -56,6 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Alpha: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1

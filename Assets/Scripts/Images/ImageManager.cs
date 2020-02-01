@@ -17,7 +17,11 @@ public class ImageManager : MonoBehaviour
     private static ImageManager m_instance = null;
     private List<string> m_imagePaths = new List<string>();
     private bool m_isLoadingPaths = true;
+    private float m_alpha;
 
+    public bool IsFirstLoad { get; set; } = true;
+    public GameObject ImageHolder { get; set; }
+    public List<Texture2D> ImageStore { get; set; } = new List<Texture2D>();
     public static ImageManager Instance
     {
         get
@@ -33,9 +37,6 @@ public class ImageManager : MonoBehaviour
         }
         private set { }
     }
-
-    public GameObject ImageHolder { get; set; }
-    public List<Texture2D> ImageStore { get; set; } = new List<Texture2D>();
 
     void Awake()
     {
@@ -66,11 +67,11 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    // This coroutine loads all found images and stores them.
     private IEnumerator StoreAllImages()
     {
         for (int i = 0; i < m_imagePaths.Count; i++)
         {
-            //int num = UnityEngine.Random.Range(0, m_imagePaths.Count());
             UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture("file://" + m_imagePaths[i]);
             // Wait until its loaded.
             yield return imageRequest.SendWebRequest();
@@ -81,12 +82,12 @@ public class ImageManager : MonoBehaviour
 
     public void SetNewSceneImages()
     {
-        StartCoroutine(LoadNewImages());
+        StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
     }
 
     // This coroutine grabs a needed amount of images from the ImageStore 
-    // and passes it on to ApplyImages().
-    private IEnumerator LoadNewImages()
+    // and passes them on.
+    private IEnumerator LoadNewImages(Action<List<Texture2D>> imageCallback)
     {
         int amount = ImageHolder.transform.childCount;
         List<Texture2D> images = new List<Texture2D>();
@@ -136,17 +137,29 @@ public class ImageManager : MonoBehaviour
             }
         }
 
-        StartCoroutine(ApplyImages(images));
+        imageCallback(images);
     }
 
     // This coroutine applies a given set of images to the ImageHolder.
     private IEnumerator ApplyImages(List<Texture2D> images)
     {
+        if (IsFirstLoad)
+        {
+            // If this is the first time applying the images to the holder, 
+            // then make the images fully transparent.
+            m_alpha = 0.0f;
+            IsFirstLoad = false;
+        }
+        else
+        {
+            // Increase alpha value.
+            m_alpha += 0.1f;
+        }
+
         for (int i = 0; i < ImageHolder.transform.childCount; i++)
         {
             RawImage rawImage = ImageHolder.transform.GetChild(i).GetComponent<RawImage>();
-            // Change alpha channel of rawImage to visible if a suitable image is found.
-            rawImage.color = new Color(1f, 1f, 1f, 1f);
+            rawImage.material.SetFloat("_Alpha", m_alpha);
             rawImage.texture = images[i];
 
             yield return null;
