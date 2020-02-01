@@ -1,22 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-// This class manages the the Health of an entity.
+// This class manages the health of an entity.
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField]
-    public int MaxHealth;
-    public bool Invincible;
-    public int CurrentHealth { get; private set;} 
+    private int m_maxHealth;
 
-    public bool isAlive 
+    public bool Invincible { get; set; }
+    public int CurrentHealth { get; private set; }
+
+    public int MaxHealth
     {
-        get { return CurrentHealth > 0; }
+        get
+        {
+            return m_maxHealth;
+        }
+        private set { }
     }
-    public bool isDead 
+
+    public bool IsDead 
     {
-        get { return CurrentHealth <= 0; }
+        get
+        { 
+            return CurrentHealth <= 0;
+        }
+        private set { }
     }
 
     void Start()
@@ -31,7 +39,7 @@ public class EntityHealth : MonoBehaviour
         Invincible = false;
     }
 
-    // This method deals damage to the entity by reducing it's m_currentHealth.
+    // This method deals damage to the entity by reducing its m_currentHealth.
     public void TakeDamage(int damage)
     {
         if(!Invincible)

@@ -6,7 +6,6 @@ public interface IGame
     void ResetGame();
     void PrepareGame();
     void PlayerDied(GameObject player);
-    void LockPlayerInput(bool isLocked);
-    void EnableEntityCollision(GameObject callingEntity);
-    void DisableEntityCollision(GameObject callingEntity);
+    void DisableEntityCollision(GameObject callingEntity, int Layer1, int layer2);
+    void EnableEntityCollision(GameObject callingEntity, int Layer1, int layer2);
 }

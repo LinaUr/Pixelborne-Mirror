@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 // This class serves as a mediator between various components of the game.
 // It is a Singleton.
@@ -12,18 +13,33 @@ public class GameMediator : ScriptableObject
     {
         get
         {
-            return (m_instance == null) ? new GameMediator() : m_instance;
+            // A ScriptableObject should not be instanciated directly,
+            // so we use CreateInstance instead.
+            return m_instance == null ? CreateInstance<GameMediator>() : m_instance;
         }
+        private set { }
     }
 
-    // Every scene need to have a corresponding script that set the mode.
+    // Every scene needs to have a corresponding script that sets the CurrentMode.
     public Mode CurrentMode { get; set; }
     public IGame ActiveGame { get; set; }
     public ICamera ActiveCamera { get; set; }
+    public List<GameObject> ActivePlayers { get; set; } = new List<GameObject>();
 
     public GameMediator()
     {
         m_instance = this;
+    }
+
+    public void SetGameToStage(int stageIndex)
+    {
+        ActiveCamera.SetPosition(stageIndex);
+        ActivePlayers.ForEach(player =>
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.SetPosition(stageIndex);
+            playerMovement.ResetPlayerActions();
+        });
     }
 
     public void PauseGame()
@@ -45,10 +61,10 @@ public class GameMediator : ScriptableObject
         }
     }
 
-    public void PlayerDied(GameObject player)
+    public void PlayerDied(GameObject deadPlayer)
     {
-        ActiveGame.LockPlayerInput(true);
-        m_lastDiedPlayer = player;
+        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().InputIsLocked = true);
+        m_lastDiedPlayer = deadPlayer;
         ActiveCamera.FadeOut();
     }
 
@@ -66,7 +82,7 @@ public class GameMediator : ScriptableObject
 
     public void FadedIn()
     {
-        ActiveGame.LockPlayerInput(false);
+        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().InputIsLocked = false);
     }
 
     public void GameHasFinished()
@@ -79,13 +95,20 @@ public class GameMediator : ScriptableObject
         ActiveCamera.SwapHudSymbol(gameObject, sprite);
     }
 
-    public void EnableEntityCollision(GameObject callingEntity)
-    {
-        ActiveGame.EnableEntityCollision(callingEntity);
-    }
-
     public void DisableEntityCollision(GameObject callingEntity)
     {
-        ActiveGame.DisableEntityCollision(callingEntity);
+        if (CurrentMode == Mode.Multiplayer)
+        {
+            ActiveGame.DisableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
+        }
+            
+    }
+
+    public void EnableEntityCollision(GameObject callingEntity)
+    {
+        if (CurrentMode == Mode.Multiplayer)
+        {
+            ActiveGame.EnableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
+        }
     }
 }
