@@ -232,14 +232,14 @@ public class PlayerMovement : MonoBehaviour
     {
         m_playerHealth.Invincible = true;
         m_playerCollider.size = m_ROLLING_COLLIDER_SIZE;
-        GameMediator.Instance.EnableEntityCollision(gameObject);
+        GameMediator.Instance.DisableEntityCollision(gameObject);
     }
 
     public void StopRollingInvincibility()
     {
         m_playerHealth.Invincible = false;
         m_playerCollider.size = m_NON_ROLLING_COLLIDER_SIZE;
-        GameMediator.Instance.DisableEntityCollision(gameObject);
+        GameMediator.Instance.EnableEntityCollision(gameObject);
     }
 
     public void OnPauseGame()

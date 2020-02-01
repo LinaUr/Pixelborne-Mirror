@@ -81,18 +81,18 @@ public class Multiplayer : MonoBehaviour, IGame
             GameMediator.Instance.GameHasFinished();
         }
     }
-
     public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
-    {
-        m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
-    }
-    public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
             Physics2D.IgnoreLayerCollision(layer1, layer2, false);
         }
+    }
+
+    public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
+    {
+        m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
+        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
     }
 }

@@ -95,20 +95,20 @@ public class GameMediator : ScriptableObject
         ActiveCamera.SwapHudSymbol(gameObject, sprite);
     }
 
-    public void EnableEntityCollision(GameObject callingEntity)
-    {
-        if (CurrentMode == Mode.Multiplayer)
-        {
-            ActiveGame.EnableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
-        }
-            
-    }
-
     public void DisableEntityCollision(GameObject callingEntity)
     {
         if (CurrentMode == Mode.Multiplayer)
         {
             ActiveGame.DisableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
+        }
+            
+    }
+
+    public void EnableEntityCollision(GameObject callingEntity)
+    {
+        if (CurrentMode == Mode.Multiplayer)
+        {
+            ActiveGame.EnableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
         }
     }
 }
