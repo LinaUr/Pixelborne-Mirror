@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : MonoBehaviour, IGame
 {
     [SerializeField]
     private const int m_amountOfStages = 5;
+    [SerializeField]
+    private GameObject m_sceneImageHolder;
 
     private int m_currentStageIndex;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
@@ -18,6 +22,7 @@ public class Multiplayer : MonoBehaviour, IGame
     {
         GameMediator.Instance.ActiveGame = this;
         GameMediator.Instance.CurrentMode = Mode.Multiplayer;
+        ImageManager.Instance.ImageHolder = m_sceneImageHolder;
     }
 
     void Start()
@@ -33,6 +38,7 @@ public class Multiplayer : MonoBehaviour, IGame
 
     public void PrepareGame()
     {
+        ImageManager.Instance.SetNewSceneImages();
         GameMediator.Instance.SetGameToStage(m_currentStageIndex);
     }
 
