@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AttackPatternExecutor : MonoBehaviour
 {
+    // deleteme: STARTF
     public const string ATTACK_UP_IDENTIFICATION = "AU";
     public const string ATTACK_MID_IDENTIFICATION = "AM";
     public const string ATTACK_DOWN_IDENTIFICATION = "AD";
