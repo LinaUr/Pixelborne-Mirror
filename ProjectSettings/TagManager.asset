@@ -11,6 +11,7 @@ TagManager:
   - GameMediator
   - WindowLandscape
   - WindowPortrait
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -21,11 +22,11 @@ TagManager:
   - 
   - 
   - Player
-  - Player_1
-  - Player_2
   - 
   - 
   - 
+  - Ground
+  - Walls
   - 
   - 
   - 

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AttackPatternExecutor : MonoBehaviour
 {
-    // deleteme: STARTF
     public const string ATTACK_UP_IDENTIFICATION = "AU";
     public const string ATTACK_MID_IDENTIFICATION = "AM";
     public const string ATTACK_DOWN_IDENTIFICATION = "AD";
@@ -60,7 +59,7 @@ public class AttackPatternExecutor : MonoBehaviour
         {
             string nextAction = i < actions.Length - 1 ? actions[i + 1] : null;
             int action = -1;
-            float currentAnimationDuration;
+            float currentAnimationDuration = 0.01f;
             switch(actions[i])
             {
                 case ATTACK_UP_IDENTIFICATION:
@@ -77,11 +76,11 @@ public class AttackPatternExecutor : MonoBehaviour
                     break;
                 case START_FOLLOW_PLAYER_IDENTIFICATION:
                     action = 3;
-                    currentAnimationDuration = 0;
+                    currentAnimationDuration = 0.01f;
                     break;
                 case STOP_FOLLOW_PLAYER_IDENTIFICATION:
                     action = 4;
-                    currentAnimationDuration = 0;
+                    currentAnimationDuration = 0.01f;
                     break;
                 default:
                     throw new System.ArgumentException($"The Action number {i} from the action pattern could not be parsed");
@@ -98,7 +97,7 @@ public class AttackPatternExecutor : MonoBehaviour
             {
                 currentWaitingTime = currentAnimationDuration;
             }
-            waitingTimeBetweenActions.Add(currentAnimationDuration);
+            waitingTimeBetweenActions.Add(currentWaitingTime);
         }
         m_orderOfActions = orderOfActions.ToArray();
         m_waitingTimeBetweenActions = waitingTimeBetweenActions.ToArray();

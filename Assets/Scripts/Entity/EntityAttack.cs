@@ -16,7 +16,7 @@ public class EntityAttack : MonoBehaviour, IAttack
     private double m_attackDuration;
     private int m_currentAttackAnimationParameter = 0; 
     private double m_lastTimeAttacked = -10000;
-    private static float m_ATTACK_DIRECTION_DEADZONE = 0.1f;
+    private static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
     private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     private SpriteRenderer m_swordRenderer;
     private Collider2D m_blackSwordCollider;
@@ -118,10 +118,9 @@ public class EntityAttack : MonoBehaviour, IAttack
     }
 
     // This method tests if both entities are executing the same attack. This would cancel both attacks.
-    public bool AttackIsCancelling(EntityAttack attacker)
+    public bool AttackIsCancelling(int attackDirectionFromOtherEntity)
     {
-        return attacker != null && attacker.Attacking && this.Attacking && 
-            attacker.m_currentAttackAnimationParameter == this.m_currentAttackAnimationParameter;
+        return attackDirectionFromOtherEntity == m_currentAttackAnimationParameter && m_blackSwordCollider.enabled;
     }
 
     // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.

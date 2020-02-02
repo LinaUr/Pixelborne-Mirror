@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : MonoBehaviour, IGame
 {
-    [SerializeField]
-    private CameraMultiplayer m_cameraMultiplayer;
+
     [SerializeField]
     private GameObject m_player1;
     [SerializeField]
     private GameObject m_player2;
+    [SerializeField]
+    private const int m_amountOfStages = 5;
+    [SerializeField]
+    private GameObject m_sceneImageHolder;
 
-    private PlayerMovement m_player1Movement;
-    private PlayerMovement m_player2Movement;
-    // Multiplayer stages are indexed from far left to far right as they are in the scene.
     private int m_currentStageIndex;
-    private const int m_PLAYER_DISTANCE_TO_CENTER_X = 7;
-    private const int m_PLAYER_DISTANCE_TO_CENTER_Y = 0;
-    private static int PLAYER_1_LAYER;
-    private static int PLAYER_2_LAYER;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
 
     // The GameMediator gets prepared for this game mode.
@@ -27,59 +26,36 @@ public class Multiplayer : MonoBehaviour, IGame
     void Awake()
     {
         GameMediator.Instance.ActiveGame = this;
-        GameMediator.Instance.ActiveCamera = m_cameraMultiplayer;
         GameMediator.Instance.CurrentMode = Mode.Multiplayer;
-        PLAYER_1_LAYER = LayerMask.NameToLayer("Player_1");
-        PLAYER_2_LAYER = LayerMask.NameToLayer("Player_2");
+        ImageManager.Instance.ImageHolder = m_sceneImageHolder;
+        ImageManager.Instance.IsFirstLoad = true;
     }
 
     void Start()
     {
-        m_player1Movement = m_player1.GetComponent<PlayerMovement>();
-        m_player2Movement = m_player2.GetComponent<PlayerMovement>();
-
         ResetGame();
         PrepareGame();
     }
 
     public void ResetGame()
     {
-        m_currentStageIndex = m_cameraMultiplayer.Positions.Count / 2;
+        m_currentStageIndex = m_amountOfStages / 2;
     }
 
     public void PrepareGame()
     {
-        // Since the player positions are based on the camera position we have to set the camera first.
-        SetCameraPosition();
-        SetPlayerPositions(m_cameraMultiplayer.transform.position);
-        ResetPlayersActions();
-    }
-
-    private void SetCameraPosition()
-    {
-        m_cameraMultiplayer.MoveCamera(m_currentStageIndex);
-    }
-
-    private void SetPlayerPositions(Vector2 centerPosition)
-    {
-        Vector2 spawnDistance = new Vector2(m_PLAYER_DISTANCE_TO_CENTER_X, m_PLAYER_DISTANCE_TO_CENTER_Y);
-        m_player1Movement.SetPosition(centerPosition - spawnDistance);
-        m_player2Movement.SetPosition(centerPosition + spawnDistance);
-    }
-
-    private void ResetPlayersActions()
-    {
-        m_player1Movement.ResetPlayerActions();
-        m_player2Movement.ResetPlayerActions();
+        ImageManager.Instance.SetNewSceneImages();
+        GameMediator.Instance.SetGameToStage(m_currentStageIndex);
     }
 
     public void PlayerDied(GameObject player)
     {
-        if (player == m_player1)
+        int playerIndex = player.GetComponent<PlayerMovement>().Index;
+        if (playerIndex == 1)
         {
             m_currentStageIndex--;
         }
-        else if (player == m_player2)
+        else if (playerIndex == 2)
         {
             m_currentStageIndex++;
         }
@@ -94,9 +70,15 @@ public class Multiplayer : MonoBehaviour, IGame
     private void CheckHasWonGame(GameObject player)
     {
         if (m_currentStageIndex < 0 ||
-            m_currentStageIndex >= m_cameraMultiplayer.Positions.Count)
+            m_currentStageIndex >= m_amountOfStages)
         {
-            GameObject winningPlayer = player == m_player1 ? m_player2 : m_player1;
+            List<GameObject> players = GameMediator.Instance.ActivePlayers;
+            if(players.Count > 2)
+            {
+                throw new Exception("ERROR: More than two players registered, cannot decide who has won.");
+            }
+
+            GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
             ResetGame();
 
@@ -104,28 +86,22 @@ public class Multiplayer : MonoBehaviour, IGame
             GameMediator.Instance.GameHasFinished();
         }
     }
-
-    public void LockPlayerInput(bool isLocked)
-    {
-        m_player1Movement.InputIsLocked = isLocked;
-        m_player2Movement.InputIsLocked = isLocked;
-    }
-
-    public void EnableEntityCollision(GameObject callingEntity)
-    {
-        m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, true);
-    }
-    public void DisableEntityCollision(GameObject callingEntity)
+    public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
-            Physics2D.IgnoreLayerCollision(PLAYER_1_LAYER, PLAYER_2_LAYER, false);
+            Physics2D.IgnoreLayerCollision(layer1, layer2, false);
         }
     }
 
     public GameObject[] GetActivePlayers(){
         return new GameObject[]{m_player1, m_player2};
+    }
+
+    public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
+    {
+        m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
+        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
     }
 }

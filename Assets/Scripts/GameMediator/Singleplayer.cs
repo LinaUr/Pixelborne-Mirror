@@ -8,8 +8,7 @@ public class Singleplayer : MonoBehaviour, IGame
 
     private void Awake() 
     {
-        // TODO refactore
-        m_player = GameObject.FindWithTag("Player1");
+        m_player = GameObject.FindWithTag("Player_1");
     }
 
     void Start()
@@ -38,11 +37,11 @@ public class Singleplayer : MonoBehaviour, IGame
     {
 
     }
-    public void EnableEntityCollision(GameObject callingEntity)
+    public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
 
     }
-    public void DisableEntityCollision(GameObject callingEntity)
+    public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
 
     }

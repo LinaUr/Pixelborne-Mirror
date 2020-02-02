@@ -17,10 +17,12 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     private Animator m_animator;
     private Rigidbody2D m_playerRigidbody2D;
     private bool m_isFollowingPlayer = false;
+    private bool m_isAttacking = false;
     private string m_playerSwordName;
     private int m_currentAttackingDirection;
     
     private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
+    private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
 
     public bool InputIsLocked { get; set; } = false;
 
@@ -29,8 +31,8 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         m_rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         m_enemyCollider = gameObject.GetComponent<BoxCollider2D>();
         m_enemyHealth = gameObject.GetComponent<EntityHealth>();
-        m_weaponCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
-        m_weaponCollider.enabled = false;
+        m_weaponCollider = transform.GetChild(0).GetComponent<BoxCollider2D>();
+        m_weaponCollider.enabled = false; 
     }
 
     void Start()
@@ -42,7 +44,7 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
 
     void Update()
     {
-        if(m_isFollowingPlayer)
+        if (m_isFollowingPlayer)
         {
             Vector2 playerPosition = m_playerRigidbody2D.position;
             float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
@@ -64,7 +66,6 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
             m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
 
         }
-        
     }
 
     // This methods checks if the collider kills the enemy.
@@ -76,16 +77,16 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
             {
                 Die();
             }
-            // We have to explicitely look for a the player sword since friendly fire is not desired.
+            // We have to explicitly look for a the player sword since friendly fire is not desired.
             if (collider.gameObject.name == m_playerSwordName)
             {
-                // Test if the attacks are canceling each other.
+                // Test if the attacks are cancelling each other.
                 IAttack attackersAttack = collider.gameObject.GetComponentInParent<IAttack>();
                 // If the attacker has an EntityAttack the attack might be cancelled.
-                if (attackersAttack == null || !AttackIsCanelling(attackersAttack.GetAttackDirection()))
+                if (attackersAttack != null && !AttackIsCancelling(attackersAttack.GetAttackDirection()))
                 {
                     m_enemyHealth.TakeDamage(attackersAttack.GetAttackDamage());
-                    if (m_enemyHealth.isDead)
+                    if (m_enemyHealth.IsDead)
                     {
                         Die();
                     }
@@ -94,7 +95,7 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         }
     }
 
-    public bool AttackIsCanelling(int attackDirectionFromOtherEntity)
+    public bool AttackIsCancelling(int attackDirectionFromOtherEntity)
     {
         return attackDirectionFromOtherEntity == m_currentAttackingDirection && m_weaponCollider.enabled;
     }
@@ -154,8 +155,10 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     {
         if(!InputIsLocked)
         {
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[attackDirectionIndex], true);
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], false);
             m_currentAttackingDirection = attackDirectionIndex;
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+            m_isAttacking = true;
         }
     }
 
@@ -186,15 +189,17 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
 
     public float GetAttackUpDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_PARAMETERS[0]);
+        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[0]);
     }
+
     public float GetAttackMiddleDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_PARAMETERS[1]);
+        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[1]);
     }
+
     public float GetAttackDownDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_PARAMETERS[2]);
+        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[2]);
     }
 
     public void OnStartAttacking()
@@ -205,5 +210,14 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     public void OnStopAttacking()
     {
         m_weaponCollider.enabled = false;
+        m_isAttacking = false;
+    }
+
+    public void StopAttackingAnimation(int attackingDirection)
+    {
+        if(!m_isAttacking || attackingDirection != m_currentAttackingDirection){
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], false);
+        }
+        m_isAttacking = false;
     }
 }
