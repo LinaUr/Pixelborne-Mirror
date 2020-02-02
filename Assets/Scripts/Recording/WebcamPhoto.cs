@@ -16,7 +16,7 @@ public class WebcamPhoto : MonoBehaviour
     [DllImport("ImageEditing")]
     private static extern void processImage(ref Color32[] rawImage, int width, int height);
 
-    // This method sets the webcam device if aviable.
+    // This method sets the webcam device if available.
     void Start()
     {
         WebCamDevice[] webcamDevices = WebCamTexture.devices;

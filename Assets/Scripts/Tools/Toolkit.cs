@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,7 +35,10 @@ public static class Toolkit
     }
 
     // This method returns all file paths for files with a certain fileEnding in the root
-    // directory and all subdirectories.
+    // directory and all subdirectories. Additionally, it writes and saves 
+    // the found file paths in an extra file if this does not exist 
+    // to prevent duplicates after restart of the game (source:
+    // https://docs.microsoft.com/en-us/previous-versions/aa735748(v=vs.71)?redirectedfrom=MSDN).
     // Access to certain paths can be denied, so using Directory.GetFiles() could cause exceptions.
     // Therefore, implementing recursion ourselves is the best way to avoid those exceptions.
     // See https://social.msdn.microsoft.com/Forums/vstudio/en-US/ae61e5a6-97f9-4eaa-9f1a-856541c6dcce/directorygetfiles-gives-me-access-denied?forum=csharpgeneral
@@ -45,23 +48,39 @@ public static class Toolkit
 
         Stack<string> pending = new Stack<string>();
         pending.Push(root);
+
+        string fileType;
+        if (fileExtensions.Contains("mp3"))
+        {
+            fileType = "AudioFilePaths.txt";
+        } else
+        {
+            fileType = "ImageFilePaths.txt";
+        }
+        string path = Path.Combine(Directory.GetCurrentDirectory(), fileType);
+
         while (pending.Count != 0)
         {
-            string path = pending.Pop();
+            string currentPath = pending.Pop();
             string[] next = null;
             try
             {
-                //next = Directory.GetFiles(path, fileEnding);
-                next = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
-                        .Where(fileName => fileExtensions.Any(extention =>
-                                fileName.ToLower().EndsWith($".{extention}"))).ToArray();
+                //next = Directory.GetFiles(currentPath, fileEnding);
+                next = Directory.GetFiles(currentPath, "*.*", SearchOption.AllDirectories)
+                                .Where(fileName => fileExtensions.Any(extention =>
+                                        fileName.ToLower().EndsWith($".{extention}"))).ToArray();
+                
+                if(!File.Exists(path))
+                {
+                    foreach (string p in next) File.AppendAllText(path, p + Environment.NewLine);
+                }
             }
             catch { }
             if (next != null && next.Length != 0)
                 foreach (string file in next) fileList.Add(file);
             try
             {
-                next = Directory.GetDirectories(path);
+                next = Directory.GetDirectories(currentPath);
                 foreach (string subdir in next) pending.Push(subdir);
             }
             catch { }
