@@ -4770,7 +4770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669ca2978ab747a5e83ecd146416224a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackPattern: STARTF|AM|3
+  m_attackPattern: STARTF|AM|AM|AM|10
   m_entity: {fileID: 470790694}
 --- !u!114 &470790697
 MonoBehaviour:
