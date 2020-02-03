@@ -117,7 +117,13 @@ public class EntityAttack : MonoBehaviour, IAttack
         return m_attackDamage;
     }
 
-    // This method tests if both entities are executing the same attack. This would cancel both attacks.
+    public bool IsFacingRight()
+    {
+        return m_playerMovement.IsFacingRight;
+    }
+
+    // Attacks cancel each other if the are on the same height, both are currently in the deal damage window
+    // and the facing direction is not the same.
     public bool AttackIsCancelling(int attackDirectionFromOtherEntity)
     {
         return attackDirectionFromOtherEntity == m_currentAttackAnimationParameter && m_blackSwordCollider.enabled;

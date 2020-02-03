@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsRolling {get; private set;}
     public bool InputIsLocked { get; set; } = false;
     public Animator Animator { get; private set; }
+    public bool IsFacingRight { get {return m_isFacingRight; } }
 
     public int Index
     {
@@ -120,11 +121,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 Die();
             }
-            // We have to explicitely look for a sword as a collider because else
-            // the winning player could also be colliding with this player and would die instead.
+            // Try to get an attack interface from the colliders parent.
             IAttack enemyAttack = collider.gameObject.GetComponentInParent<IAttack>();
+            // If the attack interface exists and it is not the own interface, we got hit.
             if (enemyAttack != null && enemyAttack != m_playerAttack)
             {
+                // Take damage if the attack is not cancelling.
                 if (!m_playerAttack.AttackIsCancelling(enemyAttack.GetAttackDirection()))
                 {
                     m_playerHealth.TakeDamage(enemyAttack.GetAttackDamage());

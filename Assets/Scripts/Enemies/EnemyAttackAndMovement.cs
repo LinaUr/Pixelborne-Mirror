@@ -64,11 +64,9 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
 
             // Physics.
             m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
-
         }
     }
 
-    // This methods checks if the collider kills the enemy.
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (!InputIsLocked)
@@ -80,9 +78,8 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
             // We have to explicitly look for a the player sword since friendly fire is not desired.
             if (collider.gameObject.name == m_playerSwordName)
             {
-                // Test if the attacks are cancelling each other.
                 IAttack attackersAttack = collider.gameObject.GetComponentInParent<IAttack>();
-                // If the attacker has an EntityAttack the attack might be cancelled.
+                // Take damage if the collider comes from an attacker and the attacks are not cancelling each other.
                 if (attackersAttack != null && !AttackIsCancelling(attackersAttack.GetAttackDirection()))
                 {
                     m_enemyHealth.TakeDamage(attackersAttack.GetAttackDamage());
@@ -95,6 +92,8 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         }
     }
 
+    // Attacks cancel each other if the are on the same height, both are currently in the deal damage window
+    // and the facing direction is not the same.
     public bool AttackIsCancelling(int attackDirectionFromOtherEntity)
     {
         return attackDirectionFromOtherEntity == m_currentAttackingDirection && m_weaponCollider.enabled;
@@ -106,20 +105,29 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         return m_currentAttackingDirection;
     }
 
-    public int GetAttackDamage(){
+    public int GetAttackDamage()
+    {
         return m_attackDamage;
     }
 
+    public bool IsFacingRight()
+    {
+        return m_facingRight;
+    }
 
+
+    // This method initiates the entity dying animation.
     private void Die(){
         m_animator.SetBool("IsDying", true);
     }
 
+    // This method destroys the Game Object.
+    // Is called at the end of the death animation.
     private void DestroyObject(){
         Destroy(gameObject);
     }
 
-
+    // This method flips the enemy sprite.
     private void FlipEnemy()
     {
         m_facingRight = !m_facingRight;
@@ -151,17 +159,23 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         m_rigidbody2D.velocity = new Vector2(0, m_rigidbody2D.velocity.y);
     }
 
+    // This method starts the new attack.
+    // This rather inconvenient approach is needed in order to avoid a Race Condition
+    // that takes place when attacks are directly chained by the AttackPatternExecutor.
     private void startAttackIfPossible(int attackDirectionIndex)
     {
         if(!InputIsLocked)
         {
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], false);
             m_currentAttackingDirection = attackDirectionIndex;
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+            if(!m_isAttacking)
+            {
+                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+            }
             m_isAttacking = true;
         }
     }
 
+    // These method implement the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
     public void AttackUp()
     {
         startAttackIfPossible(0);
@@ -202,6 +216,8 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[2]);
     }
 
+    // These methods are triggered by the attack animations
+    // in order to mark the time window where the attack deals damage.
     public void OnStartAttacking()
     {
         m_weaponCollider.enabled = true;
@@ -213,11 +229,23 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
         m_isAttacking = false;
     }
 
+    // This method is called at the end of the attack animation
+    // and turns of the attack animation when no other attack is already registered.
+    // This is part of the Race Condition solution.
     public void StopAttackingAnimation(int attackingDirection)
     {
-        if(!m_isAttacking || attackingDirection != m_currentAttackingDirection){
+        if(!m_isAttacking){
+            // Stop the ended attack
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[attackingDirection], false);
+        }
+        else if(attackingDirection != m_currentAttackingDirection) 
+        {
+            // Stop the ended attack
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[attackingDirection], false);
+            // Start the new attack that has a different direction
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], false);
         }
+        // Reset the Attribute
         m_isAttacking = false;
     }
 }
