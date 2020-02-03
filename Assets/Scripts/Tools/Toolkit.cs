@@ -49,41 +49,49 @@ public static class Toolkit
         Stack<string> pending = new Stack<string>();
         pending.Push(root);
 
-        string fileType;
+        string logFile;
         if (fileExtensions.Contains("mp3"))
         {
-            fileType = "AudioFilePaths.txt";
+            logFile = "AudioFilePaths.txt";
         } else
         {
-            fileType = "ImageFilePaths.txt";
+            logFile = "ImageFilePaths.txt";
         }
-        string path = Path.Combine(Directory.GetCurrentDirectory(), fileType);
+        string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), logFile);
 
-        while (pending.Count != 0)
+        using (StreamWriter writer = new StreamWriter(logFilePath))
         {
-            string currentPath = pending.Pop();
-            string[] next = null;
-            try
+            while (pending.Count != 0)
             {
-                //next = Directory.GetFiles(currentPath, fileEnding);
-                next = Directory.GetFiles(currentPath, "*.*", SearchOption.AllDirectories)
-                                .Where(fileName => fileExtensions.Any(extention =>
-                                        fileName.ToLower().EndsWith($".{extention}"))).ToArray();
-                
-                if(!File.Exists(path))
+                string currentPath = pending.Pop();
+                string[] next = null;
+
+                // To avoid that all file paths for the root directory 
+                // and its subdirectories are already written to the file.
+                // So the file paths will be written to the file when visitting the subdirectory.
+                if (currentPath != root)
                 {
-                    foreach (string p in next) File.AppendAllText(path, p + Environment.NewLine);
+                    try
+                    {
+                        next = Directory.GetFiles(currentPath, "*.*", SearchOption.AllDirectories)
+                                        .Where(fileName => fileExtensions.Any(extension =>
+                                                fileName.ToLower().EndsWith($".{extension}"))).ToArray();
+                    }
+                    catch { }
+                    if (next != null && next.Length != 0)
+                        foreach (string file in next)
+                        {
+                            fileList.Add(file);
+                            writer.WriteLine(file);
+                        }
                 }
+                try
+                {
+                    next = Directory.GetDirectories(currentPath);
+                    foreach (string subdir in next) pending.Push(subdir);
+                }
+                catch { }
             }
-            catch { }
-            if (next != null && next.Length != 0)
-                foreach (string file in next) fileList.Add(file);
-            try
-            {
-                next = Directory.GetDirectories(currentPath);
-                foreach (string subdir in next) pending.Push(subdir);
-            }
-            catch { }
         }
         return fileList;
     }
