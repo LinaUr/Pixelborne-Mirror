@@ -4,6 +4,11 @@ public class PauseMenu : MonoBehaviour
 {
     void Start()
     {
+        // Freeze game.
+        Time.timeScale = 0;
+        GameMediator.Instance.LockPlayerInput(true);
+
+        // Set camera of canvas.
         Canvas canvas = gameObject.GetComponent<Canvas>();
         canvas.worldCamera = Camera.main;
     }
@@ -12,13 +17,15 @@ public class PauseMenu : MonoBehaviour
     {
         // Unfreeze game.
         Time.timeScale = 1;
-        SceneChanger.UnloadPauseMenuAsAdditiveScene();
+        GameMediator.Instance.LockPlayerInput(false);
+        SceneChanger.UnloadPauseMenuAdditive();
     }
 
     public void OpenMainMenu()
     {
         // Unfreeze game.
         Time.timeScale = 1;
+        GameMediator.Instance.LockPlayerInput(false);
         SceneChanger.SetMainMenuAsActiveScene();
     }
 }
