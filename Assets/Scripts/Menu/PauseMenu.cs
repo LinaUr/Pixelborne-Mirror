@@ -2,6 +2,12 @@
 
 public class PauseMenu : MonoBehaviour
 {
+    void Start()
+    {
+        Canvas canvas = gameObject.GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
+    }
+
     public void Resume()
     {
         // Unfreeze game.
