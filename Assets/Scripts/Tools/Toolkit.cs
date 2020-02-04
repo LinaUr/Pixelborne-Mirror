@@ -66,25 +66,23 @@ public static class Toolkit
                 string currentPath = pending.Pop();
                 string[] next = null;
 
-                // To avoid that all file paths for the root directory 
-                // and its subdirectories are already written to the file.
-                // So the file paths will be written to the file when visitting the subdirectory.
-                if (currentPath != root)
+                try
                 {
-                    try
-                    {
-                        next = Directory.GetFiles(currentPath, "*.*", SearchOption.AllDirectories)
-                                        .Where(fileName => fileExtensions.Any(extension =>
-                                                fileName.ToLower().EndsWith($".{extension}"))).ToArray();
-                    }
-                    catch { }
-                    if (next != null && next.Length != 0)
-                        foreach (string file in next)
-                        {
-                            fileList.Add(file);
-                            writer.WriteLine(file);
-                        }
+                    next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly)
+                                    .Where(fileName => fileExtensions.Any(extension =>
+                                            fileName.ToLower().EndsWith($".{extension}"))).ToArray();
                 }
+                catch { }
+
+                if (next != null && next.Length != 0)
+                {
+                    foreach (string file in next)
+                    {
+                        fileList.Add(file);
+                        writer.WriteLine(file);
+                    }
+                }
+                
                 try
                 {
                     next = Directory.GetDirectories(currentPath);
