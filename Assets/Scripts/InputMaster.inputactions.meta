@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 244df92cff29a5245b4648e5fc767fce
+guid: d82a402b50f029748b3a784aaead2d13
 ScriptedImporter:
   fileIDToRecycleName:
     11400000: <root>
@@ -10,6 +10,10 @@ ScriptedImporter:
     11400010: Player/Record
     11400012: Player/Roll
     11400014: Player/PauseGame
+    11400016: ButtonNavigation/Left
+    11400018: ButtonNavigation/Up
+    11400020: ButtonNavigation/Right
+    11400022: ButtonNavigation/Down
   externalObjects: {}
   userData: 
   assetBundleName: 

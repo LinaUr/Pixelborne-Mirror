@@ -1,15 +1,11 @@
 fileFormatVersion: 2
-guid: 244df92cff29a5245b4648e5fc767fce
+guid: 81e849305bd90844680c1ae00b57ae15
 ScriptedImporter:
   fileIDToRecycleName:
     11400000: <root>
-    11400002: Player/Jump
-    11400004: Player/Movement
-    11400006: Player/Attack
-    11400008: Player/AttackDirection
-    11400010: Player/Record
-    11400012: Player/Roll
-    11400014: Player/PauseGame
+    11400004: ButtonNavigation/Up
+    11400008: ButtonNavigation/Down
+    11400010: TEST/WHATEVER
   externalObjects: {}
   userData: 
   assetBundleName: 
