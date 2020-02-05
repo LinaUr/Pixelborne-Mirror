@@ -17,9 +17,9 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     private Animator m_animator;
     private Rigidbody2D m_playerRigidbody2D;
     private bool m_isFollowingPlayer = false;
-    private bool m_isAttacking = false;
+    private bool m_isAttackChained = false;
     private string m_playerSwordName;
-    private int m_currentAttackingDirection;
+    private int m_nextAttackingDirection;
     
     private static string[] m_ATTACK_ANIMATOR_PARAMETERS = {"AttackingUp", "Attacking", "AttackingDown"};
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
@@ -96,13 +96,13 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     // and the facing direction is not the same.
     public bool AttackIsCancelling(int attackDirectionFromOtherEntity)
     {
-        return attackDirectionFromOtherEntity == m_currentAttackingDirection && m_weaponCollider.enabled;
+        return attackDirectionFromOtherEntity == m_nextAttackingDirection && m_weaponCollider.enabled;
     }
 
 
     public int GetAttackDirection()
     {
-        return m_currentAttackingDirection;
+        return m_nextAttackingDirection;
     }
 
     public int GetAttackDamage()
@@ -160,18 +160,18 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     }
 
     // This method starts the new attack.
-    // This rather inconvenient approach is needed in order to avoid a Race Condition
+    // This rather inconvenient approach is needed in order to avoid a 
     // that takes place when attacks are directly chained by the AttackPatternExecutor.
     private void startAttackIfPossible(int attackDirectionIndex)
     {
         if(!InputIsLocked)
         {
-            m_currentAttackingDirection = attackDirectionIndex;
-            if(!m_isAttacking)
+            m_nextAttackingDirection = attackDirectionIndex;
+            if(!m_isAttackChained)
             {
-                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_nextAttackingDirection], true);
             }
-            m_isAttacking = true;
+            m_isAttackChained = true;
         }
     }
 
@@ -226,26 +226,26 @@ public class EnemyAttackAndMovement : MonoBehaviour, IEnemyAttackAndMovement
     public void OnStopAttacking()
     {
         m_weaponCollider.enabled = false;
-        m_isAttacking = false;
+        m_isAttackChained = false;
     }
 
     // This method is called at the end of the attack animation
     // and turns of the attack animation when no other attack is already registered.
     // This is part of the Race Condition solution.
-    public void StopAttackingAnimation(int attackingDirection)
+    public void StopAttackingAnimation(int previousAttackingDirection)
     {
-        if(!m_isAttacking){
+        if(!m_isAttackChained){
             // Stop the ended attack
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[attackingDirection], false);
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
         }
-        else if(attackingDirection != m_currentAttackingDirection) 
+        else if(previousAttackingDirection != m_nextAttackingDirection) 
         {
             // Stop the ended attack
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[attackingDirection], false);
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
             // Start the new attack that has a different direction
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], false);
+            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_nextAttackingDirection], true);
         }
         // Reset the Attribute
-        m_isAttacking = false;
+        m_isAttackChained = false;
     }
 }
