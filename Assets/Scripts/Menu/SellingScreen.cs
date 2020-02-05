@@ -26,16 +26,18 @@ public class SellingScreen : MonoBehaviour
     {
         // Unfreeze game.
         Time.timeScale = 1;
-        GameMediator.Instance.LockPlayerInput(false);
         SceneChanger.UnloadSellingScreenAdditive();
+        GameMediator.Instance.LockPlayerInput(false);
+
+        // TODO: Log sold file.
     }
 
     public void FileSellRejected()
     {
         // Unfreeze game.
         Time.timeScale = 1;
-        GameMediator.Instance.LockPlayerInput(false);
         SceneChanger.UnloadSellingScreenAdditive();
+        GameMediator.Instance.LockPlayerInput(false);
 
         // TODO: Reset game to checkpoint and respawn all enemies.
     }
