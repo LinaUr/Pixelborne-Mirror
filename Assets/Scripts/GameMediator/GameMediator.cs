@@ -44,9 +44,7 @@ public class GameMediator : ScriptableObject
 
     public void PauseGame()
     {
-        // Freeze game.
-        Time.timeScale = 0;
-        SceneChanger.LoadPauseMenuAsAdditiveScene();
+        SceneChanger.LoadPauseMenuAdditive();
     }
 
     public void HandleDeath(GameObject diedObject)
@@ -63,7 +61,7 @@ public class GameMediator : ScriptableObject
 
     public void PlayerDied(GameObject deadPlayer)
     {
-        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().InputIsLocked = true);
+        LockPlayerInput(true);
         m_lastDiedPlayer = deadPlayer;
         ActiveCamera.FadeOut();
     }
@@ -82,7 +80,7 @@ public class GameMediator : ScriptableObject
 
     public void FadedIn()
     {
-        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().InputIsLocked = false);
+        LockPlayerInput(false);
     }
 
     public void GameHasFinished()
@@ -110,5 +108,10 @@ public class GameMediator : ScriptableObject
         {
             ActiveGame.EnableEntityCollision(callingEntity, callingEntity.layer, callingEntity.layer);
         }
+    }
+
+    public void LockPlayerInput(bool isLocked)
+    {
+        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().InputIsLocked = isLocked);
     }
 }
