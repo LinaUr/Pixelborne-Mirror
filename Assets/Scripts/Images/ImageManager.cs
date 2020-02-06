@@ -158,7 +158,8 @@ public class ImageManager : MonoBehaviour
 
         for (int i = 0; i < ImageHolder.transform.childCount; i++)
         {
-            RawImage rawImage = ImageHolder.transform.GetChild(i).GetComponentInChildren<RawImage>();
+            // RawImage of CustomImage object.
+            RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", m_alpha);
             rawImage.texture = images[i];
 
