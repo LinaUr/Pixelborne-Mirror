@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : MonoBehaviour, IGame
@@ -76,11 +74,17 @@ public class Multiplayer : MonoBehaviour, IGame
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
             ResetGame();
-
-            Debug.Log($"{winningPlayer.name} has won the game!");
+            
+            GameMediator.Instance.Winner = winningPlayer.name;
             GameMediator.Instance.GameHasFinished();
         }
     }
+
+    private void ShowWinningScreen(string winningPlayer)
+    {
+        SceneChanger.LoadWinningScreenAdditive();
+    }
+
     public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
