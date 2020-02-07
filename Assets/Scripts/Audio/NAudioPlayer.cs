@@ -11,7 +11,7 @@ using NAudio.Wave;
 // This class is responsible for converting an MP3 byte streams into a WAV AudioClip.
 public static class NAudioPlayer
 {
-    public static AudioClip FromMp3Data(byte[] data)
+    public static WAV FromMp3Data(byte[] data)
     {
         // Load the data into a stream.
         MemoryStream mp3stream = new MemoryStream(data);
@@ -21,10 +21,7 @@ public static class NAudioPlayer
         // Convert to WAV data.
         WAV wav = new WAV(AudioMemStream(waveStream).ToArray());
         Debug.Log(wav);
-        AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false);
-        audioClip.SetData(wav.LeftChannel, 0);
-        // Return the clip.
-        return audioClip;
+        return wav;
     }
 
     private static MemoryStream AudioMemStream(WaveStream waveStream)
@@ -50,6 +47,7 @@ public class WAV
     public int ChannelCount { get; internal set; }
     public int SampleCount { get; internal set; }
     public int Frequency { get; internal set; }
+    public string Name { get; set; }
 
     public WAV(byte[] wav)
     {

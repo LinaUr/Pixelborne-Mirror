@@ -5267,6 +5267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_sceneImageHolder: {fileID: 987316855}
+  m_sceneAudioHolder: {fileID: 1429234003}
 --- !u!1 &677500860
 GameObject:
   m_ObjectHideFlags: 0

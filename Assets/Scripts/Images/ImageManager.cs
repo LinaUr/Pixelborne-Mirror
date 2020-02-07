@@ -16,12 +16,13 @@ public class ImageManager : MonoBehaviour
 {
     private static ImageManager m_instance = null;
     private List<string> m_imagePaths = new List<string>();
+    public List<Texture2D> m_imageStore = new List<Texture2D>();
     private bool m_isLoadingPaths = true;
     private float m_alpha;
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
-    public List<Texture2D> ImageStore { get; set; } = new List<Texture2D>();
+    
     public static ImageManager Instance
     {
         get
@@ -61,7 +62,7 @@ public class ImageManager : MonoBehaviour
             m_isLoadingPaths = false;
         });
 
-        if (m_imagePaths.Count() > 0)
+        if (m_imagePaths.Count > 0)
         {
             StartCoroutine(StoreAllImages());
         }
@@ -76,7 +77,7 @@ public class ImageManager : MonoBehaviour
             // Wait until its loaded.
             yield return imageRequest.SendWebRequest();
 
-            ImageStore.Add(DownloadHandlerTexture.GetContent(imageRequest));
+            m_imageStore.Add(DownloadHandlerTexture.GetContent(imageRequest));
         }
     }
 
@@ -103,7 +104,7 @@ public class ImageManager : MonoBehaviour
             if (m_imagePaths.Count < amount)
             {
                 // Wait until all images have been stored.
-                while (ImageStore.Count != m_imagePaths.Count)
+                while (m_imageStore.Count != m_imagePaths.Count)
                 {
                     yield return null;
                 }
@@ -111,7 +112,7 @@ public class ImageManager : MonoBehaviour
             else
             {
                 // Wait until a good amount of images has been stored.
-                while (ImageStore.Count < amount)
+                while (m_imageStore.Count < amount)
                 {
                     yield return null;
                 }
@@ -120,9 +121,9 @@ public class ImageManager : MonoBehaviour
             // Grab needed amount but random images from the ImageStore.
             for (int i = 0; i < amount; i++)
             {
-                int num = UnityEngine.Random.Range(0, ImageStore.Count());
+                int num = UnityEngine.Random.Range(0, m_imageStore.Count);
 
-                Texture2D image = ImageStore[num];
+                Texture2D image = m_imageStore[num];
                 if (image.width > image.height)
                 {
                     // Use suitable image.
