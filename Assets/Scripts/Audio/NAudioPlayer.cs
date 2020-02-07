@@ -1,6 +1,6 @@
 // NOTE:
-// This file is entirely copied from https://gamedev.stackexchange.com/questions/114885/how-do-i-play-mp3-files-in-unity-standalone
-// but got adapted to our standards.
+// This file is copied from https://gamedev.stackexchange.com/questions/114885/how-do-i-play-mp3-files-in-unity-standalone
+// and got adapted our needs.
 // It is used along the NAudio NuGet-package.
 
 using UnityEngine;
@@ -8,7 +8,7 @@ using System.IO;
 using System;
 using NAudio.Wave;
 
-// This class is responsible for converting an MP3 byte streams into a WAV AudioClip.
+// This class is responsible for converting an MP3 byte streams into WAV.
 public static class NAudioPlayer
 {
     public static WAV FromMp3Data(byte[] data)
