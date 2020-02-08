@@ -2151,7 +2151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51a7f2e97e1e234eb6469be41ee21c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_sliderFillImage: {fileID: 1208602039}
 --- !u!1 &1313015197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2910,7 +2909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d890229a1a9884cb09b3c5927978d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_credits: {fileID: 1561651848}
+  m_credits: {fileID: 130076355}
   m_mainMenu: {fileID: 233485735}
 --- !u!1 &1568644620
 GameObject:
