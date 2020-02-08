@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using UnityEngine.Networking;
 
 // NOTE:
-// Unity is not Thread safe, so they decided to make it impossible 
-// to call their API from another Thread by adding a mechanism to 
-// throw an exception when its API is used from another Thread.
+// Unity is not thread safe, so they decided to make it impossible 
+// to call their API from another thread by adding a mechanism to 
+// throw an exception when its API is used from another thread.
 // (see https://stackoverflow.com/questions/41330771/use-unity-api-from-another-thread-or-call-a-function-in-the-main-thread )
 
 // This class searches for MP3-files in the user folder of the current user,
@@ -96,12 +96,12 @@ public class BackgroundMusicManager : MonoBehaviour
         }
     }
 
-    // This coroutine loads and audios and stores their requested data.
+    // This coroutine loads audios and stores their requested data.
     private IEnumerator StoreAudioData()
     {
         m_isRequestingAudios = true;
 
-        int index = UnityEngine.Random.Range(0, m_audioPaths.Count);
+        int index = UnityEngine.Random.Range(0, m_audioPaths.Count - 1);
         UnityWebRequest audioRequest = UnityWebRequestTexture.GetTexture("file://" + m_audioPaths[index]);
         // Wait until its loaded.
         yield return audioRequest.SendWebRequest();
@@ -111,7 +111,7 @@ public class BackgroundMusicManager : MonoBehaviour
         m_isRequestingAudios = false;
     }
 
-    // This method converts the requested MP3 data to a WAV AudioClip;
+    // This method converts the requested MP3 data to a WAV AudioClip.
     private void StoreWavAudios()
     {
         m_isConvertingToWav = true;
@@ -146,7 +146,7 @@ public class BackgroundMusicManager : MonoBehaviour
                 yield return null;
             }
 
-            int index = UnityEngine.Random.Range(0, m_wavStore.Count);
+            int index = UnityEngine.Random.Range(0, m_wavStore.Count - 1);
             var wav = m_wavStore[index];
 
             AudioClip audioClip = AudioClip.Create(wav.Name, wav.SampleCount, 1, wav.Frequency, false);

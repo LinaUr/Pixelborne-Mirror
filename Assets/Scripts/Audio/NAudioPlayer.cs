@@ -20,7 +20,6 @@ public static class NAudioPlayer
         WaveStream waveStream = WaveFormatConversionStream.CreatePcmStream(mp3audio);
         // Convert to WAV data.
         WAV wav = new WAV(AudioMemStream(waveStream).ToArray());
-        Debug.Log(wav);
         return wav;
     }
 

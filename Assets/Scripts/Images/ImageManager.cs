@@ -121,7 +121,7 @@ public class ImageManager : MonoBehaviour
             // Grab needed amount but random images from the ImageStore.
             for (int i = 0; i < amount; i++)
             {
-                int num = UnityEngine.Random.Range(0, m_imageStore.Count);
+                int num = UnityEngine.Random.Range(0, m_imageStore.Count - 1);
 
                 Texture2D image = m_imageStore[num];
                 if (image.width > image.height)
