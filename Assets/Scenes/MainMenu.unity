@@ -2151,6 +2151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51a7f2e97e1e234eb6469be41ee21c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliderFillImage: {fileID: 1208602039}
 --- !u!1 &1313015197
 GameObject:
   m_ObjectHideFlags: 0
