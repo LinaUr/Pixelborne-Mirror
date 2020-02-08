@@ -120,7 +120,7 @@ public class ImageManager : MonoBehaviour
             // Grab needed amount but random images from the ImageStore.
             for (int i = 0; i < amount; i++)
             {
-                int num = UnityEngine.Random.Range(0, ImageStore.Count());
+                int num = UnityEngine.Random.Range(0, ImageStore.Count() - 1);
 
                 Texture2D image = ImageStore[num];
                 if (image.width > image.height)
@@ -158,7 +158,8 @@ public class ImageManager : MonoBehaviour
 
         for (int i = 0; i < ImageHolder.transform.childCount; i++)
         {
-            RawImage rawImage = ImageHolder.transform.GetChild(i).GetComponent<RawImage>();
+            // RawImage of CustomImage object.
+            RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", m_alpha);
             rawImage.texture = images[i];
 
