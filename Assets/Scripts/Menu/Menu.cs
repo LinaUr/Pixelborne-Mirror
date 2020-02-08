@@ -6,8 +6,8 @@ public class Menu : MonoBehaviour
 {
     private Image m_sliderFillImage;
 
-    private const float m_highlight = 0.8f;
-    private const float m_unhighlight = 0.6f;
+    private const float m_HIGHLIGHT = 0.8f;
+    private const float m_UNHIGHLIGHT = 0.6f;
 
     void Start()
     {
@@ -28,19 +28,19 @@ public class Menu : MonoBehaviour
                 m_sliderFillImage = EventSystem.current.currentSelectedGameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>();
             }
             // Highlight the Slider of the menu when it is selected.
-            if (m_sliderFillImage.color.r != m_highlight)
+            if (m_sliderFillImage.color.r != m_HIGHLIGHT)
             {
                 Color color = m_sliderFillImage.color;
-                color.r = m_highlight;
+                color.r = m_HIGHLIGHT;
                 m_sliderFillImage.color = color;
             }
             
         }
-        else if (m_sliderFillImage != null && m_sliderFillImage.color.r != m_unhighlight)
+        else if (m_sliderFillImage != null && m_sliderFillImage.color.r != m_UNHIGHLIGHT)
         {
             // Unhighlight the Slider of the menu when it is not selected.
             Color color = m_sliderFillImage.color;
-            color.r = m_unhighlight;
+            color.r = m_UNHIGHLIGHT;
             m_sliderFillImage.color = color;
         }
     }
