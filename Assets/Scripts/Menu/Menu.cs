@@ -29,13 +29,13 @@ public class Menu : MonoBehaviour
                 color.r = 8f;
                 sliderFillImage.color = color;
             }
-        }
-        else if (sliderFillImage.color.r != 0.6f)
-        {
-            // Unhighlight the Slider of the menu when it is not selected.
-            Color color = sliderFillImage.color;
-            color.r = 0.6f;
-            sliderFillImage.color = color;
+            else if (sliderFillImage.color.r != 0.6f)
+            {
+                // Unhighlight the Slider of the menu when it is not selected.
+                Color color = sliderFillImage.color;
+                color.r = 0.6f;
+                sliderFillImage.color = color;
+            }
         }
     }
 }
