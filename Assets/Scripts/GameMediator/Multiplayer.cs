@@ -75,14 +75,9 @@ public class Multiplayer : MonoBehaviour, IGame
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
             ResetGame();
             
-            GameMediator.Instance.Winner = winningPlayer.name;
+            Toolkit.WinnerIndex = winningPlayer.name.Substring(6);
             GameMediator.Instance.GameHasFinished();
         }
-    }
-
-    private void ShowWinningScreen(string winningPlayer)
-    {
-        SceneChanger.LoadWinningScreenAdditive();
     }
 
     public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)

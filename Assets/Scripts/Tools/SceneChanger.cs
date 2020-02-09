@@ -40,6 +40,11 @@ public class SceneChanger
     {
         SceneManager.LoadScene(MULTIPLAYER_SCENE_INDEX);
     }
+    
+    public static void SetWinningScreenAsActiveScene()
+    {
+        SceneManager.LoadScene(WINNING_SCREEN_SCENE_INDEX);
+    }
 
     // This method loads a scene with the index additive to the current scene.
     public static void LoadSceneAdditive(int index)
@@ -82,17 +87,5 @@ public class SceneChanger
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
-    }
-
-    // This method loads WinningScreen additive to the scene.
-    public static void LoadWinningScreenAdditive()
-    {
-        LoadSceneAdditive(WINNING_SCREEN_SCENE_INDEX);
-    }
-
-    // This method removes the WinningScreen as additive scene.
-    public static void UnloadWinningScreenAdditive()
-    {
-        SceneManager.UnloadSceneAsync(WINNING_SCREEN_SCENE_INDEX);
     }
 }

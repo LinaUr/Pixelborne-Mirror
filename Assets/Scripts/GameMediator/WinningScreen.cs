@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using System.IO;
 
 public class WinningScreen : MonoBehaviour
 {
@@ -9,34 +8,12 @@ public class WinningScreen : MonoBehaviour
 
     void Start()
     {
-        // Freeze game.
-        Time.timeScale = 0;
-        GameMediator.Instance.LockPlayerInput(true);
-
-        // Set camera of canvas.
-        Canvas canvas = gameObject.GetComponent<Canvas>();
-        canvas.worldCamera = Camera.main;
-        ShowWinningMessage();
-    }
-
-    // This method resumes the gameplay.
-    public void ShowWinningMessage()
-    {
-        // Unfreeze game.
-        Time.timeScale = 1;
-        GameMediator.Instance.LockPlayerInput(false);
-        string winningPlayer = GameMediator.Instance.Winner;
         // Set winningPlayer on canvas.
-        m_winningTextMesh.SetText($"{winningPlayer} has won!");
-        SceneChanger.LoadWinningScreenAdditive();
+        m_winningTextMesh.SetText($"Player {Toolkit.WinnerIndex} has won!");
     }
 
-    public void RemoveWinningScreenAndOpenMainMenu()
+    public void OpenMainMenu()
     {
-        // Unfreeze game.
-        Time.timeScale = 1;
-        GameMediator.Instance.LockPlayerInput(false);
-        SceneChanger.UnloadWinningScreenAdditive();
         SceneChanger.SetMainMenuAsActiveScene();
     }
 }
