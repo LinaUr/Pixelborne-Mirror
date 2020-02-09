@@ -26,7 +26,6 @@ public class CreditsScroller : MonoBehaviour
         // Scroll the credits.
         gameObject.transform.Translate(Vector3.up * 0.05f);
 
-        // If the credits are out of screen, reset the position of credits and activate the main menu.
         if (gameObject.transform.position.y >= 15)
         {
             m_mainMenu.SetActive(true);
