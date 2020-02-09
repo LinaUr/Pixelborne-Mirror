@@ -8,6 +8,8 @@ public class Menu : MonoBehaviour
 
     private const float m_HIGHLIGHT = 0.8f;
     private const float m_UNHIGHLIGHT = 0.6f;
+    private const string m_SLIDER_CHILD_FILL_AREA = "Fill Area";
+    private const string m_SLIDER_GRANDCHILD_FILL = "Fill";
 
     void Start()
     {
@@ -25,7 +27,10 @@ public class Menu : MonoBehaviour
             // Not all Menus have a Slider, but when it does we grab it.
             if (m_sliderFillImage == null)
             {
-                m_sliderFillImage = EventSystem.current.currentSelectedGameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>();
+                m_sliderFillImage = EventSystem.current.currentSelectedGameObject.transform
+                                        .Find(m_SLIDER_CHILD_FILL_AREA)
+                                        .Find(m_SLIDER_GRANDCHILD_FILL)
+                                        .GetComponent<Image>();
             }
             // Highlight the Slider of the menu when it is selected.
             if (m_sliderFillImage.color.r != m_HIGHLIGHT)
