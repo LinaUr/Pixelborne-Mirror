@@ -4584,8 +4584,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393457407}
   m_LocalRotation: {x: -0, y: -0, z: -0.7069131, w: 0.7073004}
-  m_LocalPosition: {x: 0.034999847, y: 0.014000019, z: 0.000000029802322}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalPosition: {x: 0.034999847, y: 0.014000019, z: 0}
+  m_LocalScale: {x: 0.15000007, y: 0.15000007, z: 1}
   m_Children: []
   m_Father: {fileID: 1204311612}
   m_RootOrder: 0
@@ -14033,7 +14033,6 @@ GameObject:
   - component: {fileID: 1204311615}
   - component: {fileID: 1204311613}
   - component: {fileID: 1204311620}
-  - component: {fileID: 1204311621}
   - component: {fileID: 1204311614}
   m_Layer: 8
   m_Name: Player2
@@ -14108,7 +14107,7 @@ MonoBehaviour:
   m_moveSpeed: 10
   m_jumpForce: 22
   m_isFacingRight: 1
-  m_weaponCollider: {fileID: 0}
+  m_weaponCollider: {fileID: 393457409}
   m_playerIndex: 2
   m_playerPositionsTransform: {fileID: 73894255}
   m_groundCheckY: 0.1
@@ -14261,20 +14260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxHealth: 5
---- !u!114 &1204311621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204311611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_attackDamage: 1
-  m_playerSword: {fileID: 393457407}
 --- !u!1 &1205548506
 GameObject:
   m_ObjectHideFlags: 0
@@ -14291,7 +14276,6 @@ GameObject:
   - component: {fileID: 1205548511}
   - component: {fileID: 1205548514}
   - component: {fileID: 1205548515}
-  - component: {fileID: 1205548516}
   m_Layer: 8
   m_Name: Player1
   m_TagString: Player_1
@@ -14426,7 +14410,7 @@ MonoBehaviour:
   m_moveSpeed: 10
   m_jumpForce: 22
   m_isFacingRight: 1
-  m_weaponCollider: {fileID: 0}
+  m_weaponCollider: {fileID: 1854587251}
   m_playerIndex: 1
   m_playerPositionsTransform: {fileID: 1619059395}
   m_groundCheckY: 0.1
@@ -14503,20 +14487,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxHealth: 5
---- !u!114 &1205548516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1205548506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6584c396ed2484448a0ee22f7d9040c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_attackDamage: 1
-  m_playerSword: {fileID: 1854587248}
 --- !u!1 &1257349403
 GameObject:
   m_ObjectHideFlags: 0
