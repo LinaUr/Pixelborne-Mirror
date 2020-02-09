@@ -14,4 +14,6 @@ public interface IEnemyAttackAndMovement: IAttack
     float GetAttackUpDuration();
     float GetAttackMiddleDuration();
     float GetAttackDownDuration();
+
+    bool PlayerIsInRange();
 }

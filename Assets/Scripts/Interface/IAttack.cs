@@ -8,4 +8,6 @@ public interface IAttack
 {
     int GetAttackDirection();
     int GetAttackDamage();
+
+    bool IsFacingRight();
 }

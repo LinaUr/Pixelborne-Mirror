@@ -4588,7 +4588,7 @@ Transform:
   m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 1204311612}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -89.969}
 --- !u!61 &393457409
 BoxCollider2D:
@@ -4771,6 +4771,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackPattern: STARTF|AM|AM|AM|10
+  m_initialMovementPattern: 
+  m_movementWhenInRangePattern: 
   m_entity: {fileID: 470790694}
 --- !u!114 &470790697
 MonoBehaviour:
@@ -4797,9 +4799,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad905837c4f30430ababdd3eb0707a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_moveSpeed: 1
   m_attackDamage: 1
-  m_facingRight: 1
+  m_moveSpeed: 1
+  m_jumpForce: 22
+  m_isFacingRight: 1
+  m_weaponCollider: {fileID: 1729217476}
+  m_attackRange: 10
+  m_isFriendlyFireActive: 0
 --- !u!61 &470790699
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13010,7 +13016,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1205548510}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &944459318
 GameObject:
@@ -14047,8 +14053,8 @@ Transform:
   m_LocalPosition: {x: 38.01, y: 2.99, z: -0.2092177}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
-  - {fileID: 1828138564}
   - {fileID: 393457408}
+  - {fileID: 1828138564}
   m_Father: {fileID: 754377875}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14098,16 +14104,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playerIndex: 2
-  m_playerPositionsTransform: {fileID: 73894255}
+  m_attackDamage: 1
   m_moveSpeed: 10
   m_jumpForce: 22
   m_isFacingRight: 1
+  m_weaponCollider: {fileID: 0}
+  m_playerIndex: 2
+  m_playerPositionsTransform: {fileID: 73894255}
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 4608
   m_recorder: {fileID: 26144966}
+  PlayerSword: {fileID: 393457407}
+  m_attackDirection: 0
 --- !u!114 &1204311616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14395,8 +14405,8 @@ Transform:
   m_LocalPosition: {x: 25.49, y: 2.49, z: -0.2092177}
   m_LocalScale: {x: 2.7375, y: 3, z: 1}
   m_Children:
-  - {fileID: 918047275}
   - {fileID: 1854587249}
+  - {fileID: 918047275}
   m_Father: {fileID: 754377875}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14412,16 +14422,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playerIndex: 1
-  m_playerPositionsTransform: {fileID: 1619059395}
+  m_attackDamage: 1
   m_moveSpeed: 10
   m_jumpForce: 22
   m_isFacingRight: 1
+  m_weaponCollider: {fileID: 0}
+  m_playerIndex: 1
+  m_playerPositionsTransform: {fileID: 1619059395}
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 5120
   m_recorder: {fileID: 26144966}
+  PlayerSword: {fileID: 1854587248}
+  m_attackDirection: 0
 --- !u!114 &1205548512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19197,7 +19211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1204311612}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1835449555
 GameObject:
@@ -19381,7 +19395,7 @@ Transform:
   m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 1205548510}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90.082}
 --- !u!212 &1854587250
 SpriteRenderer:

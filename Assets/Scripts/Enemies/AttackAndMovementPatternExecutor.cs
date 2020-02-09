@@ -3,16 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackPatternExecutor : MonoBehaviour
+public class AttackAndMovementPatternExecutor : MonoBehaviour
 {
+
+    // ATTACK PATTERN GRAMMAR:
+    // ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
+    // ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
+    // ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
+    // TIMEOUT = float
+    // ATTACK_INSTRUCTION = one of the constant strings below
+
     public const string ATTACK_UP_IDENTIFICATION = "AU";
     public const string ATTACK_MID_IDENTIFICATION = "AM";
     public const string ATTACK_DOWN_IDENTIFICATION = "AD";
     public const string START_FOLLOW_PLAYER_IDENTIFICATION = "STARTF";
     public const string STOP_FOLLOW_PLAYER_IDENTIFICATION = "STOPF";
+    public const string START_AUTO_JUMPING_IDENTIFICATION = "STARTAUTOJUMP";
+    public const string STOP_AUTO_JUMPING_IDENTIFICATION = "STOPAUTOJUMP";
     public readonly string SEPERATION_IDENTIFICATION = "|";
     [SerializeField] 
     private string m_attackPattern;
+    [SerializeField] 
+    private string m_initialMovementPattern;
+    [SerializeField] 
+    private string m_movementWhenInRangePattern;
     [SerializeField] 
     private GameObject m_entity;
     private IEnemyAttackAndMovement m_entityAttackAndMovement;
