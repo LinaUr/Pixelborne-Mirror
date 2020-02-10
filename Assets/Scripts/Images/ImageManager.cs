@@ -15,7 +15,7 @@ public class ImageManager : MonoBehaviour
 {
     private static ImageManager m_instance = null;
     private List<string> m_imagePaths = new List<string>();
-    public List<Texture2D> m_imageStore = new List<Texture2D>();
+    private List<Texture2D> m_imageStore = new List<Texture2D>();
     private bool m_isLoadingPaths = true;
     private float m_alpha;
 
@@ -35,7 +35,6 @@ public class ImageManager : MonoBehaviour
             }
             return m_instance;
         }
-        private set { }
     }
 
     void Awake()

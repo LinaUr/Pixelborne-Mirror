@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
+using System.Linq;
 
 // NOTE:
 // Unity is not thread safe, so they decided to make it impossible 
@@ -41,7 +42,6 @@ public class DriveMusicManager : MonoBehaviour
             }
             return m_instance;
         }
-        private set { }
     }
 
     public void Go()
@@ -53,7 +53,7 @@ public class DriveMusicManager : MonoBehaviour
 
     void Update()
     {
-        if (!m_isRequestingAudios && m_audioDataStore.Count < m_AMOUNT_TO_STORE)
+        if (!m_isLoadingPaths && !m_isRequestingAudios && m_audioDataStore.Count < m_AMOUNT_TO_STORE)
         {
             // (Re-)fill m_audioDataStore.
             StartCoroutine(StoreAudioData());
@@ -112,13 +112,11 @@ public class DriveMusicManager : MonoBehaviour
     private void StoreWavAudios()
     {
         m_isConvertingToWav = true;
-        // We cannot use the Unity API on side threads, so we use System.Random() here.
-        int index = new System.Random().Next(0, m_audioDataStore.Count);
-        byte[] audioData = m_audioDataStore[index];
+        byte[] audioData = m_audioDataStore.First();
         WAV wav = NAudioPlayer.FromMp3Data(audioData);
         wav.Name = m_audioPaths[m_audioDataStore.IndexOf(audioData)];
 
-        m_audioDataStore.RemoveAt(index);
+        m_audioDataStore.Remove(audioData);
         m_wavStore.Add(wav);
         m_isConvertingToWav = false;
     } 
@@ -142,9 +140,7 @@ public class DriveMusicManager : MonoBehaviour
             {
                 yield return null;
             }
-
-            int index = UnityEngine.Random.Range(0, m_wavStore.Count - 1);
-            var wav = m_wavStore[index];
+            var wav = m_wavStore.First();
 
             AudioClip audioClip = AudioClip.Create(wav.Name, wav.SampleCount, 1, wav.Frequency, false);
             audioClip.SetData(wav.LeftChannel, 0);
@@ -152,7 +148,7 @@ public class DriveMusicManager : MonoBehaviour
             m_audioPlayer.clip = audioClip;
             m_audioPlayer.Play();
 
-            m_wavStore.RemoveAt(index);
+            m_wavStore.Remove(wav);
 
             m_isSettingAudio = false;
         }
@@ -161,5 +157,4 @@ public class DriveMusicManager : MonoBehaviour
             Debug.Log("No MP3-files were found. Cannot play any background audio.");
         }
     }
-
 }
