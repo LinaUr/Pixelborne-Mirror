@@ -148,5 +148,4 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected virtual void Die(){
         StopAttacking();
     }
-
 }
