@@ -36,7 +36,7 @@ public class BackgroundMusic : MonoBehaviour
         
         // Running GetFiles() asynchronously in new task prevents game from stopping/pausing
         // when starting a new game.
-        m_playlist = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "mp3" }/*"*.mp3"*/));
+        m_playlist = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "mp3" }));
 
         StartCoroutine(ChangeBackgroundAudio());
     }
