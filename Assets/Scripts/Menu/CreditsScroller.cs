@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CreditsScroller : MonoBehaviour
 {
@@ -7,25 +8,36 @@ public class CreditsScroller : MonoBehaviour
     [SerializeField]
     private GameObject m_mainMenu;
 
-    Vector3 m_originalPos;
+    private Vector3 m_originalPos;
+
+    private const float m_SCROLL_SPEED = 0.05f;
+    private const int m_CREDITS_SCREEN_BORDER_Y = 15;
     
-    void Start()
+    void Awake()
     {
         // Save the original position of credits for reset.
-        m_originalPos = m_credits.transform.position;
+        m_originalPos = gameObject.transform.position;
     }
-    
+
+    private void OnEnable()
+    {
+        gameObject.transform.position = m_originalPos;
+    }
+
     void Update()
     {
         // Scroll the credits.
-        m_credits.transform.Translate(Vector3.up * 0.05f);
+        gameObject.transform.Translate(Vector3.up * m_SCROLL_SPEED);
 
-        // If the credits are out of screen, reset the position of credits and activate the main menu.
-        if (transform.position.y >= 15)
+        if (gameObject.transform.position.y >= m_CREDITS_SCREEN_BORDER_Y)
         {
-            m_credits.SetActive(false);
-            m_credits.transform.position = m_originalPos;
             m_mainMenu.SetActive(true);
+            m_credits.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
     }
 }

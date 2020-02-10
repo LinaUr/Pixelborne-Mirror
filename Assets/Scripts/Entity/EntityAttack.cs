@@ -78,7 +78,7 @@ public class EntityAttack : MonoBehaviour
     // unless the input is locked or the entity is already attacking.
     void OnAttack(InputValue value)
     {
-        if(!m_playerMovement.InputIsLocked && !m_playerMovement.IsRolling)
+        if(!m_playerMovement.IsInputLocked && !m_playerMovement.IsRolling)
         {
             if(m_lastTimeAttacked < 0)
             {
@@ -115,7 +115,7 @@ public class EntityAttack : MonoBehaviour
     // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
     void OnAttackDirection(InputValue value)
     {
-        if(!m_playerMovement.InputIsLocked)
+        if(!m_playerMovement.IsInputLocked)
         {
             m_attackDirection = value.Get<float>();
         }

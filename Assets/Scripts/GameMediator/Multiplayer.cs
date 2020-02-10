@@ -33,6 +33,7 @@ public class Multiplayer : MonoBehaviour, IGame
     {
         ResetGame();
         PrepareGame();
+        GameMediator.Instance.LockPlayerInput(false);
     }
 
     public void ResetGame()
