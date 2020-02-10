@@ -18,7 +18,7 @@ public class PlayerMovement : Entity
     [SerializeField]
     private Recorder m_recorder;
 
-    private bool m_isGrounded = true;
+    private bool m_isGrounded = false;
     private float m_rollingMovementX;
     [SerializeField]
     public GameObject PlayerSword;
@@ -105,7 +105,7 @@ public class PlayerMovement : Entity
 
     void OnJump(InputValue value)
     {
-        if (!InputIsLocked && !IsRolling)
+        if (!IsInputLocked && !IsRolling)
         {
             if (m_isGrounded)
             {
@@ -117,7 +117,7 @@ public class PlayerMovement : Entity
 
     void OnMovement(InputValue value)
     {
-        if (!InputIsLocked && !IsRolling)
+        if (!IsInputLocked && !IsRolling)
         {
             // Controls.
             float moveX = value.Get<float>();
@@ -174,7 +174,7 @@ public class PlayerMovement : Entity
     // the input is not locked and the player is not attacking.
     public void OnRoll(InputValue value)
     {
-        if(!InputIsLocked && !Attacking && !IsRolling && m_isGrounded)
+        if(!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
         {
             m_animator.SetBool("Rolling", true);
             m_rollingMovementX = m_rigidbody2D.velocity.x;
@@ -217,7 +217,7 @@ public class PlayerMovement : Entity
     // unless the input is locked or the entity is already attacking.
     void OnAttack(InputValue value)
     {
-        if(!InputIsLocked && !IsRolling)
+        if(!IsInputLocked && !IsRolling)
         {
             if(m_lastTimeAttacked < 0)
             {
@@ -247,7 +247,7 @@ public class PlayerMovement : Entity
     // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
     void OnAttackDirection(InputValue value)
     {
-        if(!InputIsLocked)
+        if(!IsInputLocked)
         {
             m_attackDirection = value.Get<float>();
         }

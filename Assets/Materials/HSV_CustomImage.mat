@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HSV_Alpha
+  m_Name: HSV_CustomImage
   m_Shader: {fileID: 4800000, guid: 3675b3a1bce8e9c43a4dc2095180e4db, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

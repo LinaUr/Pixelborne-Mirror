@@ -9,10 +9,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Aa]ssets/[Rr]ecords/
-/[Aa]ssets/[Rr]ecords.meta
-/[Aa]ssets/[Pp]hotos.meta
+/[Aa]ssets/[Ff]aces/
 /[Aa]ssets/[Pp]hotos/
+/[Aa]ssets/[Rr]ecords/
+/[Aa]ssets/[Ff]aces.meta
+/[Aa]ssets/[Pp]hotos.meta
+/[Aa]ssets/[Rr]ecords.meta
+/[Aa]udioFilePaths.txt
+/[Ii]mageFilePaths.txt
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
@@ -87,5 +91,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-    © 2019 GitHub, Inc.
+     2019 GitHub, Inc.
     Term

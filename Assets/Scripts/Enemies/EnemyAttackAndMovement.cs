@@ -28,7 +28,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     void Update()
     {
-        if (m_isFollowingPlayer && !InputIsLocked)
+        if (m_isFollowingPlayer && !IsInputLocked)
         {
             Vector2 playerPosition = m_playerRigidbody2D.position;
             float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
@@ -69,7 +69,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     // that takes place when attacks are directly chained by the AttackPatternExecutor.
     private void startAttackIfPossible(int attackDirectionIndex)
     {
-        if (!InputIsLocked)
+        if (!IsInputLocked)
         {
             m_currentAttackingDirection = attackDirectionIndex;
             if (!m_isAttackChained)

@@ -23,7 +23,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected int m_currentAttackingDirection = 0;
     protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
     protected static string[] m_ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
-    public bool InputIsLocked { get; set; } = false;
+    public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
 
     protected virtual void Awake()
@@ -122,7 +122,7 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!InputIsLocked)
+        if (!IsInputLocked)
         {
             if (collider.gameObject.name == "DeathZones")
             {
