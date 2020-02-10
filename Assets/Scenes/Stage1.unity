@@ -55368,6 +55368,7 @@ EdgeCollider2D:
   m_Points:
   - {x: 1, y: -5}
   - {x: 1, y: -4}
+  - {x: 0.9, y: -4}
 --- !u!68 &1470692666
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -55386,6 +55387,7 @@ EdgeCollider2D:
   m_Points:
   - {x: -4, y: -5}
   - {x: -4, y: -4}
+  - {x: -3.9, y: -4}
 --- !u!68 &1470692667
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -55406,6 +55408,7 @@ EdgeCollider2D:
   - {x: 3.456279, y: -1.4}
   - {x: 3, y: -1.4}
   - {x: 3, y: -1}
+  - {x: 3.1, y: -1}
 --- !u!68 &1470692668
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -55426,6 +55429,7 @@ EdgeCollider2D:
   - {x: -6.381568, y: -1.4}
   - {x: -6, y: -1.4}
   - {x: -6, y: -1}
+  - {x: -6.1, y: -1}
 --- !u!1 &1496258393
 GameObject:
   m_ObjectHideFlags: 0
