@@ -141,7 +141,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method is called at the end of the attack animation
-    // and turns the attack off animation when no other attack is already registered.
+    // and turns the attack animatio off when no other attack is already registered.
     // This is part of the attack chaning problem.
     public void StopAttackingAnimation(int previousAttackingDirection)
     {
