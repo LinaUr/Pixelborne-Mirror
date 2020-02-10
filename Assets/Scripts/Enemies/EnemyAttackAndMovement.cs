@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
-
     [SerializeField]
     private float m_attackRange = 10;
     [SerializeField]
     protected bool m_isFriendlyFireActive = false;
+
     protected BoxCollider2D m_playerCollider;
     protected Rigidbody2D m_playerRigidbody2D;
+
     private bool m_isFollowingPlayer = false;
     private bool m_isAttackChained = false;
     private bool m_playerIsInRange = false;
@@ -35,7 +36,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             movementDirection = movementDirection < 0 ? -1 : 1;
             m_animator.SetFloat("Speed", Mathf.Abs(movementDirection));
 
-            // Enemy Direction.
+            // Flip Enemy Direction if player now walks in opposite direction.
             if (movementDirection < 0.0f && m_isFacingRight)
             {
                 FlipEntity();
@@ -45,12 +46,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                 FlipEntity();
             }
 
-            // Physics.
+            // Apply the movement to the physics.
             m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
         }
         m_playerIsInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
-
 
     // This method initiates the entity dying animation.
     protected override void Die(){
@@ -59,39 +59,37 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method destroys the Game Object.
-    // Is called at the end of the death animation.
+    // It is called at the end of the death animation.
     private void DestroyObject(){
         Destroy(gameObject);
     }
 
     // This method starts the new attack.
-    // This rather inconvenient approach is needed in order to avoid a 
+    // This rather inconvenient approach is needed in order to avoid a problem
     // that takes place when attacks are directly chained by the AttackPatternExecutor.
     private void startAttackIfPossible(int attackDirectionIndex)
     {
-        if(!InputIsLocked)
+        if (!InputIsLocked)
         {
             m_currentAttackingDirection = attackDirectionIndex;
-            if(!m_isAttackChained)
+            if (!m_isAttackChained)
             {
                 m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
             }
             m_isAttackChained = true;
         }
     }
+
     protected override void OnTriggerEnter2D(Collider2D collider) {
-        if(!m_isFriendlyFireActive)
+        // We abort if the collider is not from a player when friendly fire is off.
+        if (!m_isFriendlyFireActive && collider.gameObject.name != m_playerSwordName)
         {
-            // We abort if the collider is not from a player when friendly fire is off.
-            if (collider.gameObject.name != m_playerSwordName)
-            {
-                return;
-            }
+            return;
         }
         base.OnTriggerEnter2D(collider);
     }
 
-    // These method implement the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
+    // These methods implements the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
     public void AttackUp()
     {
         startAttackIfPossible(0);
@@ -132,8 +130,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[2]);
     }
 
-
-    public bool PlayerIsInRange(){
+    public bool IsPlayerInRange(){
         return m_playerIsInRange;
     }
 
@@ -144,23 +141,23 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method is called at the end of the attack animation
-    // and turns of the attack animation when no other attack is already registered.
-    // This is part of the Race Condition solution.
+    // and turns the attack off animation when no other attack is already registered.
+    // This is part of the attack chaning problem.
     public void StopAttackingAnimation(int previousAttackingDirection)
     {
-        if(!m_isAttackChained)
+        if (!m_isAttackChained)
         {
-            // Stop the ended attack
+            // Stop the ended attack.
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
         }
-        else if(previousAttackingDirection != m_currentAttackingDirection) 
+        else if (previousAttackingDirection != m_currentAttackingDirection) 
         {
-            // Stop the ended attack
+            // Stop the ended attack.
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
             // Start the new attack that has a different direction
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
         }
-        // Reset the Attribute
+        // Reset the attribute
         m_isAttackChained = false;
     }
 }

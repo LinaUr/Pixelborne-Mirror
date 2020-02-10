@@ -19,7 +19,7 @@ public class HealthTracker : MonoBehaviour
     void Update()
     {
         int health = m_playerHealth.CurrentHealth;
-        if (m_playerHealth.IsDead)
+        if (m_playerHealth.IsZero)
         {
             health = 0;
         }

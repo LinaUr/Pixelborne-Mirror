@@ -18,13 +18,12 @@ public class EntityHealth : MonoBehaviour
         private set { }
     }
 
-    public bool IsDead 
+    public bool IsZero 
     {
         get
         { 
             return CurrentHealth <= 0;
         }
-        private set { }
     }
 
     void Start()

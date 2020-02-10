@@ -12,17 +12,19 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected float m_jumpForce = 22f;
     [SerializeField]
     protected bool m_isFacingRight;
-    protected int m_currentAttackingDirection = 0;
+    [SerializeField]
+    protected BoxCollider2D m_weaponCollider;
+
     protected Animator m_animator;
     protected Rigidbody2D m_rigidbody2D;
     protected BoxCollider2D m_collider;
     protected EntityHealth m_entityHealth;
-    [SerializeField]
-    protected BoxCollider2D m_weaponCollider;
-    public bool Attacking { get; protected set; }
+
+    protected int m_currentAttackingDirection = 0;
     protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
     protected static string[] m_ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
     public bool InputIsLocked { get; set; } = false;
+    public bool Attacking { get; protected set; }
 
     protected virtual void Awake()
     {
@@ -30,7 +32,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
         m_collider = gameObject.GetComponent<BoxCollider2D>();
         m_entityHealth = gameObject.GetComponent<EntityHealth>();
-        m_weaponCollider = transform.GetChild(0).GetComponent<BoxCollider2D>();
+        m_weaponCollider = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
     }
 
     protected virtual void Start()
@@ -43,7 +45,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         Attacking = false;
     }
 
-    // This method flips the enemy sprite.
+    // This method flips the entity sprite.
     protected virtual void FlipEntity()
     {
         m_isFacingRight = !m_isFacingRight;
@@ -56,7 +58,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void ResetAttackAnimation()
     {
         Attacking = false;
-        foreach(string parameter in m_ATTACK_ANIMATOR_PARAMETERS)
+        foreach (string parameter in m_ATTACK_ANIMATOR_PARAMETERS)
         {
             m_animator.SetBool(parameter, false);
         }
@@ -81,7 +83,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_rigidbody2D.velocity = new Vector2(0, m_rigidbody2D.velocity.y);
     }
 
-    // These methods are triggered by the attack animations
+    // StartAttacking and StopAttacking are triggered by the attack animations
     // in order to mark the time window where the attack deals damage.
     public void StartAttacking()
     {
@@ -95,12 +97,12 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_weaponCollider.isTrigger = false;
     }
 
-    // Attacks cancel each other if the are on the same height, both are currently in the deal damage window
+    // Attacks cancel each other if they are on the same height, both are currently in the deal damage window
     // and the facing direction is not the same.
-    public bool AttackIsCancelling(int attackDirectionFromOtherEntity, bool entityIsFacingRight)
+    public bool IsAttackCancelling(int attackDirectionFromOtherEntity, bool entityIsFacingRight)
     {
-        return attackDirectionFromOtherEntity == m_currentAttackingDirection && m_weaponCollider.enabled
-            && entityIsFacingRight != m_isFacingRight;
+        return (attackDirectionFromOtherEntity == m_currentAttackingDirection) && m_weaponCollider.enabled
+            && (entityIsFacingRight != m_isFacingRight);
     }
     
     public int GetAttackDirection()
@@ -126,20 +128,16 @@ public abstract class Entity : MonoBehaviour, IAttack
             {
                 Die();
             }
-            Vector2 colliderDirection = transform.position - collider.transform.position;
+            Vector2 colliderDirection = gameObject.transform.position - collider.gameObject.transform.position;
             bool attackerNeedsToFaceRight = colliderDirection.x > 0.0f ? true : false;
-            IAttack enemyAttack = collider.transform.parent.GetComponent<IAttack>();
+            IAttack enemyAttack = collider.gameObject.transform.parent.GetComponent<IAttack>();
             // Take damage if the collider comes from an attacker and the attacks are not cancelling each other.
-            if (enemyAttack != null && !AttackIsCancelling(enemyAttack.GetAttackDirection(), enemyAttack.IsFacingRight()
-            && attackerNeedsToFaceRight == enemyAttack.IsFacingRight())
+            if (enemyAttack != null && (!IsAttackCancelling(enemyAttack.GetAttackDirection(), enemyAttack.IsFacingRight()
+                && attackerNeedsToFaceRight == enemyAttack.IsFacingRight()))
                 && collider.enabled)
             {
-                if(GameMediator.Instance.ActivePlayers[0] == this || GameMediator.Instance.ActivePlayers[1] == this) {
-                    Debug.Log(enemyAttack);
-                    Debug.Log(this);
-                }
                 m_entityHealth.TakeDamage(enemyAttack.GetAttackDamage());
-                if (m_entityHealth.IsDead)
+                if (m_entityHealth.IsZero)
                 {
                     Die();
                 }
@@ -147,7 +145,6 @@ public abstract class Entity : MonoBehaviour, IAttack
         }
     }
 
-    // Method definitions
     protected virtual void Die(){
         StopAttacking();
     }
