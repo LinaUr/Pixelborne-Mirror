@@ -72,12 +72,11 @@ public class Multiplayer : MonoBehaviour, IGame
             }
 
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
+            GameMediator.Instance.WinnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
+            GameMediator.Instance.GameHasFinished();
+
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
             ResetGame();
-
-            int winningPlayerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
-            GameMediator.Instance.WinnerIndex = winningPlayerIndex;
-            GameMediator.Instance.GameHasFinished();
         }
     }
 
