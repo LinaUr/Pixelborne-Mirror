@@ -17,12 +17,11 @@ public class PlayerMovement : Entity
     private LayerMask m_whatIsGround;
     [SerializeField]
     private Recorder m_recorder;
+    [SerializeField]
+    public GameObject PlayerSword;
 
     private bool m_isGrounded = false;
     private float m_rollingMovementX;
-    [SerializeField]
-    public GameObject PlayerSword;
-    [SerializeField] 
     private float m_attackDirection;
     private double m_attackDuration; 
     private double m_lastTimeAttacked = -10000;
@@ -42,7 +41,6 @@ public class PlayerMovement : Entity
         {
             return m_playerIndex;
         }
-        private set { }
     }
 
     protected override void Awake()
