@@ -8,7 +8,6 @@ using UnityEngine.UI;
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : MonoBehaviour, IGame
 {
-
     [SerializeField]
     private GameObject m_player1;
     [SerializeField]
@@ -95,8 +94,9 @@ public class Multiplayer : MonoBehaviour, IGame
         }
     }
 
-    public GameObject[] GetActivePlayers(){
-        return new GameObject[]{m_player1, m_player2};
+    public GameObject[] GetActivePlayers()
+    {
+        return new GameObject[] { m_player1, m_player2 };
     }
 
     public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)

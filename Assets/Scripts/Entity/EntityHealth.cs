@@ -38,8 +38,9 @@ public class EntityHealth : MonoBehaviour
         Invincible = false;
     }
 
-    // This method ensures that the entity has 0 health
-    public void Die() {
+    // This method ensures that the entity has 0 health.
+    public void Die() 
+    {
         TakeDamage(m_maxHealth);
     }
 

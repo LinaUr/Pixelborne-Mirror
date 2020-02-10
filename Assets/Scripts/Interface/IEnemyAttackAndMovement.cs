@@ -1,8 +1,8 @@
 
-// This interface must be implemented by Enemies in order to have an AttackPatternExecutor 
+// This interface must be implemented by enemies in order to have an AttackPatternExecutor 
 using UnityEngine;
 
-public interface IEnemyAttackAndMovement: IAttack
+public interface IEnemyAttackAndMovement : IAttack
 {
     void AttackMiddle();
     void AttackUp();

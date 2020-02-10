@@ -47,6 +47,6 @@ public class Singleplayer : MonoBehaviour, IGame
     }
 
     public GameObject[] GetActivePlayers(){
-        return new GameObject[]{m_player};
+        return new GameObject[] { m_player };
     }
 }
