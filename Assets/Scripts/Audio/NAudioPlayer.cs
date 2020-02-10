@@ -1,6 +1,6 @@
 // NOTE:
-// This file is entirely copied from https://gamedev.stackexchange.com/questions/114885/how-do-i-play-mp3-files-in-unity-standalone
-// but got adapted to our standards.
+// This file is copied from https://gamedev.stackexchange.com/questions/114885/how-do-i-play-mp3-files-in-unity-standalone
+// and got adapted our needs.
 // It is used along the NAudio NuGet-package.
 
 using UnityEngine;
@@ -8,10 +8,10 @@ using System.IO;
 using System;
 using NAudio.Wave;
 
-// This class is responsible for converting an MP3 byte streams into a WAV AudioClip.
+// This class is responsible for converting an MP3 byte streams into WAV.
 public static class NAudioPlayer
 {
-    public static AudioClip FromMp3Data(byte[] data)
+    public static WAV FromMp3Data(byte[] data)
     {
         // Load the data into a stream.
         MemoryStream mp3stream = new MemoryStream(data);
@@ -20,11 +20,7 @@ public static class NAudioPlayer
         WaveStream waveStream = WaveFormatConversionStream.CreatePcmStream(mp3audio);
         // Convert to WAV data.
         WAV wav = new WAV(AudioMemStream(waveStream).ToArray());
-        Debug.Log(wav);
-        AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false);
-        audioClip.SetData(wav.LeftChannel, 0);
-        // Return the clip.
-        return audioClip;
+        return wav;
     }
 
     private static MemoryStream AudioMemStream(WaveStream waveStream)
@@ -50,6 +46,7 @@ public class WAV
     public int ChannelCount { get; internal set; }
     public int SampleCount { get; internal set; }
     public int Frequency { get; internal set; }
+    public string Name { get; set; }
 
     public WAV(byte[] wav)
     {

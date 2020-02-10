@@ -1447,6 +1447,8 @@ GameObject:
   m_Component:
   - component: {fileID: 649407527}
   - component: {fileID: 649407528}
+  - component: {fileID: 649407530}
+  - component: {fileID: 649407529}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -1524,6 +1526,31 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &649407529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649407526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6915431dbacaeb14fa24e921e8ea0548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &649407530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649407526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d51a7f2e97e1e234eb6469be41ee21c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliderFillImage: {fileID: 1208602039}
 --- !u!1 &808182143
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,7 +2175,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1305529778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d51a7f2e97e1e234eb6469be41ee21c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f9555a00c3063a4597601e4336ac4fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1313015197

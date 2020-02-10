@@ -26,6 +26,7 @@ public class GameMediator : ScriptableObject
     public IGame ActiveGame { get; set; }
     public ICamera ActiveCamera { get; set; }
     public List<GameObject> ActivePlayers { get; set; } = new List<GameObject>();
+    public float BackgroundMusicVolume { get; set; } = 1;
 
     public GameMediator()
     {
