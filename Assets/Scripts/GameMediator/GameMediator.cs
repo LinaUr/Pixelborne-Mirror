@@ -112,6 +112,6 @@ public class GameMediator : ScriptableObject
 
     public void LockPlayerInput(bool isLocked)
     {
-        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().InputIsLocked = isLocked);
+        ActivePlayers.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
     }
 }

@@ -4758,7 +4758,7 @@ GameObject:
   - component: {fileID: 393457410}
   - component: {fileID: 393457409}
   - component: {fileID: 393457411}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: BlackSword
   m_TagString: Player_2_sword
   m_Icon: {fileID: 0}
@@ -13175,7 +13175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918047275}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14476,7 +14476,7 @@ GameObject:
   - component: {fileID: 1204311620}
   - component: {fileID: 1204311621}
   - component: {fileID: 1204311614}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Player2
   m_TagString: Player_2
   m_Icon: {fileID: 0}
@@ -14567,7 +14567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 11400000, guid: d82a402b50f029748b3a784aaead2d13, type: 3}
+  m_Actions: {fileID: 11400000, guid: 244df92cff29a5245b4648e5fc767fce, type: 3}
   m_NotificationBehavior: 0
   m_UIEventSystem: {fileID: 0}
   m_DeviceLostEvent:
@@ -14728,7 +14728,7 @@ GameObject:
   - component: {fileID: 1205548514}
   - component: {fileID: 1205548515}
   - component: {fileID: 1205548516}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Player1
   m_TagString: Player_1
   m_Icon: {fileID: 0}
@@ -14880,7 +14880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 11400000, guid: d82a402b50f029748b3a784aaead2d13, type: 3}
+  m_Actions: {fileID: 11400000, guid: 244df92cff29a5245b4648e5fc767fce, type: 3}
   m_NotificationBehavior: 0
   m_UIEventSystem: {fileID: 0}
   m_DeviceLostEvent:
@@ -19785,7 +19785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828138564}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19969,7 +19969,7 @@ GameObject:
   - component: {fileID: 1854587249}
   - component: {fileID: 1854587250}
   - component: {fileID: 1854587251}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BlackSword
   m_TagString: Player_1_sword
   m_Icon: {fileID: 0}

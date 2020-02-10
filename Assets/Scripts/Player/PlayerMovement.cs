@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Recorder m_recorder;
 
-    private bool m_isGrounded = true;
+    private bool m_isGrounded = false;
     private float m_rollingMovementX;
     private Rigidbody2D m_rigidbody2D;
     private BoxCollider2D m_playerCollider;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     // Positions from outer left to outer right stage as they are in the scene.
     public IList<Vector2> Positions { get; set; }
     public bool IsRolling {get; private set;}
-    public bool InputIsLocked { get; set; } = false;
+    public bool IsInputLocked { get; set; } = false;
     public Animator Animator { get; private set; }
 
     public int Index
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
     // This methods checks if the collider kills the player.
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!InputIsLocked)
+        if (!IsInputLocked)
         {
             if (collider.gameObject.name == "DeathZones")
             {
@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value)
     {
-        if (!InputIsLocked && !IsRolling)
+        if (!IsInputLocked && !IsRolling)
         {
             if (m_isGrounded)
             {
@@ -153,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnMovement(InputValue value)
     {
-        if (!InputIsLocked && !IsRolling)
+        if (!IsInputLocked && !IsRolling)
         {
             // Controls.
             float moveX = value.Get<float>();
@@ -214,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
     // the input is not locked and the player is not attacking.
     public void OnRoll(InputValue value)
     {
-        if(!InputIsLocked && !m_playerAttack.Attacking && !IsRolling && m_isGrounded)
+        if(!IsInputLocked && !m_playerAttack.Attacking && !IsRolling && m_isGrounded)
         {
             Animator.SetBool("Rolling", true);
             m_rollingMovementX = m_rigidbody2D.velocity.x;

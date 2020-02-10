@@ -17,8 +17,8 @@ public class PauseMenu : MonoBehaviour
     {
         // Unfreeze game.
         Time.timeScale = 1;
-        GameMediator.Instance.LockPlayerInput(false);
         SceneChanger.UnloadPauseMenuAdditive();
+        GameMediator.Instance.LockPlayerInput(false);
     }
 
     public void OpenMainMenu()
