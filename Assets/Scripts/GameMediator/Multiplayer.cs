@@ -10,8 +10,6 @@ public class Multiplayer : MonoBehaviour, IGame
     private const int m_amountOfStages = 5;
     [SerializeField]
     private GameObject m_sceneImageHolder;
-    [SerializeField]
-    private GameObject m_sceneAudioHolder;
 
     private int m_currentStageIndex;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
@@ -24,7 +22,8 @@ public class Multiplayer : MonoBehaviour, IGame
         GameMediator.Instance.CurrentMode = Mode.Multiplayer;
         ImageManager.Instance.ImageHolder = m_sceneImageHolder;
         ImageManager.Instance.IsFirstLoad = true;
-        DriveMusicManager.Instance.AudioHolder = m_sceneAudioHolder;
+        // Activate DriveMusicManager.
+        DriveMusicManager.Instance.Go();
     }
 
     void Start()

@@ -26,8 +26,8 @@ public class DriveMusicManager : MonoBehaviour
     private bool m_isConvertingToWav = false;
 
     private const int m_AMOUNT_TO_STORE = 3;
+    private const float m_AUDIO_SOURCE_VOLUME = 0.5f;
 
-    public GameObject AudioHolder { get; set; }
     public static DriveMusicManager Instance
     {
         get
@@ -44,8 +44,10 @@ public class DriveMusicManager : MonoBehaviour
         private set { }
     }
 
-    void Awake()
+    public void Go()
     {
+        m_audioPlayer = gameObject.AddComponent<AudioSource>();
+        m_audioPlayer.volume = m_AUDIO_SOURCE_VOLUME;
         LoadAllPaths();
     }
 
@@ -65,11 +67,6 @@ public class DriveMusicManager : MonoBehaviour
         {
             // (Re-)fill m_wavStore.
             Task.Run(StoreWavAudios);
-        }
-
-        if (m_audioPlayer == null)
-        {
-            m_audioPlayer = AudioHolder.GetComponent<AudioSource>();
         }
 
         if (!m_audioPlayer.isPlaying && !m_isSettingAudio)
