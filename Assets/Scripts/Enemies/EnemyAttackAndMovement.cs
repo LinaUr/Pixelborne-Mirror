@@ -157,7 +157,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             // Start the new attack that has a different direction.
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
         }
-        // Reset the attribute
+        // Reset the attribute.
         m_isAttackChained = false;
     }
 }
