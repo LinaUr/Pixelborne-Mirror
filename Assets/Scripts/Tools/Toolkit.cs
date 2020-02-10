@@ -6,8 +6,6 @@ using UnityEngine;
 // This class contains various miscellaneous utility methods for other classes.
 public static class Toolkit
 {
-    public static string WinnerIndex { get; set; }
-
     // This method returns the current time in the unix format.
     public static int CurrentTime()
     {

@@ -19,7 +19,8 @@ public class GameMediator : ScriptableObject
         }
         private set { }
     }
-    
+
+    public int WinnerIndex { get; set; }
     // Every scene needs to have a corresponding script that sets the CurrentMode.
     public Mode CurrentMode { get; set; }
     public IGame ActiveGame { get; set; }

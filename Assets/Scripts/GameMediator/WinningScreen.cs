@@ -9,7 +9,7 @@ public class WinningScreen : MonoBehaviour
     void Start()
     {
         // Set winningPlayer on canvas.
-        m_winningTextMesh.SetText($"Player {Toolkit.WinnerIndex} has won!");
+        m_winningTextMesh.SetText($"Player {GameMediator.Instance.WinnerIndex} has won!");
     }
 
     public void OpenMainMenu()
