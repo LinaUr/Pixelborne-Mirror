@@ -154,7 +154,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         {
             // Stop the ended attack.
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
-            // Start the new attack that has a different direction
+            // Start the new attack that has a different direction.
             m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
         }
         // Reset the attribute
