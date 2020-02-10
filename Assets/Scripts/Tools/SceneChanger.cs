@@ -10,17 +10,21 @@ public class SceneChanger
     // The index must be taken from the build settings.
     static readonly int PAUSE_MENU_SCENE_INDEX = 1;
 
-    // SELLING_SCREEN_SCENE_INDEX represents the build index of the SellingScreen scene.
-    // The index must be taken from the build settings.
-    static readonly int SELLING_SCREEN_SCENE_INDEX = 2;
-
     // MULTIPLAYER_SCENE_INDEX represents the build index of the Multiplayer scene.
     // The index must be taken from the build settings.
-    static readonly int MULTIPLAYER_SCENE_INDEX = 3;
+    static readonly int MULTIPLAYER_SCENE_INDEX = 2;
 
     // SINGLEPLAYER_SCENE_INDEX represents the build index of the Singleplayer scene.
     // The index must be taken from the build settings.
-    static readonly int SINGLEPLAYER_SCENE_INDEX = 4;
+    static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
+
+    // SELLING_SCREEN_SCENE_INDEX represents the build index of the SellingScreen scene.
+    // The index must be taken from the build settings.
+    static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
+
+    // WINNING_SCREEN_SCENE_INDEX represents the build index of the WinningScreen scene.
+    // The index must be taken from the build settings.
+    static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
 
     public static void SetMainMenuAsActiveScene()
     {
@@ -36,15 +40,20 @@ public class SceneChanger
     {
         SceneManager.LoadScene(MULTIPLAYER_SCENE_INDEX);
     }
-
-    // This method loads PauseMenu additive to the scene.
-    public static void LoadPauseMenuAdditive()
+    
+    public static void SetWinningScreenAsActiveScene()
     {
-        // Check if scene has already been loaded additive.
+        SceneManager.LoadScene(WINNING_SCREEN_SCENE_INDEX);
+    }
+
+    // This method loads a scene with the index additive to the current scene.
+    public static void LoadSceneAdditive(int index)
+    {
+        // Check if the scene has already been loaded additive.
         bool sceneAlreadyLoaded = false;
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            if (SceneManager.GetSceneAt(i).buildIndex == PAUSE_MENU_SCENE_INDEX)
+            if (SceneManager.GetSceneAt(i).buildIndex == index)
             {
                 sceneAlreadyLoaded = true;
             }
@@ -52,8 +61,14 @@ public class SceneChanger
 
         if (!sceneAlreadyLoaded)
         {
-            SceneManager.LoadScene(PAUSE_MENU_SCENE_INDEX, LoadSceneMode.Additive);
+            SceneManager.LoadScene(index, LoadSceneMode.Additive);
         }
+    }
+
+    // This method loads PauseMenu additive to the scene.
+    public static void LoadPauseMenuAdditive()
+    {
+        LoadSceneAdditive(PAUSE_MENU_SCENE_INDEX);
     }
 
     // This method removes the PauseMenu as additive scene.
@@ -65,23 +80,10 @@ public class SceneChanger
     // This method loads SellingScreen additive to the scene.
     public static void LoadSellingScreenAdditive()
     {
-        // Check if scene has already been loaded additive.
-        bool sceneAlreadyLoaded = false;
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            if (SceneManager.GetSceneAt(i).buildIndex == SELLING_SCREEN_SCENE_INDEX)
-            {
-                sceneAlreadyLoaded = true;
-            }
-        }
-
-        if (!sceneAlreadyLoaded)
-        {
-            SceneManager.LoadScene(SELLING_SCREEN_SCENE_INDEX, LoadSceneMode.Additive);
-        }
+        LoadSceneAdditive(SELLING_SCREEN_SCENE_INDEX);
     }
 
-    // This method removes the PauseMenu as additive scene.
+    // This method removes the SellingScreen as additive scene.
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
