@@ -13,10 +13,10 @@ EditorBuildSettings:
     guid: 229c1bff51208244895006c696562ccb
   - enabled: 1
     path: Assets/Scenes/Multiplayer.unity
-    guid: d011cd83c507ad44884a1a0ae306c214
+    guid: 18961958e7bdbe5cab93ec0c8a560d4a
   - enabled: 1
     path: Assets/Scenes/Singleplayer.unity
-    guid: 30b1001f944616a4d833031006bf06a8
+    guid: e98fc1a00530b35c484ad75e2f3bed32
   - enabled: 1
     path: Assets/Scenes/SellingScreen.unity
     guid: f4fbe3b3b745a9944b6d6282c64f6f29
