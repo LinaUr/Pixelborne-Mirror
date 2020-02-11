@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -91,5 +92,18 @@ public static class Toolkit
             }
         }
         return fileList;
+    }
+
+    // This method logs a message with a given writer.
+    // See: https://docs.microsoft.com/de-de/dotnet/standard/io/how-to-open-and-append-to-a-log-file
+    public static void LogToFile(string logMessage, string logFile)
+    {
+        using (TextWriter writer = File.AppendText(logFile))
+        {
+            writer.Write("\r\nLog Entry : ");
+            writer.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
+            writer.WriteLine($"  :{logMessage}");
+            writer.WriteLine("-------------------------------");
+        }
     }
 }

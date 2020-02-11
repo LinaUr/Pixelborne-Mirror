@@ -21,6 +21,7 @@ public class GameMediator : ScriptableObject
     }
 
     public int WinnerIndex { get; set; }
+    public float PriceToPay { get; set; }
     // Every scene needs to have a corresponding script that sets the CurrentMode.
     public Mode CurrentMode { get; set; }
     public IGame ActiveGame { get; set; }
@@ -47,6 +48,18 @@ public class GameMediator : ScriptableObject
     public void PauseGame()
     {
         SceneChanger.LoadPauseMenuAdditive();
+    }
+
+    public void FreezeGame()
+    {
+        Time.timeScale = 0;
+        LockPlayerInput(true);
+    }
+
+    public void UnfreezeGame()
+    {
+        Time.timeScale = 1;
+        LockPlayerInput(false);
     }
 
     public void HandleDeath(GameObject diedObject)

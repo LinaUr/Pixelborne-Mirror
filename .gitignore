@@ -17,6 +17,7 @@
 /[Aa]ssets/[Rr]ecords.meta
 /[Aa]udioFilePaths.txt
 /[Ii]mageFilePaths.txt
+/[Ss]ellingLog.txt
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
