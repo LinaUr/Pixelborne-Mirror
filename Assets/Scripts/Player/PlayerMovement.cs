@@ -28,7 +28,7 @@ public class PlayerMovement : Entity
     private double m_lastTimeAttacked = -1;
     private Vector2 m_nonRollingColliderSize;
     private SpriteRenderer m_swordRenderer;
-    private Vector2 m_rollingColliderSize = new Vector2(0.1919138f, 0.1936331f);
+    private Vector2 m_rollingColliderSize;
 
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 
