@@ -18,16 +18,17 @@ public class PlayerMovement : Entity
     [SerializeField]
     private Recorder m_recorder;
     [SerializeField]
-    public GameObject PlayerSword;
+    private GameObject m_playerSword;
+    public GameObject PlayerSword { get { return m_playerSword; } }
 
     private bool m_isGrounded = false;
     private float m_rollingMovementX;
     private float m_attackDirection;
     private double m_attackDuration; 
-    private double m_lastTimeAttacked = -10000;
-    private Vector2 m_NON_ROLLING_COLLIDER_SIZE;
+    private double m_lastTimeAttacked = -1;
+    private Vector2 m_nonRollingColliderSize;
     private SpriteRenderer m_swordRenderer;
-    private Vector2 m_ROLLING_COLLIDER_SIZE = new Vector2(0.1919138f, 0.1936331f);
+    private Vector2 m_rollingColliderSize = new Vector2(0.1919138f, 0.1936331f);
 
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 
@@ -47,8 +48,8 @@ public class PlayerMovement : Entity
     {
         base.Awake();
         GameMediator.Instance.ActivePlayers.Add(gameObject);
-        m_NON_ROLLING_COLLIDER_SIZE = m_collider.size;
-        m_ROLLING_COLLIDER_SIZE = (m_NON_ROLLING_COLLIDER_SIZE / 2);
+        m_nonRollingColliderSize = m_collider.size;
+        m_rollingColliderSize = (m_nonRollingColliderSize / 2);
 
         Positions = new List<Vector2>();
         foreach (Transform positionsTransform in m_playerPositionsTransform)
@@ -70,7 +71,7 @@ public class PlayerMovement : Entity
         m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
                         (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_groundCheckY), m_whatIsGround);
         m_animator.SetBool("IsJumping", !m_isGrounded);
-        // Since to ground is not slippery, we need to reapply the velocity
+        // Since to the ground is not slippery, we need to reapply the velocity.
         if(IsRolling) {
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
             manipulatedVelocity.x = m_rollingMovementX;
@@ -189,14 +190,14 @@ public class PlayerMovement : Entity
     public void StartRollingInvincibility()
     {
         m_entityHealth.Invincible = true;
-        m_collider.size = m_ROLLING_COLLIDER_SIZE;
+        m_collider.size = m_rollingColliderSize;
         GameMediator.Instance.DisableEntityCollision(gameObject);
     }
 
     public void StopRollingInvincibility()
     {
         m_entityHealth.Invincible = false;
-        m_collider.size = m_NON_ROLLING_COLLIDER_SIZE;
+        m_collider.size = m_nonRollingColliderSize;
         GameMediator.Instance.EnableEntityCollision(gameObject);
     }
 

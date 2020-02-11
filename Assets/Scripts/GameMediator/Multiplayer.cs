@@ -9,10 +9,6 @@ using UnityEngine.UI;
 public class Multiplayer : MonoBehaviour, IGame
 {
     [SerializeField]
-    private GameObject m_player1;
-    [SerializeField]
-    private GameObject m_player2;
-    [SerializeField]
     private const int m_amountOfStages = 5;
     [SerializeField]
     private GameObject m_sceneImageHolder;
@@ -93,11 +89,6 @@ public class Multiplayer : MonoBehaviour, IGame
         {
             Physics2D.IgnoreLayerCollision(layer1, layer2, false);
         }
-    }
-
-    public GameObject[] GetActivePlayers()
-    {
-        return new GameObject[] { m_player1, m_player2 };
     }
 
     public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)

@@ -5583,8 +5583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85f44f82a34e46e39b6247c352f6480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player1: {fileID: 1205548506}
-  m_player2: {fileID: 1204311611}
   m_sceneImageHolder: {fileID: 987316855}
 --- !u!1 &677500860
 GameObject:
@@ -14615,7 +14613,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4608
   m_recorder: {fileID: 26144966}
-  PlayerSword: {fileID: 393457407}
+  m_playerSword: {fileID: 393457407}
 --- !u!114 &1204311616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14917,7 +14915,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5120
   m_recorder: {fileID: 26144966}
-  PlayerSword: {fileID: 1854587248}
+  m_playerSword: {fileID: 1854587248}
 --- !u!114 &1205548512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16512,8 +16510,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackPattern: STARTF|AM|AM|AM|10
-  m_initialMovementPattern: 
-  m_movementWhenInRangePattern: 
   m_entity: {fileID: 1603320243}
 --- !u!114 &1603320246
 MonoBehaviour:

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
@@ -14,14 +13,14 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     private bool m_isFollowingPlayer = false;
     private bool m_isAttackChained = false;
-    private bool m_playerIsInRange = false;
+    private bool m_isPlayerInRange = false;
     private string m_playerSwordName;
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
 
     protected override void Start()
     {
         base.Start();
-        GameObject player = GameMediator.Instance.ActiveGame.GetActivePlayers()[0];
+        GameObject player = GameMediator.Instance.ActivePlayers.First();
         m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
     }
@@ -30,26 +29,21 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     {
         if (m_isFollowingPlayer && !IsInputLocked)
         {
-            Vector2 playerPosition = m_playerRigidbody2D.position;
             float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-            // Normalize the movemetDirection.
+            // Normalize the movementDirection.
             movementDirection = movementDirection < 0 ? -1 : 1;
             m_animator.SetFloat("Speed", Mathf.Abs(movementDirection));
 
-            // Flip Enemy Direction if player now walks in opposite direction.
-            if (movementDirection < 0.0f && m_isFacingRight)
+            // Flip enemy direction if player now walks in opposite direction.
+            if (movementDirection < 0.0f && m_isFacingRight ||
+                movementDirection > 0.0f && !m_isFacingRight)
             {
                 FlipEntity();
             }
-            else if (movementDirection > 0.0f && !m_isFacingRight)
-            {
-                FlipEntity();
-            }
-
             // Apply the movement to the physics.
             m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
         }
-        m_playerIsInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
+        m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
 
     // This method initiates the entity dying animation.
@@ -67,7 +61,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     // This method starts the new attack.
     // This rather inconvenient approach is needed in order to avoid a problem
     // that takes place when attacks are directly chained by the AttackPatternExecutor.
-    private void startAttackIfPossible(int attackDirectionIndex)
+    private void StartAttackIfPossible(int attackDirectionIndex)
     {
         if (!IsInputLocked)
         {
@@ -89,20 +83,20 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         base.OnTriggerEnter2D(collider);
     }
 
-    // These methods implements the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
+    // These methods implement the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
     public void AttackUp()
     {
-        startAttackIfPossible(0);
+        StartAttackIfPossible(0);
     }
 
     public void AttackMiddle()
     {
-        startAttackIfPossible(1);
+        StartAttackIfPossible(1);
     }
 
     public void AttackDown()
     {
-        startAttackIfPossible(2);
+        StartAttackIfPossible(2);
     }
 
     public void StartFollowPlayer()
@@ -131,7 +125,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     public bool IsPlayerInRange(){
-        return m_playerIsInRange;
+        return m_isPlayerInRange;
     }
 
     public override void StopAttacking()
@@ -142,7 +136,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     // This method is called at the end of the attack animation
     // and turns the attack off animation when no other attack is already registered.
-    // This is part of the attack chaning problem.
+    // This is part of the attack chaining problem.
     public void StopAttackingAnimation(int previousAttackingDirection)
     {
         if (!m_isAttackChained)

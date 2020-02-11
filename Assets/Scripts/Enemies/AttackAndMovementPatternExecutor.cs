@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,14 +23,10 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     [SerializeField] 
     private string m_attackPattern;
     [SerializeField] 
-    private string m_initialMovementPattern;
-    [SerializeField] 
-    private string m_movementWhenInRangePattern;
-    [SerializeField] 
     private GameObject m_entity;
 
     private IEnemyAttackAndMovement m_entityAttackAndMovement;
-    private Action[] m_actions;
+    private List<Action> m_actions;
     
     private float[] m_waitingTimeBetweenActions;
     private int[] m_orderOfActions;
@@ -41,17 +36,17 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     void Awake()
     {
         m_entityAttackAndMovement = m_entity.GetComponent<IEnemyAttackAndMovement>();
-        m_actions = new Action[]{   m_entityAttackAndMovement.AttackUp, 
-                                    m_entityAttackAndMovement.AttackMiddle,
-                                    m_entityAttackAndMovement.AttackDown, 
-                                    m_entityAttackAndMovement.StartFollowPlayer,
-                                    m_entityAttackAndMovement.StopFollowPlayer };
-        m_nextOrderOfActionIndex = 0;
-        m_timeToWaitUntilNextAction = 0;
     }
 
     void Start()
     {
+        m_actions = new List<Action>(){ m_entityAttackAndMovement.AttackUp, 
+                                        m_entityAttackAndMovement.AttackMiddle,
+                                        m_entityAttackAndMovement.AttackDown, 
+                                        m_entityAttackAndMovement.StartFollowPlayer,
+                                        m_entityAttackAndMovement.StopFollowPlayer };
+        m_nextOrderOfActionIndex = 0;
+        m_timeToWaitUntilNextAction = 0;
         ParseAttackPattern();
     }
 
@@ -81,23 +76,25 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
             switch(actions[i])
             {
                 case ATTACK_UP_IDENTIFICATION:
-                    action = 0;
+                    action = m_actions.IndexOf(m_entityAttackAndMovement.AttackUp);
                     currentAnimationDuration = m_entityAttackAndMovement.GetAttackUpDuration();
                     break;
                 case ATTACK_MID_IDENTIFICATION:
-                    action = 1;
+                    action = m_actions.IndexOf(m_entityAttackAndMovement.AttackMiddle);
                     currentAnimationDuration = m_entityAttackAndMovement.GetAttackMiddleDuration();
                     break;
                 case ATTACK_DOWN_IDENTIFICATION:
-                    action = 2;
+                    action = m_actions.IndexOf(m_entityAttackAndMovement.AttackDown);
                     currentAnimationDuration = m_entityAttackAndMovement.GetAttackDownDuration();
                     break;
                 case START_FOLLOW_PLAYER_IDENTIFICATION:
                     action = 3;
+                    action = m_actions.IndexOf(m_entityAttackAndMovement.StartFollowPlayer);
                     currentAnimationDuration = 0.01f;
                     break;
                 case STOP_FOLLOW_PLAYER_IDENTIFICATION:
                     action = 4;
+                    action = m_actions.IndexOf(m_entityAttackAndMovement.StopFollowPlayer);
                     currentAnimationDuration = 0.01f;
                     break;
                 default:

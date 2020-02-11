@@ -34,7 +34,6 @@ public class GameMediator : ScriptableObject
     public void SetGameToStage(int stageIndex)
     {
         ActiveCamera.SetPosition(stageIndex);
-        // TODO refactor to multiplayer
         ActivePlayers.ForEach(player =>
         {
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();

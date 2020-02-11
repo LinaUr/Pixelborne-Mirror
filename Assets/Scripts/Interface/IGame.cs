@@ -8,5 +8,4 @@ public interface IGame
     void PlayerDied(GameObject player);
     void DisableEntityCollision(GameObject callingEntity, int Layer1, int layer2);
     void EnableEntityCollision(GameObject callingEntity, int Layer1, int layer2);
-    GameObject[] GetActivePlayers();
 }
