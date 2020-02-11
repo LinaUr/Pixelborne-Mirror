@@ -255,6 +255,6 @@ public class PlayerMovement : Entity
     // Weapon rendered before player, Weapon rendered behind player.
     public void ChangeOrderInLayer()
     {
-        m_swordRenderer.sortingOrder = m_swordRenderer.sortingOrder * -1;
+        m_swordRenderer.sortingOrder *= -1;
     }
 }
