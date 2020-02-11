@@ -98,7 +98,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
                     currentAnimationDuration = 0.01f;
                     break;
                 default:
-                    throw new System.ArgumentException($"The Action number {i} from the action pattern could not be parsed");
+                    throw new ArgumentException($"The Action number {i} from the action pattern could not be parsed");
             }
             orderOfActions.Add(action);
             // Test if the next action is a wait instruction.
