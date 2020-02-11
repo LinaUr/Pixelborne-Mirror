@@ -1,0 +1,32 @@
+
+Log Entry : 22:23:28 Dienstag, 11. Februar 2020
+  :Sold wl6to0ls.i7w
+-------------------------------
+
+Log Entry : 22:23:55 Dienstag, 11. Februar 2020
+  :Payed 1
+-------------------------------
+
+Log Entry : 22:24:06 Dienstag, 11. Februar 2020
+  :Payed 1
+-------------------------------
+
+Log Entry : 22:24:11 Dienstag, 11. Februar 2020
+  :Payed 1,25
+-------------------------------
+
+Log Entry : 22:26:14 Dienstag, 11. Februar 2020
+  :Payed $1.00
+-------------------------------
+
+Log Entry : 22:26:16 Dienstag, 11. Februar 2020
+  :Payed $1.00
+-------------------------------
+
+Log Entry : 22:26:16 Dienstag, 11. Februar 2020
+  :Payed $1.00
+-------------------------------
+
+Log Entry : 22:30:22 Dienstag, 11. Februar 2020
+  :Sold h9whsbu1.v7s
+-------------------------------
