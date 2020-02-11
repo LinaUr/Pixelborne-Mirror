@@ -19,7 +19,6 @@ public class PlayerMovement : Entity
     private Recorder m_recorder;
     [SerializeField]
     private GameObject m_playerSword;
-    public GameObject PlayerSword { get { return m_playerSword; } }
 
     private bool m_isGrounded = false;
     private float m_rollingMovementX;
@@ -35,6 +34,7 @@ public class PlayerMovement : Entity
     // Positions from outer left to outer right stage as they are in the scene.
     public IList<Vector2> Positions { get; set; }
     public bool IsRolling { get; private set; } = false;
+    public GameObject PlayerSword { get { return m_playerSword; } }
 
     public int Index
     {
