@@ -96,11 +96,14 @@ public static class Toolkit
 
     // This method logs a message with a given writer.
     // See: https://docs.microsoft.com/de-de/dotnet/standard/io/how-to-open-and-append-to-a-log-file
-    public static void Log(string logMessage, TextWriter writer)
+    public static void LogToFile(string logMessage, string logFile)
     {
-        writer.Write("\r\nLog Entry : ");
-        writer.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
-        writer.WriteLine($"  :{logMessage}");
-        writer.WriteLine("-------------------------------");
+        using (TextWriter writer = File.AppendText(logFile))
+        {
+            writer.Write("\r\nLog Entry : ");
+            writer.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
+            writer.WriteLine($"  :{logMessage}");
+            writer.WriteLine("-------------------------------");
+        }
     }
 }

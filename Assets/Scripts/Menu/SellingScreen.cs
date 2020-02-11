@@ -13,7 +13,8 @@ public class SellingScreen : MonoBehaviour
     private string m_fileToSell = string.Empty;
     private string m_priceToPay = string.Empty;
 
-    private const float m_DEFAULT_PRICE = 1.00f;
+    private const float m_DEFAULT_PRICE = 1.0f;
+    private const string m_LOG_FILE = "SellingLog.txt";
 
     void Start()
     {
@@ -40,7 +41,7 @@ public class SellingScreen : MonoBehaviour
     // This method resumes the gameplay and logs the sold file.
     public void SellFile()
     {
-        Log($"Sold {m_fileToSell}");
+        Toolkit.LogToFile($"Sold {m_fileToSell}", m_LOG_FILE);
 
         UnfreezeGame();
     }
@@ -48,8 +49,7 @@ public class SellingScreen : MonoBehaviour
     // This method resumes the gameplay and logs the payed price.
     public void PayPrice()
     {
-        
-        Log($"Payed {m_priceToPay}");
+        Toolkit.LogToFile($"Payed {m_priceToPay}", m_LOG_FILE);
         GameMediator.Instance.PriceToPay *= 1.25f;
 
         UnfreezeGame();
@@ -66,13 +66,5 @@ public class SellingScreen : MonoBehaviour
     {
         SceneChanger.UnloadSellingScreenAdditive();
         GameMediator.Instance.UnfreezeGame();
-    }
-
-    private void Log(string logMessage)
-    {
-        using (StreamWriter w = File.AppendText("SellingLog.txt"))
-        {
-            Toolkit.Log(logMessage, w);
-        }
     }
 }
