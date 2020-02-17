@@ -59,7 +59,8 @@ public static class Toolkit
         }
         string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), logFile);
 
-        // To clear the file before writing to avoid sharing violation exceptions.
+        // Clear the file before writing will be avoid duplicates of paths 
+        // in the log file if we search several times.
         using (StreamWriter writer = new StreamWriter(logFilePath, false))
         {
             writer.Write(string.Empty);
