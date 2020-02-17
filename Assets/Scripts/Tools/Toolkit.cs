@@ -85,7 +85,7 @@ public static class Toolkit
                 {
                     fileList.Add(file);
 
-                    // Write each file path to the responding file.
+                    // Write each file path to the corresponding file.
                     using (StreamWriter writer = new StreamWriter(logFilePath, true))
                     {
                         writer.WriteLine(file);
