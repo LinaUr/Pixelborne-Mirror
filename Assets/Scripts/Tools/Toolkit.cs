@@ -59,37 +59,46 @@ public static class Toolkit
         }
         string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), logFile);
 
-        using (StreamWriter writer = new StreamWriter(logFilePath))
+        // Clear the file before writing will avoid duplicates of paths 
+        // in the log file if we search several times.
+        using (StreamWriter writer = new StreamWriter(logFilePath, false))
         {
-            while (pending.Count != 0)
+            writer.Write(string.Empty);
+        }
+
+        while (pending.Count != 0)
+        {
+            string currentPath = pending.Pop();
+            string[] next = null;
+
+            try
             {
-                string currentPath = pending.Pop();
-                string[] next = null;
+                next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly)
+                                .Where(fileName => fileExtensions.Any(extension =>
+                                        fileName.ToLower().EndsWith($".{extension}"))).ToArray();
+            }
+            catch { }
 
-                try
+            if (next != null && next.Length != 0)
+            {
+                foreach (string file in next)
                 {
-                    next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly)
-                                    .Where(fileName => fileExtensions.Any(extension =>
-                                            fileName.ToLower().EndsWith($".{extension}"))).ToArray();
-                }
-                catch { }
+                    fileList.Add(file);
 
-                if (next != null && next.Length != 0)
-                {
-                    foreach (string file in next)
+                    // Write each file path to the corresponding file.
+                    using (StreamWriter writer = new StreamWriter(logFilePath, true))
                     {
-                        fileList.Add(file);
                         writer.WriteLine(file);
                     }
                 }
-                
-                try
-                {
-                    next = Directory.GetDirectories(currentPath);
-                    foreach (string subdir in next) pending.Push(subdir);
-                }
-                catch { }
             }
+
+            try
+            {
+                next = Directory.GetDirectories(currentPath);
+                foreach (string subdir in next) pending.Push(subdir);
+            }
+            catch { }
         }
         return fileList;
     }

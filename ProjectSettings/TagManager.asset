@@ -61,6 +61,9 @@ TagManager:
   - name: level
     uniqueID: 765317395
     locked: 0
+  - name: HUD
+    uniqueID: 2922741033
+    locked: 0
   - name: Foreground
     uniqueID: 4072669561
     locked: 0
