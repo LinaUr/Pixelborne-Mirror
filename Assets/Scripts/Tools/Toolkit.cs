@@ -59,7 +59,7 @@ public static class Toolkit
         }
         string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), logFile);
 
-        // Clear the file before writing will be avoid duplicates of paths 
+        // Clear the file before writing will avoid duplicates of paths 
         // in the log file if we search several times.
         using (StreamWriter writer = new StreamWriter(logFilePath, false))
         {
