@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/WinningScreen.unity
     guid: 2714514bcd3dbd44fa278e89e9c8d860
   - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 8a50ed8aabcdd4747aa421d5836d9b76
+  - enabled: 1
     path: Assets/Scenes/Stage1.unity
     guid: bd4c604750a48714c9b6bbd185c89eb8
   - enabled: 1

@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartSingleplayer()
     {
-        Singleplayer.Instance.Start();
+        Singleplayer.Instance.Go();
     }
 
     public void StartMultiplayer()

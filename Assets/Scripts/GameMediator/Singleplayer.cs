@@ -20,9 +20,14 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    public void Start()
+    public Singleplayer()
     {
-        GameMediator.Instance.ActiveGame = this;
+        m_instance = this;
+    }
+
+    public void Go()
+    {
+        GameMediator.Instance.ActiveGame = Instance;
         GameMediator.Instance.CurrentMode = Mode.Singleplayer;
         //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
         //ImageManager.Instance.IsFirstLoad = true;
@@ -69,7 +74,7 @@ public class Singleplayer : ScriptableObject, IGame
         Physics2D.IgnoreLayerCollision(layer1, layer2, true);
     }
 
-    public void EndOfStageIsReached()
+    public void ReachedEndOfStage()
     {
         m_currentStageIndex++;
         PrepareGame();

@@ -20,7 +20,7 @@ public class Multiplayer : MonoBehaviour, IGame
     {
         GameMediator.Instance.ActiveGame = this;
         GameMediator.Instance.CurrentMode = Mode.Multiplayer;
-        ImageManager.Instance.ImageHolder = m_sceneImageHolder;
+        //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
         ImageManager.Instance.IsFirstLoad = true;
         // Activate DriveMusicManager.
         DriveMusicManager.Instance.Go();
