@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class FadeToBlack : MonoBehaviour
+public class IntroScene : MonoBehaviour
 {
-    private int m_fadeTime = 5000;
+    private int m_fadeTime = 500;
 
     private int m_fadeStartTime;
     private int m_fadeMode;
@@ -79,12 +79,6 @@ public class FadeToBlack : MonoBehaviour
             }
         }
 
-        if (m_fadeMode == 3)
-        {
-            m_story.GetComponent<TextMeshProUGUI>().text = "Game starts now...";
-            m_background.GetComponent<Image>().color = Color.black;
-        }
-
     }
 
     public void FadeOut()
@@ -124,19 +118,15 @@ public class FadeToBlack : MonoBehaviour
                 ChangeScene();
                 break;
         }
-        if (m_storyPart != 4)
-        {
-            m_background.GetComponent<Image>().color = Color.white;
-            m_story.GetComponent<TextMeshProUGUI>().text = "";
-            FadeOut();
-        };
-
+        m_background.GetComponent<Image>().color = Color.white;
+        m_story.GetComponent<TextMeshProUGUI>().text = "";
+        FadeOut();
     }
 
     public void ChangeScene()
     {
-        m_fadeMode = 3;
-        print("end");
+        //actual scene change missing, currently just loops
+        Start();
     }
 } 
 

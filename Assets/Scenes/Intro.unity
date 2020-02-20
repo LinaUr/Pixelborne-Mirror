@@ -376,7 +376,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1121772321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ff12eab2c53097449286fd600a3222f, type: 3}
+  m_Script: {fileID: 11500000, guid: afb1c5d846004bc4984db3c4e1485755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1205768976
@@ -475,7 +475,7 @@ MonoBehaviour:
   m_textAlignment: 544
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
