@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartSingleplayer()
     {
-        SceneChanger.SetSingleplayerAsActiveScene();
+        Singleplayer.Instance.Start();
     }
 
     public void StartMultiplayer()

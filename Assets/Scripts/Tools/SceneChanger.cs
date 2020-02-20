@@ -2,29 +2,15 @@
 
 public class SceneChanger
 {
-    // MAIN_MENU_SCENE_INDEX represents the build index of the MainMenu scene.
+    // The following indices represent the build index of the corresponding scene.
     // The index must be taken from the build settings.
     static readonly int MAIN_MENU_SCENE_INDEX = 0;
-
-    // PAUSE_MENU_SCENE_INDEX represents the build index of the MainMenu scene.
-    // The index must be taken from the build settings.
     static readonly int PAUSE_MENU_SCENE_INDEX = 1;
-
-    // MULTIPLAYER_SCENE_INDEX represents the build index of the Multiplayer scene.
-    // The index must be taken from the build settings.
     static readonly int MULTIPLAYER_SCENE_INDEX = 2;
-
-    // SINGLEPLAYER_SCENE_INDEX represents the build index of the Singleplayer scene.
-    // The index must be taken from the build settings.
     static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
-
-    // SELLING_SCREEN_SCENE_INDEX represents the build index of the SellingScreen scene.
-    // The index must be taken from the build settings.
     static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
-
-    // WINNING_SCREEN_SCENE_INDEX represents the build index of the WinningScreen scene.
-    // The index must be taken from the build settings.
     static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
+    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7 };
 
     public static void SetMainMenuAsActiveScene()
     {
@@ -34,6 +20,17 @@ public class SceneChanger
     public static void SetSingleplayerAsActiveScene()
     {
         SceneManager.LoadScene(SINGLEPLAYER_SCENE_INDEX);
+    }
+
+    // This method returns a bool to indicate whether the requested stage exists and could be loaded.
+    public static bool LoadSingleplayerStageAsActiveScene(int index)
+    {
+        if (index > SINGLEPLAYER_STAGES_INDICES.Length - 1)
+        {
+            return false;
+        }
+        SceneManager.LoadScene(SINGLEPLAYER_STAGES_INDICES[index]);
+        return true;
     }
 
     public static void SetMultiplayerAsActiveScene()

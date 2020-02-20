@@ -20,7 +20,16 @@ public class ImageManager : MonoBehaviour
     private float m_alpha;
 
     public bool IsFirstLoad { get; set; } = true;
-    public GameObject ImageHolder { get; set; }
+    //public GameObject ImageHolder {
+    //    get
+    //    {
+    //        return m_imageHolder;
+    //    }
+    //    set
+    //    {
+    //        m_imageHolder = value;
+    //    }
+    //}
     
     public static ImageManager Instance
     {
@@ -32,14 +41,10 @@ public class ImageManager : MonoBehaviour
             {
                 GameObject go = new GameObject();
                 m_instance = go.AddComponent<ImageManager>();
+                m_instance.LoadAllPaths();
             }
             return m_instance;
         }
-    }
-
-    void Awake()
-    {
-        LoadAllPaths();
     }
 
     // This method searches for images on the computer and stores their paths.
@@ -88,7 +93,8 @@ public class ImageManager : MonoBehaviour
     // and passes them on.
     private IEnumerator LoadNewImages(Action<List<Texture2D>> imageCallback)
     {
-        int amount = ImageHolder.transform.childCount;
+        //int amount = ImageHolder.transform.childCount;
+        int amount = gameObject.transform.childCount;
         List<Texture2D> images = new List<Texture2D>();
 
         // Wait until search for paths finished.
@@ -155,10 +161,12 @@ public class ImageManager : MonoBehaviour
             m_alpha += 0.1f;
         }
 
-        for (int i = 0; i < ImageHolder.transform.childCount; i++)
+        //for (int i = 0; i < ImageHolder.transform.childCount; i++)
+        for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             // RawImage of CustomImage object.
-            RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+            //RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+            RawImage rawImage = gameObject.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", m_alpha);
             rawImage.texture = images[i];
 
