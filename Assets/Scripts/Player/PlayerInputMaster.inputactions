@@ -223,7 +223,7 @@
                 },
                 {
                     "name": "",
-                    "path": "<Keyboard>/leftAlt",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
@@ -331,7 +331,19 @@
                 },
                 {
                     "name": "",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Record",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -355,7 +367,19 @@
                 },
                 {
                     "name": "",
-                    "path": "<Keyboard>/c",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Record",
+                    "chainWithPrevious": false,
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "path": "<Keyboard>/d",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
@@ -367,7 +391,7 @@
                 },
                 {
                     "name": "",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Gamepad",
