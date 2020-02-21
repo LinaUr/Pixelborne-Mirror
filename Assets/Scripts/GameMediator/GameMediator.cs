@@ -65,6 +65,9 @@ public class GameMediator : ScriptableObject
 
     public void HandleDeath(GameObject diedObject)
     {
+        // TODO: remove at end of project! Just for quicker testing and debugging reasonst of singleplayer stages!
+        ActiveGame = ActiveGame == null ? Singleplayer.Instance : ActiveGame;
+
         if (CurrentMode != Mode.MainMenu)
         {
             PlayerDied(diedObject);
@@ -114,8 +117,7 @@ public class GameMediator : ScriptableObject
         if (CurrentMode == Mode.Multiplayer)
         {
             ActiveGame.DisableEntityCollision(callingEntity, ActivePlayers[0].layer, ActivePlayers[1].layer);
-        }
-            
+        } 
     }
 
     public void EnableEntityCollision(GameObject callingEntity)

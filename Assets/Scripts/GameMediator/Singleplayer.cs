@@ -9,6 +9,7 @@ public class Singleplayer : ScriptableObject, IGame
 
     private static Singleplayer m_instance = null;
 
+    public bool IsPlayerDead { get; set; }
 
     public static Singleplayer Instance
     {
@@ -16,7 +17,16 @@ public class Singleplayer : ScriptableObject, IGame
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
+            //return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
+
+            // The following code is for quicker testing and debugging in single singleplayer stages,
+            // so you don't always have to start playing from the MainMenu.
+            // TODO: remove later!
+            // --start--
+            m_instance = m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
+            GameMediator.Instance.CurrentMode = Mode.Singleplayer;
+            return m_instance;
+            // --end--
         }
     }
 
@@ -46,16 +56,26 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void PrepareGame()
     {
-        bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
-        if (!isStageExistent)
+        if (IsPlayerDead)
         {
-            SceneChanger.SetWinningScreenAsActiveScene();
-            ResetGame();
+            GameMediator.Instance.SetGameToStage(0);
+            IsPlayerDead = false;
+        }
+        else
+        {
+            bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
+
+            if (!isStageExistent)
+            {
+                SceneChanger.SetWinningScreenAsActiveScene();
+                ResetGame();
+            }
         }
     }
 
     public void PlayerDied(GameObject player)
     {
+        IsPlayerDead = true;
         SceneChanger.LoadSellingScreenAdditive();
     }
 
