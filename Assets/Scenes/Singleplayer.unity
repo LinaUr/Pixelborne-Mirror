@@ -4901,7 +4901,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300036, guid: a25e2ac6ec6e8b84f9b0bf1d06cb22df, type: 3}
   m_Color: {r: 0.9098039, g: 1, b: 0.63529414, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.18, y: 3.19}
@@ -16287,7 +16287,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1cacac7711fafe68d8e6163ab347641e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -16578,7 +16578,7 @@ BoxCollider2D:
   m_Offset: {x: 0.060083583, y: 0.23386952}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.21343043, y: 0.0007156061}
+    pivot: {x: 0.20982435, y: 0.0011238565}
     oldSize: {x: 0.61, y: 0.49}
     newSize: {x: 0.62, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -16724,7 +16724,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -20019,7 +20019,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1cacac7711fafe68d8e6163ab347641e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -20293,7 +20293,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300036, guid: a25e2ac6ec6e8b84f9b0bf1d06cb22df, type: 3}
   m_Color: {r: 0.9098039, g: 1, b: 0.63529414, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.18, y: 3.19}
@@ -21026,7 +21026,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0ce96aa6462620e47ac56eccbb027deb, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
