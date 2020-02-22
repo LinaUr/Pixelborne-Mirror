@@ -46,9 +46,12 @@ public class DriveMusicManager : MonoBehaviour
 
     public void Go()
     {
-        m_audioPlayer = gameObject.AddComponent<AudioSource>();
-        m_audioPlayer.volume = m_AUDIO_SOURCE_VOLUME;
-        LoadAllPaths();
+        if (m_instance != null)
+        {
+            m_audioPlayer = gameObject.AddComponent<AudioSource>();
+            m_audioPlayer.volume = m_AUDIO_SOURCE_VOLUME;
+            LoadAllPaths();
+        }
     }
 
     void Update()
