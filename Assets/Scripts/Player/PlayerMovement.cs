@@ -28,7 +28,7 @@ public class PlayerMovement : Entity
     private Vector2 m_nonRollingColliderSize;
     private SpriteRenderer m_swordRenderer;
     private Vector2 m_rollingColliderSize;
-
+    private IGame m_activeGame;
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 
     // Positions from outer left to outer right stage as they are in the scene.
@@ -47,7 +47,10 @@ public class PlayerMovement : Entity
     protected override void Awake()
     {
         base.Awake();
-        GameMediator.Instance.ActivePlayers.Add(gameObject);
+        //GameMediator.Instance.ActivePlayers.Add(gameObject);
+        m_activeGame = Game.Instance.Current;
+        m_activeGame.RegisterPlayer(gameObject);
+
         m_nonRollingColliderSize = m_collider.size;
         m_rollingColliderSize = (m_nonRollingColliderSize / 2);
 
@@ -198,7 +201,8 @@ public class PlayerMovement : Entity
     {
         m_entityHealth.Invincible = false;
         m_collider.size = m_nonRollingColliderSize;
-        GameMediator.Instance.EnableEntityCollision(gameObject);
+        //GameMediator.Instance.EnableEntityCollision(gameObject);
+        m_activeGame.EnableEntityCollision(gameObject);
     }
 
     public void OnPauseGame()
@@ -208,7 +212,8 @@ public class PlayerMovement : Entity
 
     private void OnDestroy()
     {
-        GameMediator.Instance.ActivePlayers.Remove(gameObject);
+        //GameMediator.Instance.ActivePlayers.Remove(gameObject);
+        Game.Instance.Current.UnegisterPlayer(gameObject);
     }
     
     // This method is triggered when the player presses the attack button.

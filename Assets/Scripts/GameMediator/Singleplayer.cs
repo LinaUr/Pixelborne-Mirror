@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // This class contains the Multiplayer game mode logic.
@@ -7,9 +8,13 @@ public class Singleplayer : ScriptableObject, IGame
     private int m_currentStageIndex;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
 
+    private GameObject m_player;
     private static Singleplayer m_instance = null;
 
     public bool IsPlayerDead { get; set; }
+    public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
+    public float PriceToPay { get; set; }
+    public CameraSingleplayer Camera { get; set; }
 
     public static Singleplayer Instance
     {
@@ -24,7 +29,7 @@ public class Singleplayer : ScriptableObject, IGame
             // TODO: remove later!
             // --start--
             m_instance = m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
-            GameMediator.Instance.CurrentMode = Mode.Singleplayer;
+            //GameMode.Instance.Current = Mode.Singleplayer;
             return m_instance;
             // --end--
         }
@@ -37,8 +42,8 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void Go()
     {
-        GameMediator.Instance.ActiveGame = Instance;
-        GameMediator.Instance.CurrentMode = Mode.Singleplayer;
+        //GameMediator.Instance.ActiveGame = Instance;
+        //GameMediator.Instance.CurrentMode = Mode.Singleplayer;
         //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
         //ImageManager.Instance.IsFirstLoad = true;
 
@@ -47,6 +52,23 @@ public class Singleplayer : ScriptableObject, IGame
 
         ResetGame();
         PrepareGame();
+    }
+
+    public void RegisterPlayer(GameObject player)
+    {
+        if (m_player)
+        {
+            m_player = player;
+        }
+        else
+        {
+            throw new Exception($"Error: Object \"{player.name}\" can not be registered. Player has already been assigned.");
+        }
+    }
+
+    public void UnegisterPlayer(GameObject player)
+    {
+        m_player = null;
     }
 
     public void ResetGame()
@@ -79,19 +101,21 @@ public class Singleplayer : ScriptableObject, IGame
         SceneChanger.LoadSellingScreenAdditive();
     }
 
-    public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
+    public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
-            Physics2D.IgnoreLayerCollision(layer1, layer2, false);
+            // TODO: 2nd Layer is Enemy
+            Physics2D.IgnoreLayerCollision(m_player.layer, m_player.layer, false);
         }
     }
 
-    public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
+    public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
+        // TODO: 2nd Layer is Enemy
+        Physics2D.IgnoreLayerCollision(m_player.layer, m_player.layer, true);
     }
 
     public void ReachedEndOfStage()

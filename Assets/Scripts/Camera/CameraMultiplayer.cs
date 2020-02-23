@@ -21,7 +21,9 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     // We need to get the positions on Awake so we can externally access them on Start.
     void Awake()
     {
-        GameMediator.Instance.ActiveCamera = this;
+        //GameMediator.Instance.ActiveCamera = this;
+        Multiplayer.Instance.Camera = this;
+
         Positions = new List<Vector2>();
         foreach (Transform positionsTransform in m_cameraPositionsTransform)
         {

@@ -17,6 +17,12 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private string m_playerSwordName;
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
 
+    void Awake()
+    {
+        base.Awake();
+        Singleplayer.Instance.ActiveEnemies.Add(gameObject);
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -153,5 +159,12 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
         // Reset the attribute
         m_isAttackChained = false;
+    }
+
+
+    void OnDestroy()
+    {
+        base.Awake();
+        Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 }
