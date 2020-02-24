@@ -60,7 +60,7 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
 
         // TODO: Reset game to checkpoint and respawn all enemies.
-        Singleplayer.Instance.PrepareGame();
+        Singleplayer.Instance.PrepareStage();
     }
 
     private void UnfreezeGame()

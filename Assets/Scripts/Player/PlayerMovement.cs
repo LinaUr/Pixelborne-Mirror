@@ -158,11 +158,11 @@ public class PlayerMovement : Entity
         m_recorder.Record();
     }
 
-    protected override void Die()
+    protected override void Die(bool isDeadByDeathZone)
     {
-        base.Die();
+        base.Die(isDeadByDeathZone);
         m_entityHealth.Die();
-        m_activeGame.HandleDeath(gameObject);
+        m_activeGame.HandleDeath(gameObject, isDeadByDeathZone);
     }
 
     public void SetPosition(int index)

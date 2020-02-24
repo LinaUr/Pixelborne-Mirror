@@ -7,7 +7,7 @@ using UnityEngine;
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : ScriptableObject, IGame
 {
-    private int m_currentStageIndex;
+    private int m_currentStageIndex = m_START_STAGE_INDEX;
     private List<GameObject> m_players = new List<GameObject>();
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private static Multiplayer m_instance;
@@ -15,6 +15,7 @@ public class Multiplayer : ScriptableObject, IGame
     private int m_winnerIndex;
 
     private const int m_AMOUNT_OF_STAGES = 5;
+    private const int m_START_STAGE_INDEX = m_AMOUNT_OF_STAGES / 2;
 
     public CameraMultiplayer Camera { get; set; }
 
@@ -25,6 +26,16 @@ public class Multiplayer : ScriptableObject, IGame
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
             return m_instance == null ? CreateInstance<Multiplayer>() : m_instance;
+        }
+    }
+
+    // This is for testing and debugging single stages quicker without having to start from the MainMenu.
+    // TODO: Remove later.
+    public int DEBUG_currentStageIndex
+    {
+        set
+        {
+            m_currentStageIndex = value;
         }
     }
 
@@ -40,10 +51,8 @@ public class Multiplayer : ScriptableObject, IGame
 
         SceneChanger.SetMultiplayerAsActiveScene();
 
-        //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
-        //ImageManager.Instance.IsFirstLoad = true;
         // Activate DriveMusicManager.
-        //DriveMusicManager.Instance.Go();
+        DriveMusicManager.Instance.Go();
 
         await Task.Run(() =>
         {
@@ -51,8 +60,7 @@ public class Multiplayer : ScriptableObject, IGame
             while (m_players.Count < 2) { };
         });
 
-        ResetGame();
-        PrepareGame();
+        PrepareStage();
         LockPlayerInput(false);
     }
 
@@ -78,7 +86,7 @@ public class Multiplayer : ScriptableObject, IGame
         m_players.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
     }
 
-    public void HandleDeath(GameObject player)
+    public void HandleDeath(GameObject player, bool isDeadByDeathZone)
     {
         LockPlayerInput(true);
         m_deadPlayer = player;
@@ -89,7 +97,7 @@ public class Multiplayer : ScriptableObject, IGame
     public void FadedOut()
     {
         PlayerDied(m_deadPlayer);
-        PrepareGame();
+        PrepareStage();
         Camera.FadeIn();
         m_deadPlayer = null;
     }
@@ -99,14 +107,14 @@ public class Multiplayer : ScriptableObject, IGame
         LockPlayerInput(false);
     }
 
-    public void ResetGame()
+    private void ResetGame()
     {
-        m_currentStageIndex = m_AMOUNT_OF_STAGES / 2;
+        m_currentStageIndex = m_START_STAGE_INDEX;
     }
 
-    public void PrepareGame()
+    public void PrepareStage()
     {
-        //ImageManager.Instance.SetNewSceneImages();
+        ImageManager.Instance.SetNewSceneImages();
         SetGameToStage(m_currentStageIndex);
     }
 

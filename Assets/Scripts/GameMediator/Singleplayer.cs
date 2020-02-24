@@ -5,7 +5,7 @@ using UnityEngine;
 // This class contains the Multiplayer game mode logic.
 public class Singleplayer : ScriptableObject, IGame
 {
-    private int m_currentStageIndex;
+    private int m_currentStageIndex = m_START_STAGE_INDEX;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
 
     
@@ -17,6 +17,8 @@ public class Singleplayer : ScriptableObject, IGame
     public float PriceToPay { get; set; }
     public CameraSingleplayer Camera { get; set; }
 
+    private const int m_START_STAGE_INDEX = 0;
+
     public static Singleplayer Instance
     {
         get
@@ -24,6 +26,16 @@ public class Singleplayer : ScriptableObject, IGame
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
             return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
+        }
+    }
+
+    // This is for testing and debugging single stages quicker without having to start from the MainMenu.
+    // TODO: Remove later.
+    public int DEBUG_currentStageIndex
+    {
+        set
+        {
+            m_currentStageIndex = value;
         }
     }
 
@@ -35,14 +47,11 @@ public class Singleplayer : ScriptableObject, IGame
     public void Go()
     {
         Game.Current = Instance;
-        //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
-        //ImageManager.Instance.IsFirstLoad = true;
 
         // Activate DriveMusicManager.
-        //DriveMusicManager.Instance.Go();
+        DriveMusicManager.Instance.Go();
 
-        ResetGame();
-        PrepareGame();
+        PrepareStage();
     }
 
     public void RegisterPlayer(GameObject player)
@@ -67,12 +76,19 @@ public class Singleplayer : ScriptableObject, IGame
         Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
     }
 
-    public void HandleDeath(GameObject entity)
+    public void HandleDeath(GameObject entity, bool isDeadByDeathZone)
     {
         if (entity == Player)
         {
             IsPlayerDead = true;
-            SceneChanger.LoadSellingScreenAdditive();
+            if (isDeadByDeathZone)
+            {
+                PrepareStage();
+            }
+            else
+            {
+                SceneChanger.LoadSellingScreenAdditive();
+            }
         }
         else if (ActiveEnemies.Contains(entity))
         {
@@ -80,12 +96,18 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    public void ResetGame()
+    // TODO: implement
+    private void EnemyDied()
     {
-        m_currentStageIndex = 0;
+
     }
 
-    public void PrepareGame()
+    private void ResetGame()
+    {
+        m_currentStageIndex = m_START_STAGE_INDEX;
+    }
+
+    public void PrepareStage()
     {
         if (IsPlayerDead)
         {
@@ -95,27 +117,31 @@ public class Singleplayer : ScriptableObject, IGame
         else
         {
             bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
-
             if (!isStageExistent)
             {
                 Game.HasFinished();
                 ResetGame();
+            }
+            else
+            {
+                // Activate DriveMusicManager again.
+                DriveMusicManager.Instance.Go();
             }
         }
     }
 
     private void ResetCurrentStage()
     {
-        //Camera.SetPosition(stageIndex);
         PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
         // Set player position to start point of stage.
         playerMovement.SetPosition(0);
         playerMovement.ResetEntityActions();
     }
 
-    private void EnemyDied()
+    public void ReachedEndOfStage()
     {
-
+        m_currentStageIndex++;
+        PrepareStage();
     }
 
     public void DisableEntityCollision(GameObject callingEntity)
@@ -133,12 +159,6 @@ public class Singleplayer : ScriptableObject, IGame
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
         // TODO: 2nd Layer is Enemy
         Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, true);
-    }
-
-    public void ReachedEndOfStage()
-    {
-        m_currentStageIndex++;
-        PrepareGame();
     }
 
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)

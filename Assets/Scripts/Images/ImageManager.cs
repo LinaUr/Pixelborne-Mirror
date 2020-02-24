@@ -20,17 +20,8 @@ public class ImageManager : MonoBehaviour
     private float m_alpha;
 
     public bool IsFirstLoad { get; set; } = true;
-    //public GameObject ImageHolder {
-    //    get
-    //    {
-    //        return m_imageHolder;
-    //    }
-    //    set
-    //    {
-    //        m_imageHolder = value;
-    //    }
-    //}
-    
+    public GameObject ImageHolder { get; set; }
+
     public static ImageManager Instance
     {
         get
@@ -51,18 +42,19 @@ public class ImageManager : MonoBehaviour
     private async void LoadAllPaths()
     {
         m_isLoadingPaths = true;
+
         await Task.Run(() =>
         {
             string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
-            string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
+        // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
+        string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
             m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
-            // Gitlab Issue #48
-            // Load images from the entire user folder.
-            //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>(){ "jpg", "jpeg", "png" }));
+        // Gitlab Issue #48
+        // Load images from the entire user folder.
+        //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
 
-            m_isLoadingPaths = false;
+        m_isLoadingPaths = false;
         });
 
         if (m_imagePaths.Count > 0)
@@ -84,6 +76,15 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    public void PrepareForFirstLoad(bool doSetNewSceneImages)
+    {
+        IsFirstLoad = true;
+        if (doSetNewSceneImages)
+        {
+            SetNewSceneImages();
+        }
+    }
+
     public void SetNewSceneImages()
     {
         StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
@@ -93,56 +94,58 @@ public class ImageManager : MonoBehaviour
     // and passes them on.
     private IEnumerator LoadNewImages(Action<List<Texture2D>> imageCallback)
     {
-        //int amount = ImageHolder.transform.childCount;
-        int amount = gameObject.transform.childCount;
-        List<Texture2D> images = new List<Texture2D>();
-
-        // Wait until search for paths finished.
-        while (m_isLoadingPaths)
+        if (ImageHolder != null)
         {
-            yield return null;
-        }
+            int amount = ImageHolder.transform.childCount;
+            List<Texture2D> images = new List<Texture2D>();
 
-        if (m_imagePaths.Count > 0)
-        {
-            if (m_imagePaths.Count < amount)
+            // Wait until search for paths finished.
+            while (m_isLoadingPaths)
             {
-                // Wait until all images have been stored.
-                while (m_imageStore.Count != m_imagePaths.Count)
-                {
-                    yield return null;
-                }
-            }
-            else
-            {
-                // Wait until a good amount of images has been stored.
-                while (m_imageStore.Count < amount)
-                {
-                    yield return null;
-                }
+                yield return null;
             }
 
-            // Grab needed amount but random images from the ImageStore.
-            for (int i = 0; i < amount; i++)
+            if (m_imagePaths.Count > 0)
             {
-                int num = UnityEngine.Random.Range(0, m_imageStore.Count - 1);
-
-                Texture2D image = m_imageStore[num];
-                if (image.width > image.height)
+                if (m_imagePaths.Count < amount)
                 {
-                    // Use suitable image.
-                    images.Add(image);
+                    // Wait until all images have been stored.
+                    while (m_imageStore.Count != m_imagePaths.Count)
+                    {
+                        yield return null;
+                    }
                 }
                 else
                 {
-                    // Skip not suitable image.
-                    yield return i--;
-                    continue;
+                    // Wait until a good amount of images has been stored.
+                    while (m_imageStore.Count < amount)
+                    {
+                        yield return null;
+                    }
+                }
+
+                // Grab needed amount but random images from the ImageStore.
+                for (int i = 0; i < amount; i++)
+                {
+                    int num = UnityEngine.Random.Range(0, m_imageStore.Count - 1);
+
+                    Texture2D image = m_imageStore[num];
+                    if (image.width > image.height)
+                    {
+                        // Use suitable image.
+                        images.Add(image);
+                    }
+                    else
+                    {
+                        // Skip not suitable image.
+                        yield return i--;
+                        continue;
+                    }
                 }
             }
-        }
 
-        imageCallback(images);
+            imageCallback(images);
+        }
     }
 
     // This coroutine applies a given set of images to the ImageHolder.
@@ -161,12 +164,10 @@ public class ImageManager : MonoBehaviour
             m_alpha += 0.1f;
         }
 
-        //for (int i = 0; i < ImageHolder.transform.childCount; i++)
-        for (int i = 0; i < gameObject.transform.childCount; i++)
+        for (int i = 0; i < ImageHolder.transform.childCount; i++)
         {
             // RawImage of CustomImage object.
-            //RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
-            RawImage rawImage = gameObject.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+            RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", m_alpha);
             rawImage.texture = images[i];
 
