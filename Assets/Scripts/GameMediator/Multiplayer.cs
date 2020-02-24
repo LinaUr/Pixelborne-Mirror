@@ -18,21 +18,6 @@ public class Multiplayer : ScriptableObject, IGame
 
     public CameraMultiplayer Camera { get; set; }
 
-    //public static Multiplayer Instance
-    //{
-    //    get
-    //    {
-    //        // We have to make use of AddComponent because this class derives 
-    //        // from MonoBehaviour.
-    //        if (m_instance == null)
-    //        {
-    //            GameObject go = new GameObject();
-    //            m_instance = go.AddComponent<Multiplayer>();
-    //        }
-    //        return m_instance;
-    //    }
-    //}
-
     public static Multiplayer Instance
     {
         get
@@ -192,7 +177,7 @@ public class Multiplayer : ScriptableObject, IGame
 
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
-        //Camera.SwapHudSymbol(gameObject, sprite);
+        Camera.SwapHudSymbol(gameObject, sprite);
     }
 
     public string GetWinner()
