@@ -21,7 +21,6 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     // We need to get the positions on Awake so we can externally access them on Start.
     void Awake()
     {
-        //GameMediator.Instance.ActiveCamera = this;
         Multiplayer.Instance.Camera = this;
 
         Positions = new List<Vector2>();
@@ -68,7 +67,7 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
                 tmp.a = 1.0f;
                 m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
                 m_fadeMode = 0;
-                GameMediator.Instance.FadedOut();
+                Multiplayer.Instance.FadedOut();
             }
         }
         // Fade in.
@@ -87,7 +86,7 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
                 tmp.a = 0.0f;
                 m_fadeImage.GetComponent<SpriteRenderer>().color = tmp;
                 m_fadeMode = 0;
-                GameMediator.Instance.FadedIn();
+                Multiplayer.Instance.FadedIn();
             }
         }
         // Somehow wrong fadeMode was triggered.

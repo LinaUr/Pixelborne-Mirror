@@ -4,19 +4,21 @@ public class MainMenu : MonoBehaviour
 {
     void Awake()
     {
-        Game.Instance.CurrentMode = Mode.MainMenu;
+        //Game.CurrentMode = Mode.MainMenu;
     }
 
     public void StartSingleplayer()
     {
-        Game.Instance.CurrentMode = Mode.Singleplayer;
+        //Game.CurrentMode = Mode.Singleplayer;
         Singleplayer.Instance.Go();
     }
 
     public void StartMultiplayer()
     {
-        Game.Instance.CurrentMode = Mode.Multiplayer;
-        SceneChanger.SetMultiplayerAsActiveScene();
+        //Game.CurrentMode = Mode.Multiplayer;
+        //SceneChanger.SetMultiplayerAsActiveScene();
+
+        Multiplayer.Instance.Go();
     }
 
     public void QuitGame()

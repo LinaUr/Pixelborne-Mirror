@@ -8,11 +8,12 @@ public class Singleplayer : ScriptableObject, IGame
     private int m_currentStageIndex;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
 
-    private GameObject m_player;
+    
     private static Singleplayer m_instance = null;
 
     public bool IsPlayerDead { get; set; }
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
+    public GameObject Player { get; set; } = null;
     public float PriceToPay { get; set; }
     public CameraSingleplayer Camera { get; set; }
 
@@ -22,16 +23,7 @@ public class Singleplayer : ScriptableObject, IGame
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            //return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
-
-            // The following code is for quicker testing and debugging in single singleplayer stages,
-            // so you don't always have to start playing from the MainMenu.
-            // TODO: remove later!
-            // --start--
-            m_instance = m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
-            //GameMode.Instance.Current = Mode.Singleplayer;
-            return m_instance;
-            // --end--
+            return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
         }
     }
 
@@ -42,13 +34,12 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void Go()
     {
-        //GameMediator.Instance.ActiveGame = Instance;
-        //GameMediator.Instance.CurrentMode = Mode.Singleplayer;
+        Game.Current = Instance;
         //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
         //ImageManager.Instance.IsFirstLoad = true;
 
         // Activate DriveMusicManager.
-        DriveMusicManager.Instance.Go();
+        //DriveMusicManager.Instance.Go();
 
         ResetGame();
         PrepareGame();
@@ -56,9 +47,9 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void RegisterPlayer(GameObject player)
     {
-        if (m_player)
+        if (Player == null)
         {
-            m_player = player;
+            Player = player;
         }
         else
         {
@@ -68,7 +59,25 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void UnegisterPlayer(GameObject player)
     {
-        m_player = null;
+        Player = null;
+    }
+
+    public void LockPlayerInput(bool isLocked)
+    {
+        Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
+    }
+
+    public void HandleDeath(GameObject entity)
+    {
+        if (entity == Player)
+        {
+            IsPlayerDead = true;
+            SceneChanger.LoadSellingScreenAdditive();
+        }
+        else if (ActiveEnemies.Contains(entity))
+        {
+            EnemyDied();
+        }
     }
 
     public void ResetGame()
@@ -80,7 +89,7 @@ public class Singleplayer : ScriptableObject, IGame
     {
         if (IsPlayerDead)
         {
-            GameMediator.Instance.SetGameToStage(0);
+            ResetCurrentStage();
             IsPlayerDead = false;
         }
         else
@@ -89,16 +98,24 @@ public class Singleplayer : ScriptableObject, IGame
 
             if (!isStageExistent)
             {
-                SceneChanger.SetWinningScreenAsActiveScene();
+                Game.HasFinished();
                 ResetGame();
             }
         }
     }
 
-    public void PlayerDied(GameObject player)
+    private void ResetCurrentStage()
     {
-        IsPlayerDead = true;
-        SceneChanger.LoadSellingScreenAdditive();
+        //Camera.SetPosition(stageIndex);
+        PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
+        // Set player position to start point of stage.
+        playerMovement.SetPosition(0);
+        playerMovement.ResetEntityActions();
+    }
+
+    private void EnemyDied()
+    {
+
     }
 
     public void DisableEntityCollision(GameObject callingEntity)
@@ -107,7 +124,7 @@ public class Singleplayer : ScriptableObject, IGame
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
             // TODO: 2nd Layer is Enemy
-            Physics2D.IgnoreLayerCollision(m_player.layer, m_player.layer, false);
+            Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, false);
         }
     }
 
@@ -115,12 +132,22 @@ public class Singleplayer : ScriptableObject, IGame
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
         // TODO: 2nd Layer is Enemy
-        Physics2D.IgnoreLayerCollision(m_player.layer, m_player.layer, true);
+        Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, true);
     }
 
     public void ReachedEndOfStage()
     {
         m_currentStageIndex++;
         PrepareGame();
+    }
+
+    public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
+    {
+        Camera.SwapHudSymbol(gameObject, sprite);
+    }
+
+    public string GetWinner()
+    {
+        return $"You";
     }
 }

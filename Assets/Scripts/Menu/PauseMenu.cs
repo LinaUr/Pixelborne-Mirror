@@ -4,7 +4,7 @@ public class PauseMenu : MonoBehaviour
 {
     void Start()
     {
-        GameMediator.Instance.FreezeGame();
+        Game.Freeze();
 
         // Set camera of canvas.
         Canvas canvas = gameObject.GetComponent<Canvas>();
@@ -14,12 +14,12 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         SceneChanger.UnloadPauseMenuAdditive();
-        GameMediator.Instance.UnfreezeGame();
+        Game.Unfreeze();
     }
 
     public void OpenMainMenu()
     {
         SceneChanger.SetMainMenuAsActiveScene();
-        GameMediator.Instance.UnfreezeGame();
+        Game.Unfreeze();
     }
 }

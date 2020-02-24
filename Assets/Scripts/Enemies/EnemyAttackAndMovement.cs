@@ -26,7 +26,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     protected override void Start()
     {
         base.Start();
-        GameObject player = GameMediator.Instance.ActivePlayers.First();
+        GameObject player = Singleplayer.Instance.Player;
         m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
     }

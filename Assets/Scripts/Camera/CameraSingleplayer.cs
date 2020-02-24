@@ -8,7 +8,6 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
 
     void Start()
     {
-        //GameMediator.Instance.ActiveCamera = this;
         Singleplayer.Instance.Camera = this;
     }
 
@@ -19,15 +18,17 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
 
     public void FadeOut()
     {
-        //GameMediator.Instance.FadedOut();
     }
 
     public void FadeIn()
     {
-        //GameMediator.Instance.FadedIn();
     }
 
-    public void SetPosition(int value) { }
-    public void SwapHudSymbol (GameObject x, Sprite y) { }
+    public void SwapHudSymbol (GameObject gameObject, Sprite sprite)
+    {
+        GameObject hudObject = transform.Find($"{gameObject.name}HudSymbol").gameObject;
+        SpriteRenderer spriteRenderer = hudObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
+    }
 
 }

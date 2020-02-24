@@ -1,65 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 // This class contains the Multiplayer game mode logic.
-public class Multiplayer : MonoBehaviour, IGame
+public class Multiplayer : ScriptableObject, IGame
 {
-    //[SerializeField]
-    //private const int m_amountOfStages = 5;
-    //[SerializeField]
-    //private GameObject m_sceneImageHolder;
-
-
     private int m_currentStageIndex;
     private List<GameObject> m_players = new List<GameObject>();
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private static Multiplayer m_instance;
+    private GameObject m_deadPlayer;
+    private int m_winnerIndex;
 
     private const int m_AMOUNT_OF_STAGES = 5;
 
     public CameraMultiplayer Camera { get; set; }
-    public int WinnerIndex { get; set; }
+
+    //public static Multiplayer Instance
+    //{
+    //    get
+    //    {
+    //        // We have to make use of AddComponent because this class derives 
+    //        // from MonoBehaviour.
+    //        if (m_instance == null)
+    //        {
+    //            GameObject go = new GameObject();
+    //            m_instance = go.AddComponent<Multiplayer>();
+    //        }
+    //        return m_instance;
+    //    }
+    //}
 
     public static Multiplayer Instance
     {
         get
         {
-            // We have to make use of AddComponent because this class derives 
-            // from MonoBehaviour.
-            if (m_instance == null)
-            {
-                GameObject go = new GameObject();
-                m_instance = go.AddComponent<Multiplayer>();
-            }
-            return m_instance;
+            // A ScriptableObject should not be instanciated directly,
+            // so we use CreateInstance instead.
+            return m_instance == null ? CreateInstance<Multiplayer>() : m_instance;
         }
     }
 
-
-    // The GameMediator gets prepared for this game mode.
-    // This should be done on awake for safety reasons.
-    void Awake()
+    public Multiplayer()
     {
-        //GameMediator.Instance.ActiveGame = this;
-        //GameMediator.Instance.CurrentMode = Mode.Multiplayer;
-        //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
-        ImageManager.Instance.IsFirstLoad = true;
-        // Activate DriveMusicManager.
-        DriveMusicManager.Instance.Go();
+        m_instance = this;
     }
 
-    void Start()
+    // This should be done on awake for safety reasons.
+    public async void Go()
     {
+        Game.Current = this;
+
+        SceneChanger.SetMultiplayerAsActiveScene();
+
+        //ImageManager.Instance.ImageHolder = m_sceneImageHolder;
+        //ImageManager.Instance.IsFirstLoad = true;
+        // Activate DriveMusicManager.
+        //DriveMusicManager.Instance.Go();
+
+        await Task.Run(() =>
+        {
+            // Wait until both players have been registered.
+            while (m_players.Count < 2) { };
+        });
+
         ResetGame();
         PrepareGame();
-        GameMediator.Instance.LockPlayerInput(false);
+        LockPlayerInput(false);
     }
 
     public void RegisterPlayer(GameObject player)
     {
-        if (m_players.Count <= 2)
+        if (m_players.Count < 2)
         {
             m_players.Add(player);
         }
@@ -74,15 +88,41 @@ public class Multiplayer : MonoBehaviour, IGame
         m_players.Remove(player);
     }
 
+    public void LockPlayerInput(bool isLocked)
+    {
+        m_players.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
+    }
+
+    public void HandleDeath(GameObject player)
+    {
+        LockPlayerInput(true);
+        m_deadPlayer = player;
+        Camera.FadeOut();
+    }
+
+    // This methods prepares the game after a camera fade out before fading in again.
+    public void FadedOut()
+    {
+        PlayerDied(m_deadPlayer);
+        PrepareGame();
+        Camera.FadeIn();
+        m_deadPlayer = null;
+    }
+
+    public void FadedIn()
+    {
+        LockPlayerInput(false);
+    }
+
     public void ResetGame()
     {
-        m_currentStageIndex = m_amountOfStages / 2;
+        m_currentStageIndex = m_AMOUNT_OF_STAGES / 2;
     }
 
     public void PrepareGame()
     {
-        ImageManager.Instance.SetNewSceneImages();
-        GameMediator.Instance.SetGameToStage(m_currentStageIndex);
+        //ImageManager.Instance.SetNewSceneImages();
+        SetGameToStage(m_currentStageIndex);
     }
 
     public void PlayerDied(GameObject player)
@@ -107,9 +147,8 @@ public class Multiplayer : MonoBehaviour, IGame
     private void CheckHasWonGame(GameObject player)
     {
         if (m_currentStageIndex < 0 ||
-            m_currentStageIndex >= m_amountOfStages)
+            m_currentStageIndex >= m_AMOUNT_OF_STAGES)
         {
-            //List<GameObject> players = GameMediator.Instance.ActivePlayers;
             List<GameObject> players = m_players;
             if(players.Count > 2)
             {
@@ -117,32 +156,47 @@ public class Multiplayer : MonoBehaviour, IGame
             }
 
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
-            //GameMediator.Instance.WinnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
-            WinnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
-            GameMediator.Instance.GameHasFinished();
-            GameMediator.Instance.GameHasFinished();
+            m_winnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
+            Game.HasFinished();
 
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
             ResetGame();
         }
     }
 
-    //public void EnableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
-            //Physics2D.IgnoreLayerCollision(layer1, layer2, false);
             Physics2D.IgnoreLayerCollision(m_players[0].layer, m_players[1].layer, false);
         }
     }
 
-    //public void DisableEntityCollision(GameObject callingEntity, int layer1, int layer2)
     public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        //Physics2D.IgnoreLayerCollision(layer1, layer2, true);
         Physics2D.IgnoreLayerCollision(m_players[0].layer, m_players[1].layer, true);
+    }
+
+    public void SetGameToStage(int stageIndex)
+    {
+        Camera.SetPosition(stageIndex);
+        m_players.ForEach(player =>
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.SetPosition(stageIndex);
+            playerMovement.ResetEntityActions();
+        });
+    }
+
+    public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
+    {
+        //Camera.SwapHudSymbol(gameObject, sprite);
+    }
+
+    public string GetWinner()
+    {
+        return $"Player {m_winnerIndex}";
     }
 }
