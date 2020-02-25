@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System;
+using System.Threading.Tasks;
 
 public class RecordAudio : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class RecordAudio : MonoBehaviour
     }
 
     // This message returns if a microphone device was found in Start().
-    public bool MicrophoneAviable()
+    public bool MicrophoneAvailable()
     {
         return string.IsNullOrEmpty(m_selectedDevice);
     }
@@ -47,20 +48,23 @@ public class RecordAudio : MonoBehaviour
     // This method starts the recording.
     public void Record()
     {
-        if (MicrophoneAviable()) 
+        if (MicrophoneAvailable()) 
         {
             m_microphoneClip = Microphone.Start(m_selectedDevice, false, m_RECORD_DURATION, 44100);
             m_timeLeftRecording = ((float) m_RECORD_DURATION) * 1.1f; // puffer
         }
     }
 
-    // This method converts the recording to a Wav file and saves it on th disk.
+    // This method converts the recording to a Wav file and saves it on the disk.
     private void SaveRecording()
     {
-        DateTime now = DateTime.Now;
-        string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
-        var filepath = Path.Combine(m_filedir, filename);
-        
-        SavWav.Save(filepath, m_microphoneClip);
+        Task.Run(() =>
+        {
+            DateTime now = DateTime.Now;
+            string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
+            var filepath = Path.Combine(m_filedir, filename);
+
+            SavWav.Save(filepath, m_microphoneClip);
+        });
     }
 }
