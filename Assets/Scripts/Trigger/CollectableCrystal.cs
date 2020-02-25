@@ -23,8 +23,7 @@ public class CollectableCrystal : MonoBehaviour
     {
         if (!m_isCollected)
         {
-            //if (collider == Singleplayer.Instance.Player)
-            if (GameMediator.Instance.ActivePlayers.Contains(collider.gameObject))
+            if (collider == Singleplayer.Instance.Player)
             {
                 m_isCollected = true;
                 m_audioPlayer.Play();
