@@ -151,7 +151,12 @@ public class PlayerMovement : Entity
         ChangeOrderInLayer();
     }
 
-    void OnRecord(InputValue value)
+    void OnRecord1(InputValue value)
+    {
+        m_recorder.Record();
+    }
+
+    void OnRecord2(InputValue value)
     {
         m_recorder.Record();
     }
