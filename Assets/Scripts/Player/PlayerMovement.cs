@@ -12,15 +12,10 @@ public class PlayerMovement : Entity
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
     [SerializeField]
-    private float m_groundCheckY = 0.1f;
-    [SerializeField]
-    private LayerMask m_whatIsGround;
-    [SerializeField]
     private Recorder m_recorder;
     [SerializeField]
     private GameObject m_playerSword;
 
-    private bool m_isGrounded = false;
     private float m_rollingMovementX;
     private float m_attackDirection;
     private double m_attackDuration; 
@@ -33,7 +28,6 @@ public class PlayerMovement : Entity
 
     // Positions from outer left to outer right stage as they are in the scene.
     public IList<Vector2> Positions { get; set; }
-    public bool IsRolling { get; private set; } = false;
     public GameObject PlayerSword { get { return m_playerSword; } }
 
     public int Index
@@ -66,11 +60,9 @@ public class PlayerMovement : Entity
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, "Player_1_attack");
     }
 
-    void Update()
+    protected override void Update()
     {
-        m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_groundCheckY), m_whatIsGround);
-        m_animator.SetBool("IsJumping", !m_isGrounded);
+        base.Update();
         // Since to the ground is not slippery, we need to reapply the velocity.
         if(IsRolling) {
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
@@ -100,18 +92,6 @@ public class PlayerMovement : Entity
     {
         base.ResetMovement();
         IsRolling = false;
-    }
-
-    void OnJump(InputValue value)
-    {
-        if (!IsInputLocked && !IsRolling)
-        {
-            if (m_isGrounded)
-            {
-                m_animator.SetBool("IsJumping", true);
-                m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
-            }
-        }
     }
 
     void OnMovement(InputValue value)

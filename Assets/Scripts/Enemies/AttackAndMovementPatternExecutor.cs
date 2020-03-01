@@ -74,7 +74,9 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
                                         m_entityAttackAndMovement.AttackMiddle,
                                         m_entityAttackAndMovement.AttackDown, 
                                         m_entityAttackAndMovement.StartFollowPlayer,
-                                        m_entityAttackAndMovement.StopFollowPlayer 
+                                        m_entityAttackAndMovement.StopFollowPlayer ,
+                                        m_entityAttackAndMovement.StartAutoJumping,
+                                        m_entityAttackAndMovement.StartAutoJumping,
         };
         PrepareAttackPatternParsingDict();
         m_attackPatternList= new Tuple<int, float>[][]

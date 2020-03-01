@@ -10,7 +10,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     [SerializeField]
     private float m_minPlayerDistance = 0.25f;
     [SerializeField]
-    protected bool m_isFriendlyFireActive = false;
+    private bool m_isFriendlyFireActive = false;
+    [SerializeField]
+    private int m_frameNumberUntilResettingOldPlayerPosition = 60;
+    [SerializeField]
+    private float m_autoJumpingActivationDistance = 0.0000001f;
 
     protected Rigidbody2D m_playerRigidbody2D;
 
@@ -19,6 +23,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private bool m_isAttackChained = false;
     private bool m_isPlayerInRange = false;
     private string m_playerSwordName;
+    private Vector2 m_lastPosition = new Vector2();
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
 
     protected override void Start()
@@ -29,8 +34,9 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (m_isFollowingPlayer && !IsInputLocked)
         {
             float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
@@ -49,7 +55,22 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                 }
                 // Apply the movement to the physics.
                 m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+
+                // Jump if the position is almost equal to the last position and auto-jumping is turned on
+                if(m_isAutoJumping)
+                {
+                    if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                    {
+                        OnJump(null);
+                    }
+                    // Set the old player position with the frame frequency.
+                    if(Time.frameCount % m_frameNumberUntilResettingOldPlayerPosition == 0)
+                    {
+                        m_lastPosition = gameObject.transform.position;
+                    }
+                }
             }
+            
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }

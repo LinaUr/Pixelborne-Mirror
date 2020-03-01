@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
 public abstract class Entity : MonoBehaviour, IAttack
 {
@@ -11,6 +12,10 @@ public abstract class Entity : MonoBehaviour, IAttack
     [SerializeField]
     protected bool m_isFacingRight;
     [SerializeField]
+    private float m_groundCheckY = 0.1f;
+    [SerializeField]
+    private LayerMask m_whatIsGround;
+    [SerializeField]
     protected BoxCollider2D m_weaponCollider;
 
     protected Animator m_animator;
@@ -19,10 +24,12 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected EntityHealth m_entityHealth;
 
     protected int m_currentAttackingDirection = 0;
+    protected bool m_isGrounded = false;
     protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
     protected static string[] m_ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
     public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
+    public bool IsRolling { get; protected set; } = false;
 
     protected virtual void Awake()
     {
@@ -31,6 +38,12 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_collider = gameObject.GetComponent<BoxCollider2D>();
         m_entityHealth = gameObject.GetComponent<EntityHealth>();
         m_weaponCollider = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
+    }
+
+    protected virtual void Update() {
+        m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_groundCheckY), m_whatIsGround);
+        m_animator.SetBool("IsJumping", !m_isGrounded);
     }
 
     protected virtual void Start()
@@ -143,6 +156,17 @@ public abstract class Entity : MonoBehaviour, IAttack
         }
     }
 
+    protected void OnJump(InputValue value)
+    {
+        if (!IsInputLocked && !IsRolling)
+        {
+            if (m_isGrounded)
+            {
+                m_animator.SetBool("IsJumping", true);
+                m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
+            }
+        }
+    }
     protected virtual void Die(){
         StopAttacking();
     }
