@@ -3,9 +3,14 @@
 // This interface must be implemented by Singleplayer and Multiplayer class. 
 public interface IGame
 {
-    void ResetGame();
-    void PrepareGame();
-    void PlayerDied(GameObject player);
-    void DisableEntityCollision(GameObject callingEntity, int Layer1, int layer2);
-    void EnableEntityCollision(GameObject callingEntity, int Layer1, int layer2);
+    void RegisterPlayer(GameObject player);
+    void UnregisterPlayer(GameObject player);
+    void LockPlayerInput(bool isLocked);
+    void HandleDeath(GameObject entity);
+    void PrepareStage();
+    void DisableEntityCollision(GameObject callingEntity);
+    void EnableEntityCollision(GameObject callingEntity);
+    void SwapHudSymbol(GameObject gameObject, Sprite sprite);
+
+    string GetWinner();
 }
