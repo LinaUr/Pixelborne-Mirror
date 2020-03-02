@@ -12,7 +12,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     [SerializeField]
     protected bool m_isFacingRight;
     [SerializeField]
-    private float m_groundCheckY = 0.1f;
+    private float m_distanceInWhichEntityCountsAsGrounded = 0.1f;
     [SerializeField]
     private LayerMask m_whatIsGround;
     [SerializeField]
@@ -42,7 +42,7 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     protected virtual void Update() {
         m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_groundCheckY), m_whatIsGround);
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
         m_animator.SetBool("IsJumping", !m_isGrounded);
     }
 
@@ -158,13 +158,10 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     protected void OnJump(InputValue value)
     {
-        if (!IsInputLocked && !IsRolling)
+        if (!IsInputLocked && !IsRolling && m_isGrounded)
         {
-            if (m_isGrounded)
-            {
-                m_animator.SetBool("IsJumping", true);
-                m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
-            }
+            m_animator.SetBool("IsJumping", true);
+            m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
         }
     }
     protected virtual void Die(){

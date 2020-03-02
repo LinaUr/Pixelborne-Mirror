@@ -63,7 +63,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     {
                         OnJump(null);
                     }
-                    // Set the old player position with the frame frequency.
+                    // Set the old player position every n-th frame.
                     if(Time.frameCount % m_frameNumberUntilResettingOldPlayerPosition == 0)
                     {
                         m_lastPosition = gameObject.transform.position;
