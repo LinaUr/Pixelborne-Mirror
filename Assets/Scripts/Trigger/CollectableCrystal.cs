@@ -20,7 +20,7 @@ public class CollectableCrystal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (!m_isCollected && collider == Singleplayer.Instance.Player)
+        if (!m_isCollected && collider.gameObject == Singleplayer.Instance.Player)
         {
                 m_isCollected = true;
                 m_audioPlayer.Play();
