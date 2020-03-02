@@ -17973,7 +17973,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed2b0130b832a2458ac22d71b5fca2e, type: 3}
+  m_Script: {fileID: 11500000, guid: fb16581a567cc9b40b80903d38e9dbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_filterImage: {fileID: 1610156541}
@@ -80130,6 +80130,7 @@ EdgeCollider2D:
   m_Offset: {x: -11, y: -22}
   m_EdgeRadius: 0
   m_Points:
+  - {x: 111.9, y: 24.05}
   - {x: 112, y: 24}
   - {x: 112, y: 23}
   - {x: 111.9, y: 23.05}
@@ -80149,6 +80150,7 @@ EdgeCollider2D:
   m_Offset: {x: -14, y: -17}
   m_EdgeRadius: 0
   m_Points:
+  - {x: 112.1, y: 24.05}
   - {x: 112, y: 24}
   - {x: 112, y: 23}
   - {x: 112.1, y: 23.05}
@@ -80577,7 +80579,7 @@ EdgeCollider2D:
   m_Points:
   - {x: 92, y: 5}
   - {x: 95, y: 5}
-  - {x: 101, y: 2}
+  - {x: 100.95, y: 2.025}
 --- !u!68 &1869712683
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -80614,7 +80616,7 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 98, y: 7}
+  - {x: 98.05, y: 7.025}
   - {x: 106, y: 11}
   - {x: 127, y: 11}
 --- !u!68 &1869712685
@@ -80635,7 +80637,7 @@ EdgeCollider2D:
   m_Points:
   - {x: 92, y: 14}
   - {x: 94, y: 15}
-  - {x: 112, y: 15}
+  - {x: 111.95, y: 15}
   - {x: 111, y: 24}
   - {x: 112, y: 24}
   - {x: 114, y: 25}
@@ -80657,7 +80659,7 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -1}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 98, y: 7}
+  - {x: 98.05, y: 7.025}
   - {x: 106, y: 11}
   - {x: 107, y: 11}
 --- !u!68 &1869712687
@@ -80678,7 +80680,7 @@ EdgeCollider2D:
   m_Points:
   - {x: 92, y: 5}
   - {x: 95, y: 5}
-  - {x: 101, y: 2}
+  - {x: 100.95, y: 2.025}
 --- !u!1 &1900461316
 GameObject:
   m_ObjectHideFlags: 0

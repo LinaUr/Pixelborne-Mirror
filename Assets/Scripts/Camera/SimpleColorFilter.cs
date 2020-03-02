@@ -7,22 +7,14 @@ public class SimpleColorFilter : MonoBehaviour
     [SerializeField]
     private GameObject m_filterImage;
     [SerializeField]
-    private float m_startX;
+    private float m_startX = 0f;
     [SerializeField]
-    private float m_startY;
+    private float m_startY = 0f;
     [SerializeField]
-    private float m_maxDistance;
+    private float m_maxDistance = 100f;
     [SerializeField]
-    private float m_maxFilterStrength;
+    private float m_maxFilterStrength = 0.5f;
     
-    void Start()
-    {
-        m_startX = 0;
-        m_startY = 0;
-        m_maxDistance = 100;
-        m_maxFilterStrength = 0.5,
-
-    }
 
     
     void Update()
