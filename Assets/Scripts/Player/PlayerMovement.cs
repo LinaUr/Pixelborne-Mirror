@@ -23,7 +23,7 @@ public class PlayerMovement : Entity
     private Vector2 m_nonRollingColliderSize;
     private SpriteRenderer m_swordRenderer;
     private Vector2 m_rollingColliderSize;
-
+    private IGame m_activeGame;
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 
     // Positions from outer left to outer right stage as they are in the scene.
@@ -41,7 +41,6 @@ public class PlayerMovement : Entity
     protected override void Awake()
     {
         base.Awake();
-        GameMediator.Instance.ActivePlayers.Add(gameObject);
         m_nonRollingColliderSize = m_collider.size;
         m_rollingColliderSize = (m_nonRollingColliderSize / 2);
 
@@ -57,6 +56,9 @@ public class PlayerMovement : Entity
     protected override void Start()
     {
         base.Start();
+        // Put registration in Start for safety reasons.
+        m_activeGame = Game.Current;
+        m_activeGame.RegisterPlayer(gameObject);
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, "Player_1_attack");
     }
 
@@ -145,7 +147,7 @@ public class PlayerMovement : Entity
     {
         base.Die();
         m_entityHealth.Die();
-        GameMediator.Instance.HandleDeath(gameObject);
+        m_activeGame.HandleDeath(gameObject);
     }
 
     public void SetPosition(int index)
@@ -176,24 +178,24 @@ public class PlayerMovement : Entity
     {
         m_entityHealth.Invincible = true;
         m_collider.size = m_rollingColliderSize;
-        GameMediator.Instance.DisableEntityCollision(gameObject);
+        m_activeGame.DisableEntityCollision(gameObject);
     }
 
     public void StopRollingInvincibility()
     {
         m_entityHealth.Invincible = false;
         m_collider.size = m_nonRollingColliderSize;
-        GameMediator.Instance.EnableEntityCollision(gameObject);
+        m_activeGame.EnableEntityCollision(gameObject);
     }
 
     public void OnPauseGame()
     {
-        GameMediator.Instance.PauseGame();
+        Game.Pause();
     }
 
     private void OnDestroy()
     {
-        GameMediator.Instance.ActivePlayers.Remove(gameObject);
+        m_activeGame.UnregisterPlayer(gameObject);
     }
     
     // This method is triggered when the player presses the attack button.

@@ -26,10 +26,16 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private Vector2 m_lastPosition = new Vector2();
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
 
+    void Awake()
+    {
+        base.Awake();
+        Singleplayer.Instance.ActiveEnemies.Add(gameObject);
+    }
+
     protected override void Start()
     {
         base.Start();
-        GameObject player = GameMediator.Instance.ActivePlayers.First();
+        GameObject player = Singleplayer.Instance.Player;
         m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
     }
@@ -202,5 +208,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
         // Reset the attribute
         m_isAttackChained = false;
+    }
+
+
+    void OnDestroy()
+    {
+        Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 }

@@ -73,6 +73,6 @@ public class PlayerSpriteSwapper : MonoBehaviour
 
     private void SwapHudSymbol()
     {
-        GameMediator.Instance.SwapHudSymbol(gameObject, m_spriteSheet[$"{m_spriteBaseName}_0"]);
+        Game.Current.SwapHudSymbol(gameObject, m_spriteSheet[$"{m_spriteBaseName}_0"]);
     }
 }

@@ -125,8 +125,7 @@ public class IntroScene : MonoBehaviour
 
     public void ChangeScene()
     {
-        //actual scene change missing, currently just loops
-        Start();
+        Singleplayer.Instance.ReachedEndOfStage();
     }
 } 
 
