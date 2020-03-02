@@ -2,7 +2,6 @@
 
 public class Game : ScriptableObject
 {
-    public static Mode CurrentMode { get; set; }
     public static IGame Current { get; set; }
 
     public static void Pause()
@@ -10,7 +9,7 @@ public class Game : ScriptableObject
         SceneChanger.LoadPauseMenuAdditive();
     }
 
-    public static void HasFinished()
+    public static void Finish()
     {
         SceneChanger.SetWinningScreenAsActiveScene();
     }

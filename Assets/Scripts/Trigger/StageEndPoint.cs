@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-
+// This class is marks a GameObject that functions as a trigger.
+// It needs to be assigned to a GameObject as a Script component.
 public class StageEndPoint : MonoBehaviour
 {
     void OnTriggerEnter2D (Collider2D collider)
@@ -15,5 +15,4 @@ public class StageEndPoint : MonoBehaviour
             }
         }
     }
-
 }

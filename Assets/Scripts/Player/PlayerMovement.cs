@@ -158,11 +158,11 @@ public class PlayerMovement : Entity
         m_recorder.Record();
     }
 
-    protected override void Die(bool isDeadByDeathZone)
+    protected override void Die()
     {
-        base.Die(isDeadByDeathZone);
+        base.Die();
         m_entityHealth.Die();
-        m_activeGame.HandleDeath(gameObject, isDeadByDeathZone);
+        m_activeGame.HandleDeath(gameObject);
     }
 
     public void SetPosition(int index)
@@ -210,7 +210,7 @@ public class PlayerMovement : Entity
 
     private void OnDestroy()
     {
-        m_activeGame.UnegisterPlayer(gameObject);
+        m_activeGame.UnregisterPlayer(gameObject);
     }
     
     // This method is triggered when the player presses the attack button.

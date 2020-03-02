@@ -47,14 +47,14 @@ public class ImageManager : MonoBehaviour
         {
             string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-        // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
-        string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
-            m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
-        // Gitlab Issue #48
-        // Load images from the entire user folder.
-        //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
+            // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
+            string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
+                m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
+            // Gitlab Issue #48
+            // Load images from the entire user folder.
+            //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
 
-        m_isLoadingPaths = false;
+            m_isLoadingPaths = false;
         });
 
         if (m_imagePaths.Count > 0)
@@ -117,14 +117,14 @@ public class ImageManager : MonoBehaviour
                 }
                 else
                 {
-                    // Wait until a good amount of images has been stored.
+                    // Wait until the needed amount of images has been stored.
                     while (m_imageStore.Count < amount)
                     {
                         yield return null;
                     }
                 }
 
-                // Grab needed amount but random images from the ImageStore.
+                // Grab needed amount of random images from the ImageStore.
                 for (int i = 0; i < amount; i++)
                 {
                     int num = UnityEngine.Random.Range(0, m_imageStore.Count - 1);

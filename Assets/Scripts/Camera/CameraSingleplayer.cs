@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-//This is a temp camera script for single player level construction and testing
+// This class controlls the camera of the singleplayer scene.
 public class CameraSingleplayer : MonoBehaviour, ICamera
 {
     [SerializeField]

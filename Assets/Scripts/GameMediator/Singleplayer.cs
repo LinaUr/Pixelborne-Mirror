@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class contains the Multiplayer game mode logic.
+// This class contains the Singleplayer game mode logic.
 public class Singleplayer : ScriptableObject, IGame
 {
+    private const int m_START_STAGE_INDEX = 0;
+
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
-
-    
     private static Singleplayer m_instance = null;
 
     public bool IsPlayerDead { get; set; }
@@ -17,7 +17,7 @@ public class Singleplayer : ScriptableObject, IGame
     public float PriceToPay { get; set; }
     public CameraSingleplayer Camera { get; set; }
 
-    private const int m_START_STAGE_INDEX = 0;
+    
 
     public static Singleplayer Instance
     {
@@ -66,7 +66,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    public void UnegisterPlayer(GameObject player)
+    public void UnregisterPlayer(GameObject player)
     {
         Player = null;
     }
@@ -76,19 +76,12 @@ public class Singleplayer : ScriptableObject, IGame
         Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
     }
 
-    public void HandleDeath(GameObject entity, bool isDeadByDeathZone)
+    public void HandleDeath(GameObject entity)
     {
         if (entity == Player)
         {
             IsPlayerDead = true;
-            if (isDeadByDeathZone)
-            {
-                PrepareStage();
-            }
-            else
-            {
-                SceneChanger.LoadSellingScreenAdditive();
-            }
+            SceneChanger.LoadSellingScreenAdditive();
         }
         else if (ActiveEnemies.Contains(entity))
         {
@@ -119,7 +112,7 @@ public class Singleplayer : ScriptableObject, IGame
             bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
             if (!isStageExistent)
             {
-                Game.HasFinished();
+                Game.Finish();
                 ResetGame();
             }
             else

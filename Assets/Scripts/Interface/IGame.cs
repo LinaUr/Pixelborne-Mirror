@@ -4,9 +4,9 @@
 public interface IGame
 {
     void RegisterPlayer(GameObject player);
-    void UnegisterPlayer(GameObject player);
+    void UnregisterPlayer(GameObject player);
     void LockPlayerInput(bool isLocked);
-    void HandleDeath(GameObject entity, bool isDeadByDeathZone);
+    void HandleDeath(GameObject entity);
     void PrepareStage();
     void DisableEntityCollision(GameObject callingEntity);
     void EnableEntityCollision(GameObject callingEntity);

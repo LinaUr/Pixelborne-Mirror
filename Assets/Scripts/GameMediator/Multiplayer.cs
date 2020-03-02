@@ -7,15 +7,15 @@ using UnityEngine;
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : ScriptableObject, IGame
 {
+    private const int m_AMOUNT_OF_STAGES = 5;
+    private const int m_START_STAGE_INDEX = m_AMOUNT_OF_STAGES / 2;
+
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private List<GameObject> m_players = new List<GameObject>();
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private static Multiplayer m_instance;
     private GameObject m_deadPlayer;
     private int m_winnerIndex;
-
-    private const int m_AMOUNT_OF_STAGES = 5;
-    private const int m_START_STAGE_INDEX = m_AMOUNT_OF_STAGES / 2;
 
     public CameraMultiplayer Camera { get; set; }
 
@@ -44,7 +44,6 @@ public class Multiplayer : ScriptableObject, IGame
         m_instance = this;
     }
 
-    // This should be done on awake for safety reasons.
     public async void Go()
     {
         Game.Current = this;
@@ -76,7 +75,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    public void UnegisterPlayer(GameObject player)
+    public void UnregisterPlayer(GameObject player)
     {
         m_players.Remove(player);
     }
@@ -86,14 +85,14 @@ public class Multiplayer : ScriptableObject, IGame
         m_players.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
     }
 
-    public void HandleDeath(GameObject player, bool isDeadByDeathZone)
+    public void HandleDeath(GameObject player)
     {
         LockPlayerInput(true);
         m_deadPlayer = player;
         Camera.FadeOut();
     }
 
-    // This methods prepares the game after a camera fade out before fading in again.
+    // This method prepares the game after a camera fade out before fading in again.
     public void FadedOut()
     {
         PlayerDied(m_deadPlayer);
@@ -150,7 +149,7 @@ public class Multiplayer : ScriptableObject, IGame
 
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
             m_winnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
-            Game.HasFinished();
+            Game.Finish();
 
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
             ResetGame();

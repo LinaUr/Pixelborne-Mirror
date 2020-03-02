@@ -124,7 +124,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         {
             if (collider.gameObject.name == "DeathZones")
             {
-                Die(true);
+                Die();
             }
             Vector2 colliderDirection = gameObject.transform.position - collider.gameObject.transform.position;
             bool attackerNeedsToFaceRight = colliderDirection.x > 0.0f ? true : false;
@@ -137,13 +137,13 @@ public abstract class Entity : MonoBehaviour, IAttack
                 m_entityHealth.TakeDamage(enemyAttack.GetAttackDamage());
                 if (m_entityHealth.IsZero)
                 {
-                    Die(false);
+                    Die();
                 }
             }
         }
     }
 
-    protected virtual void Die(bool isDeadByDeathZone){
+    protected virtual void Die(){
         StopAttacking();
     }
 }

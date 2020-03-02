@@ -53,8 +53,8 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method initiates the entity dying animation.
-    protected override void Die(bool isDeadByDeathZone){
-        base.Die(isDeadByDeathZone);
+    protected override void Die(){
+        base.Die();
         m_animator.SetBool("IsDying", true);
     }
 
@@ -164,7 +164,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     void OnDestroy()
     {
-        base.Awake();
         Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 }
