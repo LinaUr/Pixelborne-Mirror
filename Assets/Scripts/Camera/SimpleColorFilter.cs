@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
-//This class implements a simple color filter that gets stronger the further you go in a stage
+// This class implements a simple color filter that gets stronger the further you go in a stage.
 public class SimpleColorFilter : MonoBehaviour
 {
     [SerializeField]
@@ -16,17 +14,21 @@ public class SimpleColorFilter : MonoBehaviour
     private float m_maxDistance;
     [SerializeField]
     private float m_maxFilterStrength;
-    // Start is called before the first frame update
+    
     void Start()
     {
-        
+        m_startX = 0;
+        m_startY = 0;
+        m_maxDistance = 100;
+        m_maxFilterStrength = 0.5,
+
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         float opacity;
-        if(m_maxDistance != 0)
+        if (m_maxDistance != 0)
         {
             float distX = Math.Abs(gameObject.transform.position.x - m_startX);
             float distY = Math.Abs(gameObject.transform.position.y - m_startY);
@@ -41,7 +43,5 @@ public class SimpleColorFilter : MonoBehaviour
         Color color = m_filterImage.GetComponent<SpriteRenderer>().color;
         color.a = opacity;
         m_filterImage.GetComponent<SpriteRenderer>().color = color;
-
-
     }
 }
