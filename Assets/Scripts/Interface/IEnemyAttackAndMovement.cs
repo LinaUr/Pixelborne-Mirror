@@ -8,9 +8,13 @@ public interface IEnemyAttackAndMovement : IAttack
     void StartFollowPlayer();
     void StopFollowPlayer();
 
+    void StartAutoJumping();
+    void StopAutoJumping();
+
     float GetAttackUpDuration();
     float GetAttackMiddleDuration();
     float GetAttackDownDuration();
 
-    bool IsPlayerInRange();
+    bool IsPlayerInAttackRange();
+    bool IsPlayerInSightRange();
 }
