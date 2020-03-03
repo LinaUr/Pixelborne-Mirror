@@ -23,9 +23,13 @@ public class PlayerMovement : Entity
     private Vector2 m_nonRollingColliderSize;
     private SpriteRenderer m_swordRenderer;
     private Vector2 m_rollingColliderSize;
+    private float m_timeToNextSetRevivePosition = 0;
+    private Vector2 m_nextPotentialRevivePosition;
     private IGame m_activeGame;
-    private const float m_CONTROLLER_DEADZONE = 0.30f;
+    private readonly float m_CONTROLLER_DEADZONE = 0.30f;
+    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
 
+    public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
     // Positions from outer left to outer right stage as they are in the scene.
     public IList<Vector2> Positions { get; set; }
     public GameObject PlayerSword { get { return m_playerSword; } }
@@ -65,6 +69,7 @@ public class PlayerMovement : Entity
     protected override void Update()
     {
         base.Update();
+        UpdateRevivePosition();
         // Since to the ground is not slippery, we need to reapply the velocity.
         if(IsRolling) {
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
@@ -81,6 +86,26 @@ public class PlayerMovement : Entity
                 Attacking = false;
                 m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], Attacking);
             }
+        }
+    }
+
+    private void UpdateRevivePosition()
+    {
+        m_timeToNextSetRevivePosition -= Time.deltaTime;
+        // reset m_nextPotentialRevivePosition when the player is not on the ground.
+        if(!m_isGrounded)
+        {
+            m_timeToNextSetRevivePosition = 0;
+            m_nextPotentialRevivePosition = INVALID_POSITION;
+        }
+        else if (m_timeToNextSetRevivePosition <= 0)
+        {
+            if (m_nextPotentialRevivePosition != INVALID_POSITION)
+            {
+                RevivePosition = m_nextPotentialRevivePosition;
+            }
+            m_nextPotentialRevivePosition = gameObject.transform.position; 
+            m_timeToNextSetRevivePosition = TIME_BETWEEN_REVIVE_POSITION_SETTING;
         }
     }
 
@@ -154,6 +179,12 @@ public class PlayerMovement : Entity
     {
         Vector2 position = Positions[index];
         gameObject.transform.position = new Vector3(position.x, position.y, gameObject.transform.position.z);
+    }
+
+    public void SetRevivePosition(Vector2 revivePosition)
+    {
+        RevivePosition = revivePosition;
+        gameObject.transform.position = new Vector3(revivePosition.x, revivePosition.y, gameObject.transform.position.z);
     }
 
     // This method starts the player roll if he is not already rolling, is on the ground,

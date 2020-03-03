@@ -26,7 +26,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private Vector2 m_lastPosition = new Vector2();
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
 
-    void Awake()
+    protected override void Awake()
     {
         base.Awake();
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
@@ -76,6 +76,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     }
                 }
             }
+            // Stop the walking animation if the enemy is too close to the player.
+            else
+            {
+                m_animator.SetFloat("Speed", 0);
+            }
             
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
@@ -85,12 +90,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     protected override void Die(){
         base.Die();
         m_animator.SetBool("IsDying", true);
-    }
-
-    // This method destroys the Game Object.
-    // It is called at the end of the death animation.
-    private void DestroyObject(){
-        Destroy(gameObject);
     }
 
     // This method starts the new attack.
@@ -136,6 +135,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     public void StartFollowPlayer()
     {
+        m_lastPosition = INVALID_POSITION;
         m_isFollowingPlayer = true;
     }
 

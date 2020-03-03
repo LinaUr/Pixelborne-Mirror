@@ -10,6 +10,8 @@ public class Singleplayer : ScriptableObject, IGame
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private static Singleplayer m_instance = null;
+    private Vector2 m_playerRevivePosition;
+    private PlayerMovement m_playerMovement;
 
     public bool IsPlayerDead { get; set; }
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
@@ -59,6 +61,7 @@ public class Singleplayer : ScriptableObject, IGame
         if (Player == null)
         {
             Player = player;
+            m_playerMovement = player.GetComponent<PlayerMovement>();
         }
         else
         {
@@ -71,9 +74,16 @@ public class Singleplayer : ScriptableObject, IGame
         Player = null;
     }
 
+    public void RevivePlayer()
+    {
+        IsPlayerDead = false;
+        m_playerMovement.SetRevivePosition(m_playerRevivePosition);
+        m_playerMovement.ResetEntityActions();
+    }
+
     public void LockPlayerInput(bool isLocked)
     {
-        Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
+        m_playerMovement.IsInputLocked = isLocked;
     }
 
     public void HandleDeath(GameObject entity)
@@ -81,6 +91,7 @@ public class Singleplayer : ScriptableObject, IGame
         if (entity == Player)
         {
             IsPlayerDead = true;
+            m_playerRevivePosition = m_playerMovement.RevivePosition;
             SceneChanger.LoadSellingScreenAdditive();
         }
         else if (ActiveEnemies.Contains(entity))
@@ -125,10 +136,9 @@ public class Singleplayer : ScriptableObject, IGame
 
     private void ResetCurrentStage()
     {
-        PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
         // Set player position to start point of stage.
-        playerMovement.SetPosition(0);
-        playerMovement.ResetEntityActions();
+        m_playerMovement.SetPosition(0);
+        m_playerMovement.ResetEntityActions();
     }
 
     public void ReachedEndOfStage()
