@@ -17980,7 +17980,7 @@ MonoBehaviour:
   m_startX: 0
   m_startY: 0
   m_maxDistance: 100
-  m_maxFilterStrength: 0.4
+  m_maxFilterStrength: 0.3
 --- !u!1 &619359088
 GameObject:
   m_ObjectHideFlags: 0
