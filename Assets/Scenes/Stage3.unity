@@ -9494,7 +9494,7 @@ GameObject:
   - component: {fileID: 369991346}
   - component: {fileID: 369991348}
   m_Layer: 0
-  m_Name: Player1LifeCounter
+  m_Name: PlayerLifeCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78816,7 +78816,7 @@ GameObject:
   - component: {fileID: 1507330219}
   - component: {fileID: 1507330220}
   m_Layer: 0
-  m_Name: Player1HudSymbol
+  m_Name: PlayerHudSymbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
