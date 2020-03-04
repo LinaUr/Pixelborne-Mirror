@@ -2,19 +2,14 @@
 
 public class MainMenu : MonoBehaviour
 {
-    void Awake()
-    {
-        GameMediator.Instance.CurrentMode = Mode.MainMenu;
-    }
-
     public void StartSingleplayer()
     {
-        SceneChanger.SetSingleplayerAsActiveScene();
+        Singleplayer.Instance.Go();
     }
 
     public void StartMultiplayer()
     {
-        SceneChanger.SetMultiplayerAsActiveScene();
+        Multiplayer.Instance.Go();
     }
 
     public void QuitGame()

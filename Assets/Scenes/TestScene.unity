@@ -4901,7 +4901,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300036, guid: a25e2ac6ec6e8b84f9b0bf1d06cb22df, type: 3}
   m_Color: {r: 0.9098039, g: 1, b: 0.63529414, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.18, y: 3.19}
@@ -14605,13 +14605,13 @@ MonoBehaviour:
   m_moveSpeed: 10
   m_jumpForce: 22
   m_isFacingRight: 1
-  m_weaponCollider: {fileID: 393457409}
-  m_playerIndex: 2
-  m_playerPositionsTransform: {fileID: 73894255}
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 4608
+  m_weaponCollider: {fileID: 393457409}
+  m_playerIndex: 2
+  m_playerPositionsTransform: {fileID: 73894255}
   m_recorder: {fileID: 26144966}
   m_playerSword: {fileID: 393457407}
 --- !u!114 &1204311616
@@ -14907,13 +14907,13 @@ MonoBehaviour:
   m_moveSpeed: 10
   m_jumpForce: 22
   m_isFacingRight: 1
-  m_weaponCollider: {fileID: 1854587251}
-  m_playerIndex: 1
-  m_playerPositionsTransform: {fileID: 1619059395}
   m_groundCheckY: 0.1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 5120
+  m_weaponCollider: {fileID: 1854587251}
+  m_playerIndex: 1
+  m_playerPositionsTransform: {fileID: 1619059395}
   m_recorder: {fileID: 26144966}
   m_playerSword: {fileID: 1854587248}
 --- !u!114 &1205548512
@@ -16287,7 +16287,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1cacac7711fafe68d8e6163ab347641e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -16509,7 +16509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669ca2978ab747a5e83ecd146416224a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackPattern: STARTF|AM|AM|AM|10
+  m_attackPatternStringWhileInAttackRange: AM|AM|AM|5
+  m_attackPatternStringWhileInSightRange: STARTF|STARTAUTOJUMP
+  m_attackPatternStringWhileOutOfSight: STOPF
   m_entity: {fileID: 1603320243}
 --- !u!114 &1603320246
 MonoBehaviour:
@@ -16537,12 +16539,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackDamage: 1
-  m_moveSpeed: 1
+  m_moveSpeed: 3
   m_jumpForce: 22
   m_isFacingRight: 1
+  m_groundCheckY: 0.1
+  m_whatIsGround:
+    serializedVersion: 2
+    m_Bits: 5632
   m_weaponCollider: {fileID: 350891035}
-  m_attackRange: 10
+  m_attackRange: 4
+  m_sightRange: 9
+  m_minPlayerDistance: 0.5
   m_isFriendlyFireActive: 0
+  m_frameNumberUntilResettingOldPlayerPosition: 60
+  m_autoJumpingActivationDistance: 0.0000001
 --- !u!95 &1603320248
 Animator:
   serializedVersion: 3
@@ -16578,7 +16588,7 @@ BoxCollider2D:
   m_Offset: {x: 0.060083583, y: 0.23386952}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.21343043, y: 0.0007156061}
+    pivot: {x: 0.20982435, y: 0.0011238565}
     oldSize: {x: 0.61, y: 0.49}
     newSize: {x: 0.62, y: 0.48}
     adaptiveTilingThreshold: 0.5
@@ -16603,7 +16613,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 7
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -16724,7 +16734,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -20019,7 +20029,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1cacac7711fafe68d8e6163ab347641e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -20293,7 +20303,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300036, guid: a25e2ac6ec6e8b84f9b0bf1d06cb22df, type: 3}
   m_Color: {r: 0.9098039, g: 1, b: 0.63529414, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.18, y: 3.19}
@@ -21026,7 +21036,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -222297735
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0ce96aa6462620e47ac56eccbb027deb, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}

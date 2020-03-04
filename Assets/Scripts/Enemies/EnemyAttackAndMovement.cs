@@ -6,42 +6,77 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     [SerializeField]
     private float m_attackRange = 10;
     [SerializeField]
-    protected bool m_isFriendlyFireActive = false;
+    private float m_sightRange = 10;
+    [SerializeField]
+    private float m_minPlayerDistance = 0.25f;
+    [SerializeField]
+    private bool m_isFriendlyFireActive = false;
+    [SerializeField]
+    private int m_frameNumberUntilResettingOldPlayerPosition = 60;
+    [SerializeField]
+    private float m_autoJumpingActivationDistance = 0.0000001f;
 
-    protected BoxCollider2D m_playerCollider;
     protected Rigidbody2D m_playerRigidbody2D;
 
     private bool m_isFollowingPlayer = false;
+    private bool m_isAutoJumping = false;
     private bool m_isAttackChained = false;
     private bool m_isPlayerInRange = false;
     private string m_playerSwordName;
+    private Vector2 m_lastPosition = new Vector2();
     private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
+
+    void Awake()
+    {
+        base.Awake();
+        Singleplayer.Instance.ActiveEnemies.Add(gameObject);
+    }
 
     protected override void Start()
     {
         base.Start();
-        GameObject player = GameMediator.Instance.ActivePlayers.First();
+        GameObject player = Singleplayer.Instance.Player;
         m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (m_isFollowingPlayer && !IsInputLocked)
         {
             float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-            // Normalize the movementDirection.
-            movementDirection = movementDirection < 0 ? -1 : 1;
-            m_animator.SetFloat("Speed", Mathf.Abs(movementDirection));
-
-            // Flip enemy direction if player now walks in opposite direction.
-            if (movementDirection < 0.0f && m_isFacingRight ||
-                movementDirection > 0.0f && !m_isFacingRight)
+            // Only walk closer to the player if the player is not already too close.
+            if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
             {
-                FlipEntity();
+                // Normalize the movementDirection.
+                movementDirection = movementDirection < 0 ? -1 : 1;
+                m_animator.SetFloat("Speed", Mathf.Abs(movementDirection));
+
+                // Flip enemy direction if player now walks in opposite direction.
+                if (movementDirection < 0.0f && m_isFacingRight ||
+                    movementDirection > 0.0f && !m_isFacingRight)
+                {
+                    FlipEntity();
+                }
+                // Apply the movement to the physics.
+                m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+
+                // Jump if the position is almost equal to the last position and auto-jumping is turned on
+                if(m_isAutoJumping)
+                {
+                    if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                    {
+                        OnJump(null);
+                    }
+                    // Set the old player position every n-th frame.
+                    if(Time.frameCount % m_frameNumberUntilResettingOldPlayerPosition == 0)
+                    {
+                        m_lastPosition = gameObject.transform.position;
+                    }
+                }
             }
-            // Apply the movement to the physics.
-            m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+            
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
@@ -107,6 +142,15 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
+        m_animator.SetFloat("Speed", 0);
+    }
+
+    public void StartAutoJumping(){
+        m_isAutoJumping = true;
+    }
+
+    public void StopAutoJumping(){
+        m_isAutoJumping = false;
     }
 
     public float GetAttackUpDuration()
@@ -126,6 +170,17 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     public bool IsPlayerInRange(){
         return m_isPlayerInRange;
+    }
+
+
+    public bool IsPlayerInAttackRange()
+    {
+        return m_attackRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
+    }
+
+    public bool IsPlayerInSightRange()
+    {
+        return m_sightRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 
     public override void StopAttacking()
@@ -153,5 +208,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
         // Reset the attribute
         m_isAttackChained = false;
+    }
+
+
+    void OnDestroy()
+    {
+        Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 }

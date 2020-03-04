@@ -12,15 +12,10 @@ public class PlayerMovement : Entity
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
     [SerializeField]
-    private float m_groundCheckY = 0.1f;
-    [SerializeField]
-    private LayerMask m_whatIsGround;
-    [SerializeField]
     private Recorder m_recorder;
     [SerializeField]
     private GameObject m_playerSword;
 
-    private bool m_isGrounded = false;
     private float m_rollingMovementX;
     private float m_attackDirection;
     private double m_attackDuration; 
@@ -28,12 +23,11 @@ public class PlayerMovement : Entity
     private Vector2 m_nonRollingColliderSize;
     private SpriteRenderer m_swordRenderer;
     private Vector2 m_rollingColliderSize;
-
+    private IGame m_activeGame;
     private const float m_CONTROLLER_DEADZONE = 0.30f;
 
     // Positions from outer left to outer right stage as they are in the scene.
     public IList<Vector2> Positions { get; set; }
-    public bool IsRolling { get; private set; } = false;
     public GameObject PlayerSword { get { return m_playerSword; } }
 
     public int Index
@@ -47,7 +41,6 @@ public class PlayerMovement : Entity
     protected override void Awake()
     {
         base.Awake();
-        GameMediator.Instance.ActivePlayers.Add(gameObject);
         m_nonRollingColliderSize = m_collider.size;
         m_rollingColliderSize = (m_nonRollingColliderSize / 2);
 
@@ -63,14 +56,15 @@ public class PlayerMovement : Entity
     protected override void Start()
     {
         base.Start();
+        // Put registration in Start for safety reasons.
+        m_activeGame = Game.Current;
+        m_activeGame.RegisterPlayer(gameObject);
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, "Player_1_attack");
     }
 
-    void Update()
+    protected override void Update()
     {
-        m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_groundCheckY), m_whatIsGround);
-        m_animator.SetBool("IsJumping", !m_isGrounded);
+        base.Update();
         // Since to the ground is not slippery, we need to reapply the velocity.
         if(IsRolling) {
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
@@ -100,18 +94,6 @@ public class PlayerMovement : Entity
     {
         base.ResetMovement();
         IsRolling = false;
-    }
-
-    void OnJump(InputValue value)
-    {
-        if (!IsInputLocked && !IsRolling)
-        {
-            if (m_isGrounded)
-            {
-                m_animator.SetBool("IsJumping", true);
-                m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
-            }
-        }
     }
 
     void OnMovement(InputValue value)
@@ -151,7 +133,12 @@ public class PlayerMovement : Entity
         ChangeOrderInLayer();
     }
 
-    void OnRecord(InputValue value)
+    void OnRecord1(InputValue value)
+    {
+        m_recorder.Record();
+    }
+
+    void OnRecord2(InputValue value)
     {
         m_recorder.Record();
     }
@@ -160,7 +147,7 @@ public class PlayerMovement : Entity
     {
         base.Die();
         m_entityHealth.Die();
-        GameMediator.Instance.HandleDeath(gameObject);
+        m_activeGame.HandleDeath(gameObject);
     }
 
     public void SetPosition(int index)
@@ -191,24 +178,24 @@ public class PlayerMovement : Entity
     {
         m_entityHealth.Invincible = true;
         m_collider.size = m_rollingColliderSize;
-        GameMediator.Instance.DisableEntityCollision(gameObject);
+        m_activeGame.DisableEntityCollision(gameObject);
     }
 
     public void StopRollingInvincibility()
     {
         m_entityHealth.Invincible = false;
         m_collider.size = m_nonRollingColliderSize;
-        GameMediator.Instance.EnableEntityCollision(gameObject);
+        m_activeGame.EnableEntityCollision(gameObject);
     }
 
     public void OnPauseGame()
     {
-        GameMediator.Instance.PauseGame();
+        Game.Pause();
     }
 
     private void OnDestroy()
     {
-        GameMediator.Instance.ActivePlayers.Remove(gameObject);
+        m_activeGame.UnregisterPlayer(gameObject);
     }
     
     // This method is triggered when the player presses the attack button.

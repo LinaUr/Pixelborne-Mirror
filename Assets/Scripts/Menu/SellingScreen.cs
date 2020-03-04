@@ -18,7 +18,7 @@ public class SellingScreen : MonoBehaviour
 
     void Start()
     {
-        GameMediator.Instance.FreezeGame();
+        Game.Freeze();
 
         // Set camera of canvas.
         Canvas canvas = gameObject.GetComponent<Canvas>();
@@ -28,13 +28,13 @@ public class SellingScreen : MonoBehaviour
         m_fileToSell = Path.GetRandomFileName();
         m_fileTextMesh.SetText(m_fileToSell);
 
-        if (GameMediator.Instance.PriceToPay < m_DEFAULT_PRICE)
+        if (Singleplayer.Instance.PriceToPay < m_DEFAULT_PRICE)
         {
-            GameMediator.Instance.PriceToPay = m_DEFAULT_PRICE;
+            Singleplayer.Instance.PriceToPay = m_DEFAULT_PRICE;
         }
 
         // Set price to pay in format of US currency on canvas.
-        m_priceToPay = GameMediator.Instance.PriceToPay.ToString("C2", CultureInfo.CreateSpecificCulture("en-US"));
+        m_priceToPay = Singleplayer.Instance.PriceToPay.ToString("C2", CultureInfo.CreateSpecificCulture("en-US"));
         m_priceTextMesh.SetText(m_priceToPay);
     }
 
@@ -50,7 +50,7 @@ public class SellingScreen : MonoBehaviour
     public void PayPrice()
     {
         Toolkit.LogToFile($"Payed {m_priceToPay}", m_LOG_FILE);
-        GameMediator.Instance.PriceToPay *= 1.25f;
+        Singleplayer.Instance.PriceToPay *= 1.25f;
 
         UnfreezeGame();
     }
@@ -60,11 +60,12 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
 
         // TODO: Reset game to checkpoint and respawn all enemies.
+        Singleplayer.Instance.PrepareStage();
     }
 
     private void UnfreezeGame()
     {
         SceneChanger.UnloadSellingScreenAdditive();
-        GameMediator.Instance.UnfreezeGame();
+        Game.Unfreeze();
     }
 }
