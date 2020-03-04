@@ -214,5 +214,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     void OnDestroy()
     {
         Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
+        Destroy(gameObject);
     }
 }
