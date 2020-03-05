@@ -51,14 +51,15 @@ public class PlayerMovement : Entity
         }
 
         m_swordRenderer = PlayerSword.GetComponent<SpriteRenderer>();
+        m_activeGame = Game.Current;
+        m_activeGame.RegisterPlayer(gameObject);
     }
 
     protected override void Start()
     {
         base.Start();
         // Put registration in Start for safety reasons.
-        m_activeGame = Game.Current;
-        m_activeGame.RegisterPlayer(gameObject);
+       
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, "Player_1_attack");
     }
 
