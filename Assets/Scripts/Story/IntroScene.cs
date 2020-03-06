@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -50,7 +48,7 @@ public class IntroScene : MonoBehaviour
         print(test.text);
         if (m_fadeMode == FadeMode.currentlyFading)
         {
-            // change color to black
+            // Change the color to black.
             Color tmp = m_background.GetComponent<Image>().color;
             float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
             float floatFadeTime = m_fadeTime * 1.0f;
@@ -70,7 +68,6 @@ public class IntroScene : MonoBehaviour
                 ShowText();
             }
         }
-
         else if (m_fadeMode == FadeMode.currentlyDisplaying)
         {
             m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
@@ -84,7 +81,6 @@ public class IntroScene : MonoBehaviour
                 m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
-
     }
 
     public void FadeOut()

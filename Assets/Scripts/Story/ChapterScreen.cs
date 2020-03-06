@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -25,7 +23,6 @@ public class ChapterScreen : MonoBehaviour
     {
         Singleplayer.Instance.LockPlayerInput(true);
         m_background = transform.Find("ChapterBackground").gameObject;
-        Debug.Log(m_background);
         m_story = GameObject.Find("Story");
         m_fadeMode = 0;
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
@@ -42,7 +39,6 @@ public class ChapterScreen : MonoBehaviour
                 m_fadeMode = FadeMode.currentlyFading;
             }
         }
-
         else if (m_fadeMode == FadeMode.currentlyFading)
         {
             Color tmp = m_background.GetComponent<Image>().color;

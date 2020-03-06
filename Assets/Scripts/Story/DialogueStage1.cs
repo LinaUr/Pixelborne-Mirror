@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
@@ -27,13 +25,13 @@ public class DialogueStage1 : MonoBehaviour
     bool m_enemiesKilled;
 
     string[] m_dialogueTextPart0 = { "Knight! To me!" };
-    string[] m_dialogueTextPart1 = {"It's terrible!",
-                                    "The demons have found the shards of Dark Crystal in our dungeons.",
-                                    "They have stolen them...\nAnd they took my daughter, the princess!",
-                                    "I fear they plan to use her blood and the stones to summon their Dark King!",
-                                    "Knight!",
-                                    "Find them! Find my daughter and the stones or we are all doomed!",
-                                    "Knight! You must hurry!" };
+    string[] m_dialogueTextPart1 = { "It's terrible!",
+                                     "The demons have found the shards of Dark Crystal in our dungeons.",
+                                     "They have stolen them...\nAnd they took my daughter, the princess!",
+                                     "I fear they plan to use her blood and the stones to summon their Dark King!",
+                                     "Knight!",
+                                     "Find them! Find my daughter and the stones or we are all doomed!",
+                                     "Knight! You must hurry!" };
     
     GameObject m_background;
     GameObject m_dialogue;
@@ -54,30 +52,25 @@ public class DialogueStage1 : MonoBehaviour
 
     void Update()
     {
-        if (m_fadeMode == FadeMode.notStarted) {
-            if (m_progressed && m_enemiesKilled)
-            {
+        if (m_fadeMode == FadeMode.notStarted && m_progressed && m_enemiesKilled) 
+        {
                 ShowText();
-            }
         }
-        else if (m_fadeMode == FadeMode.currentlyDisplaying) {
+        else if (m_fadeMode == FadeMode.currentlyDisplaying) 
+        {
             m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
                 m_textPart++;
-                if (m_textPart == m_dialogueText.Length)
-                {
+                if (m_textPart == m_dialogueText.Length) {
                     ChangePart();
                 }
                 m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
-        else if (m_fadeMode == FadeMode.waitingForTrigger)
+        else if (m_fadeMode == FadeMode.waitingForTrigger && m_progressed && m_enemiesKilled) 
         {
-            if (m_progressed && m_enemiesKilled)
-            {
                 ChangePart();
-            }
         }
     }
 

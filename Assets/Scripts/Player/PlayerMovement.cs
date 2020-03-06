@@ -89,7 +89,9 @@ public class PlayerMovement : Entity
     {
         base.ResetEntityAnimations();
         m_animator.SetBool("Rolling", false);
+        StopRollingInvincibility();
         IsRolling = false;
+        m_lastTimeAttacked = 0;
     }
     public override void ResetMovement()
     {
@@ -204,9 +206,12 @@ public class PlayerMovement : Entity
     // unless the input is locked or the entity is already attacking.
     void OnAttack(InputValue value)
     {
-        if(!IsInputLocked && !IsRolling)
+        Debug.Log(IsInputLocked);
+        Debug.Log(IsRolling);
+        Debug.Log(m_lastTimeAttacked);
+        if (!IsInputLocked && !IsRolling)
         {
-            if(m_lastTimeAttacked < 0)
+            if(m_lastTimeAttacked <= 0)
             {
                 Attacking = true;
                 DetermineAttackingParameter(m_attackDirection);
