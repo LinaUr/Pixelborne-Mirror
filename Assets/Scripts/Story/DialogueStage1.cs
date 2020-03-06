@@ -2,11 +2,14 @@
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Collections.Generic;
 
 public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
     private int m_fadeTime = 5000;
+    [SerializeField]
+    private List<GameObject> m_enemiesToKill;
 
     enum FadeMode
     {
@@ -52,6 +55,7 @@ public class DialogueStage1 : MonoBehaviour
 
     void Update()
     {
+        m_enemiesKilled = EnemiesKilled();
         if (m_fadeMode == FadeMode.notStarted && m_progressed && m_enemiesKilled) 
         {
                 ShowText();
@@ -127,7 +131,19 @@ public class DialogueStage1 : MonoBehaviour
     public void PlayerProgressed()
     {
         m_progressed = true;
-        m_enemiesKilled = true;
+        //m_enemiesKilled = true;
+    }
+    public bool EnemiesKilled()
+    {
+        bool allKilled = true;
+        foreach(GameObject enemy in m_enemiesToKill)
+        {
+            if(enemy == null)
+            {
+                allKilled = false;
+            }
+        }
+        return true;
     }
 }
 

@@ -5539,6 +5539,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 443152517}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &443152519 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+    type: 3}
+  m_PrefabInstance: {fileID: 443152517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &479332940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6171,6 +6177,12 @@ PrefabInstance:
 --- !u!4 &748423276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
+    type: 3}
+  m_PrefabInstance: {fileID: 748423275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &748423277 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
     type: 3}
   m_PrefabInstance: {fileID: 748423275}
   m_PrefabAsset: {fileID: 0}
@@ -50336,6 +50348,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fadeTime: 500
+  m_enemiesToKill:
+  - {fileID: 748423277}
+  - {fileID: 443152519}
 --- !u!114 &1928247818
 MonoBehaviour:
   m_ObjectHideFlags: 0
