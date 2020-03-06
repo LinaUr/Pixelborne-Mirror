@@ -1049,7 +1049,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299733791
 Transform:
   m_ObjectHideFlags: 0
@@ -5472,7 +5472,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420033}
   - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
@@ -5562,21 +5561,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae84f9afdab7ed143bcf4f8f15f392b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_cameraPositionsTransform: {fileID: 0}
-  m_fadeImage: {fileID: 2143651672}
-  m_fadeTime: 2000
 --- !u!1 &619359088
 GameObject:
   m_ObjectHideFlags: 0
@@ -19595,6 +19579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ff25f462667154492911fb0c2642b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dialog: {fileID: 1928247817}
 --- !u!1 &1269986415
 GameObject:
   m_ObjectHideFlags: 0
@@ -50031,7 +50016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cc1de14934b424789747f0a8fd09d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fadeTime: 500
+  m_textPartDisplayTime: 4000
 --- !u!114 &1928247818
 MonoBehaviour:
   m_ObjectHideFlags: 0

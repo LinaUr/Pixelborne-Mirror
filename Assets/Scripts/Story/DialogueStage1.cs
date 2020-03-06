@@ -6,17 +6,17 @@ using System;
 public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
-    private int m_fadeTime = 5000;
+    private int m_textPartDisplayTime = 5000;
 
-    enum FadeMode
+    enum DialogueMode
     {
-        notStarted,
-        currentlyDisplaying,
-        waitingForTrigger
+        NotStarted,
+        Displaying,
+        WaitingForTrigger
     }
 
-    private int m_fadeStartTime;
-    private FadeMode m_fadeMode;
+    private int m_displayStartTime;
+    private DialogueMode m_fadeMode;
     private int m_textPart;
     private int m_dialoguePart;
     string[] m_dialogueText;
@@ -47,28 +47,33 @@ public class DialogueStage1 : MonoBehaviour
         m_dialogueText = m_dialogueTextPart0;
         m_progressed = false;
         m_enemiesKilled = false;
-        m_fadeMode = FadeMode.notStarted;
+        m_fadeMode = DialogueMode.NotStarted;
     }
 
     void Update()
     {
-        if (m_fadeMode == FadeMode.notStarted && m_progressed && m_enemiesKilled) 
+        if (m_fadeMode == DialogueMode.Displaying && Input.GetKeyDown("space"))
+        {
+            m_displayStartTime -= m_textPartDisplayTime;
+        }
+
+        if (m_fadeMode == DialogueMode.NotStarted && m_progressed && m_enemiesKilled) 
         {
                 ShowText();
         }
-        else if (m_fadeMode == FadeMode.currentlyDisplaying) 
+        else if (m_fadeMode == DialogueMode.Displaying) 
         {
             m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
             {
                 m_textPart++;
                 if (m_textPart == m_dialogueText.Length) {
                     ChangePart();
                 }
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
-        else if (m_fadeMode == FadeMode.waitingForTrigger && m_progressed && m_enemiesKilled) 
+        else if (m_fadeMode == DialogueMode.WaitingForTrigger && m_progressed && m_enemiesKilled) 
         {
                 ChangePart();
         }
@@ -77,12 +82,12 @@ public class DialogueStage1 : MonoBehaviour
     public void ShowText()
     {
         Singleplayer.Instance.LockPlayerInput(true);
-        GameObject.Find("Player").GetComponent<PlayerMovement>().ResetEntityAnimations();
-        m_fadeMode = FadeMode.currentlyDisplaying;
+        Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
+        m_fadeMode = DialogueMode.Displaying;
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "King";
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
 
     public void ChangePart()
@@ -95,7 +100,7 @@ public class DialogueStage1 : MonoBehaviour
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 m_progressed = false;
-                m_fadeMode = FadeMode.waitingForTrigger;
+                m_fadeMode = DialogueMode.WaitingForTrigger;
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
@@ -105,7 +110,7 @@ public class DialogueStage1 : MonoBehaviour
                 break;
 
             case 3:
-                m_fadeMode = FadeMode.waitingForTrigger;
+                m_fadeMode = DialogueMode.WaitingForTrigger;
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
