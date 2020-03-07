@@ -8,8 +8,6 @@ public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
     private int m_textPartDisplayTime = 5000;
-    [SerializeField]
-    private List<GameObject> m_enemiesToKill;
 
     enum DialogueMode
     {
@@ -137,15 +135,14 @@ public class DialogueStage1 : MonoBehaviour
     public void PlayerProgressed()
     {
         m_progressed = true;
-        //m_enemiesKilled = true;
     }
 
     public bool EnemiesKilled()
     {
         bool allKilled = true;
-        foreach(GameObject enemy in m_enemiesToKill)
+        foreach(GameObject enemy in Singleplayer.Instance.ActiveEnemies)
         {
-            if(enemy == null)
+            if(enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
             {
                 allKilled = false;
             }
