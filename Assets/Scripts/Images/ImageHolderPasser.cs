@@ -13,6 +13,14 @@ public class ImageHolderPasser : MonoBehaviour
         ImageManager.Instance.PrepareForFirstLoad(m_LoadAndSetSceneImages);
     }
 
+    private void Update()
+    {
+        if (Game.Mode == Mode.Singleplayer)
+        {
+            ImageManager.Instance.UpdateAlphaValue();
+        }
+    }
+
     private void OnDestroy()
     {
         ImageManager.Instance.ImageHolder = null;

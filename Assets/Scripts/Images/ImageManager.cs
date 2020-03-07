@@ -19,6 +19,10 @@ public class ImageManager : MonoBehaviour
     private bool m_isLoadingPaths = true;
     private float m_alpha;
 
+    public Vector2 PlayerSpawnPosition { get; set; }
+
+    private const int m_ALPHA_DISTANCE = 100;
+
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
 
@@ -172,6 +176,32 @@ public class ImageManager : MonoBehaviour
             rawImage.texture = images[i];
 
             yield return null;
+        }
+    }
+
+    public void UpdateAlphaValue()
+    {
+        Vector3 currentPlayerPosition = Singleplayer.Instance.Player.transform.position;
+        var distance = Vector2.Distance(currentPlayerPosition, PlayerSpawnPosition);
+
+        for (int i = 0; i < ImageHolder.transform.childCount; i++)
+        {
+            var alpha = distance > m_ALPHA_DISTANCE ? 100.0f : distance / m_ALPHA_DISTANCE;
+            RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+            rawImage.material.SetFloat("_Alpha", alpha);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Reset alpha to 0 for all images.
+        if (ImageHolder != null)
+        {
+            for (int i = 0; i < ImageHolder.transform.childCount; i++)
+            {
+                RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+                rawImage.material.SetFloat("_Alpha", 0.0f);
+            }
         }
     }
 }
