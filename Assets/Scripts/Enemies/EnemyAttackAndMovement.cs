@@ -104,7 +104,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             m_currentAttackingDirection = attackDirectionIndex;
             if (!m_isAttackChained)
             {
-                m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
             }
             m_isAttackChained = true;
         }
@@ -198,14 +198,14 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         if (!m_isAttackChained)
         {
             // Stop the ended attack.
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
+            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
         }
         else if (previousAttackingDirection != m_currentAttackingDirection) 
         {
             // Stop the ended attack.
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
+            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
             // Start the new attack that has a different direction
-            m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
         }
         // Reset the attribute
         m_isAttackChained = false;

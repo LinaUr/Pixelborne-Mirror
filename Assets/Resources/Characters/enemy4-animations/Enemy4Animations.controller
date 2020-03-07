@@ -514,7 +514,7 @@ AnimatorStateTransition:
     m_ConditionEvent: AttackingUp
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: AttackingDown
+    m_ConditionEvent: Attacking
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: IsDying

@@ -26,7 +26,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected int m_currentAttackingDirection = 0;
     protected bool m_isGrounded = false;
     protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
-    protected static string[] m_ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
+    protected readonly static string[] ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
     public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
@@ -70,7 +70,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void ResetAttackAnimation()
     {
         Attacking = false;
-        foreach (string parameter in m_ATTACK_ANIMATOR_PARAMETERS)
+        foreach (string parameter in ATTACK_ANIMATOR_PARAMETERS)
         {
             m_animator.SetBool(parameter, false);
         }

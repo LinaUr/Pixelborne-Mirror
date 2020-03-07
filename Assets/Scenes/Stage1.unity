@@ -1100,6 +1100,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyFarRight
       objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5491,6 +5496,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyStartLeft
       objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6110,6 +6120,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyStartRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
@@ -49694,7 +49709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669ca2978ab747a5e83ecd146416224a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackPatternStringWhileInAttackRange: AM|AM|AM|5
+  m_attackPatternStringWhileInAttackRange: AM|AD|AM|5
   m_attackPatternStringWhileInSightRange: STARTF|STARTAUTOJUMP
   m_attackPatternStringWhileOutOfSight: STOPF
   m_entity: {fileID: 1549657105}
