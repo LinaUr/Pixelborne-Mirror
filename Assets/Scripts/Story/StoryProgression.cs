@@ -7,10 +7,10 @@ public class StoryProgression : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.tag == "Storytrigger")
+        if (collider.tag == "Storytrigger" && !m_dialog.PlayerProgressed)
         {
+            m_dialog.PlayerProgressed = true;
             collider.enabled = false;
-            m_dialog.PlayerProgressed();
         }
     }
 }

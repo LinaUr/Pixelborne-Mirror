@@ -3684,9 +3684,8 @@ GameObject:
   m_Component:
   - component: {fileID: 398868500}
   - component: {fileID: 398868502}
-  - component: {fileID: 398868501}
   m_Layer: 8
-  m_Name: Storytrigger
+  m_Name: Storytrigger1
   m_TagString: Storytrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3706,32 +3705,6 @@ Transform:
   m_Father: {fileID: 1865767607}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &398868501
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398868499}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 8.394585, y: 1.2571492}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.0526924, y: 1.9636678}
-  m_EdgeRadius: 0
 --- !u!61 &398868502
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5539,12 +5512,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 443152517}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &443152519 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-    type: 3}
-  m_PrefabInstance: {fileID: 443152517}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &479332940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6161,12 +6128,6 @@ PrefabInstance:
 --- !u!4 &748423276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
-    type: 3}
-  m_PrefabInstance: {fileID: 748423275}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &748423277 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
     type: 3}
   m_PrefabInstance: {fileID: 748423275}
   m_PrefabAsset: {fileID: 0}
@@ -49447,6 +49408,63 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &1456860590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1456860591}
+  - component: {fileID: 1456860592}
+  m_Layer: 8
+  m_Name: Storytrigger2
+  m_TagString: Storytrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1456860591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456860590}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.40624, y: -7.0132136, z: -0.97075933}
+  m_LocalScale: {x: 2.1635098, y: 4.33705, z: 0.75580996}
+  m_Children: []
+  m_Father: {fileID: 1865767607}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1456860592
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456860590}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 8.394585, y: 1.2571492}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0526924, y: 1.9636678}
+  m_EdgeRadius: 0
 --- !u!1 &1496258393
 GameObject:
   m_ObjectHideFlags: 0
@@ -49979,6 +49997,7 @@ Transform:
   - {fileID: 698866938}
   - {fileID: 586824260}
   - {fileID: 398868500}
+  - {fileID: 1456860591}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50333,9 +50352,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_textPartDisplayTime: 5000
-  m_enemiesToKill:
-  - {fileID: 748423277}
-  - {fileID: 443152519}
 --- !u!114 &1928247818
 MonoBehaviour:
   m_ObjectHideFlags: 0

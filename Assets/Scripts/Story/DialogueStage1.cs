@@ -22,7 +22,6 @@ public class DialogueStage1 : MonoBehaviour
     private int m_dialoguePart;
     string[] m_dialogueText;
     string m_userName;
-    bool m_progressed;
     bool m_enemiesKilled;
 
     string[] m_dialogueTextPart0 = { "Knight! To me!" };
@@ -37,6 +36,8 @@ public class DialogueStage1 : MonoBehaviour
     GameObject m_background;
     GameObject m_dialogue;
     GameObject m_nameTag;
+
+    public bool PlayerProgressed { get; set; }
  
     void Start()
     {
@@ -46,7 +47,7 @@ public class DialogueStage1 : MonoBehaviour
         m_dialoguePart = 0;
         GetName();
         m_dialogueText = m_dialogueTextPart0;
-        m_progressed = false;
+        PlayerProgressed = false;
         m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
     }
@@ -60,7 +61,7 @@ public class DialogueStage1 : MonoBehaviour
             m_displayStartTime -= m_textPartDisplayTime;
         }
 
-        if (m_dialogueMode == DialogueMode.NotStarted && m_progressed && m_enemiesKilled) 
+        if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled) 
         {
                 ShowText();
         }
@@ -76,7 +77,7 @@ public class DialogueStage1 : MonoBehaviour
                 m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
-        else if (m_dialogueMode == DialogueMode.WaitingForTrigger && m_progressed && m_enemiesKilled) 
+        else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled) 
         {
                 ChangePart();
         }
@@ -102,7 +103,7 @@ public class DialogueStage1 : MonoBehaviour
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_progressed = false;
+                PlayerProgressed = false;
                 m_dialogueMode = DialogueMode.WaitingForTrigger;
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
@@ -117,7 +118,7 @@ public class DialogueStage1 : MonoBehaviour
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_progressed = false;
+                PlayerProgressed = false;
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
         }
@@ -132,11 +133,6 @@ public class DialogueStage1 : MonoBehaviour
         m_dialogueTextPart1[6] = "Knight " + m_userName + "! You must hurry!";
     }
 
-    public void PlayerProgressed()
-    {
-        m_progressed = true;
-    }
-
     public bool EnemiesKilled()
     {
         bool allKilled = true;
@@ -145,7 +141,6 @@ public class DialogueStage1 : MonoBehaviour
             if(enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
             {
                 allKilled = false;
-                Debug.Log("Enemy Alive");
             }
         }
         return allKilled;
