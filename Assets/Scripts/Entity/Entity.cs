@@ -86,6 +86,9 @@ public abstract class Entity : MonoBehaviour, IAttack
     {
         m_animator.SetBool("IsJumping", false);
         m_animator.SetFloat("Speed", 0);
+        m_animator.SetBool("Attacking", false);
+        m_animator.SetBool("AttackingUp", false);
+        m_animator.SetBool("AttackingDown", false);
         Attacking = false;
     }
 

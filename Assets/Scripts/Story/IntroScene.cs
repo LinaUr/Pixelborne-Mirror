@@ -1,15 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class IntroScene : MonoBehaviour
 {
-    private int m_fadeTime = 500;
+    [SerializeField]
+    private int m_fadeTime = 5000;
+
+    enum FadeMode
+    {
+        currentlyFading,
+        currentlyDisplaying
+    }
 
     private int m_fadeStartTime;
-    private int m_fadeMode;
+    private FadeMode m_fadeMode;
     private int m_textPart;
     private int m_storyPart;
     string[] m_storyText;
@@ -27,7 +32,7 @@ public class IntroScene : MonoBehaviour
 
     GameObject m_background;
     GameObject m_story;
-    // Start is called before the first frame update
+   
     void Start()
     {
         m_background = GameObject.Find("Background");
@@ -37,14 +42,13 @@ public class IntroScene : MonoBehaviour
         ShowText();
     }
 
-    // Update is called once per frame
     void Update()
     {
         TextMeshProUGUI test = m_story.GetComponent<TextMeshProUGUI>();
         print(test.text);
-        if (m_fadeMode == 1)
+        if (m_fadeMode == FadeMode.currentlyFading)
         {
-            // change color to black
+            // Change the color to black.
             Color tmp = m_background.GetComponent<Image>().color;
             float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
             float floatFadeTime = m_fadeTime * 1.0f;
@@ -64,8 +68,7 @@ public class IntroScene : MonoBehaviour
                 ShowText();
             }
         }
-
-        if (m_fadeMode == 2)
+        else if (m_fadeMode == FadeMode.currentlyDisplaying)
         {
             m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
@@ -78,18 +81,17 @@ public class IntroScene : MonoBehaviour
                 m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
-
     }
 
     public void FadeOut()
     {
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
-        m_fadeMode = 1;
+        m_fadeMode = FadeMode.currentlyFading;
     }
 
     public void ShowText()
     {
-        m_fadeMode = 2;
+        m_fadeMode = FadeMode.currentlyDisplaying;
         m_textPart = 0;
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
