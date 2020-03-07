@@ -74,6 +74,10 @@ public class Singleplayer : ScriptableObject, IGame
     public void LockPlayerInput(bool isLocked)
     {
         Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
+        foreach(GameObject enemy in ActiveEnemies)
+        {
+            enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
+        }
     }
 
     public void HandleDeath(GameObject entity)

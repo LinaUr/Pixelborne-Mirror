@@ -145,9 +145,10 @@ public class DialogueStage1 : MonoBehaviour
             if(enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
             {
                 allKilled = false;
+                Debug.Log("Enemy Alive");
             }
         }
-        return true;
+        return allKilled;
     }
 }
 
