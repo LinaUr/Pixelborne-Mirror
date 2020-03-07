@@ -27,6 +27,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected bool m_isGrounded = false;
     protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
     protected static string[] m_ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
+    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
     public bool IsRolling { get; protected set; } = false;

@@ -12,7 +12,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
     private float m_currentTimeUntilResettingPlayerPosition = 0;
-    private float m_autoJumpingActivationDistance = 0.0000001f;
+    private float m_autoJumpingActivationDistance = 0.001f;
 
     protected Rigidbody2D m_playerRigidbody2D;
 
@@ -23,7 +23,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
     private static readonly string[] ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
-    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.5f;
+    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
 
     protected override void Awake()
     {
@@ -73,17 +73,25 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                             OnJump(null);
                         }
                         m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
+                        m_lastPosition = gameObject.transform.position;
                     }
                 }
             }
+            // Stop the walking animation if the enemy is too close to the player.
+            else
+            {
+                m_animator.SetFloat("Speed", 0);
+            }
+            
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
 
-    // This method initiates the entity dying animation.
+    // This method initiates the entity dying animation and ensures that the enemy does nothing else.
     protected override void Die(){
         base.Die();
         m_animator.SetBool("IsDying", true);
+        IsInputLocked = true;
     }
 
     // This method starts the new attack.

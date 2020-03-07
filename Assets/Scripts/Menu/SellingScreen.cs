@@ -42,6 +42,7 @@ public class SellingScreen : MonoBehaviour
     public void SellFile()
     {
         Toolkit.LogToFile($"Sold {m_fileToSell}", m_LOG_FILE);
+        Singleplayer.Instance.RevivePlayer();
 
         UnfreezeGame();
     }
@@ -51,6 +52,7 @@ public class SellingScreen : MonoBehaviour
     {
         Toolkit.LogToFile($"Payed {m_priceToPay}", m_LOG_FILE);
         Singleplayer.Instance.PriceToPay *= 1.25f;
+        Singleplayer.Instance.RevivePlayer();
 
         UnfreezeGame();
     }
