@@ -86,12 +86,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         m_animator.SetBool("IsDying", true);
     }
 
-    // This method destroys the Game Object.
-    // It is called at the end of the death animation.
-    private void DestroyObject(){
-        Destroy(gameObject);
-    }
-
     // This method starts the new attack.
     // This rather inconvenient approach is needed in order to avoid a problem
     // that takes place when attacks are directly chained by the AttackPatternExecutor.
@@ -210,8 +204,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
 
+    // This method destroys the Game Object.
+    // It is called at the end of the death animation.
     void OnDestroy()
     {
         Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
+        Destroy(gameObject);
     }
 }
