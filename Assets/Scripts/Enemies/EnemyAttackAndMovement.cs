@@ -11,9 +11,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private float m_minPlayerDistance = 0.25f;
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
-    [SerializeField]
-    private int m_frameNumberUntilResettingOldPlayerPosition = 60;
-    [SerializeField]
+    private float m_currentTimeUntilResettingPlayerPosition = 0;
     private float m_autoJumpingActivationDistance = 0.0000001f;
 
     protected Rigidbody2D m_playerRigidbody2D;
@@ -24,9 +22,10 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private bool m_isPlayerInRange = false;
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
-    private static string[] m_ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
+    private static readonly string[] ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
+    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.5f;
 
-    void Awake()
+    protected override void Awake()
     {
         base.Awake();
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
@@ -62,21 +61,21 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                 // Apply the movement to the physics.
                 m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
 
-                // Jump if the position is almost equal to the last position and auto-jumping is turned on
+                // Jump if the position is almost equal to the last position and jumping is turned on.
+                // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
                 if(m_isAutoJumping)
                 {
-                    if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                    m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
+                    if (m_currentTimeUntilResettingPlayerPosition <= 0)
                     {
-                        OnJump(null);
-                    }
-                    // Set the old player position every n-th frame.
-                    if(Time.frameCount % m_frameNumberUntilResettingOldPlayerPosition == 0)
-                    {
-                        m_lastPosition = gameObject.transform.position;
+                        if(Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                        {
+                            OnJump(null);
+                        }
+                        m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
                     }
                 }
             }
-            
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
@@ -155,17 +154,17 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     public float GetAttackUpDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[0]);
+        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATOR_ANIMATION_NAMES[0]);
     }
 
     public float GetAttackMiddleDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[1]);
+        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATOR_ANIMATION_NAMES[1]);
     }
 
     public float GetAttackDownDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, m_ATTACK_ANIMATOR_ANIMATION_NAMES[2]);
+        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATOR_ANIMATION_NAMES[2]);
     }
 
     public bool IsPlayerInRange(){
