@@ -21,7 +21,7 @@ public class ImageManager : MonoBehaviour
 
     public Vector2 PlayerSpawnPosition { get; set; }
 
-    private const int m_ALPHA_DISTANCE = 100;
+    private static readonly int ALPHA_DISTANCE = 100;
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
@@ -182,11 +182,11 @@ public class ImageManager : MonoBehaviour
     public void UpdateAlphaValue()
     {
         Vector3 currentPlayerPosition = Singleplayer.Instance.Player.transform.position;
-        var distance = Vector2.Distance(currentPlayerPosition, PlayerSpawnPosition);
+        float distance = Vector2.Distance(currentPlayerPosition, PlayerSpawnPosition);
 
         for (int i = 0; i < ImageHolder.transform.childCount; i++)
         {
-            var alpha = distance > m_ALPHA_DISTANCE ? 100.0f : distance / m_ALPHA_DISTANCE;
+            float alpha = distance > m_ALPHA_DISTANCE ? 100.0f : distance / m_ALPHA_DISTANCE;
             RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", alpha);
         }
