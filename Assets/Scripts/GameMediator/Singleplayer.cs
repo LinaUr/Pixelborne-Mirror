@@ -74,6 +74,10 @@ public class Singleplayer : ScriptableObject, IGame
     public void LockPlayerInput(bool isLocked)
     {
         Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
+        foreach(GameObject enemy in ActiveEnemies)
+        {
+            enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
+        }
     }
 
     public void HandleDeath(GameObject entity)
@@ -137,7 +141,7 @@ public class Singleplayer : ScriptableObject, IGame
         PrepareStage();
     }
 
-    public void DisableEntityCollision(GameObject callingEntity)
+    public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
@@ -147,7 +151,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    public void EnableEntityCollision(GameObject callingEntity)
+    public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
         // TODO: 2nd Layer is Enemy
