@@ -82,7 +82,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             {
                 m_animator.SetFloat("Speed", 0);
             }
-            
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }

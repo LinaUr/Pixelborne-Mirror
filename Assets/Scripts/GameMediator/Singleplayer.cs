@@ -49,6 +49,7 @@ public class Singleplayer : ScriptableObject, IGame
     public void Go()
     {
         Game.Current = Instance;
+        Game.Mode = Mode.Singleplayer;
 
         // Activate DriveMusicManager.
         DriveMusicManager.Instance.Go();
@@ -62,6 +63,7 @@ public class Singleplayer : ScriptableObject, IGame
         {
             Player = player;
             m_playerMovement = player.GetComponent<PlayerMovement>();
+            ImageManager.Instance.PlayerSpawnPosition = player.transform.position;
         }
         else
         {
