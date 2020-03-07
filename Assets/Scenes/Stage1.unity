@@ -989,6 +989,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 762019308}
   - {fileID: 318408096}
   m_Father: {fileID: 51027206}
   m_RootOrder: 2
@@ -1269,7 +1270,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 284369981}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!68 &318408097
 EdgeCollider2D:
@@ -6121,7 +6122,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 762019308}
-  - component: {fileID: 762019310}
   - component: {fileID: 762019309}
   m_Layer: 12
   m_Name: Ground
@@ -6162,28 +6162,6 @@ EdgeCollider2D:
   m_Points:
   - {x: 20, y: 4}
   - {x: 48, y: 4}
---- !u!68 &762019310
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762019307}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9f56a5c73c036a8a38d550ae3694bd2e, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.01}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 15, y: -6.99}
-  - {x: 24, y: -6.99}
-  - {x: 30, y: -3.99}
-  - {x: 38, y: -3.99}
-  - {x: 44, y: -6.99}
-  - {x: 54, y: -6.99}
 --- !u!1 &778315433
 GameObject:
   m_ObjectHideFlags: 0
