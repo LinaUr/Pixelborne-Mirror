@@ -2,26 +2,26 @@
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Collections.Generic;
 
 public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
-    private int m_fadeTime = 5000;
+    private int m_textPartDisplayTime = 5000;
 
-    enum FadeMode
+    enum DialogueMode
     {
-        notStarted,
-        currentlyDisplaying,
-        waitingForTrigger
+        NotStarted,
+        Displaying,
+        WaitingForTrigger
     }
 
-    private int m_fadeStartTime;
-    private FadeMode m_fadeMode;
+    private int m_displayStartTime;
+    private DialogueMode m_dialogueMode;
     private int m_textPart;
     private int m_dialoguePart;
     string[] m_dialogueText;
     string m_userName;
-    bool m_progressed;
     bool m_enemiesKilled;
 
     string[] m_dialogueTextPart0 = { "Knight! To me!" };
@@ -36,6 +36,8 @@ public class DialogueStage1 : MonoBehaviour
     GameObject m_background;
     GameObject m_dialogue;
     GameObject m_nameTag;
+
+    public bool PlayerProgressed { get; set; }
  
     void Start()
     {
@@ -45,30 +47,37 @@ public class DialogueStage1 : MonoBehaviour
         m_dialoguePart = 0;
         GetName();
         m_dialogueText = m_dialogueTextPart0;
-        m_progressed = false;
+        PlayerProgressed = false;
         m_enemiesKilled = false;
-        m_fadeMode = FadeMode.notStarted;
+        m_dialogueMode = DialogueMode.NotStarted;
     }
 
     void Update()
     {
-        if (m_fadeMode == FadeMode.notStarted && m_progressed && m_enemiesKilled) 
+        m_enemiesKilled = EnemiesKilled();
+
+        if (m_dialogueMode == DialogueMode.Displaying && Input.GetKeyDown("space"))
+        {
+            m_displayStartTime -= m_textPartDisplayTime;
+        }
+
+        if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled) 
         {
                 ShowText();
         }
-        else if (m_fadeMode == FadeMode.currentlyDisplaying) 
+        else if (m_dialogueMode == DialogueMode.Displaying) 
         {
             m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
             {
                 m_textPart++;
                 if (m_textPart == m_dialogueText.Length) {
                     ChangePart();
                 }
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
-        else if (m_fadeMode == FadeMode.waitingForTrigger && m_progressed && m_enemiesKilled) 
+        else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled) 
         {
                 ChangePart();
         }
@@ -77,12 +86,12 @@ public class DialogueStage1 : MonoBehaviour
     public void ShowText()
     {
         Singleplayer.Instance.LockPlayerInput(true);
-        GameObject.Find("Player").GetComponent<PlayerMovement>().ResetEntityAnimations();
-        m_fadeMode = FadeMode.currentlyDisplaying;
+        Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
+        m_dialogueMode = DialogueMode.Displaying;
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "King";
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
 
     public void ChangePart()
@@ -94,8 +103,8 @@ public class DialogueStage1 : MonoBehaviour
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_progressed = false;
-                m_fadeMode = FadeMode.waitingForTrigger;
+                PlayerProgressed = false;
+                m_dialogueMode = DialogueMode.WaitingForTrigger;
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
@@ -105,11 +114,11 @@ public class DialogueStage1 : MonoBehaviour
                 break;
 
             case 3:
-                m_fadeMode = FadeMode.waitingForTrigger;
+                m_dialogueMode = DialogueMode.WaitingForTrigger;
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_progressed = false;
+                PlayerProgressed = false;
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
         }
@@ -124,10 +133,17 @@ public class DialogueStage1 : MonoBehaviour
         m_dialogueTextPart1[6] = "Knight " + m_userName + "! You must hurry!";
     }
 
-    public void PlayerProgressed()
+    public bool EnemiesKilled()
     {
-        m_progressed = true;
-        m_enemiesKilled = true;
+        bool allKilled = true;
+        foreach(GameObject enemy in Singleplayer.Instance.ActiveEnemies)
+        {
+            if(enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
+            {
+                allKilled = false;
+            }
+        }
+        return allKilled;
     }
 }
 

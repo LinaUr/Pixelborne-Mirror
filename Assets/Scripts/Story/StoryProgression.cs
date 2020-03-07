@@ -2,12 +2,15 @@
 
 public class StoryProgression : MonoBehaviour
 {
-    void OnTriggerEnter2D(Collider2D col)
+    [SerializeField]
+    DialogueStage1 m_dialog;
+
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (col.tag == "Storytrigger")
+        if (collider.tag == "Storytrigger" && !m_dialog.PlayerProgressed)
         {
-            col.enabled = false;
-            GameObject.Find("Dialogue").GetComponent<DialogueStage1>().PlayerProgressed();
+            m_dialog.PlayerProgressed = true;
+            collider.enabled = false;
         }
     }
 }

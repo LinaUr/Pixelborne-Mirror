@@ -206,9 +206,6 @@ public class PlayerMovement : Entity
     // unless the input is locked or the entity is already attacking.
     void OnAttack(InputValue value)
     {
-        Debug.Log(IsInputLocked);
-        Debug.Log(IsRolling);
-        Debug.Log(m_lastTimeAttacked);
         if (!IsInputLocked && !IsRolling)
         {
             if(m_lastTimeAttacked <= 0)
