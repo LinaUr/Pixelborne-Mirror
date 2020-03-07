@@ -3,6 +3,7 @@
 public class Game : ScriptableObject
 {
     public static IGame Current { get; set; }
+    public static Mode Mode { get; set; }
 
     public static void Pause()
     {

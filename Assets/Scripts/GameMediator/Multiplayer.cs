@@ -47,6 +47,7 @@ public class Multiplayer : ScriptableObject, IGame
     public async void Go()
     {
         Game.Current = this;
+        Game.Mode = Mode.Multiplayer;
 
         SceneChanger.SetMultiplayerAsActiveScene();
 
