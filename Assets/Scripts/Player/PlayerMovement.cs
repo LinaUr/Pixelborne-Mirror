@@ -67,17 +67,18 @@ public class PlayerMovement : Entity
     {
         base.Update();
         // Since to the ground is not slippery, we need to reapply the velocity.
-        if(IsRolling) {
+        if (IsRolling)
+        {
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
             manipulatedVelocity.x = m_rollingMovementX;
             m_rigidbody2D.velocity = manipulatedVelocity;
         }
         // Set the player as not attacking when the time that the attack animation needs is over.
         // Set the Animator variable as well.
-        if(Attacking)
+        if (Attacking)
         {
             m_lastTimeAttacked -= Time.deltaTime;
-            if(m_lastTimeAttacked < 0)
+            if (m_lastTimeAttacked < 0)
             {
                 Attacking = false;
                 m_animator.SetBool(m_ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], Attacking);
@@ -114,7 +115,7 @@ public class PlayerMovement : Entity
             // Animation.
             m_animator.SetFloat("Speed", Mathf.Abs(moveX));
 
-            // Player Direction.
+            // Player direction.
             if (moveX < 0.0f && m_isFacingRight)
             {
                 FlipEntity();
@@ -163,7 +164,7 @@ public class PlayerMovement : Entity
     // the input is not locked and the player is not attacking.
     public void OnRoll(InputValue value)
     {
-        if(!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
+        if (!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
         {
             m_animator.SetBool("Rolling", true);
             m_rollingMovementX = m_rigidbody2D.velocity.x;
@@ -193,7 +194,10 @@ public class PlayerMovement : Entity
 
     public void OnPauseGame()
     {
-        Game.Pause();
+        if (!IsInputLocked)
+        {
+            Game.Pause();
+        }
     }
 
     private void OnDestroy()
@@ -208,7 +212,7 @@ public class PlayerMovement : Entity
     {
         if (!IsInputLocked && !IsRolling)
         {
-            if(m_lastTimeAttacked <= 0)
+            if (m_lastTimeAttacked <= 0)
             {
                 Attacking = true;
                 DetermineAttackingParameter(m_attackDirection);
@@ -221,13 +225,15 @@ public class PlayerMovement : Entity
     // This method determines the attack direction.
     private void DetermineAttackingParameter(float attackDirectionAxisValue)
     {
-        if(attackDirectionAxisValue > m_ATTACK_DIRECTION_DEADZONE)
+        if (attackDirectionAxisValue > m_ATTACK_DIRECTION_DEADZONE)
         {
             m_currentAttackingDirection = 0;
-        } else if(attackDirectionAxisValue > -m_ATTACK_DIRECTION_DEADZONE)
+        }
+        else if (attackDirectionAxisValue > -m_ATTACK_DIRECTION_DEADZONE)
         {
             m_currentAttackingDirection = 1;
-        } else 
+        }
+        else 
         {
             m_currentAttackingDirection = 2;
         }
@@ -236,7 +242,7 @@ public class PlayerMovement : Entity
     // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
     void OnAttackDirection(InputValue value)
     {
-        if(!IsInputLocked)
+        if (!IsInputLocked)
         {
             m_attackDirection = value.Get<float>();
         }
