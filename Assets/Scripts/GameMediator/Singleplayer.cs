@@ -14,7 +14,6 @@ public class Singleplayer : ScriptableObject, IGame
     private Vector2 m_playerRevivePosition;
     private PlayerMovement m_playerMovement;
 
-    public bool IsPlayerDead { get; set; }
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
     public GameObject Player { get; set; } = null;
     public float PriceToPay { get; set; }
@@ -84,7 +83,6 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void RevivePlayer()
     {
-        IsPlayerDead = false;
         m_playerMovement.SetPositionForRevive(m_playerRevivePosition);
         m_playerMovement.ResetEntityActions();
     }
@@ -102,7 +100,6 @@ public class Singleplayer : ScriptableObject, IGame
     {
         if (entity == Player)
         {
-            IsPlayerDead = true;
             m_playerRevivePosition = m_playerMovement.RevivePosition;
             SceneChanger.LoadSellingScreenAdditive();
         }
@@ -119,32 +116,17 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void PrepareStage()
     {
-        if (IsPlayerDead)
+        bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
+        if (!isStageExistent)
         {
-            ResetCurrentStage();
-            IsPlayerDead = false;
+            Game.Finish();
+            ResetGame();
         }
         else
         {
-            bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
-            if (!isStageExistent)
-            {
-                Game.Finish();
-                ResetGame();
-            }
-            else
-            {
-                // Activate DriveMusicManager again.
-                DriveMusicManager.Instance.Go();
-            }
-        //}
-    }
-
-    private void ResetCurrentStage()
-    {
-        // Set player position to start point of stage.
-        m_playerMovement.SetPosition(0);
-        m_playerMovement.ResetEntityActions();
+            // Activate DriveMusicManager again.
+            DriveMusicManager.Instance.Go();
+        }
     }
 
     public void ReachedEndOfStage()
