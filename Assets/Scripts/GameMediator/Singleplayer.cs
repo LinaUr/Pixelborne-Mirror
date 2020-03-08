@@ -106,16 +106,10 @@ public class Singleplayer : ScriptableObject, IGame
             m_playerRevivePosition = m_playerMovement.RevivePosition;
             SceneChanger.LoadSellingScreenAdditive();
         }
-        else if (ActiveEnemies.Contains(entity))
+        else 
         {
-            EnemyDied();
+            throw new ArgumentException($"Expected player as argument but got: {entity}");
         }
-    }
-
-    // TODO: implement
-    private void EnemyDied()
-    {
-
     }
 
     private void ResetGame()
