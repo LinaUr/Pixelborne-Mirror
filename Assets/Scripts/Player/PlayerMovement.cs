@@ -85,7 +85,7 @@ public class PlayerMovement : Entity
             if(m_lastTimeAttacked < 0)
             {
                 Attacking = false;
-                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], Attacking);
+                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], Attacking);
             }
         }
     }
@@ -243,7 +243,7 @@ public class PlayerMovement : Entity
             {
                 Attacking = true;
                 DetermineAttackingParameter(m_attackDirection);
-                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], Attacking);
+                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], Attacking);
                 m_lastTimeAttacked = m_attackDuration;
             }
         }

@@ -23,6 +23,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
     private static readonly string[] ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
+    protected readonly static string DYING_ANIMATOR_PARAMETR_NAMES = "IsDying";
     private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
 
     protected override void Awake()
@@ -50,7 +51,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             {
                 // Normalize the movementDirection.
                 movementDirection = movementDirection < 0 ? -1 : 1;
-                m_animator.SetFloat("Speed", Mathf.Abs(movementDirection));
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETR_NAMES, Mathf.Abs(movementDirection));
 
                 // Flip enemy direction if player now walks in opposite direction.
                 if (movementDirection < 0.0f && m_isFacingRight ||
@@ -80,7 +81,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             // Stop the walking animation if the enemy is too close to the player.
             else
             {
-                m_animator.SetFloat("Speed", 0);
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETR_NAMES, 0);
             }
             
         }
@@ -90,7 +91,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     // This method initiates the entity dying animation and ensures that the enemy does nothing else.
     protected override void Die(){
         base.Die();
-        m_animator.SetBool("IsDying", true);
+        m_animator.SetBool(DYING_ANIMATOR_PARAMETR_NAMES, true);
         IsInputLocked = true;
     }
 
@@ -104,7 +105,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             m_currentAttackingDirection = attackDirectionIndex;
             if (!m_isAttackChained)
             {
-                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], true);
             }
             m_isAttackChained = true;
         }
@@ -112,7 +113,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     protected override void OnTriggerEnter2D(Collider2D collider) {
         // We abort if the collider is not from a player when friendly fire is off.
-        if (!m_isFriendlyFireActive && collider.gameObject.name != m_playerSwordName)
+        if (!m_isFriendlyFireActive && collider.gameObject.name != m_playerSwordName && collider.gameObject.name != DEATH_ZONES_NAME)
         {
             return;
         }
@@ -143,7 +144,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
-        m_animator.SetFloat("Speed", 0);
+        m_animator.SetFloat(SPEED_ANIMATOR_PARAMETR_NAMES, 0);
     }
 
     public void StartAutoJumping(){
@@ -198,25 +199,29 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         if (!m_isAttackChained)
         {
             // Stop the ended attack.
-            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
+            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[previousAttackingDirection], false);
         }
         else if (previousAttackingDirection != m_currentAttackingDirection) 
         {
             // Stop the ended attack.
-            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[previousAttackingDirection], false);
+            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[previousAttackingDirection], false);
             // Start the new attack that has a different direction
-            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETERS[m_currentAttackingDirection], true);
+            m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], true);
         }
         // Reset the attribute
         m_isAttackChained = false;
     }
 
+    // This method destroys the gameObject.
+    void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
 
-    // This method destroys the Game Object.
     // It is called at the end of the death animation.
+    // This method is automatically called when the gameObject is destroyed.
     void OnDestroy()
     {
         Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
-        Destroy(gameObject);
     }
 }
