@@ -10,7 +10,7 @@ public class SceneChanger
     static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
     static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
     static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
-    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 3 };
+    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 };
 
     public static void SetMainMenuAsActiveScene()
     {

@@ -28,6 +28,8 @@ public class PlayerMovement : Entity
     private IGame m_activeGame;
     private readonly float m_CONTROLLER_DEADZONE = 0.30f;
     private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
+    protected readonly static string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
+    protected readonly static string ROLLING_ANIMATION_NAME = "Rolling";
 
     public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
     // Positions from outer left to outer right stage as they are in the scene.
@@ -64,7 +66,7 @@ public class PlayerMovement : Entity
         base.Start();
         // Put registration in Start for safety reasons.
        
-        m_attackDuration = Toolkit.GetAnimationLength(m_animator, "Player_1_attack");
+        m_attackDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ATTACK_ANIMATION_NAME);
     }
 
     protected override void Update()
@@ -114,7 +116,7 @@ public class PlayerMovement : Entity
     public override void ResetEntityAnimations()
     {
         base.ResetEntityAnimations();
-        m_animator.SetBool("Rolling", false);
+        m_animator.SetBool(ROLLING_ANIMATION_NAME, false);
         StopRollingInvincibility();
         IsRolling = false;
         m_lastTimeAttacked = 0;
@@ -138,7 +140,7 @@ public class PlayerMovement : Entity
             }
 
             // Animation.
-            m_animator.SetFloat("Speed", Mathf.Abs(moveX));
+            m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(moveX));
 
             // Player direction.
             if (moveX < 0.0f && m_isFacingRight)
@@ -197,7 +199,7 @@ public class PlayerMovement : Entity
     {
         if (!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
         {
-            m_animator.SetBool("Rolling", true);
+            m_animator.SetBool(ROLLING_ANIMATION_NAME, true);
             m_rollingMovementX = m_rigidbody2D.velocity.x;
             IsRolling = true;
         }
@@ -205,7 +207,7 @@ public class PlayerMovement : Entity
 
     public void StopRolling()
     {
-        m_animator.SetBool("Rolling", false);
+        m_animator.SetBool(ROLLING_ANIMATION_NAME, false);
         IsRolling = false;
     }
 

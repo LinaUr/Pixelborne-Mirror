@@ -194,7 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 17618862}
   - component: {fileID: 17618861}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5501,6 +5501,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5570,6 +5575,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.3230839
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333616783468764, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -49690,7 +49700,7 @@ GameObject:
   - component: {fileID: 1549657108}
   - component: {fileID: 1549657107}
   - component: {fileID: 1549657106}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Enemy2_sword
   m_TagString: Enemy
   m_Icon: {fileID: 0}

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5123333616783468767}
   - component: {fileID: 5123333616783468766}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 5123333617976130930}
   - component: {fileID: 5123333617976130931}
   - component: {fileID: 5123333617976130928}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Enemy4_08_29
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -234,8 +234,6 @@ MonoBehaviour:
   m_sightRange: 9
   m_minPlayerDistance: 0.5
   m_isFriendlyFireActive: 0
-  m_frameNumberUntilResettingOldPlayerPosition: 60
-  m_autoJumpingActivationDistance: 0.0000001
 --- !u!114 &5123333617976130931
 MonoBehaviour:
   m_ObjectHideFlags: 0

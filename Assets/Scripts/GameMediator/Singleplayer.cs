@@ -9,6 +9,7 @@ public class Singleplayer : ScriptableObject, IGame
 
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
+    private int m_enemyLayer;
     private static Singleplayer m_instance = null;
     private Vector2 m_playerRevivePosition;
     private PlayerMovement m_playerMovement;
@@ -27,7 +28,12 @@ public class Singleplayer : ScriptableObject, IGame
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
+            if (m_instance == null) 
+            {
+                m_instance = CreateInstance<Singleplayer>();
+                m_instance.m_enemyLayer = LayerMask.NameToLayer("Enemy");
+            }
+            return m_instance;
         }
     }
 
@@ -158,16 +164,14 @@ public class Singleplayer : ScriptableObject, IGame
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
-            // TODO: 2nd Layer is Enemy
-            Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, false);
+            Physics2D.IgnoreLayerCollision(Player.layer, m_enemyLayer, false);
         }
     }
 
     public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        // TODO: 2nd Layer is Enemy
-        Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, true);
+        Physics2D.IgnoreLayerCollision(Player.layer, m_enemyLayer, true);
     }
 
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)

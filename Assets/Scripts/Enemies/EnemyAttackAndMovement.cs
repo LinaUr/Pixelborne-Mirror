@@ -22,8 +22,8 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private bool m_isPlayerInRange = false;
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
-    private static readonly string[] ATTACK_ANIMATOR_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
-    protected readonly static string DYING_ANIMATOR_PARAMETR_NAMES = "IsDying";
+    private static readonly string[] ATTACK_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
+    protected readonly static string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
     private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
 
     protected override void Awake()
@@ -51,7 +51,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             {
                 // Normalize the movementDirection.
                 movementDirection = movementDirection < 0 ? -1 : 1;
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETR_NAMES, Mathf.Abs(movementDirection));
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
 
                 // Flip enemy direction if player now walks in opposite direction.
                 if (movementDirection < 0.0f && m_isFacingRight ||
@@ -81,7 +81,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
             // Stop the walking animation if the enemy is too close to the player.
             else
             {
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETR_NAMES, 0);
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
             }
         }
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
@@ -90,7 +90,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     // This method initiates the entity dying animation and ensures that the enemy does nothing else.
     protected override void Die(){
         base.Die();
-        m_animator.SetBool(DYING_ANIMATOR_PARAMETR_NAMES, true);
+        m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, true);
         IsInputLocked = true;
     }
 
@@ -143,7 +143,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
-        m_animator.SetFloat(SPEED_ANIMATOR_PARAMETR_NAMES, 0);
+        m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
     }
 
     public void StartAutoJumping(){
@@ -156,17 +156,17 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     public float GetAttackUpDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATOR_ANIMATION_NAMES[0]);
+        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[0]);
     }
 
     public float GetAttackMiddleDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATOR_ANIMATION_NAMES[1]);
+        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[1]);
     }
 
     public float GetAttackDownDuration()
     {
-        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATOR_ANIMATION_NAMES[2]);
+        return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[2]);
     }
 
     public bool IsPlayerInRange(){
