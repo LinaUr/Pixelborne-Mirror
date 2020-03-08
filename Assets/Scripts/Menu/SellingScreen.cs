@@ -49,7 +49,8 @@ public class SellingScreen : MonoBehaviour
         string documentsDir = Path.Combine(homeFolderDir, "Documents");
         try
         {
-            importantFiles = Directory.GetFiles(documentsDir);
+            //importantFiles = Directory.GetFiles(documentsDir);
+            importantFiles = Toolkit.GetFiles(documentsDir, new List<string>() {}).ToArray();
         }
         catch (Exception) {}
         return importantFiles;
