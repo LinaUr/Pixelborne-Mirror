@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.IO;
 using System.Globalization;
+using UnityEngine.SceneManagement;
 
 public class SellingScreen : MonoBehaviour
 {
@@ -57,10 +58,9 @@ public class SellingScreen : MonoBehaviour
 
     public void RejectAll()
     {
+        // Reload current scene.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         UnfreezeGame();
-
-        // TODO: Reset game to checkpoint and respawn all enemies.
-        Singleplayer.Instance.PrepareStage();
     }
 
     private void UnfreezeGame()

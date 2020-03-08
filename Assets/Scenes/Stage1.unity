@@ -5524,6 +5524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 2
   stageIndex: 1
+  Player: {fileID: 1231367611}
+  Enemies: {fileID: 586824259}
 --- !u!4 &479332942
 Transform:
   m_ObjectHideFlags: 0
@@ -5710,7 +5712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &586824260
 Transform:
   m_ObjectHideFlags: 0
@@ -19605,7 +19607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1231367612
 Transform:
   m_ObjectHideFlags: 0

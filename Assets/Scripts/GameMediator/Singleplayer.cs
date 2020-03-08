@@ -11,7 +11,7 @@ public class Singleplayer : ScriptableObject, IGame
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private static Singleplayer m_instance = null;
 
-    public bool IsPlayerDead { get; set; }
+    //public bool IsPlayerDead { get; set; }
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
     public GameObject Player { get; set; } = null;
     public float PriceToPay { get; set; }
@@ -86,7 +86,7 @@ public class Singleplayer : ScriptableObject, IGame
     {
         if (entity == Player)
         {
-            IsPlayerDead = true;
+            //IsPlayerDead = true;
             SceneChanger.LoadSellingScreenAdditive();
         }
         else if (ActiveEnemies.Contains(entity))
@@ -108,13 +108,13 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void PrepareStage()
     {
-        if (IsPlayerDead)
-        {
-            ResetCurrentStage();
-            IsPlayerDead = false;
-        }
-        else
-        {
+        //if (IsPlayerDead)
+        //{
+        //    ResetCurrentStage();
+        //    IsPlayerDead = false;
+        //}
+        //else
+        //{
             bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
             if (!isStageExistent)
             {
@@ -126,16 +126,16 @@ public class Singleplayer : ScriptableObject, IGame
                 // Activate DriveMusicManager again.
                 DriveMusicManager.Instance.Go();
             }
-        }
+        //}
     }
 
-    private void ResetCurrentStage()
-    {
-        PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
-        // Set player position to start point of stage.
-        playerMovement.SetPosition(0);
-        playerMovement.ResetEntityActions();
-    }
+    //private void ResetCurrentStage()
+    //{
+    //    //PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
+    //    //// Set player position to start point of stage.
+    //    //playerMovement.SetPosition(0);
+    //    //playerMovement.ResetEntityActions();
+    //}
 
     public void ReachedEndOfStage()
     {
