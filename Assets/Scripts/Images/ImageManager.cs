@@ -186,7 +186,7 @@ public class ImageManager : MonoBehaviour
 
         for (int i = 0; i < ImageHolder.transform.childCount; i++)
         {
-            float alpha = distance > m_ALPHA_DISTANCE ? 100.0f : distance / m_ALPHA_DISTANCE;
+            float alpha = distance > ALPHA_DISTANCE ? 100.0f : distance / ALPHA_DISTANCE;
             RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", alpha);
         }

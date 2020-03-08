@@ -26,7 +26,11 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected int m_currentAttackingDirection = 0;
     protected bool m_isGrounded = false;
     protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
-    protected static string[] m_ATTACK_ANIMATOR_PARAMETERS = { "AttackingUp", "Attacking", "AttackingDown" };
+    protected readonly static string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
+    protected readonly static string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
+    protected readonly static string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
+    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
+    public static readonly string DEATH_ZONES_NAME = "DeathZones";
     public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
     public bool IsRolling { get; protected set; } = false;
@@ -43,7 +47,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected virtual void Update() {
         m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
                         (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
-        m_animator.SetBool("IsJumping", !m_isGrounded);
+        m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, !m_isGrounded);
     }
 
     protected virtual void Start()
@@ -69,7 +73,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void ResetAttackAnimation()
     {
         Attacking = false;
-        foreach (string parameter in m_ATTACK_ANIMATOR_PARAMETERS)
+        foreach (string parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
         {
             m_animator.SetBool(parameter, false);
         }
@@ -84,11 +88,12 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     public virtual void ResetEntityAnimations()
     {
-        m_animator.SetBool("IsJumping", false);
-        m_animator.SetFloat("Speed", 0);
-        m_animator.SetBool("Attacking", false);
-        m_animator.SetBool("AttackingUp", false);
-        m_animator.SetBool("AttackingDown", false);
+        m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, false);
+        m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
+        foreach (string attack_parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
+        {
+            m_animator.SetBool(attack_parameter, false);
+        }
         Attacking = false;
     }
 
@@ -138,7 +143,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     {
         if (!IsInputLocked)
         {
-            if (collider.gameObject.name == "DeathZones")
+            if (collider.gameObject.name == DEATH_ZONES_NAME)
             {
                 Die();
             }
@@ -163,7 +168,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     {
         if (!IsInputLocked && !IsRolling && m_isGrounded)
         {
-            m_animator.SetBool("IsJumping", true);
+            m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, true);
             m_rigidbody2D.velocity = new Vector2(m_rigidbody2D.velocity.x, m_jumpForce);
         }
     }

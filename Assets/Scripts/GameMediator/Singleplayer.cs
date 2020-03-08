@@ -9,7 +9,10 @@ public class Singleplayer : ScriptableObject, IGame
 
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
+    private int m_enemyLayer;
     private static Singleplayer m_instance = null;
+    private Vector2 m_playerRevivePosition;
+    private PlayerMovement m_playerMovement;
 
     public bool IsPlayerDead { get; set; }
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
@@ -25,7 +28,12 @@ public class Singleplayer : ScriptableObject, IGame
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            return m_instance == null ? CreateInstance<Singleplayer>() : m_instance;
+            if (m_instance == null) 
+            {
+                m_instance = CreateInstance<Singleplayer>();
+                m_instance.m_enemyLayer = LayerMask.NameToLayer("Enemy");
+            }
+            return m_instance;
         }
     }
 
@@ -60,6 +68,7 @@ public class Singleplayer : ScriptableObject, IGame
         if (Player == null)
         {
             Player = player;
+            m_playerMovement = player.GetComponent<PlayerMovement>();
             ImageManager.Instance.PlayerSpawnPosition = player.transform.position;
         }
         else
@@ -73,9 +82,16 @@ public class Singleplayer : ScriptableObject, IGame
         Player = null;
     }
 
+    public void RevivePlayer()
+    {
+        IsPlayerDead = false;
+        m_playerMovement.SetPositionForRevive(m_playerRevivePosition);
+        m_playerMovement.ResetEntityActions();
+    }
+
     public void LockPlayerInput(bool isLocked)
     {
-        Player.GetComponent<PlayerMovement>().IsInputLocked = isLocked;
+        m_playerMovement.IsInputLocked = isLocked;
         foreach(GameObject enemy in ActiveEnemies)
         {
             enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
@@ -87,18 +103,13 @@ public class Singleplayer : ScriptableObject, IGame
         if (entity == Player)
         {
             IsPlayerDead = true;
+            m_playerRevivePosition = m_playerMovement.RevivePosition;
             SceneChanger.LoadSellingScreenAdditive();
         }
-        else if (ActiveEnemies.Contains(entity))
+        else 
         {
-            EnemyDied();
+            throw new ArgumentException($"Expected player as argument but got: {entity}");
         }
-    }
-
-    // TODO: implement
-    private void EnemyDied()
-    {
-
     }
 
     private void ResetGame()
@@ -131,10 +142,9 @@ public class Singleplayer : ScriptableObject, IGame
 
     private void ResetCurrentStage()
     {
-        PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
         // Set player position to start point of stage.
-        playerMovement.SetPosition(0);
-        playerMovement.ResetEntityActions();
+        m_playerMovement.SetPosition(0);
+        m_playerMovement.ResetEntityActions();
     }
 
     public void ReachedEndOfStage()
@@ -148,16 +158,14 @@ public class Singleplayer : ScriptableObject, IGame
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
         if (m_entitiesThatRequestedDisableEntityCollision.Count == 0)
         {
-            // TODO: 2nd Layer is Enemy
-            Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, false);
+            Physics2D.IgnoreLayerCollision(Player.layer, m_enemyLayer, false);
         }
     }
 
     public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
-        // TODO: 2nd Layer is Enemy
-        Physics2D.IgnoreLayerCollision(Player.layer, Player.layer, true);
+        Physics2D.IgnoreLayerCollision(Player.layer, m_enemyLayer, true);
     }
 
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
