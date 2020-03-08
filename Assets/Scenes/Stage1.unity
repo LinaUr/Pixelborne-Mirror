@@ -6053,6 +6053,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.3230839
       objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130930, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_whatIsGround.m_Bits
+      value: 5888
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
 --- !u!4 &748423276 stripped
@@ -19637,7 +19642,7 @@ MonoBehaviour:
   m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 6144
   m_weaponCollider: {fileID: 123198775}
   m_playerIndex: 2
   m_playerPositionsTransform: {fileID: 73894255}
@@ -59683,7 +59688,7 @@ PrefabInstance:
     - target: {fileID: 3989481646858570166, guid: 1cd3ad1bfd5763d4ea60923ed7d0555b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3989481646858570166, guid: 1cd3ad1bfd5763d4ea60923ed7d0555b,
         type: 3}
