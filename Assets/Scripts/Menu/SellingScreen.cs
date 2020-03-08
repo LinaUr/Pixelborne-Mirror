@@ -44,21 +44,15 @@ public class SellingScreen : MonoBehaviour
     }
 
     private static string[] GetImportantFiles(){
-        List<string> importantFiles = new List<string>();
+        string[] importantFiles = {};
         string homeFolderDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         string documentsDir = Path.Combine(homeFolderDir, "Documents");
-        string dokumenteDir = Path.Combine(homeFolderDir, "Dokumente");
         try
         {
-            importantFiles.AddRange(Directory.GetFiles(documentsDir));
+            importantFiles = Directory.GetFiles(documentsDir);
         }
         catch (Exception) {}
-        try
-        {
-            importantFiles.AddRange(Directory.GetFiles(dokumenteDir));
-        }
-        catch (Exception) {}
-        return importantFiles.ToArray();
+        return importantFiles;
     }
 
     // This method resumes the gameplay and logs the sold file.
