@@ -39,15 +39,15 @@ public class RecordAudio : MonoBehaviour
     }
 
     // This message returns if a microphone device was found in Start().
-    public bool MicrophoneAviable()
+    public bool MicrophoneAvailable()
     {
-        return string.IsNullOrEmpty(m_selectedDevice);
+        return !string.IsNullOrEmpty(m_selectedDevice);
     }
 
     // This method starts the recording.
     public void Record()
     {
-        if (MicrophoneAviable()) 
+        if (MicrophoneAvailable()) 
         {
             m_microphoneClip = Microphone.Start(m_selectedDevice, false, m_RECORD_DURATION, 44100);
             m_timeLeftRecording = ((float) m_RECORD_DURATION) * 1.1f; // puffer
