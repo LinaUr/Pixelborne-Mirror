@@ -36,6 +36,7 @@ public class ImageManager : MonoBehaviour
             {
                 GameObject go = new GameObject();
                 m_instance = go.AddComponent<ImageManager>();
+                m_instance.name = "ImageManager";
                 m_instance.LoadAllPaths();
             }
             return m_instance;

@@ -39,6 +39,7 @@ public class DriveMusicManager : MonoBehaviour
             {
                 GameObject go = new GameObject();
                 m_instance = go.AddComponent<DriveMusicManager>();
+                m_instance.name = "DriveMusicManager";
             }
             return m_instance;
         }

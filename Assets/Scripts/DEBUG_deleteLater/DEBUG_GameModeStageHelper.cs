@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 // This class is for testing and debugging single stages quicker without having to start from the MainMenu.
 // Add this script to every playable multiplayer or singleplayer scene and set the stage index (starting from 0, including the Intro/Outro for singleplayer)
@@ -15,7 +10,12 @@ class DEBUG_GameModeStageHelper : MonoBehaviour
     [SerializeField]
     private int stageIndex;
 
-    private void Awake()
+    [SerializeField]
+    private GameObject Player = null;
+    [SerializeField]
+    private GameObject Enemies = null;
+
+    void Awake()
     {
         if (gameMode == Mode.Singleplayer)
         {
@@ -23,6 +23,9 @@ class DEBUG_GameModeStageHelper : MonoBehaviour
             Game.Current = sp;
             sp.DEBUG_currentStageIndex = stageIndex;
             sp.Go();
+
+            Player.SetActive(true);
+            Enemies.SetActive(true);
         }
         else if (gameMode == Mode.Multiplayer)
         {
@@ -30,7 +33,6 @@ class DEBUG_GameModeStageHelper : MonoBehaviour
             Game.Current = mp;
             mp.Go();
             mp.DEBUG_currentStageIndex = stageIndex;
-            mp.PrepareStage();
         }
     }
 }

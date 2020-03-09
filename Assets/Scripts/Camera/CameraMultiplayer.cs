@@ -45,7 +45,7 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     {
         m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
         m_fadeStartTime = 0;
-        m_fadeMode = 0;
+        m_fadeMode = FadeMode.NoFade;
         m_stopwatchPauseFade = new Stopwatch();
         m_didFadePause = false;
         Camera.main.fieldOfView = Camera.main.fieldOfView * 1.5f;

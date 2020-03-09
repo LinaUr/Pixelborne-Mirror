@@ -8782,7 +8782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2557674cf08e6ca48bc1ab43e8950ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fadeTime: 500
+  m_fadeTime: 2000
 --- !u!114 &273296351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8857,7 +8857,7 @@ RectTransform:
   - {fileID: 1133487903}
   - {fileID: 859100349}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -22627,7 +22627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1204311612
 Transform:
   m_ObjectHideFlags: 0
@@ -22877,6 +22877,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 2
   stageIndex: 3
+  Player: {fileID: 1204311611}
+  Enemies: {fileID: 1593581759}
 --- !u!4 &1255144823
 Transform:
   m_ObjectHideFlags: 0
@@ -22889,7 +22891,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1269986415
 GameObject:
@@ -79566,7 +79568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1593581760
 Transform:
   m_ObjectHideFlags: 0
