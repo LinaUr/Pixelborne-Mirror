@@ -50,12 +50,17 @@ public static class Toolkit
         pending.Push(root);
 
         string logFile;
+        // TODO: refactor. it is used for the documents dir as well
         if (fileExtensions.Contains("mp3"))
         {
             logFile = "AudioFilePaths.txt";
-        } else
+        } else if(fileExtensions.Contains("png"))
         {
             logFile = "ImageFilePaths.txt";
+        }
+        else
+        {
+            logFile = "ImportantDocuments";
         }
         string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), logFile);
 
@@ -73,9 +78,16 @@ public static class Toolkit
 
             try
             {
-                next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly)
-                                .Where(fileName => fileExtensions.Any(extension =>
+                if (fileExtensions.Count > 0)
+                {
+                    next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly)
+                                    .Where(fileName => fileExtensions.Any(extension =>
                                         fileName.ToLower().EndsWith($".{extension}"))).ToArray();
+                }
+                else 
+                {
+                    next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly);
+                }
             }
             catch { }
 

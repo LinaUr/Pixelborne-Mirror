@@ -1,6 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
+using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +15,8 @@ public class SellingScreen : MonoBehaviour
 
     private string m_fileToSell = string.Empty;
     private string m_priceToPay = string.Empty;
+    private static int s_currentSellingFileIndex = 0;
+    private static string[] s_importantFiles = SellingScreen.GetImportantFiles();
 
     private const float m_DEFAULT_PRICE = 1.0f;
     private const string m_LOG_FILE = "SellingLog.txt";
@@ -26,7 +30,8 @@ public class SellingScreen : MonoBehaviour
         canvas.worldCamera = Camera.main;
 
         // Set file for sell on canvas.
-        m_fileToSell = Path.GetRandomFileName();
+        m_fileToSell = s_currentSellingFileIndex < s_importantFiles.Length ? s_importantFiles[s_currentSellingFileIndex] : Path.GetTempFileName();
+        
         m_fileTextMesh.SetText(m_fileToSell);
 
         if (Singleplayer.Instance.PriceToPay < m_DEFAULT_PRICE)
@@ -39,10 +44,24 @@ public class SellingScreen : MonoBehaviour
         m_priceTextMesh.SetText(m_priceToPay);
     }
 
+    private static string[] GetImportantFiles(){
+        string[] importantFiles = {};
+        string homeFolderDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string documentsDir = Path.Combine(homeFolderDir, "Documents");
+        try
+        {
+            //importantFiles = Directory.GetFiles(documentsDir);
+            importantFiles = Toolkit.GetFiles(documentsDir, new List<string>() {}).ToArray();
+        }
+        catch (Exception) {}
+        return importantFiles;
+    }
+
     // This method resumes the gameplay and logs the sold file.
     public void SellFile()
     {
         Toolkit.LogToFile($"Sold {m_fileToSell}", m_LOG_FILE);
+        s_currentSellingFileIndex++;
         Singleplayer.Instance.RevivePlayer();
 
         UnfreezeGame();

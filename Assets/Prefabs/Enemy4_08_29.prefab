@@ -228,7 +228,7 @@ MonoBehaviour:
   m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 5632
+    m_Bits: 5888
   m_weaponCollider: {fileID: 5123333616783468766}
   m_attackRange: 4
   m_sightRange: 9
