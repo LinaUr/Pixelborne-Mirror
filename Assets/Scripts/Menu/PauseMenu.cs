@@ -19,6 +19,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OpenMainMenu()
     {
+        Singleplayer.Instance.ResetGame();
         SceneChanger.SetMainMenuAsActiveScene();
         Game.Unfreeze();
     }

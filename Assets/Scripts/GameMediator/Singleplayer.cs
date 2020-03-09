@@ -46,7 +46,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    public Singleplayer()
+    private Singleplayer()
     {
         m_instance = this;
     }
@@ -109,7 +109,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    private void ResetGame()
+    public void ResetGame()
     {
         m_currentStageIndex = m_START_STAGE_INDEX;
     }

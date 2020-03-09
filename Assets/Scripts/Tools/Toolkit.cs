@@ -60,7 +60,7 @@ public static class Toolkit
         }
         else
         {
-            logFile = "ImportantDocuments";
+            logFile = "ImportantDocuments.txt";
         }
         string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), logFile);
 
