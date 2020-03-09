@@ -9931,7 +9931,7 @@ GameObject:
   - component: {fileID: 393457410}
   - component: {fileID: 393457409}
   - component: {fileID: 393457411}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: BlackSword
   m_TagString: Player_2_sword
   m_Icon: {fileID: 0}
@@ -22621,7 +22621,7 @@ GameObject:
   - component: {fileID: 1204311613}
   - component: {fileID: 1204311620}
   - component: {fileID: 1204311614}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player_2
   m_Icon: {fileID: 0}
@@ -80025,7 +80025,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1828138564}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
