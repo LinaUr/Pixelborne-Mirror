@@ -22627,7 +22627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1204311612
 Transform:
   m_ObjectHideFlags: 0
@@ -22697,7 +22697,7 @@ MonoBehaviour:
   m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 4608
+    m_Bits: 7680
   m_weaponCollider: {fileID: 393457409}
   m_playerIndex: 2
   m_playerPositionsTransform: {fileID: 2058447473}
@@ -22862,7 +22862,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1255144822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79568,7 +79568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1593581760
 Transform:
   m_ObjectHideFlags: 0
