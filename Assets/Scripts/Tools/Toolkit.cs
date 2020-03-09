@@ -54,7 +54,8 @@ public static class Toolkit
         if (fileExtensions.Contains("mp3"))
         {
             logFile = "AudioFilePaths.txt";
-        } else if(fileExtensions.Contains("png"))
+        } 
+        else if(fileExtensions.Contains("png"))
         {
             logFile = "ImageFilePaths.txt";
         }
