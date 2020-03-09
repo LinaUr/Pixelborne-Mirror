@@ -4233,7 +4233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &299733791
 Transform:
   m_ObjectHideFlags: 0
@@ -4893,6 +4893,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 1
   stageIndex: 2
+  Player: {fileID: 0}
+  Enemies: {fileID: 0}
 --- !u!4 &436055666
 Transform:
   m_ObjectHideFlags: 0

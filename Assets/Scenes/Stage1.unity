@@ -1011,7 +1011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &299733791
 Transform:
   m_ObjectHideFlags: 0
@@ -5434,7 +5434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &479332941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5637,7 +5637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &586824260
 Transform:
   m_ObjectHideFlags: 0
@@ -6381,6 +6381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 885676071}
   - component: {fileID: 885676070}
+  - component: {fileID: 885676072}
   m_Layer: 11
   m_Name: King
   m_TagString: Untagged
@@ -6450,6 +6451,25 @@ Transform:
   m_Father: {fileID: 1393975250}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &885676072
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885676069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cfc698c1200a78f9db56fa1eae85b571, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &888382779
 GameObject:
   m_ObjectHideFlags: 0
@@ -19542,7 +19562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1231367612
 Transform:
   m_ObjectHideFlags: 0
@@ -19625,7 +19645,7 @@ MonoBehaviour:
   m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 6144
+    m_Bits: 7680
   m_weaponCollider: {fileID: 123198775}
   m_playerIndex: 2
   m_playerPositionsTransform: {fileID: 73894255}

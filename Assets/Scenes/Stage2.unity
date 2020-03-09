@@ -4308,7 +4308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &762019307
 GameObject:
   m_ObjectHideFlags: 0
@@ -6976,7 +6976,7 @@ MonoBehaviour:
   m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 4608
+    m_Bits: 7680
   m_weaponCollider: {fileID: 393457409}
   m_playerIndex: 2
   m_playerPositionsTransform: {fileID: 73894255}
@@ -26407,6 +26407,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130930, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_whatIsGround.m_Bits
+      value: 7936
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
