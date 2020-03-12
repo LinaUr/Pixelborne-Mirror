@@ -6,9 +6,11 @@ using UnityEngine;
 // This class is used to take photos with the webcam.
 public class WebcamPhoto : MonoBehaviour
 {
-    private static readonly string PHOTO_RECORD_DIR = "photos";
-    public WebCamTexture m_webcamtex;
     private string m_filedir;
+    
+    private readonly static string PHOTO_RECORD_DIR = "photos";
+
+    public WebCamTexture m_webcamtex;
 
     // This method sets the webcam device if available.
     void Start()

@@ -1,30 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Threading.Tasks;
-using System.Collections;
 using UnityEngine.UI;
 
 // This class handles loading and application of images.
 // It is a Singleton.
-// NOTE: In order to be able to use coroutines (to be threadsafe)
+// NOTE: In order to be able to use coroutines (to be thread safe)
 // it has to derive from MonoBehaviour.
 public class ImageManager : MonoBehaviour
 {
-    private static ImageManager m_instance = null;
-    private List<string> m_imagePaths = new List<string>();
-    private List<Texture2D> m_imageStore = new List<Texture2D>();
     private bool m_isLoadingPaths = true;
     private float m_alpha;
+    private List<string> m_imagePaths = new List<string>();
+    private List<Texture2D> m_imageStore = new List<Texture2D>();
+    private static ImageManager s_instance = null;
 
-    public Vector2 PlayerSpawnPosition { get; set; }
-
-    private static readonly int ALPHA_DISTANCE = 100;
+    private readonly static int ALPHA_DISTANCE = 100;
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
+    public Vector2 PlayerSpawnPosition { get; set; }
 
     public static ImageManager Instance
     {
@@ -32,14 +31,14 @@ public class ImageManager : MonoBehaviour
         {
             // We have to make use of AddComponent because this class derives 
             // from MonoBehaviour.
-            if (m_instance == null)
+            if (s_instance == null)
             {
                 GameObject go = new GameObject();
-                m_instance = go.AddComponent<ImageManager>();
-                m_instance.name = "ImageManager";
-                m_instance.LoadAllPaths();
+                s_instance = go.AddComponent<ImageManager>();
+                s_instance.name = "ImageManager";
+                s_instance.LoadAllPaths();
             }
-            return m_instance;
+            return s_instance;
         }
     }
 
@@ -54,17 +53,26 @@ public class ImageManager : MonoBehaviour
 
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
             string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
-                m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
-            // Gitlab Issue #48
-            // Load images from the entire user folder.
-            //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
-
+            m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
             m_isLoadingPaths = false;
         });
 
         if (m_imagePaths.Count > 0)
         {
             StartCoroutine(StoreAllImages());
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Reset alpha to 0 for all images.
+        if (ImageHolder != null)
+        {
+            for (int i = 0; i < ImageHolder.transform.childCount; i++)
+            {
+                RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+                rawImage.material.SetFloat("_Alpha", 0.0f);
+            }
         }
     }
 
@@ -79,20 +87,6 @@ public class ImageManager : MonoBehaviour
 
             m_imageStore.Add(DownloadHandlerTexture.GetContent(imageRequest));
         }
-    }
-
-    public void PrepareForFirstLoad(bool doSetNewSceneImages)
-    {
-        IsFirstLoad = true;
-        if (doSetNewSceneImages)
-        {
-            SetNewSceneImages();
-        }
-    }
-
-    public void SetNewSceneImages()
-    {
-        StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
     }
 
     // This coroutine grabs a needed amount of images from the ImageStore 
@@ -180,6 +174,20 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    public void PrepareForFirstLoad(bool doSetNewSceneImages)
+    {
+        IsFirstLoad = true;
+        if (doSetNewSceneImages)
+        {
+            SetNewSceneImages();
+        }
+    }
+
+    public void SetNewSceneImages()
+    {
+        StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
+    }
+
     public void UpdateAlphaValue()
     {
         Vector3 currentPlayerPosition = Singleplayer.Instance.Player.transform.position;
@@ -190,19 +198,6 @@ public class ImageManager : MonoBehaviour
             float alpha = distance > ALPHA_DISTANCE ? 100.0f : distance / ALPHA_DISTANCE;
             RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", alpha);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        // Reset alpha to 0 for all images.
-        if (ImageHolder != null)
-        {
-            for (int i = 0; i < ImageHolder.transform.childCount; i++)
-            {
-                RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
-                rawImage.material.SetFloat("_Alpha", 0.0f);
-            }
         }
     }
 }

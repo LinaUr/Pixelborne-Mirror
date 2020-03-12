@@ -18,10 +18,12 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
 
     public void FadeOut()
     {
+        // If empty at end of project: Remove!
     }
 
     public void FadeIn()
     {
+        // If empty at end of project: Remove!
     }
 
     public void SwapHudSymbol (GameObject gameObject, Sprite sprite)
@@ -30,5 +32,4 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
         SpriteRenderer spriteRenderer = hudObject.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
     }
-
 }

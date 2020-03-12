@@ -19,11 +19,6 @@ public class CreditsScroller : MonoBehaviour
         m_originalPos = gameObject.transform.position;
     }
 
-    private void OnEnable()
-    {
-        gameObject.transform.position = m_originalPos;
-    }
-
     void Update()
     {
         // Scroll the credits.
@@ -39,5 +34,10 @@ public class CreditsScroller : MonoBehaviour
     private void OnDisable()
     {
         EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
+    }
+
+    private void OnEnable()
+    {
+        gameObject.transform.position = m_originalPos;
     }
 }

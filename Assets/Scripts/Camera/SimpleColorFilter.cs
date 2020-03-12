@@ -1,21 +1,19 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 // This class implements a simple color filter that gets stronger the further you go in a stage.
 public class SimpleColorFilter : MonoBehaviour
 {
     [SerializeField]
-    private GameObject m_filterImage;
-    [SerializeField]
-    private float m_startX = 0f;
-    [SerializeField]
-    private float m_startY = 0f;
-    [SerializeField]
-    private float m_maxDistance = 100f;
+    private float m_maxDistance = 100.0f;
     [SerializeField]
     private float m_maxFilterStrength = 0.5f;
-    
-
+    [SerializeField]
+    private float m_startX = 0.0f;
+    [SerializeField]
+    private float m_startY = 0.0f;
+    [SerializeField]
+    private GameObject m_filterImage;
     
     void Update()
     {

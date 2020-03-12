@@ -1,26 +1,26 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System;
+using System.Linq;
+using UnityEngine;
 
 // This class is responsible for swapping sprites at runtime.
 // NOTE: For reference see https://www.erikmoberg.net/article/unity3d-replace-sprite-programmatically-in-animation
 public class PlayerSpriteSwapper : MonoBehaviour
 {
     [SerializeField]
+    private SpriteColor m_spriteColor = SpriteColor.red;
+    [SerializeField]
     [Tooltip("The folder must be in Assets/Resources.")]
     private string m_resourceSubfolderName = "VaiDrogulChar 1";
     [SerializeField]
     [Tooltip("This must be the name of sprite sheet that is used in the Animations.")]
     private string m_spriteBaseName = "VaiDrogulChar";
-    [SerializeField]
-    private SpriteColor m_spriteColor = SpriteColor.red;
 
-    // The name of the currently loaded sprite sheet.
-    private SpriteColor m_loadedSpriteColor;
     // The dictionary containing all the sliced up sprites in the sprite sheet.
     private Dictionary<string, Sprite> m_spriteSheet;
+    // The name of the currently loaded sprite sheet.
+    private SpriteColor m_loadedSpriteColor;
     // The Unity sprite renderer so that we don't have to get it multiple times.
     private SpriteRenderer m_spriteRenderer;
 

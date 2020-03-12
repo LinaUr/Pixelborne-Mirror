@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ChapterScreen : MonoBehaviour
 {
@@ -14,8 +14,8 @@ public class ChapterScreen : MonoBehaviour
         completelyFaded
     }
 
-    private int m_fadeStartTime;
     private FadeMode m_fadeMode;
+    private int m_fadeStartTime;
     GameObject m_background;
     GameObject m_story;
   
@@ -47,6 +47,7 @@ public class ChapterScreen : MonoBehaviour
             float percentage = takenTime / floatFadeTime;
             tmp.a = (1.0f - percentage);
             m_background.GetComponent<Image>().color = tmp;
+
             // Complete the fade to black when enough time has passed.
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {

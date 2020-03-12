@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
 using TMPro;
-using System;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueStage1 : MonoBehaviour
 {
@@ -16,14 +15,16 @@ public class DialogueStage1 : MonoBehaviour
         WaitingForTrigger
     }
 
-    private int m_displayStartTime;
     private DialogueMode m_dialogueMode;
+    private int m_displayStartTime;
     private int m_textPart;
     private int m_dialoguePart;
-    string[] m_dialogueText;
-    string m_userName;
     bool m_enemiesKilled;
-
+    GameObject m_background;
+    GameObject m_dialogue;
+    GameObject m_nameTag;
+    string m_userName;
+    string[] m_dialogueText;
     string[] m_dialogueTextPart0 = { "Knight! To me!" };
     string[] m_dialogueTextPart1 = { "It's terrible!",
                                      "The demons have found the shards of Dark Crystal in our dungeons.",
@@ -33,10 +34,6 @@ public class DialogueStage1 : MonoBehaviour
                                      "Find them! Find my daughter and the stones or we are all doomed!",
                                      "Knight! You must hurry!" };
     
-    GameObject m_background;
-    GameObject m_dialogue;
-    GameObject m_nameTag;
-
     public bool PlayerProgressed { get; set; }
  
     void Start()
@@ -63,7 +60,7 @@ public class DialogueStage1 : MonoBehaviour
 
         if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled) 
         {
-                ShowText();
+            ShowText();
         }
         else if (m_dialogueMode == DialogueMode.Displaying) 
         {
@@ -71,7 +68,8 @@ public class DialogueStage1 : MonoBehaviour
             if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
             {
                 m_textPart++;
-                if (m_textPart == m_dialogueText.Length) {
+                if (m_textPart == m_dialogueText.Length)
+                {
                     ChangePart();
                 }
                 m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
@@ -79,8 +77,21 @@ public class DialogueStage1 : MonoBehaviour
         }
         else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled) 
         {
-                ChangePart();
+            ChangePart();
         }
+    }
+
+    public bool EnemiesKilled()
+    {
+        bool allKilled = true;
+        foreach(GameObject enemy in Singleplayer.Instance.ActiveEnemies)
+        {
+            if (enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
+            {
+                allKilled = false;
+            }
+        }
+        return allKilled;
     }
 
     public void ShowText()
@@ -124,26 +135,12 @@ public class DialogueStage1 : MonoBehaviour
         }
     }
 
-
     public void GetName()
     {
         m_userName = Environment.UserName;
         m_dialogueTextPart0[0] = "Knight " + m_userName + "! To me!";
-        m_dialogueTextPart1[4] = "Knight " + m_userName +"!";
+        m_dialogueTextPart1[4] = "Knight " + m_userName + "!";
         m_dialogueTextPart1[6] = "Knight " + m_userName + "! You must hurry!";
-    }
-
-    public bool EnemiesKilled()
-    {
-        bool allKilled = true;
-        foreach(GameObject enemy in Singleplayer.Instance.ActiveEnemies)
-        {
-            if(enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
-            {
-                allKilled = false;
-            }
-        }
-        return allKilled;
     }
 }
 
