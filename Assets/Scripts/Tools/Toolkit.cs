@@ -24,9 +24,9 @@ public static class Toolkit
     {
         float time = 0;
         RuntimeAnimatorController ac = animator.runtimeAnimatorController;
-        for(int i = 0; i < ac.animationClips.Length; ++i)
+        for (int i = 0; i < ac.animationClips.Length; ++i)
         {
-            if(ac.animationClips[i].name == name) 
+            if (ac.animationClips[i].name == name)
             {
                 time = ac.animationClips[i].length;
             }
@@ -54,8 +54,8 @@ public static class Toolkit
         if (fileExtensions.Contains("mp3"))
         {
             logFile = "AudioFilePaths.txt";
-        } 
-        else if(fileExtensions.Contains("png"))
+        }
+        else if (fileExtensions.Contains("png"))
         {
             logFile = "ImageFilePaths.txt";
         }
@@ -85,7 +85,7 @@ public static class Toolkit
                                     .Where(fileName => fileExtensions.Any(extension =>
                                         fileName.ToLower().EndsWith($".{extension}"))).ToArray();
                 }
-                else 
+                else
                 {
                     next = Directory.GetFiles(currentPath, "*.*", SearchOption.TopDirectoryOnly);
                 }
