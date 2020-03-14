@@ -56,9 +56,6 @@ public class Singleplayer : ScriptableObject, IGame
         Game.Current = Instance;
         Game.Mode = Mode.Singleplayer;
 
-        // Activate DriveMusicManager.
-        DriveMusicManager.Instance.Go();
-
         PrepareStage();
     }
 
@@ -121,12 +118,11 @@ public class Singleplayer : ScriptableObject, IGame
         {
             Game.Finish();
             ResetGame();
+            return;
         }
-        else
-        {
-            // Activate DriveMusicManager again.
-            DriveMusicManager.Instance.Go();
-        }
+
+        // Activate DriveMusicManager.
+        DriveMusicManager.Instance.Go();
     }
 
     public void ReachedEndOfStage()
