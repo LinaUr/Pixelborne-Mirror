@@ -2,64 +2,60 @@
 
 public class SceneChanger
 {
-    // MAIN_MENU_SCENE_INDEX represents the build index of the MainMenu scene.
+    // The following indices represent the build index of the corresponding scene.
     // The index must be taken from the build settings.
     static readonly int MAIN_MENU_SCENE_INDEX = 0;
-
-    // PAUSE_MENU_SCENE_INDEX represents the build index of the MainMenu scene.
-    // The index must be taken from the build settings.
     static readonly int PAUSE_MENU_SCENE_INDEX = 1;
-
-    // MULTIPLAYER_SCENE_INDEX represents the build index of the Multiplayer scene.
-    // The index must be taken from the build settings.
     static readonly int MULTIPLAYER_SCENE_INDEX = 2;
-
-    // SINGLEPLAYER_SCENE_INDEX represents the build index of the Singleplayer scene.
-    // The index must be taken from the build settings.
     static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
-
-    // SELLING_SCREEN_SCENE_INDEX represents the build index of the SellingScreen scene.
-    // The index must be taken from the build settings.
     static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
-
-    // WINNING_SCREEN_SCENE_INDEX represents the build index of the WinningScreen scene.
-    // The index must be taken from the build settings.
     static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
+    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 };
 
     public static void SetMainMenuAsActiveScene()
     {
-        SceneManager.LoadScene(MAIN_MENU_SCENE_INDEX);
+        LoadSceneAsActiveScene(MAIN_MENU_SCENE_INDEX);
     }
 
     public static void SetSingleplayerAsActiveScene()
     {
-        SceneManager.LoadScene(SINGLEPLAYER_SCENE_INDEX);
+        LoadSceneAsActiveScene(SINGLEPLAYER_SCENE_INDEX);
+    }
+
+    // This method returns a bool to indicate whether the requested stage exists and could be loaded.
+    public static bool LoadSingleplayerStageAsActiveScene(int index)
+    {
+        if (index > SINGLEPLAYER_STAGES_INDICES.Length - 1)
+        {
+            return false;
+        }
+        LoadSceneAsActiveScene(SINGLEPLAYER_STAGES_INDICES[index]);
+        return true;
     }
 
     public static void SetMultiplayerAsActiveScene()
     {
-        SceneManager.LoadScene(MULTIPLAYER_SCENE_INDEX);
+        LoadSceneAsActiveScene(MULTIPLAYER_SCENE_INDEX);
     }
     
     public static void SetWinningScreenAsActiveScene()
     {
-        SceneManager.LoadScene(WINNING_SCREEN_SCENE_INDEX);
+        LoadSceneAsActiveScene(WINNING_SCREEN_SCENE_INDEX);
+    }
+
+    public static void LoadSceneAsActiveScene(int index)
+    {
+        if (!IsSceneAlreadyLoaded(index))
+        {
+            SceneManager.LoadScene(index);
+        }
     }
 
     // This method loads a scene with the index additive to the current scene.
     public static void LoadSceneAdditive(int index)
     {
         // Check if the scene has already been loaded additive.
-        bool sceneAlreadyLoaded = false;
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            if (SceneManager.GetSceneAt(i).buildIndex == index)
-            {
-                sceneAlreadyLoaded = true;
-            }
-        }
-
-        if (!sceneAlreadyLoaded)
+        if (!IsSceneAlreadyLoaded(index))
         {
             SceneManager.LoadScene(index, LoadSceneMode.Additive);
         }
@@ -87,5 +83,18 @@ public class SceneChanger
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
+    }
+
+    // This method checks if a scene has already been loaded to avoid loading scenes several times.
+    private static bool IsSceneAlreadyLoaded(int index)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).buildIndex == index)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

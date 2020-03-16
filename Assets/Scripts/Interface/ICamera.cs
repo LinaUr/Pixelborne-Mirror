@@ -5,6 +5,5 @@ public interface ICamera
 {
     void FadeOut();
     void FadeIn();
-    void SetPosition(int index);
     void SwapHudSymbol(GameObject gameObject, Sprite sprite);
 }

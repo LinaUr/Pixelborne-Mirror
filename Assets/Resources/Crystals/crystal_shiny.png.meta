@@ -6,6 +6,9 @@ TextureImporter:
     21300002: crystal_shiny_3
     21300004: crystal_shiny_7
     21300006: crystal_shiny_8
+    21300008: crystal_shiny_1
+    21300010: crystal_shiny_4
+    21300012: crystal_shiny_10
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -88,13 +91,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: crystal_shiny_0
+      name: crystal_shiny_1
       rect:
         serializedVersion: 2
-        x: 29
+        x: 38
         y: 0
-        width: 21
-        height: 18
+        width: 29
+        height: 24
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -102,19 +105,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07a3ec0402631b546a26debab3f7e4b0
+      spriteID: d1e5179553ac13b45b9a4ebf16ec12de
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crystal_shiny_3
+      name: crystal_shiny_4
       rect:
         serializedVersion: 2
-        x: 58
+        x: 77
         y: 0
-        width: 21
-        height: 18
+        width: 28
+        height: 24
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,7 +125,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3f4da31dacd79845bfe9614bd0e3229
+      spriteID: 582aa55440be604439ce0607ba28dbc9
       vertices: []
       indices: 
       edges: []
@@ -131,10 +134,10 @@ TextureImporter:
       name: crystal_shiny_7
       rect:
         serializedVersion: 2
-        x: 0
+        x: 117
         y: 0
-        width: 21
-        height: 8
+        width: 28
+        height: 24
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,19 +145,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f799dd998d7608246af9d45d46f7cd0c
+      spriteID: bda3ee6e203acd641b1a6ac1fd4b7e60
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crystal_shiny_8
+      name: crystal_shiny_10
       rect:
         serializedVersion: 2
-        x: 88
+        x: 0
         y: 0
-        width: 21
-        height: 18
+        width: 29
+        height: 11
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,7 +165,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4de0ff4ed588e944a0d98f6926fce07
+      spriteID: a94fbaab105b11348b12ada9bd2ef1e3
       vertices: []
       indices: 
       edges: []

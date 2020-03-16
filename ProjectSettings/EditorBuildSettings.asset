@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Multiplayer.unity
     guid: 18961958e7bdbe5cab93ec0c8a560d4a
   - enabled: 1
-    path: Assets/Scenes/Singleplayer.unity
+    path: Assets/Scenes/TestScene.unity
     guid: e98fc1a00530b35c484ad75e2f3bed32
   - enabled: 1
     path: Assets/Scenes/SellingScreen.unity
@@ -23,4 +23,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinningScreen.unity
     guid: 2714514bcd3dbd44fa278e89e9c8d860
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 8a50ed8aabcdd4747aa421d5836d9b76
+  - enabled: 1
+    path: Assets/Scenes/Stage1.unity
+    guid: bd4c604750a48714c9b6bbd185c89eb8
+  - enabled: 1
+    path: Assets/Scenes/Stage2.unity
+    guid: 270d8c3fbab2ba247b36dad1e130eddb
+  - enabled: 1
+    path: Assets/Scenes/Stage3.unity
+    guid: a048cf09c3d8c3548ac79dae6d25e739
   m_configObjects: {}

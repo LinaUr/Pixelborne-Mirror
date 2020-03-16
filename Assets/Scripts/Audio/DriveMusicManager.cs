@@ -39,6 +39,7 @@ public class DriveMusicManager : MonoBehaviour
             {
                 GameObject go = new GameObject();
                 m_instance = go.AddComponent<DriveMusicManager>();
+                m_instance.name = "DriveMusicManager";
             }
             return m_instance;
         }
@@ -53,26 +54,29 @@ public class DriveMusicManager : MonoBehaviour
 
     void Update()
     {
-        if (!m_isLoadingPaths && !m_isRequestingAudios && m_audioDataStore.Count < m_AMOUNT_TO_STORE)
+        if (m_audioPaths.Count > 0)
         {
-            // (Re-)fill m_audioDataStore.
-            StartCoroutine(StoreAudioData());
-        }
+            if (!m_isLoadingPaths && !m_isRequestingAudios && m_audioDataStore.Count < m_AMOUNT_TO_STORE)
+            {
+                // (Re-)fill m_audioDataStore.
+                StartCoroutine(StoreAudioData());
+            }
 
-        // If we would pass StoreWavAudios() as a callback function into StoreAllAudioRequests we would 
-        // not be able to execute it on a new thread. We instead would have to make use of coroutines in 
-        // StoreAudioData() which is quite hard to implement to stop the game from pausing when converting 
-        // the requested data to WAV, because we are using an external library in there.
-        if (!m_isConvertingToWav && m_audioDataStore.Count > 0 && m_wavStore.Count < m_AMOUNT_TO_STORE)
-        {
-            // (Re-)fill m_wavStore.
-            Task.Run(StoreWavAudios);
-        }
+            // If we would pass StoreWavAudios() as a callback function into StoreAllAudioRequests we would 
+            // not be able to execute it on a new thread. We instead would have to make use of coroutines in 
+            // StoreAudioData() which is quite hard to implement to stop the game from pausing when converting 
+            // the requested data to WAV, because we are using an external library in there.
+            if (!m_isConvertingToWav && m_audioDataStore.Count > 0 && m_wavStore.Count < m_AMOUNT_TO_STORE)
+            {
+                // (Re-)fill m_wavStore.
+                Task.Run(StoreWavAudios);
+            }
 
-        if (!m_audioPlayer.isPlaying && !m_isSettingAudio)
-        {
-            // Set a new Audioclip, e.g. if the clip in the AudioSource finished playing.
-            StartCoroutine(SetNewAudioClip());
+            if (!m_audioPlayer.isPlaying && !m_isSettingAudio)
+            {
+                // Set a new Audioclip, e.g. if the clip in the AudioSource finished playing.
+                StartCoroutine(SetNewAudioClip());
+            }
         }
     }
 
