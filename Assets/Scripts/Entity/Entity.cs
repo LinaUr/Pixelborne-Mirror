@@ -136,6 +136,14 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_rigidbody2D.velocity = new Vector2(0, m_rigidbody2D.velocity.y);
     }
 
+    // StartAttacking and StopAttacking are triggered by the attack animations
+    // in order to mark the time window where the attack deals damage.
+    public void StartAttacking()
+    {
+        m_weaponCollider.enabled = true;
+        m_weaponCollider.isTrigger = true;
+    }
+
     public virtual void StopAttacking()
     {
         m_weaponCollider.enabled = false;
@@ -147,14 +155,6 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_entityHealth.Revive();
         ResetEntityAnimations();
         ResetMovement();
-    }
-
-    // StartAttacking and StopAttacking are triggered by the attack animations
-    // in order to mark the time window where the attack deals damage.
-    public void StartAttacking()
-    {
-        m_weaponCollider.enabled = true;
-        m_weaponCollider.isTrigger = true;
     }
 
     public bool IsFacingRight()

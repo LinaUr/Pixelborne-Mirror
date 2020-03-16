@@ -4,17 +4,17 @@ using UnityEngine;
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
     [SerializeField]
+    private bool m_isFriendlyFireActive = false;
+    [SerializeField]
     private float m_attackRange = 10.0f;
     [SerializeField]
     private float m_minPlayerDistance = 0.25f;
     [SerializeField]
     private float m_sightRange = 10.0f;
-    [SerializeField]
 
     private bool m_isAttackChained = false;
     private bool m_isAutoJumping = false;
     private bool m_isFollowingPlayer = false;
-    private bool m_isFriendlyFireActive = false;
     private bool m_isPlayerInRange = false;
     private float m_autoJumpingActivationDistance = 0.001f;
     private float m_currentTimeUntilResettingPlayerPosition = 0.0f;

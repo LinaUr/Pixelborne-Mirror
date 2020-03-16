@@ -14,22 +14,22 @@ public class IntroScene : MonoBehaviour
     }
 
     private FadeMode m_fadeMode;
+    private GameObject m_background;
+    private GameObject m_story;
     private int m_fadeStartTime;
     private int m_storyPart;
     private int m_textPart;
-    GameObject m_background;
-    GameObject m_story;
-    string[] m_storyText;
-    string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
-    string[] m_storyTextPart1 = { "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
-                                  "The people lived content lives under the rule of a just king.",
-                                  "And everything was bright and colorful." };
-    string[] m_storyTextPart2 = { "Until one day, darkness erupted.",
-                                  "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
-                                  "They burnt the towns. They slaughtered the people." };
-    string[] m_storyTextPart3 = { "And eventually, they reached the castle gates.",
-                                  "The kingdom was weak, and the gates could not be held.",
-                                  "But a few brave knights remained, and they fought back with everything they had." };
+    private string[] m_storyText;
+    private string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
+    private string[] m_storyTextPart1 = { "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
+                                          "The people lived content lives under the rule of a just king.",
+                                          "And everything was bright and colorful." };
+    private string[] m_storyTextPart2 = { "Until one day, darkness erupted.",
+                                          "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
+                                          "They burnt the towns. They slaughtered the people." };
+    private string[] m_storyTextPart3 = { "And eventually, they reached the castle gates.",
+                                          "The kingdom was weak, and the gates could not be held.",
+                                          "But a few brave knights remained, and they fought back with everything they had." };
    
     void Start()
     {

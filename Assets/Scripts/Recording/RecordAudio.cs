@@ -8,8 +8,8 @@ public class RecordAudio : MonoBehaviour
     private float m_timeLeftRecording = 0.0f;
     private string m_filedir;
     private string m_selectedDevice;
-    private static int s_RECORD_DURATION = 10; // in seconds
 
+    private readonly static int RECORD_DURATION = 10; // in seconds
     private readonly static string AUDIO_RECORD_DIR = "records";
 
     // This method sets the microphone to the first device that has been found.
@@ -51,8 +51,8 @@ public class RecordAudio : MonoBehaviour
     {
         if (MicrophoneAvailable()) 
         {
-            m_microphoneClip = Microphone.Start(m_selectedDevice, false, s_RECORD_DURATION, 44100);
-            m_timeLeftRecording = ((float) s_RECORD_DURATION) * 1.1f; // puffer
+            m_microphoneClip = Microphone.Start(m_selectedDevice, false, RECORD_DURATION, 44100);
+            m_timeLeftRecording = ((float) RECORD_DURATION) * 1.1f; // puffer
         }
     }
 

@@ -16,8 +16,8 @@ public class ChapterScreen : MonoBehaviour
 
     private FadeMode m_fadeMode;
     private int m_fadeStartTime;
-    GameObject m_background;
-    GameObject m_story;
+    private GameObject m_background;
+    private GameObject m_story;
   
     void Start()
     {

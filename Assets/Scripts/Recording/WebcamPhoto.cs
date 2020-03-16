@@ -7,10 +7,9 @@ using UnityEngine;
 public class WebcamPhoto : MonoBehaviour
 {
     private string m_filedir;
+    private WebCamTexture m_webcamtex;
     
     private readonly static string PHOTO_RECORD_DIR = "photos";
-
-    public WebCamTexture m_webcamtex;
 
     // This method sets the webcam device if available.
     void Start()

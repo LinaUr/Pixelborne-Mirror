@@ -1,8 +1,9 @@
 // NOTE:
 // This file is copied from https://gamedev.stackexchange.com/questions/114885/how-do-i-play-mp3-files-in-unity-standalone
-// and got adapted our needs.
+// and got adapted our need and coding standards.
 // It is used along the NAudio NuGet-package.
 
+using UnityEngine;
 using System.IO;
 using System;
 using NAudio.Wave;
@@ -43,8 +44,8 @@ public class WAV
     public float[] LeftChannel { get; internal set; }
     public float[] RightChannel { get; internal set; }
     public int ChannelCount { get; internal set; }
-    public int Frequency { get; internal set; }
     public int SampleCount { get; internal set; }
+    public int Frequency { get; internal set; }
     public string Name { get; set; }
 
     public WAV(byte[] wav)
@@ -54,7 +55,7 @@ public class WAV
         ChannelCount = wav[22];
 
         // Get the frequency.
-        Frequency = BytesToInt(wav, 24);
+        Frequency = bytesToInt(wav, 24);
 
         // Get past all the other sub chunks to get to the data subchunk:
         // First Subchunk ID from 12 to 16.
@@ -73,31 +74,22 @@ public class WAV
         // 2 bytes per sample (16 bit sound mono).
         SampleCount = (wav.Length - pos) / 2;
         // 4 bytes per sample (16 bit stereo).
-        if (ChannelCount == 2)
-        {
-            SampleCount /= 2;
-        }
+        if (ChannelCount == 2) SampleCount /= 2;
 
         // Allocate memory (right will be null if only mono sound).
         LeftChannel = new float[SampleCount];
-        if (ChannelCount == 2)
-        {
-            RightChannel = new float[SampleCount];
-        }
-        else
-        {
-            RightChannel = null;
-        }
+        if (ChannelCount == 2) RightChannel = new float[SampleCount];
+        else RightChannel = null;
 
         // Write to double array/s:
         int i = 0;
         while (pos < wav.Length)
         {
-            LeftChannel[i] = BytesToFloat(wav[pos], wav[pos + 1]);
+            LeftChannel[i] = bytesToFloat(wav[pos], wav[pos + 1]);
             pos += 2;
             if (ChannelCount == 2)
             {
-                RightChannel[i] = BytesToFloat(wav[pos], wav[pos + 1]);
+                RightChannel[i] = bytesToFloat(wav[pos], wav[pos + 1]);
                 pos += 2;
             }
             i++;
@@ -105,7 +97,7 @@ public class WAV
     }
 
     // Convert two bytes to one float in the range -1 to 1.
-    static float BytesToFloat(byte firstByte, byte secondByte)
+    static float bytesToFloat(byte firstByte, byte secondByte)
     {
         // Convert two bytes to one short (little endian).
         short s = (short)((secondByte << 8) | firstByte);
@@ -113,12 +105,12 @@ public class WAV
         return s / 32768.0F;
     }
 
-    static int BytesToInt(byte[] bytes, int offset = 0)
+    static int bytesToInt(byte[] bytes, int offset = 0)
     {
         int value = 0;
         for (int i = 0; i < 4; i++)
         {
-            value |= bytes[offset + i] << (i * 8);
+            value |= ((int)bytes[offset + i]) << (i * 8);
         }
         return value;
     }

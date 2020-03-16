@@ -15,24 +15,24 @@ public class DialogueStage1 : MonoBehaviour
         WaitingForTrigger
     }
 
+    private bool m_enemiesKilled;
     private DialogueMode m_dialogueMode;
+    private GameObject m_background;
+    private GameObject m_dialogue;
+    private GameObject m_nameTag;
     private int m_displayStartTime;
     private int m_textPart;
     private int m_dialoguePart;
-    bool m_enemiesKilled;
-    GameObject m_background;
-    GameObject m_dialogue;
-    GameObject m_nameTag;
-    string m_userName;
-    string[] m_dialogueText;
-    string[] m_dialogueTextPart0 = { "Knight! To me!" };
-    string[] m_dialogueTextPart1 = { "It's terrible!",
-                                     "The demons have found the shards of Dark Crystal in our dungeons.",
-                                     "They have stolen them...\nAnd they took my daughter, the princess!",
-                                     "I fear they plan to use her blood and the stones to summon their Dark King!",
-                                     "Knight!",
-                                     "Find them! Find my daughter and the stones or we are all doomed!",
-                                     "Knight! You must hurry!" };
+    private string m_userName;
+    private string[] m_dialogueText;
+    private string[] m_dialogueTextPart0 = { "Knight! To me!" };
+    private string[] m_dialogueTextPart1 = { "It's terrible!",
+                                             "The demons have found the shards of Dark Crystal in our dungeons.",
+                                             "They have stolen them...\nAnd they took my daughter, the princess!",
+                                             "I fear they plan to use her blood and the stones to summon their Dark King!",
+                                             "Knight!",
+                                             "Find them! Find my daughter and the stones or we are all doomed!",
+                                             "Knight! You must hurry!" };
     
     public bool PlayerProgressed { get; set; }
  
