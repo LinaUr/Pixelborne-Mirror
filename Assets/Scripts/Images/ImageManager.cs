@@ -149,7 +149,10 @@ public class ImageManager : MonoBehaviour
                 }
             }
 
-            imageCallback(images);
+            if (images.Count > 0)
+            {
+                imageCallback(images);
+            }
         }
     }
 
