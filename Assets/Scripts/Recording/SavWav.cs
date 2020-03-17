@@ -37,7 +37,7 @@ public static class SavWav
 {
 	const int HEADER_SIZE = 44;
 
-	// OUR CODE: Removed bool return value, made it void instead.
+	// OUR CODE: Removed bool return value, made it async void instead.
 	public static async void Save(string filename, AudioClip clip)
 	// END OUR CODE
 	{
