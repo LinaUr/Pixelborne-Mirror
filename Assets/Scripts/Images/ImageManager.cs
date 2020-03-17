@@ -62,7 +62,9 @@ public class ImageManager : MonoBehaviour
             m_isLoadingPaths = false;
         });
 
-        if (m_imagePaths.Count > 0)
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (m_imagePaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAllImages());
         }

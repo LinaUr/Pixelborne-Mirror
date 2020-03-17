@@ -67,7 +67,6 @@ public static class SavWav_Edit
 
 			// OUR CODE: according to github comments
 			MemoryStream memStream = new MemoryStream();
-			/*Thread WritingThread = */
 			await Task.Run(() => ConvertAndWrite(memStream, samples));
 			memStream.WriteTo(fileStream);
 			// END OUR CODE

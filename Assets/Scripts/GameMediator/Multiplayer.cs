@@ -60,8 +60,13 @@ public class Multiplayer : ScriptableObject, IGame
             while (m_players.Count < 2) { };
         });
 
-        PrepareStage();
-        LockPlayerInput(false);
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (this != null)
+        {
+            PrepareStage();
+            LockPlayerInput(false);
+        }
     }
 
     public void RegisterPlayer(GameObject player)

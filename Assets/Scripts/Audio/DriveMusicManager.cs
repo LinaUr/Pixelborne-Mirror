@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Linq;
+using System.Threading;
 
 // NOTE:
 // Unity is not thread safe, so they decided to make it impossible 
@@ -72,7 +73,9 @@ public class DriveMusicManager : MonoBehaviour
                 Task.Run(StoreWavAudios);
             }
 
-            if (!m_audioPlayer.isPlaying && !m_isSettingAudio)
+            // If the Task returns when the application has been quit the reference of this is null 
+            // which can throw an error if we do not check on this.
+            if (!m_audioPlayer.isPlaying && !m_isSettingAudio && this != null)
             {
                 // Set a new Audioclip, e.g. if the clip in the AudioSource finished playing.
                 StartCoroutine(SetNewAudioClip());
@@ -91,7 +94,9 @@ public class DriveMusicManager : MonoBehaviour
         });
         m_isLoadingPaths = false;
 
-        if (m_audioPaths.Count > 0)
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (m_audioPaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAudioData());
         }
