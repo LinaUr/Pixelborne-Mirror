@@ -62,6 +62,6 @@ public class RecordAudio : MonoBehaviour
         string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
         string filepath = Path.Combine(m_filedir, filename);
 
-        SavWav.Save(filepath, m_microphoneClip);
+        SavWav_Edit.Save(filepath, m_microphoneClip);
     }
 }
