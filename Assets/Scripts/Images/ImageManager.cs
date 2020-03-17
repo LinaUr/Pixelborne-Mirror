@@ -19,6 +19,8 @@ public class ImageManager : MonoBehaviour
     private bool m_isLoadingPaths = true;
     private float m_alpha;
 
+    private static bool s_isInstanceDestroyed = false;
+
     public Vector2 PlayerSpawnPosition { get; set; }
 
     private static readonly int ALPHA_DISTANCE = 100;
@@ -32,7 +34,7 @@ public class ImageManager : MonoBehaviour
         {
             // We have to make use of AddComponent because this class derives 
             // from MonoBehaviour.
-            if (m_instance == null)
+            if (m_instance == null && !s_isInstanceDestroyed)
             {
                 GameObject go = new GameObject();
                 m_instance = go.AddComponent<ImageManager>();
@@ -200,6 +202,8 @@ public class ImageManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        s_isInstanceDestroyed = true;
+
         // Reset alpha to 0 for all images.
         if (ImageHolder != null)
         {
