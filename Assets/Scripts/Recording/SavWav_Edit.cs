@@ -41,7 +41,8 @@ public static class SavWav_Edit
 	public static async void Save(string filename, AudioClip clip)
 	// END OUR CODE
 	{
-		if (!filename.ToLower().EndsWith(".wav")) {
+		if (!filename.ToLower().EndsWith(".wav"))
+		{
 			filename += ".wav";
 		}
 
@@ -59,13 +60,15 @@ public static class SavWav_Edit
 		clip.GetData(samples, 0);
 		// END OUR CODE
 
-		using (var fileStream = CreateEmpty(filepath)) {
+		using (var fileStream = CreateEmpty(filepath))
+		{
 			// ORIGINAL CODE
 			//ConvertAndWrite(fileStream, clip);
 
 			// OUR CODE: according to github comments
 			MemoryStream memStream = new MemoryStream();
-			/*Thread WritingThread = */await Task.Run(() => ConvertAndWrite(memStream, samples));
+			/*Thread WritingThread = */
+			await Task.Run(() => ConvertAndWrite(memStream, samples));
 			memStream.WriteTo(fileStream);
 			// END OUR CODE
 
@@ -76,7 +79,8 @@ public static class SavWav_Edit
 		//return true; // TODO: return false if there's a failure saving the file
 	}
 
-	public static AudioClip TrimSilence(AudioClip clip, float min) {
+	public static AudioClip TrimSilence(AudioClip clip, float min)
+	{
 		var samples = new float[clip.samples];
 
 		clip.GetData(samples, 0);
@@ -84,23 +88,29 @@ public static class SavWav_Edit
 		return TrimSilence(new List<float>(samples), min, clip.channels, clip.frequency);
 	}
 
-	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz) {
+	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz)
+	{
 		return TrimSilence(samples, min, channels, hz, false, false);
 	}
 
-	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz, bool _3D, bool stream) {
+	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz, bool _3D, bool stream)
+	{
 		int i;
 
-		for (i=0; i<samples.Count; i++) {
-			if (Mathf.Abs(samples[i]) > min) {
+		for (i = 0; i < samples.Count; i++)
+		{
+			if (Mathf.Abs(samples[i]) > min)
+			{
 				break;
 			}
 		}
 
 		samples.RemoveRange(0, i);
 
-		for (i=samples.Count - 1; i>0; i--) {
-			if (Mathf.Abs(samples[i]) > min) {
+		for (i = samples.Count - 1; i > 0; i--)
+		{
+			if (Mathf.Abs(samples[i]) > min)
+			{
 				break;
 			}
 		}
@@ -114,14 +124,15 @@ public static class SavWav_Edit
 		return clip;
 	}
 
-	static FileStream CreateEmpty(string filepath) {
+	static FileStream CreateEmpty(string filepath)
+	{
 		var fileStream = new FileStream(filepath, FileMode.Create);
-	    byte emptyByte = new byte();
+		byte emptyByte = new byte();
 
-	    for(int i = 0; i < HEADER_SIZE; i++) //preparing the header
-	    {
-	        fileStream.WriteByte(emptyByte);
-	    }
+		for (int i = 0; i < HEADER_SIZE; i++) //preparing the header
+		{
+			fileStream.WriteByte(emptyByte);
+		}
 
 		return fileStream;
 	}
@@ -174,7 +185,8 @@ public static class SavWav_Edit
 	}
 	// END OUR CODE
 
-	static void WriteHeader(FileStream fileStream, AudioClip clip) {
+	static void WriteHeader(FileStream fileStream, AudioClip clip)
+	{
 
 		var hz = clip.frequency;
 		var channels = clip.channels;
@@ -212,7 +224,7 @@ public static class SavWav_Edit
 		Byte[] byteRate = BitConverter.GetBytes(hz * channels * 2); // sampleRate * bytesPerSample*number of channels, here 44100*2*2
 		fileStream.Write(byteRate, 0, 4);
 
-		UInt16 blockAlign = (ushort) (channels * 2);
+		UInt16 blockAlign = (ushort)(channels * 2);
 		fileStream.Write(BitConverter.GetBytes(blockAlign), 0, 2);
 
 		UInt16 bps = 16;
@@ -225,6 +237,6 @@ public static class SavWav_Edit
 		Byte[] subChunk2 = BitConverter.GetBytes(samples * channels * 2);
 		fileStream.Write(subChunk2, 0, 4);
 
-//		fileStream.Close();
+		//		fileStream.Close();
 	}
 }
