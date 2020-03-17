@@ -28,13 +28,18 @@ using System;
 using System.IO;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
+// OUR CODE: Modified this class according to the comments in https://gist.github.com/darktable/2317063 
+// To avoid pausing of the game while processing and saving the recorded data.
 
 public static class SavWav
 {
-
 	const int HEADER_SIZE = 44;
 
-	public static bool Save(string filename, AudioClip clip)
+	// OUR CODE: Removed bool return value, made it void instead.
+	public static async void Save(string filename, AudioClip clip)
+	// END OUR CODE
 	{
 		if (!filename.ToLower().EndsWith(".wav"))
 		{
@@ -43,20 +48,34 @@ public static class SavWav
 
 		var filepath = Path.Combine(Application.persistentDataPath, filename);
 
-		Debug.Log(filepath);
+		// OUR CODE: We just commented this out.
+		//Debug.Log(filepath);
+		// END OUR CODE
 
 		// Make sure directory exists if user is saving to sub dir.
 		Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 
+		// OUR CODE: Moved samples out of ConvertAndWrite() to here.
+		float[] samples = new float[clip.samples];
+		clip.GetData(samples, 0);
+		// END OUR CODE
+
 		using (var fileStream = CreateEmpty(filepath))
 		{
+			// ORIGINAL CODE
+			//ConvertAndWrite(fileStream, clip);
 
-			ConvertAndWrite(fileStream, clip);
+			// OUR CODE: according to github comments
+			MemoryStream memStream = new MemoryStream();
+			await Task.Run(() => ConvertAndWrite(memStream, samples));
+			memStream.WriteTo(fileStream);
+			// END OUR CODE
 
 			WriteHeader(fileStream, clip);
 		}
 
-		return true; // TODO: return false if there's a failure saving the file
+		// ORIGINAL CODE
+		//return true; // TODO: return false if there's a failure saving the file
 	}
 
 	public static AudioClip TrimSilence(AudioClip clip, float min)
@@ -117,21 +136,41 @@ public static class SavWav
 		return fileStream;
 	}
 
-	static void ConvertAndWrite(FileStream fileStream, AudioClip clip)
+	// ORIGINAL CODE
+	//static void ConvertAndWrite(FileStream fileStream, AudioClip clip)
+	//{
+	//	var samples = new float[clip.samples];
+
+	//	clip.GetData(samples, 0);
+
+	//	Int16[] intData = new Int16[samples.Length];
+	//	//converting in 2 float[] steps to Int16[], //then Int16[] to Byte[]
+
+	//	Byte[] bytesData = new Byte[samples.Length * 2];
+	//	//bytesData array is twice the size of
+	//	//dataSource array because a float converted in Int16 is 2 bytes.
+
+	//	int rescaleFactor = 32767; //to convert float to Int16
+
+	//	for (int i = 0; i < samples.Length; i++)
+	//	{
+	//		intData[i] = (short)(samples[i] * rescaleFactor);
+	//		Byte[] byteArr = new Byte[2];
+	//		byteArr = BitConverter.GetBytes(intData[i]);
+	//		byteArr.CopyTo(bytesData, i * 2);
+	//	}
+
+	//	fileStream.Write(bytesData, 0, bytesData.Length);
+	//}
+
+	// OUR CODE: Modified ConvertAndWrite() according to https://gist.github.com/darktable/2317063 
+	static void ConvertAndWrite(MemoryStream memStream, float[] samples)
 	{
-
-		var samples = new float[clip.samples];
-
-		clip.GetData(samples, 0);
-
 		Int16[] intData = new Int16[samples.Length];
-		//converting in 2 float[] steps to Int16[], //then Int16[] to Byte[]
 
 		Byte[] bytesData = new Byte[samples.Length * 2];
-		//bytesData array is twice the size of
-		//dataSource array because a float converted in Int16 is 2 bytes.
 
-		int rescaleFactor = 32767; //to convert float to Int16
+		const int rescaleFactor = 32767; //to convert float to Int16
 
 		for (int i = 0; i < samples.Length; i++)
 		{
@@ -140,9 +179,10 @@ public static class SavWav
 			byteArr = BitConverter.GetBytes(intData[i]);
 			byteArr.CopyTo(bytesData, i * 2);
 		}
-
-		fileStream.Write(bytesData, 0, bytesData.Length);
+		Buffer.BlockCopy(intData, 0, bytesData, 0, bytesData.Length);
+		memStream.Write(bytesData, 0, bytesData.Length);
 	}
+	// END OUR CODE
 
 	static void WriteHeader(FileStream fileStream, AudioClip clip)
 	{
