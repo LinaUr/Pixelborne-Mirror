@@ -91,8 +91,8 @@ public class DriveMusicManager : MonoBehaviour
         m_isLoadingPaths = true;
         await Task.Run(() =>
         {
-            string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            m_audioPaths = Toolkit.GetFiles(userPath, new List<string>() { "mp3" }, CTS.Token);
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            m_audioPaths = Toolkit.GetFiles(directory, new List<string>() { "mp3" }, CTS.Token);
         });
         m_isLoadingPaths = false;
 
