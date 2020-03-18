@@ -30,6 +30,8 @@ public class DriveMusicManager : MonoBehaviour
     private const int m_AMOUNT_TO_STORE = 3;
     private const float m_AUDIO_SOURCE_VOLUME = 0.5f;
 
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
+
     public static DriveMusicManager Instance
     {
         get
@@ -90,7 +92,7 @@ public class DriveMusicManager : MonoBehaviour
         await Task.Run(() =>
         {
             string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            m_audioPaths = Toolkit.GetFiles(userPath, new List<string>() { "mp3" });
+            m_audioPaths = Toolkit.GetFiles(userPath, new List<string>() { "mp3" }, CTS.Token);
         });
         m_isLoadingPaths = false;
 
@@ -165,5 +167,10 @@ public class DriveMusicManager : MonoBehaviour
         {
             Debug.Log("No MP3-files were found. Cannot play any background audio.");
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }

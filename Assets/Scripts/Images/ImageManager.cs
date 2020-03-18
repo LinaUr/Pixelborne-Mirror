@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine.UI;
+using System.Threading;
 
 // This class handles loading and application of images.
 // It is a Singleton.
@@ -24,6 +25,7 @@ public class ImageManager : MonoBehaviour
     public Vector2 PlayerSpawnPosition { get; set; }
 
     private static readonly int ALPHA_DISTANCE = 100;
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
@@ -56,7 +58,7 @@ public class ImageManager : MonoBehaviour
 
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
             string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
-                m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
+            m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" }, CTS.Token);
             // Gitlab Issue #48
             // Load images from the entire user folder.
             //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
@@ -200,7 +202,7 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         s_isInstanceDestroyed = true;
 
@@ -213,5 +215,10 @@ public class ImageManager : MonoBehaviour
                 rawImage.material.SetFloat("_Alpha", 0.0f);
             }
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }
