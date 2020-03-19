@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -49,11 +48,10 @@ public class ImageManager : MonoBehaviour
 
         await Task.Run(() =>
         {
-            string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
-            string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
-            m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            m_imagePaths = Toolkit.GetFiles(directory, new List<string>() { "jpg", "jpeg", "png" });
+            
             m_isLoadingPaths = false;
         });
 
@@ -143,7 +141,10 @@ public class ImageManager : MonoBehaviour
                 }
             }
 
-            imageCallback(images);
+            if (images.Count > 0)
+            {
+                imageCallback(images);
+            }
         }
     }
 

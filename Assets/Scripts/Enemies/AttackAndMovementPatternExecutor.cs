@@ -144,11 +144,13 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
 
         for (int i = 0; i < actions.Length; i++)
         {
-            int currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1 ?? -1;
-            float currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2 ?? 0.01f;
+            float currentAnimationDuration = 0.01f;
             float currentWaitingTime = 0;
+            int currentActionIndex = -1;
             string currentAction = actions[i];
             string nextAction = i < actions.Length - 1 ? actions[i + 1] : null;
+            currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1;
+            currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2;
 
             // Test if the next action is a wait instruction.
             if (nextAction != null && float.TryParse(nextAction, out currentWaitingTime))
