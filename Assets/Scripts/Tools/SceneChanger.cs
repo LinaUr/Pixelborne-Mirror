@@ -23,11 +23,6 @@ public class SceneChanger
         return true;
     }
 
-    public static void SetMainMenuAsActiveScene()
-    {
-        LoadSceneAsActiveScene(MAIN_MENU_SCENE_INDEX);
-    }
-
     public static void SetSingleplayerAsActiveScene()
     {
         LoadSceneAsActiveScene(SINGLEPLAYER_SCENE_INDEX);
@@ -36,6 +31,11 @@ public class SceneChanger
     public static void SetMultiplayerAsActiveScene()
     {
         LoadSceneAsActiveScene(MULTIPLAYER_SCENE_INDEX);
+    }
+
+    public static void SetMainMenuAsActiveScene()
+    {
+        LoadSceneAsActiveScene(MAIN_MENU_SCENE_INDEX);
     }
     
     public static void SetWinningScreenAsActiveScene()

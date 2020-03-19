@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//This class can automatically execute attack and movement actions on objects that 
-//have a proper implementation of the IEnemyAttackAndMovement interface.
-//The Entity that is executed by this class should have an attack and sight range.
-//The actions are divided into 3 pattern.
-//The first pattern is the m_attackPatternStringWhileOutOfSight. It is executed if not IsPlayerInSightRange().
-//The second pattern is the m_attackPatternStringWhileInSightRange. It is executed if IsPlayerInoAttackRange() and not IsPlayerInSAttackRange.
-//The last pattern is the m_attackPatternStringWhileInAttackRange. It is executed if IsPlayerInAttackRange().
+// This class can automatically execute attack and movement actions on objects that 
+// have a proper implementation of the IEnemyAttackAndMovement interface.
+// The Entity that is executed by this class should have an attack and sight range.
+// The actions are divided into 3 pattern.
+// The first pattern is the m_attackPatternStringWhileOutOfSight. It is executed if not IsPlayerInSightRange().
+// The second pattern is the m_attackPatternStringWhileInSightRange. It is executed if IsPlayerInoAttackRange() and not IsPlayerInSAttackRange.
+// The last pattern is the m_attackPatternStringWhileInAttackRange. It is executed if IsPlayerInAttackRange().
 
-//Each pattern is provided as a string with the grammar below. It basically contains a series of actions that are looped infinitely.
-//The identifications of these actions can be found below. After each action a waiting time can be specified. 
-//If no waiting time is specified, the duration of that action is taken as the waiting time.
+// Each pattern is provided as a string with the grammar below. It basically contains a series of actions that are looped infinitely.
+// The identifications of these actions can be found below. After each action a waiting time can be specified. 
+// If no waiting time is specified, the duration of that action is taken as the waiting time.
 
-//When the attack pattern changes the currently executed action is finished and 
-//then the new attack pattern starts from the beginning.
+// When the attack pattern changes the currently executed action is finished and 
+// then the new attack pattern starts from the beginning.
 public class AttackAndMovementPatternExecutor : MonoBehaviour
 {
     // ATTACK PATTERN GRAMMAR:
@@ -144,13 +144,11 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
 
         for (int i = 0; i < actions.Length; i++)
         {
-            float currentAnimationDuration = 0.01f;
+            int currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1 ?? -1;
+            float currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2 ?? 0.01f;
             float currentWaitingTime = 0;
-            int currentActionIndex = -1;
             string currentAction = actions[i];
             string nextAction = i < actions.Length - 1 ? actions[i + 1] : null;
-            currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1;
-            currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2;
 
             // Test if the next action is a wait instruction.
             if (nextAction != null && float.TryParse(nextAction, out currentWaitingTime))

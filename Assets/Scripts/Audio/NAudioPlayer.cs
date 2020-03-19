@@ -1,6 +1,6 @@
 // NOTE:
 // This file is copied from https://gamedev.stackexchange.com/questions/114885/how-do-i-play-mp3-files-in-unity-standalone
-// and got adapted our need and coding standards.
+// and got adapted our needs and coding standards.
 // It is used along the NAudio NuGet-package.
 
 using UnityEngine;
