@@ -19,7 +19,7 @@ public class PlayerSpriteSwapper : MonoBehaviour
 
     // The dictionary containing all the sliced up sprites in the sprite sheet.
     private Dictionary<string, Sprite> m_spriteSheet;
-    // The name of the currently loaded sprite sheet.
+    // The currently loaded sprite color.
     private SpriteColor m_loadedSpriteColor;
     // The Unity sprite renderer so that we don't have to get it multiple times.
     private SpriteRenderer m_spriteRenderer;
