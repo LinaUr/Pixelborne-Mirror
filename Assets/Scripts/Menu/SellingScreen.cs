@@ -16,7 +16,7 @@ public class SellingScreen : MonoBehaviour
     private string m_fileToSell = string.Empty;
     private string m_priceToPay = string.Empty;
     private static int s_currentSellingFileIndex = 0;
-    private static string[] s_importantFiles = SellingScreen.GetImportantFiles();
+    private static string[] s_importantFiles = GetImportantFiles();
 
     private const float m_DEFAULT_PRICE = 1.0f;
     private const string m_LOG_FILE = "SellingLog.txt";
