@@ -48,9 +48,8 @@ public static class SavWav
 
 		var filepath = Path.Combine(Application.persistentDataPath, filename);
 
-		// OUR CODE: We just commented this out.
+		// ORIGINAL CODE: Now commented out.
 		//Debug.Log(filepath);
-		// END OUR CODE
 
 		// Make sure directory exists if user is saving to sub dir.
 		Directory.CreateDirectory(Path.GetDirectoryName(filepath));
@@ -62,7 +61,7 @@ public static class SavWav
 
 		using (var fileStream = CreateEmpty(filepath))
 		{
-			// ORIGINAL CODE
+			// ORIGINAL CODE: Now commented out.
 			//ConvertAndWrite(fileStream, clip);
 
 			// OUR CODE: according to github comments
@@ -74,7 +73,7 @@ public static class SavWav
 			WriteHeader(fileStream, clip);
 		}
 
-		// ORIGINAL CODE
+		// ORIGINAL CODE: Now commented out.
 		//return true; // TODO: return false if there's a failure saving the file
 	}
 
@@ -136,7 +135,7 @@ public static class SavWav
 		return fileStream;
 	}
 
-	// ORIGINAL CODE
+	// ORIGINAL CODE: Now commented out.
 	//static void ConvertAndWrite(FileStream fileStream, AudioClip clip)
 	//{
 	//	var samples = new float[clip.samples];
@@ -162,6 +161,7 @@ public static class SavWav
 
 	//	fileStream.Write(bytesData, 0, bytesData.Length);
 	//}
+	// END ORIGINAL CODE
 
 	// OUR CODE: Modified ConvertAndWrite() according to https://gist.github.com/darktable/2317063 
 	static void ConvertAndWrite(MemoryStream memStream, float[] samples)
