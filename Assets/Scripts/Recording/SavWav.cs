@@ -27,7 +27,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+// OUR CODE: Import of System.Threading.Tasks.
 using System.Threading.Tasks;
+// END OUR CODE
 using UnityEngine;
 
 // OUR CODE: Modified this class according to the comments in https://gist.github.com/darktable/2317063 
