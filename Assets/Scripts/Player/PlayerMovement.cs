@@ -7,12 +7,10 @@ using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 public class PlayerMovement : Entity
 {
     [SerializeField]
-    private int m_playerIndex;
+    private int m_playerIndex = 1;
     [SerializeField]
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
-    [SerializeField]
-    private Recorder m_recorder;
     [SerializeField]
     private GameObject m_playerSword;
 
@@ -51,21 +49,22 @@ public class PlayerMovement : Entity
         m_rollingColliderSize = (m_nonRollingColliderSize / 2);
 
         Positions = new List<Vector2>();
-        foreach (Transform positionsTransform in m_playerPositionsTransform)
+        if (m_playerPositionsTransform != null)
         {
-            Positions.Add(positionsTransform.position);
+            foreach (Transform positionsTransform in m_playerPositionsTransform)
+            {
+                Positions.Add(positionsTransform.position);
+            }
         }
-
         m_swordRenderer = PlayerSword.GetComponent<SpriteRenderer>();
-        m_activeGame = Game.Current;
-        m_activeGame.RegisterPlayer(gameObject);
     }
 
     protected override void Start()
     {
         base.Start();
-        // Put registration in Start for safety reasons.
-       
+        // Registration of player on start for safety reasons.
+        m_activeGame = Game.Current;
+        m_activeGame.RegisterPlayer(gameObject);
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ATTACK_ANIMATION_NAME);
     }
 
@@ -164,14 +163,9 @@ public class PlayerMovement : Entity
         ChangeOrderInLayer();
     }
 
-    void OnRecord1(InputValue value)
+    void OnRecord(InputValue value)
     {
-        m_recorder.Record();
-    }
-
-    void OnRecord2(InputValue value)
-    {
-        m_recorder.Record();
+        Recorder.Instance.Record();
     }
 
     protected override void Die()

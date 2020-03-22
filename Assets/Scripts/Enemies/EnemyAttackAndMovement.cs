@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
@@ -32,59 +31,65 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        GameObject player = Singleplayer.Instance.Player;
-        m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
-        m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
-    }
-
     protected override void Update()
     {
         base.Update();
-        if (m_isFollowingPlayer && !IsInputLocked)
+
+        if (Singleplayer.Instance.Player == null)
         {
-            float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-            // Only walk closer to the player if the player is not already too close.
-            if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
+            return; 
+        } 
+        else if (m_rigidbody2D == null || m_playerSwordName == null)
+        {
+            GameObject player = Singleplayer.Instance.Player;
+            m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
+            m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
+        }
+        else
+        {
+            if (m_isFollowingPlayer && !IsInputLocked)
             {
-                // Normalize the movementDirection.
-                movementDirection = movementDirection < 0 ? -1 : 1;
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
-
-                // Flip enemy direction if player now walks in opposite direction.
-                if (movementDirection < 0.0f && m_isFacingRight ||
-                    movementDirection > 0.0f && !m_isFacingRight)
+                float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
+                // Only walk closer to the player if the player is not already too close.
+                if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
                 {
-                    FlipEntity();
-                }
-                // Apply the movement to the physics.
-                m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+                    // Normalize the movementDirection.
+                    movementDirection = movementDirection < 0 ? -1 : 1;
+                    m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
 
-                // Jump if the position is almost equal to the last position and jumping is turned on.
-                // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
-                if(m_isAutoJumping)
-                {
-                    m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
-                    if (m_currentTimeUntilResettingPlayerPosition <= 0)
+                    // Flip enemy direction if player now walks in opposite direction.
+                    if (movementDirection < 0.0f && m_isFacingRight ||
+                        movementDirection > 0.0f && !m_isFacingRight)
                     {
-                        if(Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                        FlipEntity();
+                    }
+                    // Apply the movement to the physics.
+                    m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+
+                    // Jump if the position is almost equal to the last position and jumping is turned on.
+                    // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
+                    if (m_isAutoJumping)
+                    {
+                        m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
+                        if (m_currentTimeUntilResettingPlayerPosition <= 0)
                         {
-                            OnJump(null);
+                            if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                            {
+                                OnJump(null);
+                            }
+                            m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
+                            m_lastPosition = gameObject.transform.position;
                         }
-                        m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
-                        m_lastPosition = gameObject.transform.position;
                     }
                 }
+                // Stop the walking animation if the enemy is too close to the player.
+                else
+                {
+                    m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
+                }
             }
-            // Stop the walking animation if the enemy is too close to the player.
-            else
-            {
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
-            }
+            m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
         }
-        m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
 
     // This method initiates the entity dying animation and ensures that the enemy does nothing else.
@@ -173,14 +178,21 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         return m_isPlayerInRange;
     }
 
-
     public bool IsPlayerInAttackRange()
     {
+        if (m_playerRigidbody2D == null)
+        {
+            return false;
+        }
         return m_attackRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 
     public bool IsPlayerInSightRange()
     {
+        if (m_playerRigidbody2D == null)
+        {
+            return false;
+        }
         return m_sightRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 

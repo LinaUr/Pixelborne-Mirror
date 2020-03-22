@@ -7,7 +7,7 @@ using UnityEngine;
 // This class is used to take photos with the webcam.
 public class WebcamPhoto : MonoBehaviour
 {
-    public WebCamTexture m_webcamtex;
+    private WebCamTexture m_webcamtex;
     private static string m_FACES_RECORD_DIR = "faces";
     private static string m_PHOTO_RECORD_DIR = "photos";
     private string m_facedir;
@@ -17,7 +17,7 @@ public class WebcamPhoto : MonoBehaviour
     private static extern void processImage(ref Color32[] rawImage, int width, int height);
 
     // This method sets the webcam device if available.
-    void Start()
+    void Awake()
     {
         WebCamDevice[] webcamDevices = WebCamTexture.devices;
         if (webcamDevices.Length > 0)
@@ -27,21 +27,21 @@ public class WebcamPhoto : MonoBehaviour
             Directory.CreateDirectory(m_filedir);
         } else 
         {
-            Debug.Log("No webcam device found. Therefore Photos are not supported.");
+            Debug.Log("No webcam device found. Therefore photos are not supported.");
         }
     }
 
-    // This method takes the webcam photo if a device has been found.
+    // This method starts the capturing process.
     public void Record()
     {
-        if(m_webcamtex != null)
+        if (m_webcamtex != null && !m_webcamtex.isPlaying)
         {
             m_webcamtex.Play();
             StartCoroutine(CaptureTextureAsPNG());
         }
     }
 
-    // This coroutine takes the taken webcam photo 
+    // This coroutine takes webcam photo 
     // and calls the processImage() function in the ImageEditing.dll 
     // which finds the faces and saves them as images in Assets/faces 
     // if the current PC is a Windows machine (the .dll works only for Windows).
@@ -52,6 +52,8 @@ public class WebcamPhoto : MonoBehaviour
 
         Texture2D textureFromCamera = new Texture2D(m_webcamtex.width, m_webcamtex.height);
         Color32[] image = m_webcamtex.GetPixels32();
+
+        m_webcamtex.Stop();
 
         if ((Application.platform == RuntimePlatform.WindowsPlayer) || (Application.platform == RuntimePlatform.WindowsEditor))
         {
@@ -70,7 +72,5 @@ public class WebcamPhoto : MonoBehaviour
 
             File.WriteAllBytes(filepath, bytes);
         }
-
-        m_webcamtex.Stop();
     }
 }
