@@ -42,9 +42,6 @@ public class IntroScene : MonoBehaviour
 
     void Update()
     {
-        TextMeshProUGUI test = m_story.GetComponent<TextMeshProUGUI>();
-        print(test.text);
-
         if (m_fadeMode == FadeMode.currentlyFading)
         {
             // Change the color to black.
