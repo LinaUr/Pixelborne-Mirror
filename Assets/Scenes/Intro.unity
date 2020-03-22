@@ -806,7 +806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2078979226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 2
-  stageIndex: 3
+  stageIndex: 1
   Player: {fileID: 0}
   Enemies: {fileID: 0}
 --- !u!4 &2078979227

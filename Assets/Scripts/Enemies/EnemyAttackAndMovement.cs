@@ -135,6 +135,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         StartAttackIfPossible(2);
     }
 
+    public void Jump()
+    {
+        OnJump(null);
+    }
+
     public void StartFollowPlayer()
     {
         m_isFollowingPlayer = true;
@@ -182,6 +187,11 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     public bool IsPlayerInSightRange()
     {
         return m_sightRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
+    }
+
+    public bool IsEnemyOnGround()
+    {
+        return m_isGrounded;
     }
 
     public override void StopAttacking()
