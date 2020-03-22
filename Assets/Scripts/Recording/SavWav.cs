@@ -25,13 +25,13 @@
 //  http://forum.unity3d.com/threads/119295-Writing-AudioListener.GetOutputData-to-wav-problem?p=806734&viewfull=1#post806734
 
 using System;
-using System.IO;
-using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using UnityEngine;
 
 // OUR CODE: Modified this class according to the comments in https://gist.github.com/darktable/2317063 
-// To avoid pausing of the game while processing and saving the recorded data.
+// to avoid pausing of the game while processing and saving the recorded data.
 
 public static class SavWav
 {

@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Threading.Tasks;
-using System.Collections;
 using UnityEngine.UI;
-using System.Threading;
 
 // This class handles loading and application of images.
 // It is a Singleton.

@@ -60,7 +60,8 @@ public class Multiplayer : ScriptableObject, IGame
         await Task.Run(() =>
         {
             // Wait until both players have been registered.
-            while (m_players.Count < 2) {
+            while (m_players.Count < 2)
+            {
                 if (cts.Token.IsCancellationRequested)
                 {
                     throw new Exception("Error: Player did not register at multiplayer within time.");
