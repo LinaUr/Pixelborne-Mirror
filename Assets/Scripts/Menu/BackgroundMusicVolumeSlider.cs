@@ -5,13 +5,9 @@ public class BackgroundMusicVolumeSlider : MonoBehaviour
 {
     void Start()
     {
+        Slider slider = gameObject.GetComponent<Slider>();
         // Set value of slider to value of volume.
-        gameObject.GetComponent<Slider>().value = SettingsContainer.Instance.BackgroundMusicVolume;
-    }
-
-    void Update()
-    {
-        // Set value of volume to value of slider.
-        SettingsContainer.Instance.BackgroundMusicVolume = gameObject.GetComponent<Slider>().value; 
+        slider.value = SettingsContainer.Instance.BackgroundMusicVolume;
+        slider.onValueChanged.AddListener(value => SettingsContainer.Instance.BackgroundMusicVolume = value);
     }
 }
