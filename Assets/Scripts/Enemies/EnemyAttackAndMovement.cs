@@ -4,27 +4,29 @@ using UnityEngine;
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
     [SerializeField]
-    private float m_attackRange = 10;
+    private bool m_isFriendlyFireActive = false;
     [SerializeField]
-    private float m_sightRange = 10;
+    private float m_attackRange = 10.0f;
     [SerializeField]
     private float m_minPlayerDistance = 0.25f;
     [SerializeField]
-    private bool m_isFriendlyFireActive = false;
-    private float m_currentTimeUntilResettingPlayerPosition = 0;
+    private float m_sightRange = 10.0f;
+
+    private bool m_isAttackChained = false;
+    private bool m_isAutoJumping = false;
+    private bool m_isFollowingPlayer = false;
+    private bool m_isPlayerInRange = false;
     private float m_autoJumpingActivationDistance = 0.001f;
+    private float m_currentTimeUntilResettingPlayerPosition = 0.0f;
+    private string m_playerSwordName;
+    private Vector2 m_lastPosition = new Vector2();
+
+    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
+    private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
     protected Rigidbody2D m_playerRigidbody2D;
 
-    private bool m_isFollowingPlayer = false;
-    private bool m_isAutoJumping = false;
-    private bool m_isAttackChained = false;
-    private bool m_isPlayerInRange = false;
-    private string m_playerSwordName;
-    private Vector2 m_lastPosition = new Vector2();
-    private static readonly string[] ATTACK_ANIMATION_NAMES = {"attack_up", "attack_mid", "attack_down"};
-    protected readonly static string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
-    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
+    protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
 
     protected override void Awake()
     {
@@ -54,8 +56,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                 m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
 
                 // Flip enemy direction if player now walks in opposite direction.
-                if (movementDirection < 0.0f && m_isFacingRight ||
-                    movementDirection > 0.0f && !m_isFacingRight)
+                if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
                 {
                     FlipEntity();
                 }
@@ -64,12 +65,12 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
                 // Jump if the position is almost equal to the last position and jumping is turned on.
                 // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
-                if(m_isAutoJumping)
+                if (m_isAutoJumping)
                 {
                     m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
                     if (m_currentTimeUntilResettingPlayerPosition <= 0)
                     {
-                        if(Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
                         {
                             OnJump(null);
                         }
@@ -78,9 +79,9 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     }
                 }
             }
-            // Stop the walking animation if the enemy is too close to the player.
             else
             {
+                // Stop the walking animation if the enemy is too close to the player.
                 m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
             }
         }
@@ -172,7 +173,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     public bool IsPlayerInRange(){
         return m_isPlayerInRange;
     }
-
 
     public bool IsPlayerInAttackRange()
     {

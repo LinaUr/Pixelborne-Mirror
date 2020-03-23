@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System;
 
 // This class controlls the camera movement and fade to black of the multiplayer scene camera.
 public class CameraMultiplayer : MonoBehaviour, ICamera
 {
     [SerializeField]
-    // Transforms from outer left to outer right stage.
-    private Transform m_cameraPositionsTransform;
+    private float m_fadeTime;
     [SerializeField]
     private GameObject m_fadeImage;
     [SerializeField]
-    private float m_fadeTime;
+    // Transforms from outer left to outer right stage.
+    private Transform m_cameraPositionsTransform;
 
+    private bool m_didFadePause;
     private int m_fadeStartTime;
     private FadeMode m_fadeMode;
     private Stopwatch m_stopwatchPauseFade;
-    private bool m_didFadePause;
 
     private enum FadeMode
     {
@@ -53,7 +53,6 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
 
     void Update()
     {
-
         if (Time.timeScale > 0)
         {
             // Time is not frozen.

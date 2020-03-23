@@ -1,9 +1,9 @@
-﻿using TMPro;
-using UnityEngine;
-using System;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SellingScreen : MonoBehaviour

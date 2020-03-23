@@ -10,16 +10,19 @@ public class SceneChanger
     static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
     static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
     static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
-    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 , 10};
+    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 , 10 };
 
-    public static void SetMainMenuAsActiveScene()
+    // This method checks if a scene has already been loaded to avoid loading scenes several times.
+    private static bool IsSceneAlreadyLoaded(int index)
     {
-        LoadSceneAsActiveScene(MAIN_MENU_SCENE_INDEX);
-    }
-
-    public static void SetSingleplayerAsActiveScene()
-    {
-        LoadSceneAsActiveScene(SINGLEPLAYER_SCENE_INDEX);
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).buildIndex == index)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // This method returns a bool to indicate whether the requested stage exists and could be loaded.
@@ -33,9 +36,19 @@ public class SceneChanger
         return true;
     }
 
+    public static void SetSingleplayerAsActiveScene()
+    {
+        LoadSceneAsActiveScene(SINGLEPLAYER_SCENE_INDEX);
+    }
+
     public static void SetMultiplayerAsActiveScene()
     {
         LoadSceneAsActiveScene(MULTIPLAYER_SCENE_INDEX);
+    }
+
+    public static void SetMainMenuAsActiveScene()
+    {
+        LoadSceneAsActiveScene(MAIN_MENU_SCENE_INDEX);
     }
     
     public static void SetWinningScreenAsActiveScene()
@@ -83,18 +96,5 @@ public class SceneChanger
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
-    }
-
-    // This method checks if a scene has already been loaded to avoid loading scenes several times.
-    private static bool IsSceneAlreadyLoaded(int index)
-    {
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            if (SceneManager.GetSceneAt(i).buildIndex == index)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
