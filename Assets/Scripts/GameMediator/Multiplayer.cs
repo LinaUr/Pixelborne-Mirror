@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -54,14 +55,27 @@ public class Multiplayer : ScriptableObject, IGame
         // Activate DriveMusicManager.
         DriveMusicManager.Instance.Go();
 
+        CancellationTokenSource cts = new CancellationTokenSource();
+        cts.CancelAfter(5000);
         await Task.Run(() =>
         {
             // Wait until both players have been registered.
-            while (m_players.Count < 2) { };
-        });
+            while (m_players.Count < 2)
+            {
+                if (cts.Token.IsCancellationRequested)
+                {
+                    throw new Exception("Error: Player did not register at multiplayer within time.");
+                }
+            };
+        }, cts.Token);
 
-        PrepareStage();
-        LockPlayerInput(false);
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (this != null)
+        {
+            PrepareStage();
+            LockPlayerInput(false);
+        }
     }
 
     public void RegisterPlayer(GameObject player)

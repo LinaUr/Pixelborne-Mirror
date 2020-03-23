@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Threading.Tasks;
-using System.Collections;
 using UnityEngine.UI;
 
 // This class handles loading and application of images.
@@ -19,9 +19,12 @@ public class ImageManager : MonoBehaviour
     private bool m_isLoadingPaths = true;
     private float m_alpha;
 
+    private static bool s_isInstanceDestroyed = false;
+
     public Vector2 PlayerSpawnPosition { get; set; }
 
     private static readonly int ALPHA_DISTANCE = 100;
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
@@ -32,7 +35,7 @@ public class ImageManager : MonoBehaviour
         {
             // We have to make use of AddComponent because this class derives 
             // from MonoBehaviour.
-            if (m_instance == null)
+            if (m_instance == null && !s_isInstanceDestroyed)
             {
                 GameObject go = new GameObject();
                 m_instance = go.AddComponent<ImageManager>();
@@ -50,11 +53,9 @@ public class ImageManager : MonoBehaviour
 
         await Task.Run(() =>
         {
-            string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
-            string picturesPath = Path.Combine(new string[] { userPath, "Pictures" });
-                m_imagePaths = Toolkit.GetFiles(picturesPath, new List<string>() { "jpg", "jpeg", "png" });
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            m_imagePaths = Toolkit.GetFiles(directory, new List<string>() { "jpg", "jpeg", "png" }, CTS.Token);
             // Gitlab Issue #48
             // Load images from the entire user folder.
             //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
@@ -62,7 +63,9 @@ public class ImageManager : MonoBehaviour
             m_isLoadingPaths = false;
         });
 
-        if (m_imagePaths.Count > 0)
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (m_imagePaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAllImages());
         }
@@ -149,7 +152,10 @@ public class ImageManager : MonoBehaviour
                 }
             }
 
-            imageCallback(images);
+            if (images.Count > 0)
+            {
+                imageCallback(images);
+            }
         }
     }
 
@@ -193,8 +199,10 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
+        s_isInstanceDestroyed = true;
+
         // Reset alpha to 0 for all images.
         if (ImageHolder != null)
         {
@@ -204,5 +212,10 @@ public class ImageManager : MonoBehaviour
                 rawImage.material.SetFloat("_Alpha", 0.0f);
             }
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }

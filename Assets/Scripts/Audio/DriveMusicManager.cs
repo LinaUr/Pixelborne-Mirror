@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
-using UnityEngine.Networking;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Networking;
 
 // NOTE:
 // Unity is not thread safe, so they decided to make it impossible 
@@ -28,6 +29,8 @@ public class DriveMusicManager : MonoBehaviour
 
     private const int m_AMOUNT_TO_STORE = 3;
     private const float m_AUDIO_SOURCE_VOLUME = 0.5f;
+
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     public static DriveMusicManager Instance
     {
@@ -54,26 +57,31 @@ public class DriveMusicManager : MonoBehaviour
 
     void Update()
     {
-        if (!m_isLoadingPaths && !m_isRequestingAudios && m_audioDataStore.Count < m_AMOUNT_TO_STORE)
+        if (m_audioPaths.Count > 0)
         {
-            // (Re-)fill m_audioDataStore.
-            StartCoroutine(StoreAudioData());
-        }
+            if (!m_isLoadingPaths && !m_isRequestingAudios && m_audioDataStore.Count < m_AMOUNT_TO_STORE)
+            {
+                // (Re-)fill m_audioDataStore.
+                StartCoroutine(StoreAudioData());
+            }
 
-        // If we would pass StoreWavAudios() as a callback function into StoreAllAudioRequests we would 
-        // not be able to execute it on a new thread. We instead would have to make use of coroutines in 
-        // StoreAudioData() which is quite hard to implement to stop the game from pausing when converting 
-        // the requested data to WAV, because we are using an external library in there.
-        if (!m_isConvertingToWav && m_audioDataStore.Count > 0 && m_wavStore.Count < m_AMOUNT_TO_STORE)
-        {
-            // (Re-)fill m_wavStore.
-            Task.Run(StoreWavAudios);
-        }
+            // If we would pass StoreWavAudios() as a callback function into StoreAllAudioRequests we would 
+            // not be able to execute it on a new thread. We instead would have to make use of coroutines in 
+            // StoreAudioData() which is quite hard to implement to stop the game from pausing when converting 
+            // the requested data to WAV, because we are using an external library in there.
+            if (!m_isConvertingToWav && m_audioDataStore.Count > 0 && m_wavStore.Count < m_AMOUNT_TO_STORE)
+            {
+                // (Re-)fill m_wavStore.
+                Task.Run(StoreWavAudios);
+            }
 
-        if (!m_audioPlayer.isPlaying && !m_isSettingAudio)
-        {
-            // Set a new Audioclip, e.g. if the clip in the AudioSource finished playing.
-            StartCoroutine(SetNewAudioClip());
+            // If the Task returns when the application has been quit the reference of this is null 
+            // which can throw an error if we do not check on this.
+            if (!m_audioPlayer.isPlaying && !m_isSettingAudio && this != null)
+            {
+                // Set a new Audioclip, e.g. if the clip in the AudioSource finished playing.
+                StartCoroutine(SetNewAudioClip());
+            }
         }
     }
 
@@ -83,12 +91,14 @@ public class DriveMusicManager : MonoBehaviour
         m_isLoadingPaths = true;
         await Task.Run(() =>
         {
-            string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            m_audioPaths = Toolkit.GetFiles(userPath, new List<string>() { "mp3" });
+            string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            m_audioPaths = Toolkit.GetFiles(directory, new List<string>() { "mp3" }, CTS.Token);
         });
         m_isLoadingPaths = false;
 
-        if (m_audioPaths.Count > 0)
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (m_audioPaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAudioData());
         }
@@ -157,5 +167,10 @@ public class DriveMusicManager : MonoBehaviour
         {
             Debug.Log("No MP3-files were found. Cannot play any background audio.");
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }
