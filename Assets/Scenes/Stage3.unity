@@ -153,11 +153,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyMiddlePillar
-      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -212,6 +207,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyMiddlePillar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -300,11 +300,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyStart
-      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -364,6 +359,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_isFacingRight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyStart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -8684,7 +8684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &273296350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19487,11 +19487,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyAtPrincess
-      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19546,6 +19541,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyAtPrincess
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -78348,11 +78348,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyEntryCastle
-      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78407,6 +78402,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyEntryCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -78577,6 +78577,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
+        type: 3}
+      propertyPath: m_AllowDynamicResolution
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8963107396226841011, guid: 77638236184868243bc8d662647950ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78630,11 +78635,6 @@ PrefabInstance:
     - target: {fileID: 8963107396226841011, guid: 77638236184868243bc8d662647950ea,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
-        type: 3}
-      propertyPath: m_AllowDynamicResolution
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8963107396226840909, guid: 77638236184868243bc8d662647950ea,
@@ -79008,11 +79008,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCastle
-      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79067,6 +79062,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}

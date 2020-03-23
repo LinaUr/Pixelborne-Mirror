@@ -14,7 +14,6 @@ public class HealthTracker : MonoBehaviour
     {
         m_text = gameObject.GetComponent<TextMeshProUGUI>();
     }
-
     
     void Update()
     {
