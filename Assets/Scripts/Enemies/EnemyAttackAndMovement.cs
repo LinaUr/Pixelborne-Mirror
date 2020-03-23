@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
@@ -181,16 +182,17 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     public bool IsPlayerInAttackRange()
     {
-        return m_attackRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
+        return m_attackRange >= Math.Abs(m_playerRigidbody2D.transform.position.x - gameObject.transform.position.x);
     }
 
     public bool IsPlayerInSightRange()
     {
-        return m_sightRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
+        return m_sightRange >= Math.Abs(m_playerRigidbody2D.transform.position.x - gameObject.transform.position.x);
     }
 
     public bool IsEnemyOnGround()
     {
+        UpdateIsGrounded();
         return m_isGrounded;
     }
 

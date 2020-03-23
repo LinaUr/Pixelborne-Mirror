@@ -25,7 +25,7 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     protected int m_currentAttackingDirection = 0;
     protected bool m_isGrounded = false;
-    protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
+    protected readonly static float HORIZONTAL_IS_GROUNDED_DISTANCE = 0.1f;
     protected readonly static string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
     protected readonly static string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
     protected readonly static string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
@@ -45,9 +45,14 @@ public abstract class Entity : MonoBehaviour, IAttack
     }
 
     protected virtual void Update() {
-        m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
+        UpdateIsGrounded();
         m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, !m_isGrounded);
+    }
+
+    protected void UpdateIsGrounded()
+    {
+        m_isGrounded = Physics2D.OverlapArea((Vector2) m_collider.bounds.min - new Vector2(HORIZONTAL_IS_GROUNDED_DISTANCE, 0.0f),
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
     }
 
     protected virtual void Start()

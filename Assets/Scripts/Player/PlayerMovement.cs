@@ -26,8 +26,9 @@ public class PlayerMovement : Entity
     private float m_timeToNextSetRevivePosition = 0;
     private Vector2 m_nextPotentialRevivePosition;
     private IGame m_activeGame;
-    private readonly static float CONTROLLER_DEADZONE = 0.30f;
-    private readonly static float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
+    protected static float m_ATTACK_DIRECTION_DEADZONE = 0.35f;
+    protected readonly static float CONTROLLER_DEADZONE = 0.30f;
+    protected readonly static float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
     protected readonly static string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
     protected readonly static string ROLLING_ANIMATION_NAME = "Rolling";
 

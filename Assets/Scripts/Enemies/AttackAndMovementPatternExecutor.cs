@@ -151,6 +151,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         m_timeToWaitUntilNextAction -= Time.deltaTime;
         if(m_waitingOnBeingGrounded)
         {
+            //Debug.Log("setting enemy as grounded!");
             m_waitingOnBeingGrounded = !m_entityAttackAndMovement.IsEnemyOnGround();
         }
         if (m_timeToWaitUntilNextAction < 0 && !m_waitingOnBeingGrounded)
@@ -161,6 +162,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
             if (m_timeToWaitUntilNextAction < 0)
             {
                 m_waitingOnBeingGrounded = true;
+                //Debug.Log("waiting on enemy as grounded!");
             }
             // Go to the next action and start at the beginning if no action is left in order to loop the behavior.
             if(m_nextAttackPatternIndex >= m_attackPatterns[m_currentAttackPatternListIndex].Length - 1)
@@ -189,11 +191,9 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         for (int i = 0; i < actions.Length; i++)
         {
             string nextAction = i < actions.Length - 1 ? actions[i + 1] : null;
-            int currentActionIndex = -1;
-            float currentAnimationDuration = 0.01f;
             string currentAction = actions[i];
-            currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1;
-            currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2;
+            int currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1;
+            float currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2;
             // Test if the next action is a wait instruction.
             float currentWaitingTime = 0;
             if(nextAction != null && float.TryParse(nextAction, out currentWaitingTime))
