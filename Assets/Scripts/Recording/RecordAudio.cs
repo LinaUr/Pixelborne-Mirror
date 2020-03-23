@@ -54,13 +54,13 @@ public class RecordAudio : MonoBehaviour
         }
     }
 
-    // This method converts the recording to a Wav file and saves it on th disk.
+    // This method converts the recording to a Wav file and saves it on the disk.
     private void SaveRecording()
     {
         DateTime now = DateTime.Now;
         string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
-        var filepath = Path.Combine(m_filedir, filename);
-        
+        string filepath = Path.Combine(m_filedir, filename);
+
         SavWav.Save(filepath, m_microphoneClip);
     }
 }
