@@ -27,10 +27,10 @@ public class PlayerMovement : Entity
     private Vector2 m_rollingColliderSize;
     private Vector2 m_nextPotentialRevivePosition;
 
-    private readonly static float CONTROLLER_DEADZONE = 0.3f;
-    private readonly static float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
-    protected readonly static string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
-    protected readonly static string ROLLING_ANIMATION_NAME = "Rolling";
+    private static readonly float CONTROLLER_DEADZONE = 0.3f;
+    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
+    protected static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
+    protected static readonly string ROLLING_ANIMATION_NAME = "Rolling";
 
     public GameObject PlayerSword { get { return m_playerSword; } }
     public IList<Vector2> Positions { get; set; }

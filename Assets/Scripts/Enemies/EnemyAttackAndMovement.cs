@@ -21,12 +21,12 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
 
-    private readonly static float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
-    private readonly static string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
+    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
+    private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
     protected Rigidbody2D m_playerRigidbody2D;
 
-    protected readonly static string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
+    protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
 
     protected override void Awake()
     {

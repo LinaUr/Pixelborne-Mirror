@@ -26,12 +26,12 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected bool m_isGrounded = false;
     protected int m_currentAttackingDirection = 0;
     protected static float s_ATTACK_DIRECTION_DEADZONE = 0.35f;
-    protected readonly static string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
-    protected readonly static string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
-    protected readonly static string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
+    protected static readonly string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
+    protected static readonly string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
+    protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
 
-    public readonly static string DEATH_ZONES_NAME = "DeathZones";
-    public readonly static Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
+    public static readonly string DEATH_ZONES_NAME = "DeathZones";
+    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
     public bool IsRolling { get; protected set; } = false;

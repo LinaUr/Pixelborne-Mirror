@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,9 +17,12 @@ public class ImageManager : MonoBehaviour
     private float m_alpha;
     private List<string> m_imagePaths = new List<string>();
     private List<Texture2D> m_imageStore = new List<Texture2D>();
+
+    private static bool s_isInstanceDestroyed = false;
     private static ImageManager s_instance = null;
 
-    private readonly static int ALPHA_DISTANCE = 100;
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
+    private static readonly int ALPHA_DISTANCE = 100;
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
@@ -30,7 +34,7 @@ public class ImageManager : MonoBehaviour
         {
             // We have to make use of AddComponent because this class derives 
             // from MonoBehaviour.
-            if (s_instance == null)
+            if (s_instance == null && !s_isInstanceDestroyed)
             {
                 GameObject go = new GameObject();
                 s_instance = go.AddComponent<ImageManager>();
@@ -50,27 +54,16 @@ public class ImageManager : MonoBehaviour
         {
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            m_imagePaths = Toolkit.GetFiles(directory, new List<string>() { "jpg", "jpeg", "png" });
+            m_imagePaths = Toolkit.GetFiles(directory, new List<string>() { "jpg", "jpeg", "png" }, CTS.Token);
             
             m_isLoadingPaths = false;
         });
 
-        if (m_imagePaths.Count > 0)
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (m_imagePaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAllImages());
-        }
-    }
-
-    private void OnDestroy()
-    {
-        // Reset alpha to 0 for all images.
-        if (ImageHolder != null)
-        {
-            for (int i = 0; i < ImageHolder.transform.childCount; i++)
-            {
-                RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
-                rawImage.material.SetFloat("_Alpha", 0.0f);
-            }
         }
     }
 
@@ -200,5 +193,25 @@ public class ImageManager : MonoBehaviour
             RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
             rawImage.material.SetFloat("_Alpha", alpha);
         }
+    }
+
+    void OnDestroy()
+    {
+        s_isInstanceDestroyed = true;
+
+        // Reset alpha to 0 for all images.
+        if (ImageHolder != null)
+        {
+            for (int i = 0; i < ImageHolder.transform.childCount; i++)
+            {
+                RawImage rawImage = ImageHolder.transform.GetChild(i).GetChild(1).GetComponent<RawImage>();
+                rawImage.material.SetFloat("_Alpha", 0.0f);
+            }
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }

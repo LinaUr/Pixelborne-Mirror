@@ -9,8 +9,8 @@ public class RecordAudio : MonoBehaviour
     private string m_filedir;
     private string m_selectedDevice;
 
-    private readonly static int RECORD_DURATION = 10; // in seconds
-    private readonly static string AUDIO_RECORD_DIR = "records";
+    private static readonly int RECORD_DURATION = 10; // in seconds
+    private static readonly string AUDIO_RECORD_DIR = "records";
 
     // This method sets the microphone to the first device that has been found.
     void Start()
@@ -61,8 +61,8 @@ public class RecordAudio : MonoBehaviour
     {
         DateTime now = DateTime.Now;
         string filename = $"{now.Year}-{now.Month.ToString("d2")}-{now.Day.ToString("d2")}_{now.Hour.ToString("d2")}-{now.Minute.ToString("d2")}-{now.Second.ToString("d2")}.wav";
-        var filepath = Path.Combine(m_filedir, filename);
-        
+        string filepath = Path.Combine(m_filedir, filename);
+
         SavWav.Save(filepath, m_microphoneClip);
     }
 }

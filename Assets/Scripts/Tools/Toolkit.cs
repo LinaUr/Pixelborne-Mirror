@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 // This class contains various miscellaneous utility methods for other classes.
@@ -42,7 +43,7 @@ public static class Toolkit
     // Access to certain paths can be denied, so using Directory.GetFiles() could cause exceptions.
     // Therefore, implementing recursion ourselves is the best way to avoid those exceptions.
     // See https://social.msdn.microsoft.com/Forums/vstudio/en-US/ae61e5a6-97f9-4eaa-9f1a-856541c6dcce/directorygetfiles-gives-me-access-denied?forum=csharpgeneral
-    public static List<string> GetFiles(string root, List<string> fileExtensions)
+    public static List<string> GetFiles(string root, List<string> fileExtensions, CancellationToken token = new CancellationToken())
     {
         List<string> fileList = new List<string>();
 
@@ -73,6 +74,11 @@ public static class Toolkit
 
         while (pending.Count != 0)
         {
+            if (token.IsCancellationRequested)
+            {
+                break;
+            }
+
             string currentPath = pending.Pop();
             string[] next = null;
 

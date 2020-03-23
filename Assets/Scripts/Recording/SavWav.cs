@@ -25,37 +25,62 @@
 //  http://forum.unity3d.com/threads/119295-Writing-AudioListener.GetOutputData-to-wav-problem?p=806734&viewfull=1#post806734
 
 using System;
-using System.IO;
-using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
+// OUR CODE: Import of System.Threading.Tasks.
+using System.Threading.Tasks;
+// END OUR CODE
+using UnityEngine;
 
-public static class SavWav {
+// OUR CODE: Modified this class according to the comments in https://gist.github.com/darktable/2317063 
+// to avoid pausing of the game while processing and saving the recorded data.
 
+public static class SavWav
+{
 	const int HEADER_SIZE = 44;
 
-	public static bool Save(string filename, AudioClip clip) {
-		if (!filename.ToLower().EndsWith(".wav")) {
+	// OUR CODE: Removed bool return value, made it async void instead.
+	public static async void Save(string filename, AudioClip clip)
+	// END OUR CODE
+	{
+		if (!filename.ToLower().EndsWith(".wav"))
+		{
 			filename += ".wav";
 		}
 
 		var filepath = Path.Combine(Application.persistentDataPath, filename);
 
-        // Changed by third-party.
+		// ORIGINAL CODE: Now commented out.
+		//Debug.Log(filepath);
 
 		// Make sure directory exists if user is saving to sub dir.
 		Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 
-		using (var fileStream = CreateEmpty(filepath)) {
+		// OUR CODE: Moved samples out of ConvertAndWrite() to here.
+		float[] samples = new float[clip.samples];
+		clip.GetData(samples, 0);
+		// END OUR CODE
 
-			ConvertAndWrite(fileStream, clip);
+		using (var fileStream = CreateEmpty(filepath))
+		{
+			// ORIGINAL CODE: Now commented out.
+			//ConvertAndWrite(fileStream, clip);
+
+			// OUR CODE: according to github comments
+			MemoryStream memStream = new MemoryStream();
+			await Task.Run(() => ConvertAndWrite(memStream, samples));
+			memStream.WriteTo(fileStream);
+			// END OUR CODE
 
 			WriteHeader(fileStream, clip);
 		}
 
-		return true; // TODO: return false if there's a failure saving the file
+		// ORIGINAL CODE: Now commented out.
+		//return true; // TODO: return false if there's a failure saving the file
 	}
 
-	public static AudioClip TrimSilence(AudioClip clip, float min) {
+	public static AudioClip TrimSilence(AudioClip clip, float min)
+	{
 		var samples = new float[clip.samples];
 
 		clip.GetData(samples, 0);
@@ -63,23 +88,29 @@ public static class SavWav {
 		return TrimSilence(new List<float>(samples), min, clip.channels, clip.frequency);
 	}
 
-	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz) {
+	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz)
+	{
 		return TrimSilence(samples, min, channels, hz, false, false);
 	}
 
-	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz, bool _3D, bool stream) {
+	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz, bool _3D, bool stream)
+	{
 		int i;
 
-		for (i=0; i<samples.Count; i++) {
-			if (Mathf.Abs(samples[i]) > min) {
+		for (i = 0; i < samples.Count; i++)
+		{
+			if (Mathf.Abs(samples[i]) > min)
+			{
 				break;
 			}
 		}
 
 		samples.RemoveRange(0, i);
 
-		for (i=samples.Count - 1; i>0; i--) {
-			if (Mathf.Abs(samples[i]) > min) {
+		for (i = samples.Count - 1; i > 0; i--)
+		{
+			if (Mathf.Abs(samples[i]) > min)
+			{
 				break;
 			}
 		}
@@ -93,44 +124,70 @@ public static class SavWav {
 		return clip;
 	}
 
-	static FileStream CreateEmpty(string filepath) {
+	static FileStream CreateEmpty(string filepath)
+	{
 		var fileStream = new FileStream(filepath, FileMode.Create);
-	    byte emptyByte = new byte();
+		byte emptyByte = new byte();
 
-	    for(int i = 0; i < HEADER_SIZE; i++) //preparing the header
-	    {
-	        fileStream.WriteByte(emptyByte);
-	    }
+		for (int i = 0; i < HEADER_SIZE; i++) //preparing the header
+		{
+			fileStream.WriteByte(emptyByte);
+		}
 
 		return fileStream;
 	}
 
-	static void ConvertAndWrite(FileStream fileStream, AudioClip clip) {
+	// ORIGINAL CODE: Now commented out.
+	//static void ConvertAndWrite(FileStream fileStream, AudioClip clip)
+	//{
+	//	var samples = new float[clip.samples];
 
-		var samples = new float[clip.samples];
+	//	clip.GetData(samples, 0);
 
-		clip.GetData(samples, 0);
+	//	Int16[] intData = new Int16[samples.Length];
+	//	//converting in 2 float[] steps to Int16[], //then Int16[] to Byte[]
 
+	//	Byte[] bytesData = new Byte[samples.Length * 2];
+	//	//bytesData array is twice the size of
+	//	//dataSource array because a float converted in Int16 is 2 bytes.
+
+	//	int rescaleFactor = 32767; //to convert float to Int16
+
+	//	for (int i = 0; i < samples.Length; i++)
+	//	{
+	//		intData[i] = (short)(samples[i] * rescaleFactor);
+	//		Byte[] byteArr = new Byte[2];
+	//		byteArr = BitConverter.GetBytes(intData[i]);
+	//		byteArr.CopyTo(bytesData, i * 2);
+	//	}
+
+	//	fileStream.Write(bytesData, 0, bytesData.Length);
+	//}
+	// END ORIGINAL CODE
+
+	// OUR CODE: Modified ConvertAndWrite() according to https://gist.github.com/darktable/2317063 
+	static void ConvertAndWrite(MemoryStream memStream, float[] samples)
+	{
 		Int16[] intData = new Int16[samples.Length];
-		//converting in 2 float[] steps to Int16[], //then Int16[] to Byte[]
 
 		Byte[] bytesData = new Byte[samples.Length * 2];
-		//bytesData array is twice the size of
-		//dataSource array because a float converted in Int16 is 2 bytes.
 
-		int rescaleFactor = 32767; //to convert float to Int16
+		const int rescaleFactor = 32767; //to convert float to Int16
 
-		for (int i = 0; i<samples.Length; i++) {
-			intData[i] = (short) (samples[i] * rescaleFactor);
+		for (int i = 0; i < samples.Length; i++)
+		{
+			intData[i] = (short)(samples[i] * rescaleFactor);
 			Byte[] byteArr = new Byte[2];
 			byteArr = BitConverter.GetBytes(intData[i]);
 			byteArr.CopyTo(bytesData, i * 2);
 		}
-
-		fileStream.Write(bytesData, 0, bytesData.Length);
+		Buffer.BlockCopy(intData, 0, bytesData, 0, bytesData.Length);
+		memStream.Write(bytesData, 0, bytesData.Length);
 	}
+	// END OUR CODE
 
-	static void WriteHeader(FileStream fileStream, AudioClip clip) {
+	static void WriteHeader(FileStream fileStream, AudioClip clip)
+	{
 
 		var hz = clip.frequency;
 		var channels = clip.channels;
@@ -168,7 +225,7 @@ public static class SavWav {
 		Byte[] byteRate = BitConverter.GetBytes(hz * channels * 2); // sampleRate * bytesPerSample*number of channels, here 44100*2*2
 		fileStream.Write(byteRate, 0, 4);
 
-		UInt16 blockAlign = (ushort) (channels * 2);
+		UInt16 blockAlign = (ushort)(channels * 2);
 		fileStream.Write(BitConverter.GetBytes(blockAlign), 0, 2);
 
 		UInt16 bps = 16;
@@ -181,6 +238,6 @@ public static class SavWav {
 		Byte[] subChunk2 = BitConverter.GetBytes(samples * channels * 2);
 		fileStream.Write(subChunk2, 0, 4);
 
-//		fileStream.Close();
+		//		fileStream.Close();
 	}
 }

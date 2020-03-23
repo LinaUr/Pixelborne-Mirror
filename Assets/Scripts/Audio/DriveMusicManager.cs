@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -28,6 +29,8 @@ public class DriveMusicManager : MonoBehaviour
 
     private const int m_AMOUNT_TO_STORE = 3;
     private const float m_AUDIO_SOURCE_VOLUME = 0.5f;
+
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     public static DriveMusicManager Instance
     {
@@ -72,7 +75,9 @@ public class DriveMusicManager : MonoBehaviour
                 Task.Run(StoreWavAudios);
             }
 
-            if (!m_audioPlayer.isPlaying && !m_isSettingAudio)
+            // If the Task returns when the application has been quit the reference of this is null 
+            // which can throw an error if we do not check on this.
+            if (!m_audioPlayer.isPlaying && !m_isSettingAudio && this != null)
             {
                 // Set a new Audioclip, e.g. if the clip in the AudioSource finished playing.
                 StartCoroutine(SetNewAudioClip());
@@ -87,11 +92,13 @@ public class DriveMusicManager : MonoBehaviour
         await Task.Run(() =>
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            m_audioPaths = Toolkit.GetFiles(directory, new List<string>() { "mp3" });
+            m_audioPaths = Toolkit.GetFiles(directory, new List<string>() { "mp3" }, CTS.Token);
         });
         m_isLoadingPaths = false;
 
-        if (m_audioPaths.Count > 0)
+        // If the Task returns when the application has been quit the reference of this is null 
+        // which can throw an error if we do not check on this.
+        if (m_audioPaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAudioData());
         }
@@ -160,5 +167,10 @@ public class DriveMusicManager : MonoBehaviour
         {
             Debug.Log("No MP3-files were found. Cannot play any background audio.");
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }

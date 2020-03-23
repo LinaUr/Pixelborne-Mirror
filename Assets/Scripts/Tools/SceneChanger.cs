@@ -4,13 +4,26 @@ public class SceneChanger
 {
     // The following indices represent the build index of the corresponding scene.
     // The index must be taken from the build settings.
-    readonly static int MAIN_MENU_SCENE_INDEX = 0;
-    readonly static int PAUSE_MENU_SCENE_INDEX = 1;
-    readonly static int MULTIPLAYER_SCENE_INDEX = 2;
-    readonly static int SINGLEPLAYER_SCENE_INDEX = 3;
-    readonly static int SELLING_SCREEN_SCENE_INDEX = 4;
-    readonly static int WINNING_SCREEN_SCENE_INDEX = 5;
-    readonly static int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 };
+    static readonly int MAIN_MENU_SCENE_INDEX = 0;
+    static readonly int PAUSE_MENU_SCENE_INDEX = 1;
+    static readonly int MULTIPLAYER_SCENE_INDEX = 2;
+    static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
+    static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
+    static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
+    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 , 10 };
+
+    // This method checks if a scene has already been loaded to avoid loading scenes several times.
+    private static bool IsSceneAlreadyLoaded(int index)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).buildIndex == index)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // This method returns a bool to indicate whether the requested stage exists and could be loaded.
     public static bool LoadSingleplayerStageAsActiveScene(int index)
@@ -83,18 +96,5 @@ public class SceneChanger
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
-    }
-
-    // This method checks if a scene has already been loaded to avoid loading scenes several times.
-    private static bool IsSceneAlreadyLoaded(int index)
-    {
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            if (SceneManager.GetSceneAt(i).buildIndex == index)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
