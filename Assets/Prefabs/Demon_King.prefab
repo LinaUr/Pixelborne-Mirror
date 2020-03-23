@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5123333616783468764}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.27352294, w: 0.9618655}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5123333617976130929}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 31.748001}
 --- !u!61 &5123333616783468766
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 5123333617976130931}
   - component: {fileID: 5123333617976130928}
   m_Layer: 11
-  m_Name: Endboss
+  m_Name: Demon_King
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_SortingLayerID: 765317395
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 08085bad3611f6048a97a2f7316cfe27, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c9ec4a4f49c7a37498a192046d2e2f08, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -177,18 +177,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.059059292, y: 0.22911388}
+  m_Offset: {x: -0.042461902, y: 0.17838658}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.13058983, y: 0.012778768}
-    oldSize: {x: 0.31, y: 0.49}
+    pivot: {x: 0.5098143, y: -0.00025859632}
+    oldSize: {x: 0.26, y: 0.38}
     newSize: {x: 0.62, y: 0.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1636498, y: 0.46115625}
+  m_Size: {x: 0.19623235, y: 0.35970166}
   m_EdgeRadius: 0
 --- !u!95 &5123333617976130941
 Animator:
@@ -200,7 +200,7 @@ Animator:
   m_GameObject: {fileID: 5123333617976130934}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 529ffc961d7298cd592cf8fa7b90e004, type: 2}
+  m_Controller: {fileID: 9100000, guid: 45489fe496cf029d7be0a94673772f79, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_attackDamage: 1
   m_moveSpeed: 3
   m_jumpForce: 22
-  m_isFacingRight: 1
+  m_isFacingRight: 0
   m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
