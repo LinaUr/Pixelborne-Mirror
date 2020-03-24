@@ -2,7 +2,7 @@
 
 public class SettingsContainer : ScriptableObject
 {
-    private static SettingsContainer m_instance = null;
+    private static SettingsContainer s_instance = null;
     private float m_backgroundMusicVolume = 1.0f;
 
     public float BackgroundMusicVolume
