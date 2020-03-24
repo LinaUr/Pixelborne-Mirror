@@ -5,21 +5,19 @@ using UnityEngine;
 // This class contains the Singleplayer game mode logic.
 public class Singleplayer : ScriptableObject, IGame
 {
+    private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
+    private int m_currentStageIndex = m_START_STAGE_INDEX;
+    private int m_enemyLayer;
+    private PlayerMovement m_playerMovement;
+    private Vector2 m_playerRevivePosition;
+    private static Singleplayer s_instance = null;
+
     private const int m_START_STAGE_INDEX = 0;
 
-    private int m_currentStageIndex = m_START_STAGE_INDEX;
-    private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
-    private int m_enemyLayer;
-    private static Singleplayer m_instance = null;
-    private Vector2 m_playerRevivePosition;
-    private PlayerMovement m_playerMovement;
-
-    public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
-    public GameObject Player { get; set; } = null;
-    public float PriceToPay { get; set; }
     public CameraSingleplayer Camera { get; set; }
-
-    
+    public float PriceToPay { get; set; }
+    public GameObject Player { get; set; } = null;
+    public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
 
     public static Singleplayer Instance
     {
@@ -27,12 +25,12 @@ public class Singleplayer : ScriptableObject, IGame
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            if (m_instance == null) 
+            if (s_instance == null) 
             {
-                m_instance = CreateInstance<Singleplayer>();
-                m_instance.m_enemyLayer = LayerMask.NameToLayer("Enemy");
+                s_instance = CreateInstance<Singleplayer>();
+                s_instance.m_enemyLayer = LayerMask.NameToLayer("Enemy");
             }
-            return m_instance;
+            return s_instance;
         }
     }
 
@@ -48,7 +46,7 @@ public class Singleplayer : ScriptableObject, IGame
 
     private Singleplayer()
     {
-        m_instance = this;
+        s_instance = this;
     }
 
     public void Go()
@@ -57,6 +55,11 @@ public class Singleplayer : ScriptableObject, IGame
         Game.Mode = Mode.Singleplayer;
 
         PrepareStage();
+    }
+
+    public string GetWinner()
+    {
+        return $"You";
     }
 
     public void RegisterPlayer(GameObject player)
@@ -149,10 +152,5 @@ public class Singleplayer : ScriptableObject, IGame
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
         Camera.SwapHudSymbol(gameObject, sprite);
-    }
-
-    public string GetWinner()
-    {
-        return $"You";
     }
 }

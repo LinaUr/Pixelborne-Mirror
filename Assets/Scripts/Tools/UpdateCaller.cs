@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
-// This class allows other objects to register themselfes so that they can use the Update() method without being attached to a game object.
+// This class allows other objects to register themselves 
+// so that they can use the Update() method without being attached to a game object.
 public class UpdateCaller : MonoBehaviour
 {
     private static UpdateCaller m_instance = null;
+
     public static System.Action OnUpdate;
 
     void Awake()
@@ -14,7 +16,9 @@ public class UpdateCaller : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else if (this != m_instance)
+        { 
             Destroy(this);
+        }
     }
 
     void Update()

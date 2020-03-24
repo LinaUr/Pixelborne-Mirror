@@ -9,25 +9,24 @@ using UnityEngine.UI;
 
 // This class handles loading and application of images.
 // It is a Singleton.
-// NOTE: In order to be able to use coroutines (to be threadsafe)
+// NOTE: In order to be able to use coroutines (to be thread safe)
 // it has to derive from MonoBehaviour.
 public class ImageManager : MonoBehaviour
 {
-    private static ImageManager m_instance = null;
-    private List<string> m_imagePaths = new List<string>();
-    private List<Texture2D> m_imageStore = new List<Texture2D>();
     private bool m_isLoadingPaths = true;
     private float m_alpha;
+    private List<string> m_imagePaths = new List<string>();
+    private List<Texture2D> m_imageStore = new List<Texture2D>();
 
     private static bool s_isInstanceDestroyed = false;
+    private static ImageManager s_instance = null;
 
-    public Vector2 PlayerSpawnPosition { get; set; }
-
-    private static readonly int ALPHA_DISTANCE = 100;
     private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
+    private static readonly int ALPHA_DISTANCE = 100;
 
     public bool IsFirstLoad { get; set; } = true;
     public GameObject ImageHolder { get; set; }
+    public Vector2 PlayerSpawnPosition { get; set; }
 
     public static ImageManager Instance
     {
@@ -35,14 +34,14 @@ public class ImageManager : MonoBehaviour
         {
             // We have to make use of AddComponent because this class derives 
             // from MonoBehaviour.
-            if (m_instance == null && !s_isInstanceDestroyed)
+            if (s_instance == null && !s_isInstanceDestroyed)
             {
                 GameObject go = new GameObject();
-                m_instance = go.AddComponent<ImageManager>();
-                m_instance.name = "ImageManager";
-                m_instance.LoadAllPaths();
+                s_instance = go.AddComponent<ImageManager>();
+                s_instance.name = "ImageManager";
+                s_instance.LoadAllPaths();
             }
-            return m_instance;
+            return s_instance;
         }
     }
 
@@ -56,10 +55,7 @@ public class ImageManager : MonoBehaviour
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             m_imagePaths = Toolkit.GetFiles(directory, new List<string>() { "jpg", "jpeg", "png" }, CTS.Token);
-            // Gitlab Issue #48
-            // Load images from the entire user folder.
-            //m_imagePaths = await Task.Run(() => Toolkit.GetFiles(userPath, new List<string>() { "jpg", "jpeg", "png" }));
-
+            
             m_isLoadingPaths = false;
         });
 
@@ -82,20 +78,6 @@ public class ImageManager : MonoBehaviour
 
             m_imageStore.Add(DownloadHandlerTexture.GetContent(imageRequest));
         }
-    }
-
-    public void PrepareForFirstLoad(bool doSetNewSceneImages)
-    {
-        IsFirstLoad = true;
-        if (doSetNewSceneImages)
-        {
-            SetNewSceneImages();
-        }
-    }
-
-    public void SetNewSceneImages()
-    {
-        StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
     }
 
     // This coroutine grabs a needed amount of images from the ImageStore 
@@ -184,6 +166,20 @@ public class ImageManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void PrepareForFirstLoad(bool doSetNewSceneImages)
+    {
+        IsFirstLoad = true;
+        if (doSetNewSceneImages)
+        {
+            SetNewSceneImages();
+        }
+    }
+
+    public void SetNewSceneImages()
+    {
+        StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
     }
 
     public void UpdateAlphaValue()

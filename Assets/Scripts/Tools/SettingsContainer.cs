@@ -24,13 +24,13 @@ public class SettingsContainer : ScriptableObject
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            return m_instance == null ? CreateInstance<SettingsContainer>() : m_instance;
+            return s_instance == null ? CreateInstance<SettingsContainer>() : s_instance;
         }
         private set { }
     }
 
     public SettingsContainer()
     {
-        m_instance = this;
+        s_instance = this;
     }
 }

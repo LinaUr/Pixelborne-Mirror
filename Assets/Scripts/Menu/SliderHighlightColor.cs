@@ -10,14 +10,14 @@ public class SliderHighlightColor : MonoBehaviour
     private const float m_HIGHLIGHT = 0.8f;
     private const float m_UNHIGHLIGHT = 0.6f;
 
-    // A Slider in Unity can only set a highlight color when it is dragged or moved.
+    // A slider in Unity can only set a highlight color when it is dragged or moved.
     // Since we only use the keyboard and gamepad for menu navigation we want it highlighted when it is selected.
     private void Update()
     {
-        // Check if this Slider is selected.
+        // Check if this slider is selected.
         if (EventSystem.current.currentSelectedGameObject == gameObject)
         {
-            // Highlight the Slider when it is selected.
+            // Highlight the slider when it is selected.
             if (m_sliderFillImage.color.r != m_HIGHLIGHT)
             {
                 Color color = m_sliderFillImage.color;

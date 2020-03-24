@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class IntroScene : MonoBehaviour
 {
@@ -13,25 +13,23 @@ public class IntroScene : MonoBehaviour
         currentlyDisplaying
     }
 
-    private int m_fadeStartTime;
     private FadeMode m_fadeMode;
-    private int m_textPart;
+    private GameObject m_background;
+    private GameObject m_story;
+    private int m_fadeStartTime;
     private int m_storyPart;
-    string[] m_storyText;
-
-    string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
-    string[] m_storyTextPart1 = {"Once upon a time, there was a peaceful kingdom, full of light and happiness.",
-                                 "The people lived content lives under the rule of a just king.",
-                                 "And everything was bright and colorful."};
-    string[] m_storyTextPart2 = {"Until one day, darkness erupted.",
-                                 "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
-                                 "They burnt the towns. They slaughtered the people."};
-    string[] m_storyTextPart3 = {"And eventually, they reached the castle gates.",
-                                 "The kingdom was weak, and the gates could not be held.",
-                                 "But a few brave knights remained, and they fought back with everything they had."};
-
-    GameObject m_background;
-    GameObject m_story;
+    private int m_textPart;
+    private string[] m_storyText;
+    private string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
+    private string[] m_storyTextPart1 = { "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
+                                          "The people lived content lives under the rule of a just king.",
+                                          "And everything was bright and colorful." };
+    private string[] m_storyTextPart2 = { "Until one day, darkness erupted.",
+                                          "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
+                                          "They burnt the towns. They slaughtered the people." };
+    private string[] m_storyTextPart3 = { "And eventually, they reached the castle gates.",
+                                          "The kingdom was weak, and the gates could not be held.",
+                                          "But a few brave knights remained, and they fought back with everything they had." };
    
     void Start()
     {
@@ -44,8 +42,6 @@ public class IntroScene : MonoBehaviour
 
     void Update()
     {
-        TextMeshProUGUI test = m_story.GetComponent<TextMeshProUGUI>();
-        print(test.text);
         if (m_fadeMode == FadeMode.currentlyFading)
         {
             // Change the color to black.
@@ -57,6 +53,7 @@ public class IntroScene : MonoBehaviour
             tmp.g = (1.0f - percentage) + 0.3f;
             tmp.b = (1.0f - percentage) + 0.3f;
             m_background.GetComponent<Image>().color = tmp;
+
             // Complete the fade to black when enough time has passed.
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
@@ -129,5 +126,4 @@ public class IntroScene : MonoBehaviour
     {
         Singleplayer.Instance.ReachedEndOfStage();
     }
-} 
-
+}

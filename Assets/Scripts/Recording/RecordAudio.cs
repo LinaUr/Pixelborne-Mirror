@@ -1,25 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
 using System.IO;
-using System;
+using UnityEngine;
 
 public class RecordAudio : MonoBehaviour
 {
-    private static int m_RECORD_DURATION = 10; // in seconds
     private AudioClip m_microphoneClip;
-    private string m_selectedDevice;
     private float m_timeLeftRecording = 0.0f;
-    private static string m_AUDIO_RECORD_DIR = "records";
     private string m_filedir;
+    private string m_selectedDevice;
+
+    private static readonly int RECORD_DURATION = 10; // in seconds
+    private static readonly string AUDIO_RECORD_DIR = "records";
 
     // This method sets the microphone to the first device that has been found.
     void Start()
     {
-        if(Microphone.devices.Length > 0) 
+        if (Microphone.devices.Length > 0) 
         {
             m_selectedDevice = Microphone.devices[0].ToString();
-            m_filedir = Path.Combine(Application.dataPath, m_AUDIO_RECORD_DIR);
+            m_filedir = Path.Combine(Application.dataPath, AUDIO_RECORD_DIR);
             Directory.CreateDirectory(m_filedir);
-        } else
+        }
+        else
         {
             Debug.Log("No microphone device found. Therefore recordings are not supported.");
         }
@@ -28,17 +30,17 @@ public class RecordAudio : MonoBehaviour
     // This method counts down the time until the recording is over and then saves the file.
     void FixedUpdate()
     {
-        if(m_timeLeftRecording > 0)
+        if (m_timeLeftRecording > 0)
         {
             m_timeLeftRecording -= Time.fixedDeltaTime;
-            if(m_timeLeftRecording <= 0 )
+            if (m_timeLeftRecording <= 0 )
             {
                 SaveRecording();
             }
         }
     }
 
-    // This message returns if a microphone device was found in Start().
+    // This method returns if a microphone device was found in Start().
     public bool MicrophoneAvailable()
     {
         return !string.IsNullOrEmpty(m_selectedDevice);
@@ -49,8 +51,8 @@ public class RecordAudio : MonoBehaviour
     {
         if (MicrophoneAvailable()) 
         {
-            m_microphoneClip = Microphone.Start(m_selectedDevice, false, m_RECORD_DURATION, 44100);
-            m_timeLeftRecording = ((float) m_RECORD_DURATION) * 1.1f; // puffer
+            m_microphoneClip = Microphone.Start(m_selectedDevice, false, RECORD_DURATION, 44100);
+            m_timeLeftRecording = ((float) RECORD_DURATION) * 1.1f; // puffer
         }
     }
 
