@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using TMPro;
-using System;
+using UnityEngine;
 
 // This class manages the display of the health of a player via a TextMeshProUGUI.
 public class HealthTracker : MonoBehaviour

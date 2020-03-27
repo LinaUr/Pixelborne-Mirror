@@ -7,32 +7,33 @@ using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 public class PlayerMovement : Entity
 {
     [SerializeField]
+    private GameObject m_playerSword;
+    [SerializeField]
     private int m_playerIndex = 1;
     [SerializeField]
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
-    [SerializeField]
-    private GameObject m_playerSword;
 
-    private float m_rollingMovementX;
-    private float m_attackDirection;
     private double m_attackDuration; 
-    private double m_lastTimeAttacked = -1;
-    private Vector2 m_nonRollingColliderSize;
-    private SpriteRenderer m_swordRenderer;
-    private Vector2 m_rollingColliderSize;
-    private float m_timeToNextSetRevivePosition = 0;
-    private Vector2 m_nextPotentialRevivePosition;
+    private double m_lastTimeAttacked = -1.0d;
+    private float m_attackDirection;
+    private float m_rollingMovementX;
+    private float m_timeToNextSetRevivePosition = 0.0f;
     private IGame m_activeGame;
-    private readonly static float CONTROLLER_DEADZONE = 0.30f;
-    private readonly static float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
-    protected readonly static string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
-    protected readonly static string ROLLING_ANIMATION_NAME = "Rolling";
+    private SpriteRenderer m_swordRenderer;
+    private Vector2 m_nonRollingColliderSize;
+    private Vector2 m_rollingColliderSize;
+    private Vector2 m_nextPotentialRevivePosition;
 
+    private static readonly float CONTROLLER_DEADZONE = 0.3f;
+    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
+    protected static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
+    protected static readonly string ROLLING_ANIMATION_NAME = "Rolling";
+
+    public GameObject PlayerSword { get { return m_playerSword; } }
+    public IList<Vector2> Positions { get; set; }
     public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
     // Positions from outer left to outer right stage as they are in the scene.
-    public IList<Vector2> Positions { get; set; }
-    public GameObject PlayerSword { get { return m_playerSword; } }
 
     public int Index
     {
@@ -46,7 +47,7 @@ public class PlayerMovement : Entity
     {
         base.Awake();
         m_nonRollingColliderSize = m_collider.size;
-        m_rollingColliderSize = (m_nonRollingColliderSize / 2);
+        m_rollingColliderSize = m_nonRollingColliderSize / 2;
 
         Positions = new List<Vector2>();
         if (m_playerPositionsTransform != null)
@@ -72,6 +73,7 @@ public class PlayerMovement : Entity
     {
         base.Update();
         UpdateRevivePosition();
+
         // Since to the ground is not slippery, we need to reapply the velocity.
         if (IsRolling)
         {
@@ -79,6 +81,7 @@ public class PlayerMovement : Entity
             manipulatedVelocity.x = m_rollingMovementX;
             m_rigidbody2D.velocity = manipulatedVelocity;
         }
+
         // Set the player as not attacking when the time that the attack animation needs is over.
         // Set the Animator variable as well.
         if (Attacking)
@@ -92,24 +95,18 @@ public class PlayerMovement : Entity
         }
     }
 
-    private void UpdateRevivePosition()
+    protected override void FlipEntity()
     {
-        m_timeToNextSetRevivePosition -= Time.deltaTime;
-        // Reset m_nextPotentialRevivePosition when the player is not on the ground.
-        if (!m_isGrounded)
-        {
-            m_timeToNextSetRevivePosition = 0;
-            m_nextPotentialRevivePosition = INVALID_POSITION;
-        }
-        else if (m_timeToNextSetRevivePosition <= 0)
-        {
-            if (m_nextPotentialRevivePosition != INVALID_POSITION)
-            {
-                RevivePosition = m_nextPotentialRevivePosition;
-            }
-            m_nextPotentialRevivePosition = gameObject.transform.position; 
-            m_timeToNextSetRevivePosition = TIME_BETWEEN_REVIVE_POSITION_SETTING;
-        }
+        base.FlipEntity();
+        // Flip the layer of the sword.
+        ChangeOrderInLayer();
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        m_entityHealth.Die();
+        m_activeGame.HandleDeath(gameObject);
     }
 
     public override void ResetEntityAnimations()
@@ -118,61 +115,13 @@ public class PlayerMovement : Entity
         m_animator.SetBool(ROLLING_ANIMATION_NAME, false);
         StopRollingInvincibility();
         IsRolling = false;
-        m_lastTimeAttacked = 0;
+        m_lastTimeAttacked = 0.0d;
     }
+
     public override void ResetMovement()
     {
         base.ResetMovement();
         IsRolling = false;
-    }
-
-    void OnMovement(InputValue value)
-    {
-        if (!IsInputLocked && !IsRolling)
-        {
-            // Controls.
-            float moveX = value.Get<float>();
-
-            if (Math.Abs(moveX) < CONTROLLER_DEADZONE)
-            {
-                moveX = 0.0f;
-            }
-
-            // Animation.
-            m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(moveX));
-
-            // Player direction.
-            if (moveX < 0.0f && m_isFacingRight)
-            {
-                FlipEntity();
-            }
-            else if (moveX > 0.0f && !m_isFacingRight)
-            {
-                FlipEntity();
-            }
-
-            // Physics.
-            m_rigidbody2D.velocity = new Vector2((float)Math.Round(moveX) * m_moveSpeed, m_rigidbody2D.velocity.y);
-        }
-    }
-
-    protected override void FlipEntity()
-    {
-        base.FlipEntity();
-        // Flip the layer of the sword.
-        ChangeOrderInLayer();
-    }
-
-    void OnRecord(InputValue value)
-    {
-        Recorder.Instance.Record();
-    }
-
-    protected override void Die()
-    {
-        base.Die();
-        m_entityHealth.Die();
-        m_activeGame.HandleDeath(gameObject);
     }
 
     public void SetPosition(int index)
@@ -227,9 +176,11 @@ public class PlayerMovement : Entity
         }
     }
 
-    private void OnDestroy()
+    // This method changes the weapon of the entity to alternate between these two states:
+    // Weapon rendered before player, Weapon rendered behind player.
+    public void ChangeOrderInLayer()
     {
-        m_activeGame.UnregisterPlayer(gameObject);
+        m_swordRenderer.sortingOrder *= -1;
     }
     
     // This method is triggered when the player presses the attack button.
@@ -249,23 +200,6 @@ public class PlayerMovement : Entity
         }
     }
 
-    // This method determines the attack direction.
-    private void DetermineAttackingParameter(float attackDirectionAxisValue)
-    {
-        if (attackDirectionAxisValue > m_ATTACK_DIRECTION_DEADZONE)
-        {
-            m_currentAttackingDirection = 0;
-        }
-        else if (attackDirectionAxisValue > -m_ATTACK_DIRECTION_DEADZONE)
-        {
-            m_currentAttackingDirection = 1;
-        }
-        else 
-        {
-            m_currentAttackingDirection = 2;
-        }
-    }
-
     // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
     void OnAttackDirection(InputValue value)
     {
@@ -275,10 +209,80 @@ public class PlayerMovement : Entity
         }
     }
 
-    // This method changes the weapon of the entity to alternate between these two states:
-    // Weapon rendered before player, Weapon rendered behind player.
-    public void ChangeOrderInLayer()
+    void OnMovement(InputValue value)
     {
-        m_swordRenderer.sortingOrder *= -1;
+        if (!IsInputLocked && !IsRolling)
+        {
+            // Controls.
+            float moveX = value.Get<float>();
+
+            if (Math.Abs(moveX) < CONTROLLER_DEADZONE)
+            {
+                moveX = 0.0f;
+            }
+
+            // Animation.
+            m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(moveX));
+
+            // Player direction.
+            if (moveX < 0.0f && m_isFacingRight)
+            {
+                FlipEntity();
+            }
+            else if (moveX > 0.0f && !m_isFacingRight)
+            {
+                FlipEntity();
+            }
+
+            // Physics.
+            m_rigidbody2D.velocity = new Vector2((float)Math.Round(moveX) * m_moveSpeed, m_rigidbody2D.velocity.y);
+        }
+    }
+
+    void OnRecord(InputValue value)
+    {
+        Recorder.Instance.Record();
+    }
+
+    // This method determines the attack direction.
+    private void DetermineAttackingParameter(float attackDirectionAxisValue)
+    {
+        if (attackDirectionAxisValue > s_ATTACK_DIRECTION_DEADZONE)
+        {
+            m_currentAttackingDirection = 0;
+        }
+        else if (attackDirectionAxisValue > -s_ATTACK_DIRECTION_DEADZONE)
+        {
+            m_currentAttackingDirection = 1;
+        }
+        else 
+        {
+            m_currentAttackingDirection = 2;
+        }
+    }
+
+    private void UpdateRevivePosition()
+    {
+        m_timeToNextSetRevivePosition -= Time.deltaTime;
+        // Reset m_nextPotentialRevivePosition when the player is not on the ground.
+        if (!m_isGrounded)
+        {
+            m_timeToNextSetRevivePosition = 0;
+            m_nextPotentialRevivePosition = INVALID_POSITION;
+        }
+        else if (m_timeToNextSetRevivePosition <= 0)
+        {
+            if (m_nextPotentialRevivePosition != INVALID_POSITION)
+            {
+                RevivePosition = m_nextPotentialRevivePosition;
+            }
+            m_nextPotentialRevivePosition = gameObject.transform.position; 
+            m_timeToNextSetRevivePosition = TIME_BETWEEN_REVIVE_POSITION_SETTING;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        m_activeGame.UnregisterPlayer(gameObject);
     }
 }

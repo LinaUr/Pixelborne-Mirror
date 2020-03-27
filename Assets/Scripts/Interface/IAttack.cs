@@ -2,8 +2,7 @@
 // if an entity got hit and what damage the hit deals.
 public interface IAttack
 {
-    int GetAttackDirection();
-    int GetAttackDamage();
-
     bool IsFacingRight();
+    int GetAttackDamage();
+    int GetAttackDirection();
 }

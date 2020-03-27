@@ -1,4 +1,4 @@
-﻿// NOTE: for source of file see https://www.reddit.com/r/gamedev/comments/3sncql/hsv_shader_for_unity_2d/?utm_source=share&utm_medium=web2x
+﻿// NOTE: For source of file see https://www.reddit.com/r/gamedev/comments/3sncql/hsv_shader_for_unity_2d/?utm_source=share&utm_medium=web2x
 // We added an alpha value.
 
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
