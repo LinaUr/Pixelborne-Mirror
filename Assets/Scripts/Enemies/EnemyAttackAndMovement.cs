@@ -39,7 +39,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         {
             return; 
         } 
-        else if (m_rigidbody2D == null || m_playerSwordName == null)
+        else if (m_playerRigidbody2D == null || m_playerSwordName == null)
         {
             GameObject player = Singleplayer.Instance.Player;
             m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
