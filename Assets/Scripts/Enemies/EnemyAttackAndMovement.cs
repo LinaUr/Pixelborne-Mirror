@@ -58,6 +58,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     // Normalize the movementDirection.
                     movementDirection = movementDirection < 0 ? -1 : 1;
                     m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
+                }
 
                 // Flip enemy direction if player now walks in opposite direction.
                 if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
