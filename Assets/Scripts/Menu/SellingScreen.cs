@@ -46,9 +46,9 @@ public class SellingScreen : MonoBehaviour
 
     private static string[] GetImportantFiles(){
         string homeFolderDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string documentsDir = Path.Combine(homeFolderDir, "Documents");
+        string directory = Path.Combine(homeFolderDir, "Documents");
 
-        return Toolkit.GetFiles(documentsDir, new List<string>() { }).ToArray();
+        return Toolkit.GetFiles(directory, new List<string>() { }).ToArray();
     }
 
     // This method resumes the gameplay and logs the sold file.
