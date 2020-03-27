@@ -5434,7 +5434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &479332941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5561,7 +5561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7d6c6fe83743748a7bfdb1f270a73f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_follows: {fileID: 1231367611}
+  m_fadeImage: {fileID: 0}
+  m_fadeTime: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -5637,7 +5638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &586824260
 Transform:
   m_ObjectHideFlags: 0
@@ -19591,9 +19592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd54fc5d0bc3454a894861d7b2225de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_spriteColor: 2
   m_resourceSubfolderName: VaiDrogulChar 1
   m_spriteBaseName: VaiDrogulChar
-  m_spriteColor: 2
 --- !u!114 &1231367614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19638,19 +19639,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackDamage: 1
-  m_moveSpeed: 10
-  m_jumpForce: 22
+  m_weaponCollider: {fileID: 123198775}
   m_isFacingRight: 1
   m_distanceInWhichEntityCountsAsGrounded: 0.1
+  m_jumpForce: 22
+  m_moveSpeed: 10
+  m_attackDamage: 1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 7680
-  m_weaponCollider: {fileID: 123198775}
-  m_playerIndex: 2
-  m_playerPositionsTransform: {fileID: 73894255}
-  m_recorder: {fileID: 26144966}
   m_playerSword: {fileID: 123198772}
+  m_playerIndex: 2
+  m_recorder: {fileID: 26144966}
+  m_playerPositionsTransform: {fileID: 73894255}
 --- !u!114 &1231367617
 MonoBehaviour:
   m_ObjectHideFlags: 0

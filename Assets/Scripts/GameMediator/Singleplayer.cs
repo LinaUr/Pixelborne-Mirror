@@ -68,6 +68,7 @@ public class Singleplayer : ScriptableObject, IGame
         {
             Player = player;
             m_playerMovement = player.GetComponent<PlayerMovement>();
+            Camera.FollowedObject = player;
             ImageManager.Instance.PlayerSpawnPosition = player.transform.position;
         }
         else
@@ -131,7 +132,17 @@ public class Singleplayer : ScriptableObject, IGame
     public void ReachedEndOfStage()
     {
         m_currentStageIndex++;
+        Camera.FadeOut();
+    }
+
+    public void FadedOut()
+    {
         PrepareStage();
+    }
+
+    public void FadedIn()
+    {
+        // TODO: Do nothing.
     }
 
     public void EnableEntityCollision(GameObject callingEntity)

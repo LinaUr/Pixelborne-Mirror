@@ -5219,9 +5219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae84f9afdab7ed143bcf4f8f15f392b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_cameraPositionsTransform: {fileID: 2082141908}
+  m_fadeTime: 1500
   m_fadeImage: {fileID: 2143651672}
-  m_fadeTime: 2000
+  m_cameraPositionsTransform: {fileID: 2082141908}
 --- !u!1 &570588301
 GameObject:
   m_ObjectHideFlags: 0
@@ -14448,9 +14448,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd54fc5d0bc3454a894861d7b2225de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_spriteColor: 2
   m_resourceSubfolderName: VaiDrogulChar 1
   m_spriteBaseName: VaiDrogulChar
-  m_spriteColor: 2
 --- !u!114 &1204311615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14463,19 +14463,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackDamage: 1
-  m_moveSpeed: 10
-  m_jumpForce: 22
+  m_weaponCollider: {fileID: 393457409}
   m_isFacingRight: 1
   m_distanceInWhichEntityCountsAsGrounded: 0.1
+  m_jumpForce: 22
+  m_moveSpeed: 10
+  m_attackDamage: 1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 4608
-  m_weaponCollider: {fileID: 393457409}
-  m_playerIndex: 2
-  m_playerPositionsTransform: {fileID: 73894255}
-  m_recorder: {fileID: 26144966}
   m_playerSword: {fileID: 393457407}
+  m_playerIndex: 2
+  m_recorder: {fileID: 26144966}
+  m_playerPositionsTransform: {fileID: 73894255}
 --- !u!114 &1204311616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14765,19 +14765,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackDamage: 1
-  m_moveSpeed: 10
-  m_jumpForce: 22
+  m_weaponCollider: {fileID: 1854587251}
   m_isFacingRight: 1
   m_distanceInWhichEntityCountsAsGrounded: 0.1
+  m_jumpForce: 22
+  m_moveSpeed: 10
+  m_attackDamage: 1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 5120
-  m_weaponCollider: {fileID: 1854587251}
-  m_playerIndex: 1
-  m_playerPositionsTransform: {fileID: 1619059395}
-  m_recorder: {fileID: 26144966}
   m_playerSword: {fileID: 1854587248}
+  m_playerIndex: 1
+  m_recorder: {fileID: 26144966}
+  m_playerPositionsTransform: {fileID: 1619059395}
 --- !u!114 &1205548512
 MonoBehaviour:
   m_ObjectHideFlags: 0

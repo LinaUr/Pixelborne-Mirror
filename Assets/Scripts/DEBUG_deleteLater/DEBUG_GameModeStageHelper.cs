@@ -24,8 +24,8 @@ class DEBUG_GameModeStageHelper : MonoBehaviour
             sp.DEBUG_currentStageIndex = stageIndex;
             sp.Go();
 
-            Player.SetActive(true);
-            Enemies.SetActive(true);
+            //Player.SetActive(true);
+            //Enemies.SetActive(true);
         }
         else if (gameMode == Mode.Multiplayer)
         {

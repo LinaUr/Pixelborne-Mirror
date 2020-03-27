@@ -7,7 +7,7 @@ using System.Diagnostics;
 public class CameraMultiplayer : MonoBehaviour, ICamera
 {
     [SerializeField]
-    private float m_fadeTime;
+    private float m_fadeTime = 1500;
     [SerializeField]
     private GameObject m_fadeImage;
     [SerializeField]
