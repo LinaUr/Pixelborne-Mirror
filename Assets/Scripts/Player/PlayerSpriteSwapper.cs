@@ -34,7 +34,6 @@ public class PlayerSpriteSwapper : MonoBehaviour
     private void Start()
     {
         m_spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        SwapSpriteSheet();
     }
 
     // Runs after the animation has done its work.
