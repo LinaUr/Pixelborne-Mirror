@@ -45,7 +45,9 @@ public class SellingScreen : MonoBehaviour
     }
 
     private static string[] GetImportantFiles(){
-        string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string homeFolderDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string directory = Path.Combine(homeFolderDir, "Documents");
+
         return Toolkit.GetFiles(directory, new List<string>() { }).ToArray();
     }
 
