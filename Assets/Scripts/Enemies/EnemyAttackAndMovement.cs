@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
@@ -34,26 +33,32 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        GameObject player = Singleplayer.Instance.Player;
-        m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
-        m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
-    }
-
     protected override void Update()
     {
         base.Update();
-        if (m_isFollowingPlayer && !IsInputLocked)
+
+        if (Singleplayer.Instance.Player == null)
         {
-            float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-            // Only walk closer to the player if the player is not already too close.
-            if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
+            return; 
+        } 
+        else if (m_playerRigidbody2D == null || m_playerSwordName == null)
+        {
+            GameObject player = Singleplayer.Instance.Player;
+            m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
+            m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
+        }
+        else
+        {
+            if (m_isFollowingPlayer && !IsInputLocked)
             {
-                // Normalize the movementDirection.
-                movementDirection = movementDirection < 0 ? -1 : 1;
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
+                float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
+                // Only walk closer to the player if the player is not already too close.
+                if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
+                {
+                    // Normalize the movementDirection.
+                    movementDirection = movementDirection < 0 ? -1 : 1;
+                    m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
+                }
 
                 // Flip enemy direction if player now walks in opposite direction.
                 if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
@@ -176,11 +181,19 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 
     public bool IsPlayerInAttackRange()
     {
+        if (m_playerRigidbody2D == null)
+        {
+            return false;
+        }
         return m_attackRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 
     public bool IsPlayerInSightRange()
     {
+        if (m_playerRigidbody2D == null)
+        {
+            return false;
+        }
         return m_sightRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 
