@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-public class RecordAudio : MonoBehaviour
+public class AudioRecorder : MonoBehaviour
 {
     private AudioClip m_microphoneClip;
     private float m_timeLeftRecording = 0.0f;

@@ -7,8 +7,8 @@ namespace Assets.Scripts.Recording
     public class Recorder : MonoBehaviour
     {
         private static Recorder m_instance = null;
-        private RecordAudio m_audioRecorder;
-        private WebcamPhoto m_photoRecorder;
+        private AudioRecorder m_audioRecorder;
+        private PhotoRecorder m_photoRecorder;
 
         public static Recorder Instance
         {
@@ -20,8 +20,8 @@ namespace Assets.Scripts.Recording
                 {
                     GameObject go = new GameObject();
                     m_instance = go.AddComponent<Recorder>();
-                    m_instance.m_audioRecorder = go.AddComponent<RecordAudio>();
-                    m_instance.m_photoRecorder = go.AddComponent<WebcamPhoto>();
+                    m_instance.m_audioRecorder = go.AddComponent<AudioRecorder>();
+                    m_instance.m_photoRecorder = go.AddComponent<PhotoRecorder>();
                     m_instance.name = "Recorder";
                 }
                 return m_instance;

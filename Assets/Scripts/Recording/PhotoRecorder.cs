@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 // This class is used to take photos with the webcam.
-public class WebcamPhoto : MonoBehaviour
+public class PhotoRecorder : MonoBehaviour
 {
     private string m_filedir;
     private WebCamTexture m_webcamtex;
@@ -37,7 +37,7 @@ public class WebcamPhoto : MonoBehaviour
         }
     }
 
-    // This coroutine takes webcam photo and writes it to the disk.
+    // This coroutine takes a webcam photo and writes it to the disk.
     private IEnumerator CaptureTextureAsPNG()
     {
         yield return new WaitForSeconds(0.5f);
