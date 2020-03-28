@@ -46,8 +46,6 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     private string m_attackPatternStringWhileInSightRange;
     [SerializeField] 
     private string m_attackPatternStringWhileOutOfSight;
-    [SerializeField] 
-    private GameObject m_entity;
 
     private IEnemyAttackAndMovement m_entityAttackAndMovement;
     private List<Action> m_actions;
@@ -70,7 +68,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
 
     void Awake()
     {
-        m_entityAttackAndMovement = m_entity.GetComponent<IEnemyAttackAndMovement>();
+        m_entityAttackAndMovement = gameObject.GetComponent<IEnemyAttackAndMovement>();
     }
 
     void Start()

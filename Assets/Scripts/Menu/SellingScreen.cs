@@ -1,9 +1,9 @@
-﻿using TMPro;
-using UnityEngine;
-using System;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SellingScreen : MonoBehaviour
@@ -45,7 +45,11 @@ public class SellingScreen : MonoBehaviour
     }
 
     private static string[] GetImportantFiles(){
-        string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        // Manually combine this path to make it work on Linux, because strangely
+        // Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
+        string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string directory = Path.Combine(homeDir, "Documents");
+
         return Toolkit.GetFiles(directory, new List<string>() { }).ToArray();
     }
 

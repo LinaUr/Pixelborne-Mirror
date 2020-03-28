@@ -9,6 +9,14 @@ public class EntityHealth : MonoBehaviour
     public bool Invincible { get; set; }
     public int CurrentHealth { get; private set; }
 
+    public bool IsZero 
+    {
+        get
+        { 
+            return CurrentHealth <= 0;
+        }
+    }
+
     public int MaxHealth
     {
         get
@@ -16,14 +24,6 @@ public class EntityHealth : MonoBehaviour
             return m_maxHealth;
         }
         private set { }
-    }
-
-    public bool IsZero 
-    {
-        get
-        { 
-            return CurrentHealth <= 0;
-        }
     }
 
     void Start()
@@ -47,10 +47,10 @@ public class EntityHealth : MonoBehaviour
     // This method deals damage to the entity by reducing its m_currentHealth.
     public void TakeDamage(int damage)
     {
-        if(!Invincible)
+        if (!Invincible)
         {
             CurrentHealth -= damage;
-            // ensure that hp cannot be negative
+            // Ensure that health points cannot be negative.
             CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
         }
     }

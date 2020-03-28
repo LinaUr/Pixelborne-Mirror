@@ -10,11 +10,6 @@ class DEBUG_GameModeStageHelper : MonoBehaviour
     [SerializeField]
     private int stageIndex;
 
-    [SerializeField]
-    private GameObject Player = null;
-    [SerializeField]
-    private GameObject Enemies = null;
-
     void Awake()
     {
         if (gameMode == Mode.Singleplayer)
@@ -23,9 +18,6 @@ class DEBUG_GameModeStageHelper : MonoBehaviour
             Game.Current = sp;
             sp.DEBUG_currentStageIndex = stageIndex;
             sp.Go();
-
-            Player.SetActive(true);
-            Enemies.SetActive(true);
         }
         else if (gameMode == Mode.Multiplayer)
         {

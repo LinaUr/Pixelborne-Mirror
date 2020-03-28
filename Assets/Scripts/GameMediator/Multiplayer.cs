@@ -8,15 +8,15 @@ using UnityEngine;
 // This class contains the Multiplayer game mode logic.
 public class Multiplayer : ScriptableObject, IGame
 {
+    private GameObject m_deadPlayer;
+    private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
+    private int m_currentStageIndex = m_START_STAGE_INDEX;
+    private int m_winnerIndex;
+    private List<GameObject> m_players = new List<GameObject>();
+    private static Multiplayer s_instance;
+
     private const int m_AMOUNT_OF_STAGES = 5;
     private const int m_START_STAGE_INDEX = m_AMOUNT_OF_STAGES / 2;
-
-    private int m_currentStageIndex = m_START_STAGE_INDEX;
-    private List<GameObject> m_players = new List<GameObject>();
-    private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
-    private static Multiplayer m_instance;
-    private GameObject m_deadPlayer;
-    private int m_winnerIndex;
 
     public CameraMultiplayer Camera { get; set; }
 
@@ -26,7 +26,7 @@ public class Multiplayer : ScriptableObject, IGame
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            return m_instance == null ? CreateInstance<Multiplayer>() : m_instance;
+            return s_instance == null ? CreateInstance<Multiplayer>() : s_instance;
         }
     }
 
@@ -42,7 +42,7 @@ public class Multiplayer : ScriptableObject, IGame
 
     public Multiplayer()
     {
-        m_instance = this;
+        s_instance = this;
     }
 
     public async void Go()
@@ -76,6 +76,11 @@ public class Multiplayer : ScriptableObject, IGame
             PrepareStage();
             LockPlayerInput(false);
         }
+    }
+
+    public string GetWinner()
+    {
+        return $"Player {m_winnerIndex}";
     }
 
     public void RegisterPlayer(GameObject player)
@@ -153,11 +158,10 @@ public class Multiplayer : ScriptableObject, IGame
     // This methods checks and reacts ot one player successfully winning the Multiplayer game.
     private void CheckHasWonGame(GameObject player)
     {
-        if (m_currentStageIndex < 0 ||
-            m_currentStageIndex >= m_AMOUNT_OF_STAGES)
+        if (m_currentStageIndex < 0 || m_currentStageIndex >= m_AMOUNT_OF_STAGES)
         {
             List<GameObject> players = m_players;
-            if(players.Count > 2)
+            if (players.Count > 2)
             {
                 throw new Exception("ERROR: More than two players registered, cannot decide who has won.");
             }
@@ -200,10 +204,5 @@ public class Multiplayer : ScriptableObject, IGame
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
         Camera.SwapHudSymbol(gameObject, sprite);
-    }
-
-    public string GetWinner()
-    {
-        return $"Player {m_winnerIndex}";
     }
 }

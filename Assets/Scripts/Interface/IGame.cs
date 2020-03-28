@@ -3,6 +3,8 @@
 // This interface must be implemented by Singleplayer and Multiplayer class. 
 public interface IGame
 {
+    string GetWinner();
+
     void RegisterPlayer(GameObject player);
     void UnregisterPlayer(GameObject player);
     void LockPlayerInput(bool isLocked);
@@ -11,6 +13,4 @@ public interface IGame
     void DisableEntityCollision(GameObject callingEntity);
     void EnableEntityCollision(GameObject callingEntity);
     void SwapHudSymbol(GameObject gameObject, Sprite sprite);
-
-    string GetWinner();
 }

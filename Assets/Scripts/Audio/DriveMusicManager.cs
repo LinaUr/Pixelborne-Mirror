@@ -17,15 +17,15 @@ using UnityEngine.Networking;
 // assignes a random file to an AudioSource component in the scene and plays them.
 public class DriveMusicManager : MonoBehaviour
 {
-    private static DriveMusicManager m_instance = null;
+    private static DriveMusicManager s_instance = null;
     private AudioSource m_audioPlayer;
-    private List<string> m_audioPaths = new List<string>();
     private List<byte[]> m_audioDataStore = new List<byte[]>();
+    private List<string> m_audioPaths = new List<string>();
     private List<WAV> m_wavStore = new List<WAV>();
-    private bool m_isLoadingPaths = true;
-    private bool m_isSettingAudio = false;
-    private bool m_isRequestingAudios = false;
     private bool m_isConvertingToWav = false;
+    private bool m_isLoadingPaths = true;
+    private bool m_isRequestingAudios = false;
+    private bool m_isSettingAudio = false;
 
     private const int m_AMOUNT_TO_STORE = 3;
     private const float m_AUDIO_SOURCE_VOLUME = 0.5f;
@@ -38,13 +38,13 @@ public class DriveMusicManager : MonoBehaviour
         {
             // We have to make use of AddComponent because this class derives 
             // from MonoBehaviour.
-            if (m_instance == null)
+            if (s_instance == null)
             {
                 GameObject go = new GameObject();
-                m_instance = go.AddComponent<DriveMusicManager>();
-                m_instance.name = "DriveMusicManager";
+                s_instance = go.AddComponent<DriveMusicManager>();
+                s_instance.name = "DriveMusicManager";
             }
-            return m_instance;
+            return s_instance;
         }
     }
 

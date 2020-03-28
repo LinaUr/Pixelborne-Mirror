@@ -2,9 +2,21 @@
 
 public class SettingsContainer : ScriptableObject
 {
-    public float BackgroundMusicVolume { get; set; } = 1;
-    private static SettingsContainer m_instance = null;
-    
+    private static SettingsContainer s_instance = null;
+    private float m_backgroundMusicVolume = 1.0f;
+
+    public float BackgroundMusicVolume
+    {
+        get
+        {
+            return m_backgroundMusicVolume;
+        }
+        set
+        {
+            m_backgroundMusicVolume = value;
+            BackgroundMusic.SetVolume(value);
+        }
+    }
 
     public static SettingsContainer Instance
     {
@@ -12,13 +24,13 @@ public class SettingsContainer : ScriptableObject
         {
             // A ScriptableObject should not be instanciated directly,
             // so we use CreateInstance instead.
-            return m_instance == null ? CreateInstance<SettingsContainer>() : m_instance;
+            return s_instance == null ? CreateInstance<SettingsContainer>() : s_instance;
         }
         private set { }
     }
 
     public SettingsContainer()
     {
-        m_instance = this;
+        s_instance = this;
     }
 }
