@@ -192,6 +192,9 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         {
             string nextAction = i < actions.Length - 1 ? actions[i + 1] : null;
             string currentAction = actions[i];
+            Debug.Log(currentAction);
+            Debug.Log(i);
+            Debug.Log(m_attackPatternStringToInternalIdentifications);
             int currentActionIndex = m_attackPatternStringToInternalIdentifications[actions[i]].Item1;
             float currentAnimationDuration = m_attackPatternStringToInternalIdentifications[actions[i]].Item2;
             // Test if the next action is a wait instruction.
