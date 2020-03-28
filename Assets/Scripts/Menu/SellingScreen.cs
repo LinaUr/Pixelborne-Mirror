@@ -45,8 +45,8 @@ public class SellingScreen : MonoBehaviour
     }
 
     private static string[] GetImportantFiles(){
-        // We have to manually combine this path manually to make it work on Linux,
-        // because strangely Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
+        // Manually combine this path manually to make it work on Linux, because strangely
+        // Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
         string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         string directory = Path.Combine(homeDir, "Documents");
 
