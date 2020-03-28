@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 2
-  stageIndex: 3
+  stageIndex: 1
   Player: {fileID: 0}
   Enemies: {fileID: 0}
 --- !u!4 &2078979227

@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 // This class is used to take photos with the webcam.
-public class WebcamPhoto : MonoBehaviour
+public class PhotoRecorder : MonoBehaviour
 {
     private string m_filedir;
     private WebCamTexture m_webcamtex;
@@ -12,7 +12,7 @@ public class WebcamPhoto : MonoBehaviour
     private readonly static string PHOTO_RECORD_DIR = "photos";
 
     // This method sets the webcam device if available.
-    void Start()
+    void Awake()
     {
         WebCamDevice[] webcamDevices = WebCamTexture.devices;
         if (webcamDevices.Length > 0)
@@ -23,28 +23,30 @@ public class WebcamPhoto : MonoBehaviour
         }
         else 
         {
-            Debug.Log("No webcam device found. Therefore Photos are not supported.");
+            Debug.Log("No webcam device found. Therefore photos are not supported.");
         }
     }
 
-    // This method takes the webcam photo if a device has been found.
+    // This method starts the capturing process if a device has been found.
     public void Record()
     {
-        if (m_webcamtex != null)
+        if (m_webcamtex != null && !m_webcamtex.isPlaying)
         {
             m_webcamtex.Play();
             StartCoroutine(CaptureTextureAsPNG());
         }
     }
 
-    // This coroutine takes the taken webcam photo and writes it to the disk.
+    // This coroutine takes a webcam photo and writes it to the disk.
     private IEnumerator CaptureTextureAsPNG()
     {
         yield return new WaitForSeconds(0.5f);
 
         Texture2D textureFromCamera = new Texture2D(m_webcamtex.width, m_webcamtex.height);
         Color32[] image = m_webcamtex.GetPixels32();
-        
+
+        m_webcamtex.Stop();
+
         textureFromCamera.SetPixels32(image);
         textureFromCamera.Apply();
         byte[] bytes = textureFromCamera.EncodeToPNG();
@@ -54,7 +56,5 @@ public class WebcamPhoto : MonoBehaviour
         var filepath = Path.Combine(m_filedir, filename);
 
         File.WriteAllBytes(filepath, bytes);
-
-        m_webcamtex.Stop();
     }
 }
