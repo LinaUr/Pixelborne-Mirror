@@ -184,49 +184,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9969311}
   m_CullTransparentMesh: 0
---- !u!1 &26144965
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 26144967}
-  - component: {fileID: 26144966}
-  m_Layer: 0
-  m_Name: RecorderHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &26144966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26144965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 730efaa5d3e38984bb706609d442dfdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &26144967
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26144965}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1309910153}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &51027205
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +968,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299733791
 Transform:
   m_ObjectHideFlags: 0
@@ -1024,7 +981,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1309910153}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &299733792
 AudioSource:
@@ -19650,7 +19607,7 @@ MonoBehaviour:
     m_Bits: 7680
   m_playerSword: {fileID: 123198772}
   m_playerIndex: 2
-  m_recorder: {fileID: 26144966}
+  m_recorder: {fileID: 0}
   m_playerPositionsTransform: {fileID: 73894255}
 --- !u!114 &1231367617
 MonoBehaviour:
@@ -20072,7 +20029,6 @@ Transform:
   m_LocalScale: {x: 1.2125, y: 1, z: 1}
   m_Children:
   - {fileID: 1496258395}
-  - {fileID: 26144967}
   - {fileID: 299733791}
   m_Father: {fileID: 0}
   m_RootOrder: 1
