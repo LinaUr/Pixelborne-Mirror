@@ -101,12 +101,8 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void HandleDeath(GameObject entity)
     {
-        //Game.Freeze();
-        //StartCoroutine(WaitForDocuments());
-        //Debug.Log(SellingScreen.s_isLoadingPaths);
-        if (entity == Player/* && !SellingScreen.s_isLoadingPaths*/)
+        if (entity == Player)
         {
-            //Game.Unfreeze();
             m_playerRevivePosition = m_playerMovement.RevivePosition;
             SceneChanger.LoadSellingScreenAdditive();
         }
@@ -115,11 +111,6 @@ public class Singleplayer : ScriptableObject, IGame
             throw new ArgumentException($"Expected player as argument but got: {entity}");
         }
     }
-
-    /*private IEnumerator WaitForDocuments()
-    {
-        yield return new WaitUntil(() => SellingScreen.s_isLoadingPaths == false);
-    }*/
 
     public void ResetGame()
     {
