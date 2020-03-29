@@ -5085,6 +5085,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 586824260}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyStartLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333616783468764, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_Layer
@@ -5160,21 +5175,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.3230839
       objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyStartLeft
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
 --- !u!4 &443152518 stripped
@@ -5214,8 +5214,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 2
   stageIndex: 1
-  Player: {fileID: 1231367611}
-  Enemies: {fileID: 586824259}
 --- !u!4 &479332942
 Transform:
   m_ObjectHideFlags: 0
@@ -5748,6 +5746,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 586824260}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyStartRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5822,16 +5830,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_whatIsGround.m_Bits
       value: 5888
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyStartRight
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -58590,6 +58588,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 586824260}
     m_Modifications:
+    - target: {fileID: 3989481646858570174, guid: 1cd3ad1bfd5763d4ea60923ed7d0555b,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyFarRight
+      objectReference: {fileID: 0}
     - target: {fileID: 3989481646858570166, guid: 1cd3ad1bfd5763d4ea60923ed7d0555b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -58644,11 +58647,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3989481646858570174, guid: 1cd3ad1bfd5763d4ea60923ed7d0555b,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyFarRight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cd3ad1bfd5763d4ea60923ed7d0555b, type: 3}
