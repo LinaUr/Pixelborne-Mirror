@@ -10,10 +10,8 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
     [SerializeField]
     private float m_fadeTime = 1500;
 
-    private bool m_didFadePause = false;
     private FadeMode m_fadeMode = FadeMode.NoFade;
-    private int m_fadeStartTime = 0;
-    private Stopwatch m_stopwatchPauseFade = new Stopwatch();
+    private Stopwatch m_fadeStopwatch = new Stopwatch();
 
     public GameObject FollowedObject { get; set; }
 
@@ -41,29 +39,7 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
                                                         gameObject.transform.position.z);
         }
 
-        if (Time.timeScale > 0)
-        {
-            // Time is not frozen.
-
-            if (m_stopwatchPauseFade.IsRunning)
-            {
-                m_stopwatchPauseFade.Stop();
-                m_didFadePause = true;
-            }
-
-            // Only fade if the time is not frozen.
-            Fade();
-        }
-        else
-        {
-            // Time is frozen.
-
-            if (!m_stopwatchPauseFade.IsRunning)
-            {
-                // Start measuring the time of the freeze.
-                m_stopwatchPauseFade.Start();
-            }
-        }
+        Fade();
     }
 
     // This method implements the fade in and fade out logic.
@@ -75,18 +51,16 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
             return;
         }
 
-        int currentTime = Toolkit.CurrentTimeMillisecondsToday();
-        long elapsedTime = m_didFadePause ? currentTime - m_stopwatchPauseFade.ElapsedMilliseconds : currentTime;
-        float takenTime = elapsedTime - m_fadeStartTime;
-        Color color = m_fadeImage.GetComponent<SpriteRenderer>().color;
-
+        long elapsedTime = m_fadeStopwatch.ElapsedMilliseconds;
         // Complete the fade when enough time has passed.
-        bool isFadeComplete = elapsedTime - m_fadeStartTime >= m_fadeTime;
+        bool isFadeComplete = elapsedTime >= m_fadeTime;
+
+        Color color = m_fadeImage.GetComponent<SpriteRenderer>().color;
 
         if (m_fadeMode == FadeMode.FadeOut)
         {
             // Lower the opacity of the fade to black canvas object based on the time passed since the fade to black trigger.
-            float percentage = takenTime / m_fadeTime;
+            float percentage = elapsedTime / m_fadeTime;
             color.a = isFadeComplete ? 1.0f : percentage;
             m_fadeImage.GetComponent<SpriteRenderer>().color = color;
 
@@ -99,7 +73,7 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
         else if (m_fadeMode == FadeMode.FadeIn)
         {
             // Increase the opacity of the fade to black canvas object based on the time passed since fade was triggered. 
-            float percentage = 1 - takenTime / m_fadeTime;
+            float percentage = 1 - elapsedTime / m_fadeTime;
             color.a = isFadeComplete ? 0.0f : percentage;
             m_fadeImage.GetComponent<SpriteRenderer>().color = color;
 
@@ -119,13 +93,13 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
     private void FadeCompleted()
     {
         m_fadeMode = FadeMode.NoFade;
-        m_didFadePause = false;
-        m_stopwatchPauseFade.Reset();
+        m_fadeStopwatch.Stop();
+        m_fadeStopwatch.Reset();
     }
 
     public void FadeOut()
     {
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_fadeStopwatch.Start();
         m_fadeMode = FadeMode.FadeOut;
     }
 
