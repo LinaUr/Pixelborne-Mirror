@@ -70,8 +70,10 @@ public class SellingScreen : MonoBehaviour
         s_isLoadingPaths = true;
         await Task.Run(() =>
         {
-            string homeFolderDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            string directory = Path.Combine(homeFolderDir, "Documents");
+            // Manually combine this path to make it work on Linux, because strangely
+            // Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
+            string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string directory = Path.Combine(homeDir, "Documents");
 
             s_importantFiles = Toolkit.GetFiles(directory, new List<string>() { }, CTS.Token).ToArray();
         });

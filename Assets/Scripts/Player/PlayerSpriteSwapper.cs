@@ -34,7 +34,6 @@ public class PlayerSpriteSwapper : MonoBehaviour
     private void Start()
     {
         m_spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        SwapSpriteSheet();
     }
 
     // Runs after the animation has done its work.
@@ -73,6 +72,9 @@ public class PlayerSpriteSwapper : MonoBehaviour
 
     private void SwapHudSymbol()
     {
-        Game.Current.SwapHudSymbol(gameObject, m_spriteSheet[$"{m_spriteBaseName}_0"]);
+        if (Game.Current != null)
+        {
+            Game.Current.SwapHudSymbol(gameObject, m_spriteSheet[$"{m_spriteBaseName}_0"]);
+        }
     }
 }

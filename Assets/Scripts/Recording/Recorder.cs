@@ -3,15 +3,29 @@
 namespace Assets.Scripts.Recording
 {
     // This class is used to manage the recording of the mircrophone and taking photos with the webcam.
+    // It is a singleton.
     public class Recorder : MonoBehaviour
     {
-        private RecordAudio m_audioRecorder;
-        private WebcamPhoto m_photoRecorder;
+        private static Recorder m_instance = null;
+        private AudioRecorder m_audioRecorder;
+        private PhotoRecorder m_photoRecorder;
 
-        private void Start()
+        public static Recorder Instance
         {
-            m_audioRecorder = gameObject.AddComponent<RecordAudio>();
-            m_photoRecorder = gameObject.AddComponent<WebcamPhoto>();
+            get
+            {
+                // We have to make use of AddComponent because this class derives 
+                // from MonoBehaviour.
+                if (m_instance == null)
+                {
+                    GameObject go = new GameObject();
+                    m_instance = go.AddComponent<Recorder>();
+                    m_instance.m_audioRecorder = go.AddComponent<AudioRecorder>();
+                    m_instance.m_photoRecorder = go.AddComponent<PhotoRecorder>();
+                    m_instance.name = "Recorder";
+                }
+                return m_instance;
+            }
         }
 
         public void Record()
