@@ -18,7 +18,7 @@ public class SellingScreen : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_priceTextMesh;
 
-    private string m_fileToSell = string.Empty;
+    private string m_fileToSell = "no file found";
     private string m_priceToPay = string.Empty;
     private static int s_currentSellingFileIndex = 0;
     private static string[] s_importantFiles;
@@ -40,10 +40,8 @@ public class SellingScreen : MonoBehaviour
 
         if (s_isLoadingPaths)
         {
-            // While we search for files, we disable the sell file button.
+            // Disable the sell file button while the search for files has not finished.
             m_sellFileButton.interactable = false;
-
-            m_fileToSell = "no file found";
         }
         else
         {
