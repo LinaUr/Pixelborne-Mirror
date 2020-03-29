@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class IntroScene : MonoBehaviour
 {
     [SerializeField]
-    private int m_fadeTime = 3000;
+    private float m_fadeTime = 3000;
     [SerializeField]
-    private GameObject m_background;
+    private Image m_backgroundImage;
     [SerializeField]
-    private GameObject m_story;
+    private TextMeshProUGUI m_story;
 
     enum FadeMode
     {
@@ -19,7 +19,6 @@ public class IntroScene : MonoBehaviour
     }
 
     private FadeMode m_fadeMode;
-    //private int m_fadeStartTime;
     private int m_storyPart;
     private int m_textPart;
     private Stopwatch m_stopwatch = new Stopwatch();
@@ -34,7 +33,7 @@ public class IntroScene : MonoBehaviour
     private string[] m_storyTextPart3 = { "And eventually, they reached the castle gates.",
                                           "The kingdom was weak, and the gates could not be held.",
                                           "But a few brave knights remained, and they fought back with everything they had." };
-   
+
     void Start()
     {
         m_storyPart = 0;
@@ -44,47 +43,43 @@ public class IntroScene : MonoBehaviour
 
     void Update()
     {
+        long elapsedTime = m_stopwatch.ElapsedMilliseconds;
+
         if (m_fadeMode == FadeMode.Fading)
         {
-            // Change the color to black.
-            Color tmp = m_background.GetComponent<Image>().color;
-            float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
-            float floatFadeTime = m_fadeTime * 1.0f;
-            float percentage = takenTime / floatFadeTime;
-            tmp.r = (1.0f - percentage) + 0.3f;
-            tmp.g = (1.0f - percentage) + 0.3f;
-            tmp.b = (1.0f - percentage) + 0.3f;
-            m_background.GetComponent<Image>().color = tmp;
+            // Fade the colors darker.
+            Color color = m_backgroundImage.color;
+            float percentage = elapsedTime / m_fadeTime;
+            float colorValue = (1.0f - percentage) + 0.3f;
+            m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
 
-            // Complete the fade to black when enough time has passed.
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            // Complete the fade when enough time has passed.
+            if (elapsedTime >= m_fadeTime)
             {
-                tmp.r = 0.3f;
-                tmp.g = 0.3f;
-                tmp.b = 0.3f;
-                m_background.GetComponent<Image>().color = tmp;
+                colorValue = 0.3f;
+                m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
                 m_fadeMode = 0;
                 ShowText();
             }
         }
         else if (m_fadeMode == FadeMode.Displaying)
         {
-            m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            m_story.text = m_storyText[m_textPart];
+            if (elapsedTime >= m_fadeTime)
             {
                 m_textPart++;
                 if (m_textPart == m_storyText.Length)
                 {
                     ChangePic();
                 }
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_stopwatch.Restart();
             }
         }
     }
 
     public void FadeOut()
     {
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_stopwatch.Restart();
         m_fadeMode = FadeMode.Fading;
     }
 
@@ -92,7 +87,7 @@ public class IntroScene : MonoBehaviour
     {
         m_fadeMode = FadeMode.Displaying;
         m_textPart = 0;
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_stopwatch.Restart();
     }
 
     public void ChangePic()
@@ -101,17 +96,17 @@ public class IntroScene : MonoBehaviour
         switch (m_storyPart)
         {
             case 1:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/peaceful");
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("IntroImages/peaceful");
                 m_storyText = m_storyTextPart1;
                 break;
 
             case 2:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/war");
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("IntroImages/war");
                 m_storyText = m_storyTextPart2;
                 break;
 
             case 3:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/castle_gates");
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("IntroImages/castle_gates");
                 m_storyText = m_storyTextPart3;
                 break;
 
@@ -119,8 +114,8 @@ public class IntroScene : MonoBehaviour
                 ChangeScene();
                 break;
         }
-        m_background.GetComponent<Image>().color = Color.white;
-        m_story.GetComponent<TextMeshProUGUI>().text = "";
+        m_backgroundImage.color = Color.white;
+        m_story.text = "";
         FadeOut();
     }
 

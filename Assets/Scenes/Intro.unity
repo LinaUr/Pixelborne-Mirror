@@ -380,8 +380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fadeTime: 3000
-  m_background: {fileID: 566739255}
-  m_story: {fileID: 1205768976}
+  m_backgroundImage: {fileID: 566739257}
+  m_story: {fileID: 1205768978}
 --- !u!1 &1205768976
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,7 +822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 2
-  stageIndex: 1
+  stageIndex: 0
 --- !u!4 &2078979227
 Transform:
   m_ObjectHideFlags: 0
