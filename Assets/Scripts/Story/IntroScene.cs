@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class IntroScene : MonoBehaviour
 {
     [SerializeField]
-    private int m_fadeTime = 5000;
+    private int m_fadeTime = 3000;
 
     enum FadeMode
     {

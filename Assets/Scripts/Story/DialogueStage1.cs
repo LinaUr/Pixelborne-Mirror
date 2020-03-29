@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
-    private int m_textPartDisplayTime = 5000;
+    private int m_textPartDisplayTime = 3000;
 
     enum DialogueMode
     {

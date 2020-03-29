@@ -1,59 +1,61 @@
-﻿using TMPro;
+﻿using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ChapterScreen : MonoBehaviour
 {
     [SerializeField]
-    private int m_fadeTime = 5000;
+    private float m_fadeTime = 2000;
+    [SerializeField]
+    private GameObject m_background;
+    [SerializeField]
+    private GameObject m_story;
+
+    private FadeMode m_fadeMode;
+    private Stopwatch m_stopwatch = new Stopwatch();
 
     enum FadeMode
     {
-        currentlyDisplayed,
-        currentlyFading,
-        completelyFaded
+        Displayed,
+        Fading,
+        Faded
     }
-
-    private FadeMode m_fadeMode;
-    private int m_fadeStartTime;
-    private GameObject m_background;
-    private GameObject m_story;
   
     void Start()
     {
         Singleplayer.Instance.LockPlayerInput(true);
-        m_background = transform.Find("ChapterBackground").gameObject;
-        m_story = GameObject.Find("Story");
-        m_fadeMode = 0;
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_fadeMode = FadeMode.Displayed;
+        m_stopwatch.Start();
     }
 
     void Update()
     {
-        if (m_fadeMode == FadeMode.currentlyDisplayed)
+        long elapsedTime = m_stopwatch.ElapsedMilliseconds;
+
+        if (m_fadeMode == FadeMode.Displayed)
         {
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (elapsedTime >= m_fadeTime)
             {
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_stopwatch.Reset();
+                m_stopwatch.Start();
                 Singleplayer.Instance.LockPlayerInput(false);
-                m_fadeMode = FadeMode.currentlyFading;
+                m_fadeMode = FadeMode.Fading;
             }
         }
-        else if (m_fadeMode == FadeMode.currentlyFading)
+        else if (m_fadeMode == FadeMode.Fading)
         {
             Color tmp = m_background.GetComponent<Image>().color;
-            float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
-            float floatFadeTime = m_fadeTime * 1.0f;
-            float percentage = takenTime / floatFadeTime;
+            float percentage = elapsedTime / m_fadeTime;
             tmp.a = (1.0f - percentage);
             m_background.GetComponent<Image>().color = tmp;
 
             // Complete the fade to black when enough time has passed.
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (elapsedTime >= m_fadeTime)
             {
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_story.GetComponent<TextMeshProUGUI>().text = "";
-                m_fadeMode = FadeMode.completelyFaded;
+                m_fadeMode = FadeMode.Faded;
             }
         }
     }
