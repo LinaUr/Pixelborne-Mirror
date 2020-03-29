@@ -54,6 +54,8 @@ public class Singleplayer : ScriptableObject, IGame
         Game.Current = Instance;
         Game.Mode = Mode.Singleplayer;
 
+        SellingScreen.GetImportantFiles();
+
         PrepareStage();
     }
 
