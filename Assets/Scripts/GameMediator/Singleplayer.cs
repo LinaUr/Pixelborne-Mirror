@@ -68,7 +68,6 @@ public class Singleplayer : ScriptableObject, IGame
         {
             Player = player;
             m_playerMovement = player.GetComponent<PlayerMovement>();
-            Camera.FollowedObject = player;
             ImageManager.Instance.PlayerSpawnPosition = player.transform.position;
         }
         else
@@ -132,7 +131,17 @@ public class Singleplayer : ScriptableObject, IGame
     public void ReachedEndOfStage()
     {
         m_currentStageIndex++;
-        Camera.FadeOut();
+
+        // If no player is registered it is a cutscene which needs no fading.
+        if (Player != null)
+        {
+            LockPlayerInput(true);
+            Camera.FadeOut();
+        }
+        else
+        {
+            PrepareStage();
+        }
     }
 
     public void FadedOut()
@@ -162,6 +171,9 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
-        Camera.SwapHudSymbol(gameObject, sprite);
+        if (Camera != null)
+        {
+            Camera.SwapHudSymbol(gameObject, sprite);
+        }
     }
 }

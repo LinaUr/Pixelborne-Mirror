@@ -8,12 +8,12 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
     [SerializeField]
     private GameObject m_fadeImage;
     [SerializeField]
-    private float m_fadeTime;
+    private float m_fadeTime = 1500;
 
-    private bool m_didFadePause;
-    private FadeMode m_fadeMode;
-    private int m_fadeStartTime;
-    private Stopwatch m_stopwatchPauseFade;
+    private bool m_didFadePause = false;
+    private FadeMode m_fadeMode = FadeMode.NoFade;
+    private int m_fadeStartTime = 0;
+    private Stopwatch m_stopwatchPauseFade = new Stopwatch();
 
     public GameObject FollowedObject { get; set; }
 
@@ -27,12 +27,19 @@ public class CameraSingleplayer : MonoBehaviour, ICamera
     void Start()
     {
         Singleplayer.Instance.Camera = this;
+        // Position the fade image right in front of the camera.
+        m_fadeImage.transform.position = gameObject.transform.position + new Vector3(0, 0, 1);
     }
 
     void Update()
     {
-        // Follow the player.
-        gameObject.transform.position = new Vector3(FollowedObject.transform.position.x, FollowedObject.transform.position.y, gameObject.transform.position.z);
+        if (Singleplayer.Instance.Player != null)
+        {
+            // Follow the player.
+            gameObject.transform.position = new Vector3(Singleplayer.Instance.Player.transform.position.x,
+                                                        Singleplayer.Instance.Player.transform.position.y,
+                                                        gameObject.transform.position.z);
+        }
 
         if (Time.timeScale > 0)
         {

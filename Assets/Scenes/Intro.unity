@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e79b09a701cec48ae95af69a3f8f9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fadeTime: 5000
+  m_fadeTime: 3000
 --- !u!1 &1205768976
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,7 +806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2078979226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,9 +820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 2
-  stageIndex: 1
-  Player: {fileID: 0}
-  Enemies: {fileID: 0}
+  stageIndex: 0
 --- !u!4 &2078979227
 Transform:
   m_ObjectHideFlags: 0

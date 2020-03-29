@@ -14,10 +14,10 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     // Transforms from outer left to outer right stage.
     private Transform m_cameraPositionsTransform;
 
-    private bool m_didFadePause;
-    private int m_fadeStartTime;
-    private FadeMode m_fadeMode;
-    private Stopwatch m_stopwatchPauseFade;
+    private bool m_didFadePause = false;
+    private FadeMode m_fadeMode = FadeMode.NoFade;
+    private int m_fadeStartTime = 0;
+    private Stopwatch m_stopwatchPauseFade = new Stopwatch();
 
     private enum FadeMode
     {
@@ -43,12 +43,8 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
 
     void Start()
     {
-        m_fadeImage.transform.position = transform.position + new Vector3(0, 0, 1);
-        m_fadeStartTime = 0;
-        m_fadeMode = FadeMode.NoFade;
-        m_stopwatchPauseFade = new Stopwatch();
-        m_didFadePause = false;
-        Camera.main.fieldOfView = Camera.main.fieldOfView * 1.5f;
+        // Position the fade image right in front of the camera.
+        m_fadeImage.transform.position = gameObject.transform.position + new Vector3(0, 0, 1);
     }
 
     void Update()

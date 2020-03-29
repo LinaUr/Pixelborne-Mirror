@@ -153,6 +153,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyMiddlePillar
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -207,11 +212,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyMiddlePillar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -300,6 +300,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyStart
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -359,11 +364,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_isFacingRight
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyStart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -8684,7 +8684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &273296350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8842,7 +8842,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1309910153}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &299733792
 AudioSource:
@@ -19487,6 +19487,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyAtPrincess
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19541,11 +19546,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyAtPrincess
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -21846,8 +21846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 2
   stageIndex: 3
-  Player: {fileID: 0}
-  Enemies: {fileID: 1593581759}
 --- !u!4 &1255144823
 Transform:
   m_ObjectHideFlags: 0
@@ -22041,7 +22039,6 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.43, z: -10}
   m_LocalScale: {x: 1.2125, y: 1, z: 1}
   m_Children:
-  - {fileID: 1496258395}
   - {fileID: 299733791}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -78263,49 +78260,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &1496258393
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1496258395}
-  - component: {fileID: 1496258394}
-  m_Layer: 0
-  m_Name: UpdateCallerHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1496258394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496258393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c1798fd4d6a1842b1b300023766939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1496258395
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496258393}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29197866, y: 0.21823381, z: 9.939224}
-  m_LocalScale: {x: 0.8247423, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1309910153}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1593581759
 GameObject:
   m_ObjectHideFlags: 0
@@ -78348,6 +78302,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyEntryCastle
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78402,11 +78361,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyEntryCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
@@ -78693,11 +78647,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb16581a567cc9b40b80903d38e9dbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_filterImage: {fileID: 138262703}
-  m_startX: 0
-  m_startY: 0
   m_maxDistance: 100
   m_maxFilterStrength: 0.3
+  m_startX: 0
+  m_startY: 0
+  m_filterImage: {fileID: 138262703}
 --- !u!20 &1727798091 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
@@ -79008,6 +78962,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1593581760}
     m_Modifications:
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyCastle
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79062,11 +79021,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCastle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d62d2b007cb942e4e88dd28208f24f3e, type: 3}
