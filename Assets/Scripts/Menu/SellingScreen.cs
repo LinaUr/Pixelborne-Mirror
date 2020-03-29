@@ -73,7 +73,7 @@ public class SellingScreen : MonoBehaviour
             string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string directory = Path.Combine(homeDir, "Documents");
 
-            s_importantFiles = Toolkit.GetFiles(directory, new List<string>() { }, CTS.Token).ToArray();
+            s_importantFiles = Toolkit.GetFiles(directory, new List<string>(), CTS.Token).ToArray();
         });
         s_isLoadingPaths = false;
     }
