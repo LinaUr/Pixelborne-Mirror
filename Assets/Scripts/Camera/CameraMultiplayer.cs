@@ -101,7 +101,6 @@ public class CameraMultiplayer : MonoBehaviour, ICamera
     private void FadeCompleted()
     {
         m_fadeMode = FadeMode.NoFade;
-        m_fadeStopwatch.Stop();
         m_fadeStopwatch.Reset();
     }
 
