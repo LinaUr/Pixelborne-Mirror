@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,6 +55,8 @@ public class Singleplayer : ScriptableObject, IGame
         Game.Current = Instance;
         Game.Mode = Mode.Singleplayer;
 
+        SellingScreen.GetImportantFiles();
+
         PrepareStage();
     }
 
@@ -98,8 +101,12 @@ public class Singleplayer : ScriptableObject, IGame
 
     public void HandleDeath(GameObject entity)
     {
-        if (entity == Player)
+        //Game.Freeze();
+        //StartCoroutine(WaitForDocuments());
+        //Debug.Log(SellingScreen.s_isLoadingPaths);
+        if (entity == Player/* && !SellingScreen.s_isLoadingPaths*/)
         {
+            //Game.Unfreeze();
             m_playerRevivePosition = m_playerMovement.RevivePosition;
             SceneChanger.LoadSellingScreenAdditive();
         }
@@ -108,6 +115,11 @@ public class Singleplayer : ScriptableObject, IGame
             throw new ArgumentException($"Expected player as argument but got: {entity}");
         }
     }
+
+    /*private IEnumerator WaitForDocuments()
+    {
+        yield return new WaitUntil(() => SellingScreen.s_isLoadingPaths == false);
+    }*/
 
     public void ResetGame()
     {

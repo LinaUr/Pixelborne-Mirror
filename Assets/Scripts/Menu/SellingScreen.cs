@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SellingScreen : MonoBehaviour
 {
+    [SerializeField]
+    private Button m_sellFileButton;
     [SerializeField]
     private TextMeshProUGUI m_fileTextMesh;
     [SerializeField]
@@ -16,10 +21,14 @@ public class SellingScreen : MonoBehaviour
     private string m_fileToSell = string.Empty;
     private string m_priceToPay = string.Empty;
     private static int s_currentSellingFileIndex = 0;
-    private static string[] s_importantFiles = GetImportantFiles();
+    private static string[] s_importantFiles;
+
+    private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     private const float m_DEFAULT_PRICE = 1.0f;
     private const string m_LOG_FILE = "SellingLog.txt";
+
+    public static bool s_isLoadingPaths = true;
 
     void Start()
     {
@@ -29,9 +38,21 @@ public class SellingScreen : MonoBehaviour
         Canvas canvas = gameObject.GetComponent<Canvas>();
         canvas.worldCamera = Camera.main;
 
-        // Set file for sell on canvas.
-        m_fileToSell = s_currentSellingFileIndex < s_importantFiles.Length ? s_importantFiles[s_currentSellingFileIndex] : Path.GetTempFileName();
-        
+        if (s_isLoadingPaths)
+        {
+            // While we search for files, we disable the sell file button.
+            m_sellFileButton.interactable = false;
+
+            m_fileToSell = "no file found";
+        }
+        else
+        {
+            m_sellFileButton.interactable = true;
+
+            // Set file for sell on canvas.
+            m_fileToSell = s_currentSellingFileIndex < s_importantFiles.Length ? s_importantFiles[s_currentSellingFileIndex] : Path.GetTempFileName();
+        }
+
         m_fileTextMesh.SetText(m_fileToSell);
 
         if (Singleplayer.Instance.PriceToPay < m_DEFAULT_PRICE)
@@ -44,9 +65,17 @@ public class SellingScreen : MonoBehaviour
         m_priceTextMesh.SetText(m_priceToPay);
     }
 
-    private static string[] GetImportantFiles(){
-        string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        return Toolkit.GetFiles(directory, new List<string>() { }).ToArray();
+    public static async void GetImportantFiles()
+    {
+        s_isLoadingPaths = true;
+        await Task.Run(() =>
+        {
+            string homeFolderDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string directory = Path.Combine(homeFolderDir, "Documents");
+
+            s_importantFiles = Toolkit.GetFiles(directory, new List<string>() { }, CTS.Token).ToArray();
+        });
+        s_isLoadingPaths = false;
     }
 
     // This method resumes the gameplay and logs the sold file.
@@ -80,5 +109,10 @@ public class SellingScreen : MonoBehaviour
     {
         SceneChanger.UnloadSellingScreenAdditive();
         Game.Unfreeze();
+    }
+
+    void OnApplicationQuit()
+    {
+        CTS.Cancel();
     }
 }
