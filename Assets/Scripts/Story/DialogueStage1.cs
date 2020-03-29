@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,12 @@ public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
     private int m_textPartDisplayTime = 3000;
+    [SerializeField]
+    private GameObject m_background;
+    [SerializeField]
+    private GameObject m_dialogue;
+    [SerializeField]
+    private GameObject m_nameTag;
 
     enum DialogueMode
     {
@@ -15,14 +22,12 @@ public class DialogueStage1 : MonoBehaviour
         WaitingForTrigger
     }
 
-    private bool m_enemiesKilled;
-    private DialogueMode m_dialogueMode;
-    private GameObject m_background;
-    private GameObject m_dialogue;
-    private GameObject m_nameTag;
-    private int m_displayStartTime;
+    private bool m_enemiesKilled = false;
+    private bool m_skipPart = false;
+    private DialogueMode m_dialogueMode = DialogueMode.NotStarted;
     private int m_textPart;
     private int m_dialoguePart;
+    private Stopwatch m_stopwatch = new Stopwatch();
     private string m_userName;
     private string[] m_dialogueText;
     private string[] m_dialogueTextPart0 = { "Knight! To me!" };
@@ -33,20 +38,14 @@ public class DialogueStage1 : MonoBehaviour
                                              "Knight!",
                                              "Find them! Find my daughter and the stones or we are all doomed!",
                                              "Knight! You must hurry!" };
-    
-    public bool PlayerProgressed { get; set; }
+
+    public bool PlayerProgressed { get; set; } = false;
  
     void Start()
     {
-        m_background = GameObject.Find("Background");
-        m_dialogue = GameObject.Find("Speech");
-        m_nameTag = GameObject.Find("NameTag");
-        m_dialoguePart = 0;
         GetName();
+        m_dialoguePart = 0;
         m_dialogueText = m_dialogueTextPart0;
-        PlayerProgressed = false;
-        m_enemiesKilled = false;
-        m_dialogueMode = DialogueMode.NotStarted;
     }
 
     void Update()
@@ -55,7 +54,7 @@ public class DialogueStage1 : MonoBehaviour
 
         if (m_dialogueMode == DialogueMode.Displaying && Input.GetKeyDown("space"))
         {
-            m_displayStartTime -= m_textPartDisplayTime;
+            m_skipPart = true;
         }
 
         if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled) 
@@ -65,14 +64,16 @@ public class DialogueStage1 : MonoBehaviour
         else if (m_dialogueMode == DialogueMode.Displaying) 
         {
             m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
+            if (m_stopwatch.ElapsedMilliseconds >= m_textPartDisplayTime || m_skipPart)
             {
                 m_textPart++;
                 if (m_textPart == m_dialogueText.Length)
                 {
                     ChangePart();
                 }
-                m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                //m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_stopwatch.Restart();
+                m_skipPart = false;
             }
         }
         else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled) 
@@ -102,7 +103,7 @@ public class DialogueStage1 : MonoBehaviour
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "King";
-        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_stopwatch.Restart();
     }
 
     public void ChangePart()

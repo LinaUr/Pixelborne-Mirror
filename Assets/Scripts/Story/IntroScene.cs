@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,19 +7,22 @@ public class IntroScene : MonoBehaviour
 {
     [SerializeField]
     private int m_fadeTime = 3000;
+    [SerializeField]
+    private GameObject m_background;
+    [SerializeField]
+    private GameObject m_story;
 
     enum FadeMode
     {
-        currentlyFading,
-        currentlyDisplaying
+        Fading,
+        Displaying
     }
 
     private FadeMode m_fadeMode;
-    private GameObject m_background;
-    private GameObject m_story;
-    private int m_fadeStartTime;
+    //private int m_fadeStartTime;
     private int m_storyPart;
     private int m_textPart;
+    private Stopwatch m_stopwatch = new Stopwatch();
     private string[] m_storyText;
     private string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
     private string[] m_storyTextPart1 = { "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
@@ -33,8 +37,6 @@ public class IntroScene : MonoBehaviour
    
     void Start()
     {
-        m_background = GameObject.Find("Background");
-        m_story = GameObject.Find("Story");
         m_storyPart = 0;
         m_storyText = m_storyTextPart0;
         ShowText();
@@ -42,7 +44,7 @@ public class IntroScene : MonoBehaviour
 
     void Update()
     {
-        if (m_fadeMode == FadeMode.currentlyFading)
+        if (m_fadeMode == FadeMode.Fading)
         {
             // Change the color to black.
             Color tmp = m_background.GetComponent<Image>().color;
@@ -65,7 +67,7 @@ public class IntroScene : MonoBehaviour
                 ShowText();
             }
         }
-        else if (m_fadeMode == FadeMode.currentlyDisplaying)
+        else if (m_fadeMode == FadeMode.Displaying)
         {
             m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
@@ -83,12 +85,12 @@ public class IntroScene : MonoBehaviour
     public void FadeOut()
     {
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
-        m_fadeMode = FadeMode.currentlyFading;
+        m_fadeMode = FadeMode.Fading;
     }
 
     public void ShowText()
     {
-        m_fadeMode = FadeMode.currentlyDisplaying;
+        m_fadeMode = FadeMode.Displaying;
         m_textPart = 0;
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }

@@ -12,15 +12,15 @@ public class ChapterScreen : MonoBehaviour
     [SerializeField]
     private GameObject m_story;
 
-    private FadeMode m_fadeMode;
-    private Stopwatch m_stopwatch = new Stopwatch();
-
     enum FadeMode
     {
         Displayed,
         Fading,
         Faded
     }
+
+    private FadeMode m_fadeMode;
+    private Stopwatch m_stopwatch = new Stopwatch();
   
     void Start()
     {
@@ -37,8 +37,7 @@ public class ChapterScreen : MonoBehaviour
         {
             if (elapsedTime >= m_fadeTime)
             {
-                m_stopwatch.Reset();
-                m_stopwatch.Start();
+                m_stopwatch.Restart();
                 Singleplayer.Instance.LockPlayerInput(false);
                 m_fadeMode = FadeMode.Fading;
             }
