@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 1279195323}
+  m_FirstSelected: {fileID: 1090061441}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!1 &109658138
@@ -494,6 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79f53e88d8e599449c014716d7b1905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sellFileButton: {fileID: 1279195325}
   m_fileTextMesh: {fileID: 1464674318}
   m_priceTextMesh: {fileID: 1961247641}
 --- !u!114 &1014703854
