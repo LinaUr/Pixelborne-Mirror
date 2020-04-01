@@ -26,7 +26,6 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected bool m_isGrounded = false;
     protected int m_currentAttackingDirection = 0;
     protected static readonly float HORIZONTAL_IS_GROUNDED_DISTANCE = 0.1f;
-    protected static float s_ATTACK_DIRECTION_DEADZONE = 0.35f;
     protected static readonly string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
     protected static readonly string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
     protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";

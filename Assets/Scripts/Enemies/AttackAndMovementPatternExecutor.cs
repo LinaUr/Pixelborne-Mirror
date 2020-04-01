@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Random = System.Random;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 /*
     This class can automatically execute attack and movement actions on objects that 
@@ -11,7 +11,7 @@ using Random = System.Random;
     The first pattern is the m_attackPatternStringWhileOutOfSight. It is executed if not IsPlayerInSightRange().
     The second pattern is the m_attackPatternStringWhileInSightRange. It is executed if IsPlayerInoAttackRange() and not IsPlayerInSAttackRange.
     The last pattern is the m_attackPatternStringWhileInAttackRange. It is executed if IsPlayerInAttackRange().
-    The last pattern is actually a list of individual patterns. After one individual pattern has finished the next one
+    This pattern is actually a list of individual patterns. After one individual pattern has finished the next one
     is chosen randomly.
 
     Each pattern is provided as a string with the grammar below. It basically contains a series of actions that are looped infinitely.
@@ -52,7 +52,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     private Random random = new Random();
     private int m_nextAttackPatternIndex;
     private float m_timeToWaitUntilNextAction;
-    private bool m_waitingOnBeingGrounded;
+    private bool m_isWaitingOnBeingGrounded;
     // int = actionIndex, float = waiting time
     private Tuple<int, float>[][] m_attackPatterns;
     private int m_currentAttackPatternListIndex;
@@ -73,7 +73,8 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
 
     void Start()
     {
-        m_actions = new List<Action>(){ 
+        m_actions = new List<Action>()
+        { 
             m_entityAttackAndMovement.AttackUp, 
             m_entityAttackAndMovement.AttackMiddle,
             m_entityAttackAndMovement.AttackDown, 
@@ -106,7 +107,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     {
         m_nextAttackPatternIndex = 0;
         m_timeToWaitUntilNextAction = 0;
-        m_waitingOnBeingGrounded = false;
+        m_isWaitingOnBeingGrounded = false;
         m_currentAttackPatternListIndex = (int) EntityMode.OUT_OF_SIGHT_RANGE;
         m_currentEntityMode = EntityMode.OUT_OF_SIGHT_RANGE;
     }
@@ -121,7 +122,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         {
             m_currentEntityMode = EntityMode.IN_ATTACK_RANGE;
         }
-        else if(isPlayerInSightRange)
+        else if (isPlayerInSightRange)
         {
             m_currentEntityMode = EntityMode.IN_SIGHT_RANGE;
         }
@@ -132,7 +133,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         // Change to the new attack pattern if it changed.
         // Choose a random attack pattern from the in-attack-range ones if the mode changed to IN_ATTACK_RANGE.
         // The new attack pattern will start when the next action would be executed.
-        if(oldEntityMode != m_currentEntityMode)
+        if (oldEntityMode != m_currentEntityMode)
         {
             if (m_currentEntityMode != EntityMode.IN_ATTACK_RANGE)
             {
@@ -147,26 +148,24 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
 
         // Execute the next action if the last action finished.
         m_timeToWaitUntilNextAction -= Time.deltaTime;
-        if(m_waitingOnBeingGrounded)
+        if (m_isWaitingOnBeingGrounded)
         {
-            //Debug.Log("setting enemy as grounded!");
-            m_waitingOnBeingGrounded = !m_entityAttackAndMovement.IsEnemyOnGround();
+            m_isWaitingOnBeingGrounded = !m_entityAttackAndMovement.IsEnemyOnGround();
         }
-        if (m_timeToWaitUntilNextAction < 0 && !m_waitingOnBeingGrounded)
+        if (m_timeToWaitUntilNextAction < 0 && !m_isWaitingOnBeingGrounded)
         {
             int nextActionIndex = m_attackPatterns[m_currentAttackPatternListIndex][m_nextAttackPatternIndex].Item1;
             m_actions[nextActionIndex]();
             m_timeToWaitUntilNextAction = m_attackPatterns[m_currentAttackPatternListIndex][m_nextAttackPatternIndex].Item2;
             if (m_timeToWaitUntilNextAction < 0)
             {
-                m_waitingOnBeingGrounded = true;
-                //Debug.Log("waiting on enemy as grounded!");
+                m_isWaitingOnBeingGrounded = true;
             }
             // Go to the next action and start at the beginning if no action is left in order to loop the behavior.
-            if(m_nextAttackPatternIndex >= m_attackPatterns[m_currentAttackPatternListIndex].Length - 1)
+            if (m_nextAttackPatternIndex >= m_attackPatterns[m_currentAttackPatternListIndex].Length - 1)
             {
                 m_nextAttackPatternIndex = -1;
-                if(m_currentEntityMode == EntityMode.IN_ATTACK_RANGE)
+                if (m_currentEntityMode == EntityMode.IN_ATTACK_RANGE)
                 {
                     RandomlySelectNextAttackPatternInRange();
                 }
