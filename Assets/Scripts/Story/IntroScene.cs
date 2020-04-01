@@ -61,7 +61,6 @@ public class IntroScene : MonoBehaviour
                 tmp.g = 0.3f;
                 tmp.b = 0.3f;
                 m_background.GetComponent<Image>().color = tmp;
-                m_introMode = 0;
                 ShowText();
             }
         }

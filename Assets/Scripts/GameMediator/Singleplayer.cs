@@ -149,11 +149,6 @@ public class Singleplayer : ScriptableObject, IGame
         PrepareStage();
     }
 
-    public void FadedIn()
-    {
-        // TODO: Do nothing.
-    }
-
     public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
