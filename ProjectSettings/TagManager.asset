@@ -12,6 +12,7 @@ TagManager:
   - WindowLandscape
   - WindowPortrait
   - Enemy
+  - Storytrigger
   layers:
   - Default
   - TransparentFX
@@ -21,6 +22,7 @@ TagManager:
   - UI
   - 
   - 
+  - Flashes
   - Player
   - Player_1
   - Player_2
@@ -28,7 +30,6 @@ TagManager:
   - King
   - Ground
   - Walls
-  - 
   - 
   - 
   - 
