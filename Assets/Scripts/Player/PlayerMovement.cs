@@ -23,17 +23,17 @@ public class PlayerMovement : Entity
     private float m_timeToNextSetRevivePosition = 0.0f;
     private IGame m_activeGame;
     private SpriteRenderer m_swordRenderer;
+    private Vector2 m_nextPotentialRevivePosition;
     private Vector2 m_nonRollingColliderSize;
     private Vector2 m_rollingColliderSize;
-    private Vector2 m_nextPotentialRevivePosition;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
-    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
     private static readonly float ROLLING_INVINCIBILITY_TIME_WINDOW_END = 0.2f;
     private static readonly float ROLLING_INVINCIBILITY_TIME_WINDOW_START = 0.8f;
-    private static readonly string ROLLING_ANIMATOR_NAME = "Rolling";
-    private static readonly string PLAYER_ROLLING_ANIMATION_NAME = "Player_1_roll";
+    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
     private static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
+    private static readonly string PLAYER_ROLLING_ANIMATION_NAME = "Player_1_roll";
+    private static readonly string ROLLING_ANIMATOR_NAME = "Rolling";
 
     public GameObject PlayerSword { get { return m_playerSword; } }
     public IList<Vector2> Positions { get; set; }
@@ -106,7 +106,6 @@ public class PlayerMovement : Entity
 
     private void UpdateRolling()
     {
-        // Handle the rolling
         if (IsRolling)
         {
             m_lastTimeRolled -= Time.deltaTime;
@@ -119,7 +118,7 @@ public class PlayerMovement : Entity
             bool playerIsCurrentlyInvincible = ROLLING_INVINCIBILITY_TIME_WINDOW_END <= currentAnimationLengthPercentage 
                 && currentAnimationLengthPercentage <= ROLLING_INVINCIBILITY_TIME_WINDOW_START;
             // Adjust the invincibility and collider size according to the invincibility window
-            if(playerIsCurrentlyInvincible)
+            if (playerIsCurrentlyInvincible)
             {
                 m_entityHealth.Invincible = true;
                 m_collider.size = m_rollingColliderSize;
@@ -131,7 +130,7 @@ public class PlayerMovement : Entity
                 m_collider.size = m_nonRollingColliderSize;
                 m_activeGame.EnableEntityCollision(gameObject);
             }
-            if(m_lastTimeRolled <= 0)
+            if (m_lastTimeRolled <= 0)
             {
                 IsRolling = false;
                 m_animator.SetBool(ROLLING_ANIMATOR_NAME, false);
