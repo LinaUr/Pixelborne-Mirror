@@ -34,11 +34,11 @@ public class CameraMultiplayer : GameCamera
         base.Update();
     }
 
-    private protected override void FadedOut()
+    protected override void FadedOut()
     {
         Multiplayer.Instance.FadedOut();
     }
-    private protected override void FadedIn()
+    protected override void FadedIn()
     {
         Multiplayer.Instance.FadedIn();
     }

@@ -6,14 +6,14 @@ using UnityEngine;
 public abstract class GameCamera : MonoBehaviour, ICamera
 {
     [SerializeField]
-    private protected float m_fadeTime = 1500;
+    protected float m_fadeTime = 1500;
     [SerializeField]
-    private protected GameObject m_fadeImage;
+    protected GameObject m_fadeImage;
 
-    private protected FadeMode m_fadeMode = FadeMode.NoFade;
-    private protected Stopwatch m_fadeStopwatch = new Stopwatch();
+    protected FadeMode m_fadeMode = FadeMode.NoFade;
+    protected Stopwatch m_fadeStopwatch = new Stopwatch();
 
-    private protected enum FadeMode
+    protected enum FadeMode
     {
         FadeIn,
         FadeOut,
@@ -93,9 +93,9 @@ public abstract class GameCamera : MonoBehaviour, ICamera
         m_fadeMode = FadeMode.FadeIn;
     }
 
-    private protected abstract void FadedOut();
+    protected abstract void FadedOut();
 
-    private protected abstract void FadedIn();
+    protected abstract void FadedIn();
 
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
