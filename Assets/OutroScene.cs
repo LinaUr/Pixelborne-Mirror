@@ -14,7 +14,8 @@ public class OutroScene : MonoBehaviour
     {
         currentlyFading,
         currentlyDisplaying,
-        currentlyAnimated
+        currentlyAnimated,
+        done
     }
 
     private FadeMode m_fadeMode;
@@ -23,7 +24,7 @@ public class OutroScene : MonoBehaviour
     private int m_fadeStartTime;
     private int m_storyPart;
     private int m_textPart;
-    private int m_currentAnimation;
+    private int m_animationPart;
     private string[] m_animationPictures;
     private string[] m_animationPictures0 = { "OutroImages/possessed_land",
                                               "OutroImages/retreating_shadows",
@@ -83,7 +84,7 @@ public class OutroScene : MonoBehaviour
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
                 m_textPart++;
-                if (m_textPart == m_storyText.Length)
+                if (m_textPart == m_storyText.Length || m_story.GetComponent<TextMeshProUGUI>().text == m_storyTextPart3[1])
                 {
                     ChangePic();
                 }
@@ -92,7 +93,21 @@ public class OutroScene : MonoBehaviour
         }
         else if (m_fadeMode == FadeMode.currentlyAnimated)
         {
-
+            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_animationTime || m_animationPart < 0)
+            {
+                m_animationPart++;
+                if (m_animationPart == m_animationPictures.Length)
+                {
+                    ChangePic();
+                    return;
+                }
+                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
+                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+            }
+        }
+        else if (m_fadeMode == FadeMode.done && Input.GetKeyDown("space"))
+        {
+            ChangeScene();
         }
     }
 
@@ -109,6 +124,13 @@ public class OutroScene : MonoBehaviour
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
 
+    public void Animate()
+    {
+        m_animationPart = -1;
+        m_fadeMode = FadeMode.currentlyAnimated;
+        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+    }
+
     public void ChangePic()
     {
         m_storyPart++;
@@ -120,21 +142,30 @@ public class OutroScene : MonoBehaviour
                 break;
 
             case 2:
-                m_storyText = m_storyTextPart2;
+                m_animationPictures = m_animationPictures0;
+                Animate();
                 break;
 
             case 3:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/castle_gates");
-                m_storyText = m_storyTextPart3;
+                m_storyText = m_storyTextPart2;
                 break;
 
             case 4:
-                ChangeScene();
-                break;
+                m_background.GetComponent<Image>().color = Color.black;
+                m_storyText = m_storyTextPart3;
+                ShowText();
+                return;
+
+            case 5:
+                m_fadeMode = FadeMode.done;
+                return;
         }
         m_background.GetComponent<Image>().color = Color.white;
         m_story.GetComponent<TextMeshProUGUI>().text = "";
-        FadeOut();
+        if (m_storyPart != 2)
+        {
+            FadeOut();
+        }
     }
 
     public void ChangeScene()

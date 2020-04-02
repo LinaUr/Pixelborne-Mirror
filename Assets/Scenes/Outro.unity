@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 2
-  stageIndex: 1
+  stageIndex: 6
 --- !u!4 &770541315
 Transform:
   m_ObjectHideFlags: 0
@@ -688,6 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fadeTime: 5000
+  m_animationTime: 500
 --- !u!114 &1783262021
 MonoBehaviour:
   m_ObjectHideFlags: 0
