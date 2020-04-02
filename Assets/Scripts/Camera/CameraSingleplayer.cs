@@ -1,35 +1,34 @@
 ﻿using UnityEngine;
 
 // This class controlls the camera of the singleplayer scene.
-public class CameraSingleplayer : MonoBehaviour, ICamera
-{
-    [SerializeField]
-    GameObject m_follows;
-
+public class CameraSingleplayer : GameCamera
+{    
     void Start()
     {
         Singleplayer.Instance.Camera = this;
+        // Position the fade image right in front of the camera.
+        m_fadeImage.transform.position = gameObject.transform.position + new Vector3(0, 0, 1);
     }
 
-    void Update()
+    protected override void Update()
     {
-        gameObject.transform.position = new Vector3(m_follows.transform.position.x, m_follows.transform.position.y, gameObject.transform.position.z);
+        base.Update();
+
+        if (Singleplayer.Instance.Player != null)
+        {
+            // Follow the player.
+            gameObject.transform.position = new Vector3(Singleplayer.Instance.Player.transform.position.x,
+                                                        Singleplayer.Instance.Player.transform.position.y,
+                                                        gameObject.transform.position.z);
+        }
     }
 
-    public void FadeOut()
+    protected override void FadedOut()
     {
-        // TODO: If empty at end of project: Remove!
+        Singleplayer.Instance.FadedOut();
     }
-
-    public void FadeIn()
+    protected override void FadedIn()
     {
-        // TODO: If empty at end of project: Remove!
-    }
-
-    public void SwapHudSymbol (GameObject gameObject, Sprite sprite)
-    {
-        GameObject hudObject = transform.Find($"{gameObject.name}HudSymbol").gameObject;
-        SpriteRenderer spriteRenderer = hudObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
+        // Do nothing. Singleplayer does not need a fade in.
     }
 }

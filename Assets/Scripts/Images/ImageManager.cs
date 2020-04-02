@@ -40,6 +40,7 @@ public class ImageManager : MonoBehaviour
                 s_instance = go.AddComponent<ImageManager>();
                 s_instance.name = "ImageManager";
                 s_instance.LoadAllPaths();
+                DontDestroyOnLoad(s_instance);
             }
             return s_instance;
         }
