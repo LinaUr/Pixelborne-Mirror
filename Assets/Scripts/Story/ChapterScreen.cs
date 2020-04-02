@@ -1,61 +1,27 @@
 ﻿using System.Diagnostics;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ChapterScreen : MonoBehaviour
 {
     [SerializeField]
-    private float m_fadeTime = 2000;
-    [SerializeField]
-    private GameObject m_background;
-    [SerializeField]
-    private GameObject m_story;
+    private float m_displayTime = 1500;
 
-    enum FadeMode
-    {
-        Displayed,
-        Fading,
-        Faded
-    }
-
-    private FadeMode m_fadeMode;
     private Stopwatch m_stopwatch = new Stopwatch();
   
     void Start()
     {
         Singleplayer.Instance.LockPlayerInput(true);
-        m_fadeMode = FadeMode.Displayed;
         m_stopwatch.Start();
     }
 
     void Update()
     {
-        long elapsedTime = m_stopwatch.ElapsedMilliseconds;
-
-        if (m_fadeMode == FadeMode.Displayed)
+        if (m_stopwatch.ElapsedMilliseconds >= m_displayTime)
         {
-            if (elapsedTime >= m_fadeTime)
-            {
-                m_stopwatch.Restart();
-                Singleplayer.Instance.LockPlayerInput(false);
-                m_fadeMode = FadeMode.Fading;
-            }
-        }
-        else if (m_fadeMode == FadeMode.Fading)
-        {
-            Color tmp = m_background.GetComponent<Image>().color;
-            float percentage = elapsedTime / m_fadeTime;
-            tmp.a = (1.0f - percentage);
-            m_background.GetComponent<Image>().color = tmp;
-
-            // Complete the fade to black when enough time has passed.
-            if (elapsedTime >= m_fadeTime)
-            {
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_story.GetComponent<TextMeshProUGUI>().text = "";
-                m_fadeMode = FadeMode.Faded;
-            }
+            m_stopwatch.Stop();
+            Singleplayer.Instance.LockPlayerInput(false);
+            Singleplayer.Instance.BeginStage();
+            Destroy(gameObject);
         }
     }
 }

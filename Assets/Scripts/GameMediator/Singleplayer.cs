@@ -130,7 +130,12 @@ public class Singleplayer : ScriptableObject, IGame
         DriveMusicManager.Instance.Go();
     }
 
-    public void ReachedEndOfStage()
+    public void BeginStage()
+    {
+        Camera.FadeIn();
+    }
+
+    public void EndStage()
     {
         m_currentStageIndex++;
 
@@ -149,6 +154,11 @@ public class Singleplayer : ScriptableObject, IGame
     public void FadedOut()
     {
         PrepareStage();
+    }
+
+    public void FadedIn()
+    {
+        LockPlayerInput(false);
     }
 
     public void EnableEntityCollision(GameObject callingEntity)

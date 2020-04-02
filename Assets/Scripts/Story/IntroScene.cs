@@ -12,13 +12,13 @@ public class IntroScene : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_story;
 
-    enum FadeMode
+    enum ImageMode
     {
         Fading,
         Displaying
     }
 
-    private FadeMode m_fadeMode;
+    private ImageMode m_imageMode;
     private int m_storyPart;
     private int m_textPart;
     private Stopwatch m_stopwatch = new Stopwatch();
@@ -45,7 +45,7 @@ public class IntroScene : MonoBehaviour
     {
         long elapsedTime = m_stopwatch.ElapsedMilliseconds;
 
-        if (m_fadeMode == FadeMode.Fading)
+        if (m_imageMode == ImageMode.Fading)
         {
             // Fade the colors darker.
             Color color = m_backgroundImage.color;
@@ -58,11 +58,11 @@ public class IntroScene : MonoBehaviour
             {
                 colorValue = 0.3f;
                 m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
-                m_fadeMode = 0;
+                m_imageMode = 0;
                 ShowText();
             }
         }
-        else if (m_fadeMode == FadeMode.Displaying)
+        else if (m_imageMode == ImageMode.Displaying)
         {
             m_story.text = m_storyText[m_textPart];
             if (elapsedTime >= m_fadeTime)
@@ -80,12 +80,12 @@ public class IntroScene : MonoBehaviour
     public void FadeOut()
     {
         m_stopwatch.Restart();
-        m_fadeMode = FadeMode.Fading;
+        m_imageMode = ImageMode.Fading;
     }
 
     public void ShowText()
     {
-        m_fadeMode = FadeMode.Displaying;
+        m_imageMode = ImageMode.Displaying;
         m_textPart = 0;
         m_stopwatch.Restart();
     }
@@ -121,6 +121,6 @@ public class IntroScene : MonoBehaviour
 
     public void ChangeScene()
     {
-        Singleplayer.Instance.ReachedEndOfStage();
+        Singleplayer.Instance.EndStage();
     }
 }
