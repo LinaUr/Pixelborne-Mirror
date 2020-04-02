@@ -38,10 +38,10 @@ public class DialogueStage4 : MonoBehaviour
     private int m_animationPart;
     private string[] m_animationPictures;
     private string[] m_animationPictures0 = {"OutroImages/spilled_stones_blood_3",
-                                           "OutroImages/awakening"};
+                                             "OutroImages/awakening"};
     private string[] m_animationPictures1 = {"OutroImages/dark_crown",
-                                           "OutroImages/hit_animation",
-                                           "OutroImages/dark_crown_destroyed"};
+                                             "OutroImages/hit_animation",
+                                             "OutroImages/dark_crown_destroyed"};
     private string[] m_dialogueText;
     private string[] m_dialogueTextPart0 = { "Father!" };
     private string[] m_dialogueTextPart1 = { "My child! You are here!",
@@ -155,14 +155,15 @@ public class DialogueStage4 : MonoBehaviour
         }
         else if (m_dialogueMode == DialogueMode.Animation)
         {
-            m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_animationDuration)
+            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_animationDuration || m_animationPart < 0)
             {
                 m_animationPart++;
                 if (m_animationPart == m_animationPictures.Length)
                 {
                     ChangePart();
+                    return;
                 }
+                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
                 m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
@@ -208,7 +209,8 @@ public class DialogueStage4 : MonoBehaviour
         m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
         m_dialogueMode = DialogueMode.Animation;
-        m_animationPart = 0;
+        m_animationPart = -1;
+        m_backgroundPicture.GetComponent<Image>().color = Color.white;
         m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
 
@@ -355,6 +357,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones_blood_2");
                 m_dialogueText = m_dialogueTextPart18;
                 ShowText();
+                m_background.GetComponent<Image>().color = Color.clear;
                 break;
 
             case 22:
@@ -366,6 +369,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_dialogueText = m_dialogueTextPart19;
                 m_activeCharacter = "???";
                 ShowText();
+                m_background.GetComponent<Image>().color = Color.clear;
                 break;
 
             case 24:
@@ -463,6 +467,7 @@ public class DialogueStage4 : MonoBehaviour
             case 38:
                 Singleplayer.Instance.LockPlayerInput(true);
                 m_animationPictures = m_animationPictures1;
+                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[0]);
                 Animate();
                 break;
 
