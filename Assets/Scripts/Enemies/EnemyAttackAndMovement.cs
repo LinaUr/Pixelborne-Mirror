@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
@@ -15,12 +16,13 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private bool m_isAutoJumping = false;
     private bool m_isFollowingPlayer = false;
     private bool m_isPlayerInRange = false;
-    private float m_autoJumpingActivationDistance = 0.001f;
-    private float m_currentTimeUntilResettingPlayerPosition = 0.0f;
+    private Stopwatch m_stopwatch = new Stopwatch(); 
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
 
-    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
+    // Time in milliseconds
+    private static readonly float INTERVALL_FOR_POSITION_CHECK = 200;
+    private static readonly float AUTO_JUMPING_ACTIVATION_DISTANCE = 0.001f;
     private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
     protected Rigidbody2D m_playerRigidbody2D;
@@ -31,6 +33,12 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     {
         base.Awake();
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        m_stopwatch.Start();
     }
 
     protected override void Update()
@@ -68,19 +76,19 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                 // Apply the movement to the physics.
                 m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
 
-                // Jump if the position is almost equal to the last position and jumping is turned on.
-                // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
                 if (m_isAutoJumping)
                 {
-                    m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
-                    if (m_currentTimeUntilResettingPlayerPosition <= 0)
+                    // If jumping is turned on then jump if the current position is almost equal to the last position.
+                    // It is only checked every INTERVALL_FOR_POSITION_CHECK.
+
+                    if (m_stopwatch.ElapsedMilliseconds >= INTERVALL_FOR_POSITION_CHECK)
                     {
-                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
                         {
                             OnJump(null);
                         }
-                        m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
                         m_lastPosition = gameObject.transform.position;
+                        m_stopwatch.Restart();
                     }
                 }
             }

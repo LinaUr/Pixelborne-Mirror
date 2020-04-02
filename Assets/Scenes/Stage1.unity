@@ -5610,8 +5610,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_textPartDisplayTime: 3000
   m_background: {fileID: 1209905534}
-  m_dialogue: {fileID: 51819565}
-  m_nameTag: {fileID: 1386138096}
+  m_dialogue: {fileID: 51819567}
+  m_nameTag: {fileID: 1386138098}
 --- !u!114 &716139418
 MonoBehaviour:
   m_ObjectHideFlags: 0

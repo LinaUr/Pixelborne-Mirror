@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Recording;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
@@ -18,21 +19,21 @@ public class PlayerMovement : Entity
     private double m_lastTimeAttacked = -1.0d;
     private float m_attackDirection;
     private float m_rollingMovementX;
-    private float m_timeToNextSetRevivePosition = 0.0f;
     private IGame m_activeGame;
     private SpriteRenderer m_swordRenderer;
+    private Stopwatch m_stopwatch = new Stopwatch();
     private Vector2 m_nonRollingColliderSize;
     private Vector2 m_rollingColliderSize;
-    private Vector2 m_nextPotentialRevivePosition;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
-    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
+    // Time in millisenconds.
+    private static readonly float INTERVALL_FOR_POSITION_CHECK = 400;
     protected static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
     protected static readonly string ROLLING_ANIMATION_NAME = "Rolling";
 
     public GameObject PlayerSword { get { return m_playerSword; } }
     public IList<Vector2> Positions { get; set; }
-    public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
+    public Vector2 RevivePosition {get; private set; }
     // Positions from outer left to outer right stage as they are in the scene.
 
     public int Index
@@ -63,10 +64,12 @@ public class PlayerMovement : Entity
     protected override void Start()
     {
         base.Start();
+        RevivePosition = gameObject.transform.position;
         // Registration of player on start for safety reasons.
         m_activeGame = Game.Current;
         m_activeGame.RegisterPlayer(gameObject);
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ATTACK_ANIMATION_NAME);
+        m_stopwatch.Start();
     }
 
     protected override void Update()
@@ -263,21 +266,13 @@ public class PlayerMovement : Entity
 
     private void UpdateRevivePosition()
     {
-        m_timeToNextSetRevivePosition -= Time.deltaTime;
-        // Reset m_nextPotentialRevivePosition when the player is not on the ground.
-        if (!m_isGrounded)
+        if (m_stopwatch.ElapsedMilliseconds >= INTERVALL_FOR_POSITION_CHECK)
         {
-            m_timeToNextSetRevivePosition = 0;
-            m_nextPotentialRevivePosition = INVALID_POSITION;
-        }
-        else if (m_timeToNextSetRevivePosition <= 0)
-        {
-            if (m_nextPotentialRevivePosition != INVALID_POSITION)
+            if (m_isGrounded)
             {
-                RevivePosition = m_nextPotentialRevivePosition;
+                RevivePosition = gameObject.transform.position;
             }
-            m_nextPotentialRevivePosition = gameObject.transform.position; 
-            m_timeToNextSetRevivePosition = TIME_BETWEEN_REVIVE_POSITION_SETTING;
+            m_stopwatch.Restart();
         }
     }
 

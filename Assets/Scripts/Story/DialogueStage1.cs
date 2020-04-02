@@ -11,9 +11,9 @@ public class DialogueStage1 : MonoBehaviour
     [SerializeField]
     private GameObject m_background;
     [SerializeField]
-    private GameObject m_dialogue;
+    private TextMeshProUGUI m_dialogue;
     [SerializeField]
-    private GameObject m_nameTag;
+    private TextMeshProUGUI m_nameTag;
 
     enum DialogueMode
     {
@@ -44,8 +44,10 @@ public class DialogueStage1 : MonoBehaviour
     void Start()
     {
         GetName();
+        m_background.GetComponent<Image>().color = Color.black;
         m_dialoguePart = 0;
         m_dialogueText = m_dialogueTextPart0;
+        SetDialogueVisibility(false);
     }
 
     void Update()
@@ -63,7 +65,7 @@ public class DialogueStage1 : MonoBehaviour
         }
         else if (m_dialogueMode == DialogueMode.Displaying) 
         {
-            m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
+            m_dialogue.text = m_dialogueText[m_textPart];
             if (m_stopwatch.ElapsedMilliseconds >= m_textPartDisplayTime || m_skipPart)
             {
                 m_textPart++;
@@ -71,7 +73,6 @@ public class DialogueStage1 : MonoBehaviour
                 {
                     ChangePart();
                 }
-                //m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
                 m_stopwatch.Restart();
                 m_skipPart = false;
             }
@@ -101,39 +102,43 @@ public class DialogueStage1 : MonoBehaviour
         Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
         m_dialogueMode = DialogueMode.Displaying;
         m_textPart = 0;
-        m_background.GetComponent<Image>().color = Color.black;
-        m_nameTag.GetComponent<TextMeshProUGUI>().text = "King";
+        m_nameTag.text = "King";
+        SetDialogueVisibility(true);
         m_stopwatch.Restart();
     }
 
     public void ChangePart()
     {
-        m_dialoguePart++;
         switch (m_dialoguePart)
         {
-            case 1:
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-                m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
+            case 0:
+                Singleplayer.Instance.LockPlayerInput(false);
+                SetDialogueVisibility(false);
                 PlayerProgressed = false;
                 m_dialogueMode = DialogueMode.WaitingForTrigger;
-                Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
-            case 2:
+            case 1:
                 m_dialogueText = m_dialogueTextPart1;
                 ShowText();
                 break;
 
-            case 3:
-                m_dialogueMode = DialogueMode.WaitingForTrigger;
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-                m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                PlayerProgressed = false;
+            case 2:
                 Singleplayer.Instance.LockPlayerInput(false);
+                SetDialogueVisibility(false);
+                PlayerProgressed = false;
+                m_dialogueMode = DialogueMode.WaitingForTrigger;
                 break;
         }
+
+        m_dialoguePart++;
+    }
+
+    private void SetDialogueVisibility(bool isVisible)
+    {
+        m_background.SetActive(isVisible);
+        m_dialogue.gameObject.SetActive(isVisible);
+        m_nameTag.gameObject.SetActive(isVisible);
     }
 
     public void GetName()

@@ -31,7 +31,6 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
 
     public static readonly string DEATH_ZONES_NAME = "DeathZones";
-    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     public bool IsInputLocked { get; set; } = false;
     public bool Attacking { get; protected set; }
     public bool IsRolling { get; protected set; } = false;
