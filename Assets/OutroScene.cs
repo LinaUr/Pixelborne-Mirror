@@ -7,10 +7,14 @@ public class OutroScene : MonoBehaviour
     [SerializeField]
     private int m_fadeTime = 5000;
 
+    [SerializeField]
+    private int m_animationTime = 500;
+
     enum FadeMode
     {
         currentlyFading,
-        currentlyDisplaying
+        currentlyDisplaying,
+        currentlyAnimated
     }
 
     private FadeMode m_fadeMode;
@@ -19,6 +23,12 @@ public class OutroScene : MonoBehaviour
     private int m_fadeStartTime;
     private int m_storyPart;
     private int m_textPart;
+    private int m_currentAnimation;
+    private string[] m_animationPictures;
+    private string[] m_animationPictures0 = { "OutroImages/possessed_land",
+                                              "OutroImages/retreating_shadows",
+                                              "OutroImages/shadows_almost_gone",
+                                              "OutroImages/free_once_more"};
     private string[] m_storyText;
     private string[] m_storyTextPart0 = { "And as the crown splintered, a terrible screech rang out as its Dark Crystal cracked and dulled.",
                                           "A cold wind filled the world, a whisper of hate and ancient darkness.",
@@ -80,6 +90,10 @@ public class OutroScene : MonoBehaviour
                 m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
             }
         }
+        else if (m_fadeMode == FadeMode.currentlyAnimated)
+        {
+
+        }
     }
 
     public void FadeOut()
@@ -101,12 +115,11 @@ public class OutroScene : MonoBehaviour
         switch (m_storyPart)
         {
             case 1:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/");
+                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/possessed_land");
                 m_storyText = m_storyTextPart1;
                 break;
 
             case 2:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/war");
                 m_storyText = m_storyTextPart2;
                 break;
 
