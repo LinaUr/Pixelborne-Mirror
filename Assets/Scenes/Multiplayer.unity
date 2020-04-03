@@ -4203,7 +4203,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1309910153}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &299733792
 AudioSource:
@@ -4730,8 +4730,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 1
   stageIndex: 2
-  Player: {fileID: 0}
-  Enemies: {fileID: 0}
 --- !u!4 &436055666
 Transform:
   m_ObjectHideFlags: 0
@@ -5056,9 +5054,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae84f9afdab7ed143bcf4f8f15f392b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_cameraPositionsTransform: {fileID: 2082141908}
+  m_fadeTime: 1500
   m_fadeImage: {fileID: 2143651672}
-  m_fadeTime: 2000
+  m_cameraPositionsTransform: {fileID: 2082141908}
 --- !u!1 &570588301
 GameObject:
   m_ObjectHideFlags: 0
@@ -14311,7 +14309,6 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.43, z: -10}
   m_LocalScale: {x: 1.2125, y: 1, z: 1}
   m_Children:
-  - {fileID: 1496258395}
   - {fileID: 299733791}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -14624,15 +14621,15 @@ PrefabInstance:
       propertyPath: m_whatIsGround.m_Bits
       value: 5120
       objectReference: {fileID: 0}
-    - target: {fileID: 8339711130081627931, guid: def835497ab99be438b308c531dbe69c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8339711128838995858, guid: def835497ab99be438b308c531dbe69c,
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339711130081627931, guid: def835497ab99be438b308c531dbe69c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8339711130441321048, guid: def835497ab99be438b308c531dbe69c,
         type: 3}
@@ -15301,49 +15298,6 @@ EdgeCollider2D:
   - {x: -1.99, y: -1}
   - {x: -1.99, y: 0}
   - {x: -2, y: 0}
---- !u!1 &1496258393
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1496258395}
-  - component: {fileID: 1496258394}
-  m_Layer: 0
-  m_Name: UpdateCallerHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1496258394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496258393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c1798fd4d6a1842b1b300023766939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1496258395
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496258393}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29197866, y: 0.21823381, z: 9.939224}
-  m_LocalScale: {x: 0.8247423, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1309910153}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1507330216
 GameObject:
   m_ObjectHideFlags: 0
