@@ -15,7 +15,7 @@ public class PlayerMovement : Entity
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
 
-    private bool m_wasInAir = false; 
+    private bool m_hasStablePosition = false; 
     private double m_attackDuration; 
     private double m_lastTimeAttacked = -1.0d;
     private float m_attackDirection;
@@ -25,6 +25,7 @@ public class PlayerMovement : Entity
     private Stopwatch m_stopwatch = new Stopwatch();
     private Vector2 m_nonRollingColliderSize;
     private Vector2 m_rollingColliderSize;
+    private Vector2 m_lastCheckedPosition;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
     // Time in milliseconds.
@@ -205,7 +206,8 @@ public class PlayerMovement : Entity
         }
     }
 
-    // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
+    // This method is invoked when the entity changes the attack direction, 
+    // e.g. PlayerInput and sets it to the current m_attackDirection.
     void OnAttackDirection(InputValue value)
     {
         if (!IsInputLocked)
@@ -266,15 +268,26 @@ public class PlayerMovement : Entity
         }
     }
 
+    // This method updates the revive position of the player. The revive position has to be stable. 
+    // For it to be stable the player has to continiously be grounded for INTERVAL_FOR_POSITION_CHECK
+    // milliseconds.
     private void UpdateRevivePosition()
     {
-        if (m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
+        if (!m_isGrounded)
         {
-            if (m_isGrounded)
+            m_hasStablePosition = false;
+        }
+        else if (!m_hasStablePosition || m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
+        {
+            // As soon as the player hits ground again or the time between checks is up, this part is executed.
+
+            if (m_hasStablePosition)
             {
-                RevivePosition = gameObject.transform.position;
-                m_stopwatch.Restart();
+                // Since the player was continiously grounded the last position is stable.
+                RevivePosition = m_lastCheckedPosition;
             }
+            m_lastCheckedPosition = gameObject.transform.position;
+            m_stopwatch.Restart();
         }
     }
 
