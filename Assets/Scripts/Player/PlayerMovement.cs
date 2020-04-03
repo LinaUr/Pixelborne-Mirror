@@ -15,6 +15,7 @@ public class PlayerMovement : Entity
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
 
+    private bool m_wasInAir = false; 
     private double m_attackDuration; 
     private double m_lastTimeAttacked = -1.0d;
     private float m_attackDirection;
@@ -32,9 +33,10 @@ public class PlayerMovement : Entity
     protected static readonly string ROLLING_ANIMATION_NAME = "Rolling";
 
     public GameObject PlayerSword { get { return m_playerSword; } }
-    public IList<Vector2> Positions { get; set; }
-    public Vector2 RevivePosition {get; private set; }
     // Positions from outer left to outer right stage as they are in the scene.
+    public IList<Vector2> Positions { get; set; }
+    public Vector2 RevivePosition { get; private set; }
+    
 
     public int Index
     {
@@ -271,8 +273,8 @@ public class PlayerMovement : Entity
             if (m_isGrounded)
             {
                 RevivePosition = gameObject.transform.position;
+                m_stopwatch.Restart();
             }
-            m_stopwatch.Restart();
         }
     }
 
