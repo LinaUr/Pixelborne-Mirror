@@ -7,13 +7,13 @@ public class IntroScene : MonoBehaviour
     [SerializeField]
     private int m_fadeTime = 5000;
 
-    enum FadeMode
+    enum IntroMode
     {
-        currentlyFading,
-        currentlyDisplaying
+        Fading,
+        Displaying
     }
 
-    private FadeMode m_fadeMode;
+    private IntroMode m_introMode;
     private GameObject m_background;
     private GameObject m_story;
     private int m_fadeStartTime;
@@ -42,7 +42,7 @@ public class IntroScene : MonoBehaviour
 
     void Update()
     {
-        if (m_fadeMode == FadeMode.currentlyFading)
+        if (m_introMode == IntroMode.Fading)
         {
             // Change the color to black.
             Color tmp = m_background.GetComponent<Image>().color;
@@ -61,11 +61,10 @@ public class IntroScene : MonoBehaviour
                 tmp.g = 0.3f;
                 tmp.b = 0.3f;
                 m_background.GetComponent<Image>().color = tmp;
-                m_fadeMode = 0;
                 ShowText();
             }
         }
-        else if (m_fadeMode == FadeMode.currentlyDisplaying)
+        else if (m_introMode == IntroMode.Displaying)
         {
             m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
@@ -83,12 +82,12 @@ public class IntroScene : MonoBehaviour
     public void FadeOut()
     {
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
-        m_fadeMode = FadeMode.currentlyFading;
+        m_introMode = IntroMode.Fading;
     }
 
     public void ShowText()
     {
-        m_fadeMode = FadeMode.currentlyDisplaying;
+        m_introMode = IntroMode.Displaying;
         m_textPart = 0;
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
