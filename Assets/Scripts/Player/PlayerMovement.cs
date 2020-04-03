@@ -117,7 +117,7 @@ public class PlayerMovement : Entity
             float currentAnimationLengthPercentage = m_lastTimeRolled / m_rollingDuration;
             bool playerIsCurrentlyInvincible = ROLLING_INVINCIBILITY_TIME_WINDOW_END <= currentAnimationLengthPercentage 
                 && currentAnimationLengthPercentage <= ROLLING_INVINCIBILITY_TIME_WINDOW_START;
-            // Adjust the invincibility and collider size according to the invincibility window
+            // Adjust the invincibility and collider size according to the invincibility window.
             if (playerIsCurrentlyInvincible)
             {
                 m_entityHealth.Invincible = true;
