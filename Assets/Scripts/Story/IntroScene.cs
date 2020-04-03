@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This class manages the displaying of images and text in the intro scene of the singleplayer mode.
 public class IntroScene : MonoBehaviour
 {
     [SerializeField]
@@ -12,43 +13,59 @@ public class IntroScene : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_story;
 
-    enum ImageMode
+    enum Mode
     {
-        Fading,
-        Displaying
+        FadeImage,
+        DisplayText
     }
 
-    private ImageMode m_imageMode;
-    private int m_storyPart;
-    private int m_textPart;
+    private Mode m_mode;
+    private int m_storyPart = 0;
+    private int m_textPart = 0;
     private Stopwatch m_stopwatch = new Stopwatch();
-    private string[] m_storyText;
-    private string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
-    private string[] m_storyTextPart1 = { "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
-                                          "The people lived content lives under the rule of a just king.",
-                                          "And everything was bright and colorful." };
-    private string[] m_storyTextPart2 = { "Until one day, darkness erupted.",
-                                          "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
-                                          "They burnt the towns. They slaughtered the people." };
-    private string[] m_storyTextPart3 = { "And eventually, they reached the castle gates.",
-                                          "The kingdom was weak, and the gates could not be held.",
-                                          "But a few brave knights remained, and they fought back with everything they had." };
+    private Sprite[] m_imageHolder;
+    private readonly string[][] m_storyHolder =
+    {
+        new string[] { "Prologue\n\nDarkness" },
+        new string[] {
+            "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
+            "The people lived content lives under the rule of a just king.",
+            "And everything was bright and colorful."
+        },
+        new string[] {
+            "Until one day, darkness erupted.",
+            "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
+            "They burnt the towns. They slaughtered the people."
+        },
+        new string[] {
+            "And eventually, they reached the castle gates.",
+            "The kingdom was weak, and the gates could not be held.",
+            "But a few brave knights remained, and they fought back with everything they had."
+        }
+    };
 
     void Start()
     {
-        m_storyPart = 0;
-        m_storyText = m_storyTextPart0;
-        ShowText();
+        // Get the background images.
+        m_imageHolder = new Sprite[] {
+            null,
+            Resources.Load<Sprite>("IntroImages/peaceful"),
+            Resources.Load<Sprite>("IntroImages/war"),
+            Resources.Load<Sprite>("IntroImages/castle_gates")
+        };
+
+        m_mode = Mode.DisplayText;
+        m_story.text = m_storyHolder[m_storyPart][m_textPart];
+        m_stopwatch.Start();
     }
 
     void Update()
     {
         long elapsedTime = m_stopwatch.ElapsedMilliseconds;
 
-        if (m_imageMode == ImageMode.Fading)
+        if (m_mode == Mode.FadeImage)
         {
             // Fade the colors darker.
-            Color color = m_backgroundImage.color;
             float percentage = elapsedTime / m_fadeTime;
             float colorValue = (1.0f - percentage) + 0.3f;
             m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
@@ -58,69 +75,47 @@ public class IntroScene : MonoBehaviour
             {
                 colorValue = 0.3f;
                 m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
-                m_imageMode = 0;
-                ShowText();
+                m_story.gameObject.SetActive(true);
+                m_mode = Mode.DisplayText;
+                m_stopwatch.Restart();
             }
         }
-        else if (m_imageMode == ImageMode.Displaying)
-        {
-            m_story.text = m_storyText[m_textPart];
+        else if (m_mode == Mode.DisplayText)
+        {            
             if (elapsedTime >= m_fadeTime)
             {
                 m_textPart++;
-                if (m_textPart == m_storyText.Length)
+
+                if (m_textPart == m_storyHolder[m_storyPart].Length)
                 {
-                    ChangePic();
+                    m_textPart = 0;
+                    ChangeStoryPart();
+                    m_mode = Mode.FadeImage;
+                    m_stopwatch.Restart();
+                    return;
                 }
+
+                m_story.text = m_storyHolder[m_storyPart][m_textPart];
                 m_stopwatch.Restart();
             }
         }
     }
 
-    public void FadeOut()
-    {
-        m_stopwatch.Restart();
-        m_imageMode = ImageMode.Fading;
-    }
-
-    public void ShowText()
-    {
-        m_imageMode = ImageMode.Displaying;
-        m_textPart = 0;
-        m_stopwatch.Restart();
-    }
-
-    public void ChangePic()
+    private void ChangeStoryPart()
     {
         m_storyPart++;
-        switch (m_storyPart)
+
+        if (m_storyPart == m_storyHolder.Length)
         {
-            case 1:
-                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("IntroImages/peaceful");
-                m_storyText = m_storyTextPart1;
-                break;
-
-            case 2:
-                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("IntroImages/war");
-                m_storyText = m_storyTextPart2;
-                break;
-
-            case 3:
-                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("IntroImages/castle_gates");
-                m_storyText = m_storyTextPart3;
-                break;
-
-            case 4:
-                ChangeScene();
-                break;
+            Singleplayer.Instance.EndStage();
+            return;
         }
-        m_backgroundImage.color = Color.white;
-        m_story.text = "";
-        FadeOut();
-    }
 
-    public void ChangeScene()
-    {
-        Singleplayer.Instance.EndStage();
+        // Disable the text.
+        m_story.gameObject.SetActive(false);
+
+        // Change the background image.
+        m_backgroundImage.overrideSprite = m_imageHolder[m_storyPart];
+        m_backgroundImage.color = Color.white;
     }
 }

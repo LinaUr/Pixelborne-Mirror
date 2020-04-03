@@ -52,7 +52,7 @@ public class Singleplayer : ScriptableObject, IGame
     public void Go()
     {
         Game.Current = Instance;
-        Game.Mode = Mode.Singleplayer;
+        Game.Mode = GameMode.Singleplayer;
 
         SellingScreen.GetImportantFiles();
 

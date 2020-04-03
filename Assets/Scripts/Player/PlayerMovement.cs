@@ -26,8 +26,8 @@ public class PlayerMovement : Entity
     private Vector2 m_rollingColliderSize;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
-    // Time in millisenconds.
-    private static readonly float INTERVALL_FOR_POSITION_CHECK = 400;
+    // Time in milliseconds.
+    private static readonly float INTERVAL_FOR_POSITION_CHECK = 400;
     protected static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
     protected static readonly string ROLLING_ANIMATION_NAME = "Rolling";
 
@@ -266,7 +266,7 @@ public class PlayerMovement : Entity
 
     private void UpdateRevivePosition()
     {
-        if (m_stopwatch.ElapsedMilliseconds >= INTERVALL_FOR_POSITION_CHECK)
+        if (m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
         {
             if (m_isGrounded)
             {

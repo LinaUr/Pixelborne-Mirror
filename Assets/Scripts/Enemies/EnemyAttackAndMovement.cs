@@ -20,8 +20,8 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
 
-    // Time in milliseconds
-    private static readonly float INTERVALL_FOR_POSITION_CHECK = 200;
+    // Time in milliseconds.
+    private static readonly float INTERVAL_FOR_POSITION_CHECK = 200;
     private static readonly float AUTO_JUMPING_ACTIVATION_DISTANCE = 0.001f;
     private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
@@ -81,7 +81,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     // If jumping is turned on then jump if the current position is almost equal to the last position.
                     // It is only checked every INTERVALL_FOR_POSITION_CHECK.
 
-                    if (m_stopwatch.ElapsedMilliseconds >= INTERVALL_FOR_POSITION_CHECK)
+                    if (m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
                     {
                         if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
                         {

@@ -15,7 +15,7 @@ public class ImageHolderPasser : MonoBehaviour
 
     private void Update()
     {
-        if (Game.Mode == Mode.Singleplayer)
+        if (Game.Mode == GameMode.Singleplayer)
         {
             ImageManager.Instance.UpdateAlphaValue();
         }

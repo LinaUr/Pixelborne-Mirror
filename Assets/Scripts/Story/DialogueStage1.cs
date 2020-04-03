@@ -15,7 +15,7 @@ public class DialogueStage1 : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_nameTag;
 
-    enum DialogueMode
+    enum Mode
     {
         NotStarted,
         Displaying,
@@ -24,7 +24,7 @@ public class DialogueStage1 : MonoBehaviour
 
     private bool m_enemiesKilled = false;
     private bool m_skipPart = false;
-    private DialogueMode m_dialogueMode = DialogueMode.NotStarted;
+    private Mode m_mode = Mode.NotStarted;
     private int m_textPart;
     private int m_dialoguePart;
     private Stopwatch m_stopwatch = new Stopwatch();
@@ -54,16 +54,16 @@ public class DialogueStage1 : MonoBehaviour
     {
         m_enemiesKilled = EnemiesKilled();
 
-        if (m_dialogueMode == DialogueMode.Displaying && Input.GetKeyDown("space"))
+        if (m_mode == Mode.Displaying && Input.GetKeyDown("space"))
         {
             m_skipPart = true;
         }
 
-        if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled) 
+        if (m_mode == Mode.NotStarted && PlayerProgressed && m_enemiesKilled) 
         {
             ShowText();
         }
-        else if (m_dialogueMode == DialogueMode.Displaying) 
+        else if (m_mode == Mode.Displaying) 
         {
             m_dialogue.text = m_dialogueText[m_textPart];
             if (m_stopwatch.ElapsedMilliseconds >= m_textPartDisplayTime || m_skipPart)
@@ -77,7 +77,7 @@ public class DialogueStage1 : MonoBehaviour
                 m_skipPart = false;
             }
         }
-        else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled) 
+        else if (m_mode == Mode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled) 
         {
             ChangePart();
         }
@@ -100,7 +100,7 @@ public class DialogueStage1 : MonoBehaviour
     {
         Singleplayer.Instance.LockPlayerInput(true);
         Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
-        m_dialogueMode = DialogueMode.Displaying;
+        m_mode = Mode.Displaying;
         m_textPart = 0;
         m_nameTag.text = "King";
         SetDialogueVisibility(true);
@@ -115,7 +115,7 @@ public class DialogueStage1 : MonoBehaviour
                 Singleplayer.Instance.LockPlayerInput(false);
                 SetDialogueVisibility(false);
                 PlayerProgressed = false;
-                m_dialogueMode = DialogueMode.WaitingForTrigger;
+                m_mode = Mode.WaitingForTrigger;
                 break;
 
             case 1:
@@ -127,7 +127,7 @@ public class DialogueStage1 : MonoBehaviour
                 Singleplayer.Instance.LockPlayerInput(false);
                 SetDialogueVisibility(false);
                 PlayerProgressed = false;
-                m_dialogueMode = DialogueMode.WaitingForTrigger;
+                m_mode = Mode.WaitingForTrigger;
                 break;
         }
 
