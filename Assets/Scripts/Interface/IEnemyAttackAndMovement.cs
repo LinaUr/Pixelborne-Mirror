@@ -3,6 +3,7 @@ public interface IEnemyAttackAndMovement : IAttack
 {
     bool IsPlayerInAttackRange();
     bool IsPlayerInSightRange();
+    bool IsEnemyOnGround();
 
     float GetAttackDownDuration();
     float GetAttackUpDuration();
@@ -14,6 +15,8 @@ public interface IEnemyAttackAndMovement : IAttack
 
     void StartFollowPlayer();
     void StopFollowPlayer();
+
+    void Jump();
 
     void StartAutoJumping();
     void StopAutoJumping();

@@ -289,11 +289,11 @@ public class PlayerMovement : Entity
     // This method determines the attack direction.
     private void DetermineAttackingParameter(float attackDirectionAxisValue)
     {
-        if (attackDirectionAxisValue > s_ATTACK_DIRECTION_DEADZONE)
+        if (attackDirectionAxisValue > CONTROLLER_DEADZONE)
         {
             m_currentAttackingDirection = 0;
         }
-        else if (attackDirectionAxisValue > -s_ATTACK_DIRECTION_DEADZONE)
+        else if (attackDirectionAxisValue > -CONTROLLER_DEADZONE)
         {
             m_currentAttackingDirection = 1;
         }
