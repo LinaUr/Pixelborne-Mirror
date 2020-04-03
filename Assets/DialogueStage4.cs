@@ -6,13 +6,11 @@ using UnityEngine.UI;
 public class DialogueStage4 : MonoBehaviour
 {
     [SerializeField]
-    private int m_textPartDisplayTime = 5000;
-
+    private int m_animationDuration = 500;
     [SerializeField]
     private int m_flashDuration = 100;
-    
     [SerializeField]
-    private int m_animationDuration = 500;
+    private int m_textPartDisplayTime = 5000;
 
     enum DialogueMode
     {
@@ -23,37 +21,31 @@ public class DialogueStage4 : MonoBehaviour
         Animation
     }
 
-    private bool m_enemiesKilled;
-    private DialogueMode m_dialogueMode;
-    private GameObject m_background;
-    private GameObject m_dialogue;
-    private GameObject m_nameTag;
-    private GameObject m_backgroundPicture;
-    private GameObject m_filterImage;
-    private int m_displayStartTime;
-    private int m_textPart;
-    private int m_dialoguePart;
-    private string m_userName;
     private string m_activeCharacter;
     private int m_animationPart;
     private string[] m_animationPictures;
-    private string[] m_animationPictures0 = {"OutroImages/spilled_stones_blood_3",
-                                             "OutroImages/awakening"};
-    private string[] m_animationPictures1 = {"OutroImages/dark_crown",
+    private string[] m_animationPictures0 = { "OutroImages/spilled_stones_blood_3",
+                                             "OutroImages/awakening" };
+    private string[] m_animationPictures1 = { "OutroImages/dark_crown",
                                              "OutroImages/hit_animation",
-                                             "OutroImages/dark_crown_destroyed"};
+                                             "OutroImages/dark_crown_destroyed" };
+    private GameObject m_background;
+    private GameObject m_backgroundPicture;
+    private GameObject m_dialogue;
+    private DialogueMode m_dialogueMode;
+    private int m_dialoguePart;
     private string[] m_dialogueText;
     private string[] m_dialogueTextPart0 = { "Father!" };
     private string[] m_dialogueTextPart1 = { "My child! You are here!",
-                                             "Knight! My thanks as both father and king.", 
+                                             "Knight! My thanks as both father and king.",
                                              "My daughter and my kingdom are safe once more.",
                                              "...",
-                                             "Is that the Dark King's Crown you're carrying with you?"};
+                                             "Is that the Dark King's Crown you're carrying with you?" };
     private string[] m_dialogueTextPart2 = { "Yes, Father. We found it in his lair." };
     private string[] m_dialogueTextPart3 = { "Give it to me, Knight!",
-                                             "And give me the shards of Dark Crystal you recovered."};
+                                             "And give me the shards of Dark Crystal you recovered." };
     private string[] m_dialogueTextPart4 = { "Marvelous!",
-                                             "Let it be known that from this day, our kingdom shall bow to no demon!"};
+                                             "Let it be known that from this day, our kingdom shall bow to no demon!" };
     private string[] m_dialogueTextPart5 = { "Let it be known that today will mark the beginning of a new era!" };
     private string[] m_dialogueTextPart6 = { "Ah..!" };
     private string[] m_dialogueTextPart7 = { "Father! Are you well?" };
@@ -62,10 +54,10 @@ public class DialogueStage4 : MonoBehaviour
     private string[] m_dialogueTextPart10 = { "Father!" };
     private string[] m_dialogueTextPart11 = { "F-Father?" };
     private string[] m_dialogueTextPart12 = { "Haha... your father is gone, child.",
-                                              "His body is mine now."};
+                                              "His body is mine now." };
     private string[] m_dialogueTextPart13 = { "No..!" };
     private string[] m_dialogueTextPart14 = { "Don't worry, child. I will have plenty of time for you later.",
-                                              "But first..!"};
+                                              "But first..!" };
     private string[] m_dialogueTextPart15 = { "First, maggot, it is time for you to die!" };
     private string[] m_dialogueTextPart16 = { "O Father..." };
     private string[] m_dialogueTextPart17 = { "Please forgive me..." };
@@ -75,25 +67,30 @@ public class DialogueStage4 : MonoBehaviour
     private string[] m_dialogueTextPart21 = { "Hahahaha!" };
     private string[] m_dialogueTextPart22 = { "Who..?",
                                               "...",
-                                              "No..! The stones..!"};
+                                              "No..! The stones..!" };
     private string[] m_dialogueTextPart23 = { "At last..!" };
     private string[] m_dialogueTextPart24 = { "NO!" };
-    private string[] m_dialogueTextPart25 = { "At last, I'm free once more!"};
+    private string[] m_dialogueTextPart25 = { "At last, I'm free once more!" };
     private string[] m_dialogueTextPart26 = { "The Dark King!" };
-    private string[] m_dialogueTextPart27 = { "Indeed. The only king left standing, it seems."};
+    private string[] m_dialogueTextPart27 = { "Indeed. The only king left standing, it seems." };
     private string[] m_dialogueTextPart28 = { "I curse you, Dark King!",
-                                              "You will die for what you have done!"};
+                                              "You will die for what you have done!" };
     private string[] m_dialogueTextPart29 = { "Really? Hahaha... You are mistaken, I fear.",
                                               "YOU will die.",
                                               "You will all die.",
                                               "Your whole kingdom will perish!",
-                                              "And then, it shall be mine!"};
+                                              "And then, it shall be mine!" };
     private string[] m_dialogueTextPart30 = { "Not this day, Dark King. And not on any other.",
                                               "Let it be known that from this day, our kingdom shall bow to no demon.",
                                               "Knight!",
-                                              "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!"};
-
+                                              "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!" };
+    private int m_displayStartTime;
+    private bool m_enemiesKilled;
+    private GameObject m_filterImage;
+    private GameObject m_nameTag;
     public bool PlayerProgressed { get; set; }
+    private int m_textPart;
+    private string m_userName;
 
     void Start()
     {
@@ -116,58 +113,67 @@ public class DialogueStage4 : MonoBehaviour
         m_enemiesKilled = EnemiesKilled();
 
 
+        //Debug-Code. Must be removed in final version
         PlayerProgressed = true;
         m_enemiesKilled = true;
 
 
-        if (m_dialogueMode == DialogueMode.Displaying && Input.GetKeyDown("space"))
+        switch (m_dialogueMode)
         {
-            m_displayStartTime -= m_textPartDisplayTime;
-        }
+            case DialogueMode.Displaying:
+                if(Input.GetKeyDown("space"))
+                {
+                    m_displayStartTime -= m_textPartDisplayTime;
+                }
+                m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
+                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
+                {
+                    m_textPart++;
+                    if (m_textPart == m_dialogueText.Length)
+                    {
+                        ChangePart();
+                    }
+                    m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                }
+                break;
 
-        if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled)
-        {
-            ShowText();
-        }
-        else if (m_dialogueMode == DialogueMode.Displaying)
-        {
-            m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
-            {
-                m_textPart++;
-                if (m_textPart == m_dialogueText.Length)
+            case DialogueMode.NotStarted:
+                if (PlayerProgressed && m_enemiesKilled)
+                {
+                    ShowText();
+                }
+                break;
+
+            case DialogueMode.WaitingForTrigger:
+                if (PlayerProgressed && m_enemiesKilled)
                 {
                     ChangePart();
                 }
-                m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
-            }
-        }
-        else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled)
-        {
-            ChangePart();
-        }
-        else if (m_dialogueMode == DialogueMode.Flashing)
-        {
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_flashDuration)
-            {
-                ChangePart();
-            }
-        }
-        else if (m_dialogueMode == DialogueMode.Animation)
-        {
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_animationDuration || m_animationPart < 0)
-            {
-                m_animationPart++;
-                if (m_animationPart == m_animationPictures.Length)
+                break;
+
+            case DialogueMode.Flashing:
+                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_flashDuration)
+                    {
+                        ChangePart();
+                    }
+                break;
+
+            case DialogueMode.Animation:    
+                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_animationDuration || m_animationPart < 0)
                 {
-                    ChangePart();
-                    return;
+                    m_animationPart++;
+                    if (m_animationPart == m_animationPictures.Length)
+                    {
+                        ChangePart();
+                        return;
+                    }
+                    m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
+                    m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
                 }
-                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
-                m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
-            }
+                break;
         }
     }
+    
 
     public bool EnemiesKilled()
     {
