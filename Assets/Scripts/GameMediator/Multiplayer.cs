@@ -102,7 +102,12 @@ public class Multiplayer : ScriptableObject, IGame
 
     public void LockPlayerInput(bool isLocked)
     {
-        m_players.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
+        m_players.ForEach(player =>
+        {
+            var playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.IsInputLocked = isLocked;
+            playerMovement.ResetEntityAnimations();
+        });
     }
 
     public void HandleDeath(GameObject player)

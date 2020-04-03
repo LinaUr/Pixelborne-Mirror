@@ -92,7 +92,8 @@ public class Singleplayer : ScriptableObject, IGame
     public void LockPlayerInput(bool isLocked)
     {
         m_playerMovement.IsInputLocked = isLocked;
-        foreach(GameObject enemy in ActiveEnemies)
+        Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
+        foreach (GameObject enemy in ActiveEnemies)
         {
             enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
         }
