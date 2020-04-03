@@ -55,7 +55,7 @@ public class DialogueStage1 : MonoBehaviour
 
     void Update()
     {
-        var enemiesKilled = AreFirstEnemiesKilled();
+        bool enemiesKilled = AreFirstEnemiesKilled();
 
         if (m_mode == Mode.Displaying && Input.GetKeyDown("space"))
         {
@@ -122,9 +122,13 @@ public class DialogueStage1 : MonoBehaviour
     {
         if (!string.IsNullOrWhiteSpace(Environment.UserName))
         {
-            m_dialogueHolder[0][0] = m_dialogueHolder[0][0].Replace(DEFAULT_KNIGHT, Environment.UserName);
-            m_dialogueHolder[1][4] = m_dialogueHolder[1][4].Replace(DEFAULT_KNIGHT, Environment.UserName);
-            m_dialogueHolder[1][6] = m_dialogueHolder[1][6].Replace(DEFAULT_KNIGHT, Environment.UserName);
+            for (int i = 0; i < m_dialogueHolder.Length; i++)
+            {
+                for (int j = 0; j < m_dialogueHolder[i].Length; j++)
+                {
+                    m_dialogueHolder[i][j] = m_dialogueHolder[i][j].Replace(DEFAULT_KNIGHT, Environment.UserName);
+                }
+            }
         }
     }
 }

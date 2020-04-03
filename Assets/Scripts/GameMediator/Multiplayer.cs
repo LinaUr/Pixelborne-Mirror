@@ -104,7 +104,7 @@ public class Multiplayer : ScriptableObject, IGame
     {
         m_players.ForEach(player =>
         {
-            var playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             playerMovement.IsInputLocked = isLocked;
             playerMovement.ResetEntityAnimations();
         });
