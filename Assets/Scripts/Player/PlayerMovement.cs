@@ -303,7 +303,7 @@ public class PlayerMovement : Entity
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         m_activeGame.UnregisterPlayer(gameObject);
     }
