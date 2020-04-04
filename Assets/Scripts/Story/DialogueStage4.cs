@@ -91,6 +91,7 @@ public class DialogueStage4 : MonoBehaviour
     private GameObject m_filterImage;
     private GameObject m_nameTag;
     public bool PlayerProgressed { get; set; }
+    private GameObject m_princess;
     private int m_textPart;
     private string m_userName;
 
@@ -103,6 +104,7 @@ public class DialogueStage4 : MonoBehaviour
         m_filterImage = GameObject.Find("FilterImage");
         m_demonKing = GameObject.Find("Demon_King");
         m_endboss = GameObject.Find("Endboss");
+        m_princess = GameObject.Find("Princess");
         m_demonKing.SetActive(false);
         Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);
         m_endboss.SetActive(false);
@@ -114,6 +116,7 @@ public class DialogueStage4 : MonoBehaviour
         PlayerProgressed = false;
         m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
+        m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
     }
 
     void Update()
@@ -252,6 +255,7 @@ public class DialogueStage4 : MonoBehaviour
 
             case 5:
                 m_dialogueText = m_dialogueTextPart4;
+                m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
                 ShowText();
                 break;
 
