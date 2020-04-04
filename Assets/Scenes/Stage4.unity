@@ -17184,7 +17184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1146519310}
   - component: {fileID: 1146519311}
-  m_Layer: 8
+  m_Layer: 1
   m_Name: Storytrigger2
   m_TagString: Storytrigger
   m_Icon: {fileID: 0}
@@ -50737,7 +50737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1456860591}
   - component: {fileID: 1456860592}
-  m_Layer: 8
+  m_Layer: 1
   m_Name: Storytrigger1
   m_TagString: Storytrigger
   m_Icon: {fileID: 0}
@@ -51239,7 +51239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1883027013}
   - component: {fileID: 1883027014}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: EmpyWeaponForCompability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60553,7 +60553,7 @@ GameObject:
   - component: {fileID: 2128049654}
   - component: {fileID: 2128049658}
   - component: {fileID: 2128049657}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Princess
   m_TagString: Untagged
   m_Icon: {fileID: 0}
