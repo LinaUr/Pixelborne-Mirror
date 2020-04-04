@@ -49,38 +49,35 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
         else
         {
-            if (m_isFollowingPlayer && !IsInputLocked)
+            float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
+            // Only walk if we chase the player, the input is not locked and the player is not too close.
+            if (m_isFollowingPlayer && !IsInputLocked && Mathf.Abs(movementDirection) > m_minPlayerDistance)
             {
-                float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-                // Only walk closer to the player if the player is not already too close.
-                if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
+                // Normalize the movementDirection.
+                movementDirection = movementDirection < 0 ? -1 : 1;
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
+
+                // Flip enemy direction if player now walks in opposite direction.
+                if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
                 {
-                    // Normalize the movementDirection.
-                    movementDirection = movementDirection < 0 ? -1 : 1;
-                    m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
+                    FlipEntity();
+                }
+                // Apply the movement to the physics.
+                m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
 
-                    // Flip enemy direction if player now walks in opposite direction.
-                    if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
+                // Jump if the position is almost equal to the last position and jumping is turned on.
+                // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
+                if (m_isAutoJumping)
+                {
+                    m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
+                    if (m_currentTimeUntilResettingPlayerPosition <= 0)
                     {
-                        FlipEntity();
-                    }
-                    // Apply the movement to the physics.
-                    m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
-
-                    // Jump if the position is almost equal to the last position and jumping is turned on.
-                    // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
-                    if (m_isAutoJumping)
-                    {
-                        m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
-                        if (m_currentTimeUntilResettingPlayerPosition <= 0)
+                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
                         {
-                            if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
-                            {
-                                OnJump(null);
-                            }
-                            m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
-                            m_lastPosition = gameObject.transform.position;
+                            OnJump(null);
                         }
+                        m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
+                        m_lastPosition = gameObject.transform.position;
                     }
                 }
             }
