@@ -423,9 +423,8 @@ public class DialogueStage4 : MonoBehaviour
                 break;
 
             case 30:
-
-                //TODO: spawn Dark King
-                //Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);     (only possible when object is not destroyed immediately)
+                Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);
+                m_demonKing.SetActive(false);
                 m_endboss.SetActive(true);
                 Singleplayer.Instance.ActiveEnemies.Add(m_endboss);
 
@@ -479,6 +478,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 PlayerProgressed = false;
                 m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown  (requires object not to be destroyed immediately)
+                m_endboss.GetComponent<BoxCollider2D>().enabled = false;
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
