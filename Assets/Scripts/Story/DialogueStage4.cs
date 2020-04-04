@@ -10,7 +10,7 @@ public class DialogueStage4 : MonoBehaviour
     [SerializeField]
     private int m_flashDuration = 100;
     [SerializeField]
-    private int m_textPartDisplayTime = 5000;
+    private int m_textPartDisplayTime = 3000;
 
     enum DialogueMode
     {
@@ -477,8 +477,10 @@ public class DialogueStage4 : MonoBehaviour
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 PlayerProgressed = false;
-                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown  (requires object not to be destroyed immediately)
-                m_endboss.GetComponent<BoxCollider2D>().enabled = false;
+                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown
+                int playerLayer = LayerMask.NameToLayer("Player");
+                int enemyLayer = LayerMask.NameToLayer("Enemy");
+                Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
