@@ -86,10 +86,7 @@ public class DialogueStage3 : MonoBehaviour
         bool allKilled = true;
         foreach (GameObject enemy in Singleplayer.Instance.ActiveEnemies)
         {
-            if (enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
-            {
                 allKilled = false;
-            }
         }
         return allKilled;
     }
