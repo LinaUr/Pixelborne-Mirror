@@ -1,8 +1,9 @@
 // This interface must be implemented by enemies in order to have an AttackPatternExecutor 
-public interface IEnemyAttackAndMovement : IAttack
+public interface IEnemyAttackAndMovement 
 {
     bool IsPlayerInAttackRange();
     bool IsPlayerInSightRange();
+    bool IsEnemyOnGround();
 
     float GetAttackDownDuration();
     float GetAttackUpDuration();
@@ -14,6 +15,8 @@ public interface IEnemyAttackAndMovement : IAttack
 
     void StartFollowPlayer();
     void StopFollowPlayer();
+
+    void Jump();
 
     void StartAutoJumping();
     void StopAutoJumping();
