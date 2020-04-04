@@ -30,8 +30,8 @@ public class PlayerMovement : Entity
     private Vector2 m_lastCheckedPosition;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
-    private static readonly float ROLLING_INVINCIBILITY_TIME_SPAN_END = 0.2f;
-    private static readonly float ROLLING_INVINCIBILITY_TIME_SPAN_START = 0.8f;
+    private static readonly float ROLLING_INVINCIBILITY_TIME_SPAN_START = 0.2f;
+    private static readonly float ROLLING_INVINCIBILITY_TIME_SPAN_END = 0.8f;
     private static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
     private static readonly string PLAYER_ROLLING_ANIMATION_NAME = "Player_1_roll";
     private static readonly string ROLLING_ANIMATOR_NAME = "Rolling";
