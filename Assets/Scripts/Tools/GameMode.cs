@@ -1,4 +1,4 @@
-﻿public enum Mode
+﻿public enum GameMode
 {
     MainMenu,
     Multiplayer,

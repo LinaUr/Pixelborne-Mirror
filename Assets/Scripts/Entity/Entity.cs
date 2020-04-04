@@ -30,9 +30,8 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
 
     public static readonly string DEATH_ZONES_NAME = "DeathZones";
-    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     public bool IsInputLocked { get; set; } = false;
-    public bool Attacking { get; protected set; }
+    public bool IsAttacking { get; protected set; }
     public bool IsRolling { get; protected set; } = false;
 
     protected virtual void Awake()
@@ -51,7 +50,7 @@ public abstract class Entity : MonoBehaviour, IAttack
             FlipEntity();
         }
         m_weaponCollider.enabled = false;
-        Attacking = false;
+        IsAttacking = false;
     }
 
     protected virtual void Update() 
@@ -120,7 +119,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     // This method resets the attack including the animator.
     protected void ResetAttackAnimation()
     {
-        Attacking = false;
+        IsAttacking = false;
         foreach (string parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
         {
             m_animator.SetBool(parameter, false);
@@ -135,7 +134,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         {
             m_animator.SetBool(attack_parameter, false);
         }
-        Attacking = false;
+        IsAttacking = false;
     }
 
     public virtual void ResetMovement()

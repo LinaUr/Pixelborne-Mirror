@@ -48,7 +48,7 @@ public class Multiplayer : ScriptableObject, IGame
     public async void Go()
     {
         Game.Current = this;
-        Game.Mode = Mode.Multiplayer;
+        Game.Mode = GameMode.Multiplayer;
 
         SceneChanger.SetMultiplayerAsActiveScene();
 
@@ -102,7 +102,12 @@ public class Multiplayer : ScriptableObject, IGame
 
     public void LockPlayerInput(bool isLocked)
     {
-        m_players.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
+        m_players.ForEach(player =>
+        {
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.IsInputLocked = isLocked;
+            playerMovement.ResetEntityAnimations();
+        });
     }
 
     public void HandleDeath(GameObject player)
