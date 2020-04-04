@@ -264,7 +264,6 @@ public class DialogueStage4 : MonoBehaviour
 
             case 5:
                 m_dialogueText = m_dialogueTextPart4;
-                m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
                 ShowText();
                 break;
 
@@ -349,6 +348,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to kill king
+                m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
