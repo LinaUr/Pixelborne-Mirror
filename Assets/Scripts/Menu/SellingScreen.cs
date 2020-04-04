@@ -30,8 +30,7 @@ public class SellingScreen : MonoBehaviour
     private const string m_LOG_FILE = "SellingLog.txt";
 
     /// <summary>The s is loading paths</summary>
-    //TODO GEHT DAS AUCH PRIVATE??
-    public static bool s_isLoadingPaths = true;
+    private static bool s_isLoadingPaths = true;
 
     void Start()
     {
