@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement, IAttack
+public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
