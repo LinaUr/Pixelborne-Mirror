@@ -8,8 +8,6 @@ public abstract class Entity : MonoBehaviour, IAttack
     [SerializeField]
     protected bool m_isFacingRight;
     [SerializeField]
-    private float m_distanceInWhichEntityCountsAsGrounded = 0.1f;
-    [SerializeField]
     protected float m_jumpForce = 22.0f;
     [SerializeField]
     protected float m_moveSpeed = 10.0f;
@@ -26,6 +24,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected bool m_isGrounded = false;
     protected int m_currentAttackingDirection = 0;
     protected static readonly float HORIZONTAL_IS_GROUNDED_DISTANCE = 0.1f;
+    protected static readonly float VERTICAL_IS_GROUNDED_DISTANCE = 0.2f;
     protected static readonly string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
     protected static readonly string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
     protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
@@ -64,7 +63,8 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void UpdateIsGrounded()
     {
         m_isGrounded = Physics2D.OverlapArea((Vector2) m_collider.bounds.min - new Vector2(HORIZONTAL_IS_GROUNDED_DISTANCE, 0.0f),
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, 
+                        -VERTICAL_IS_GROUNDED_DISTANCE), m_whatIsGround);
     }
 
     // This method flips the entity sprite.

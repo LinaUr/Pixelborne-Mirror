@@ -199,7 +199,7 @@ public class PlayerMovement : Entity
     // the input is not locked and the player is not attacking.
     // The rest of the roll-functionality is implemented in the update method 
     // because the unity animation event system caused a bug.
-    public void OnRoll(InputValue value)
+    void OnRoll(InputValue value)
     {
         if (!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
         {
@@ -303,7 +303,7 @@ public class PlayerMovement : Entity
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         m_activeGame.UnregisterPlayer(gameObject);
     }
