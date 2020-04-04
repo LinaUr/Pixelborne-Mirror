@@ -31,7 +31,7 @@ public class SellingScreen : MonoBehaviour
 
     /// <summary>The s is loading paths</summary>
     //TODO GEHT DAS AUCH PRIVATE??
-    public static bool s_isLoadingPaths = true;
+    private static bool s_isLoadingPaths = true;
 
     void Start()
     {
