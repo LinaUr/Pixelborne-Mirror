@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DialogueStage3 : MonoBehaviour
 {
     [SerializeField]
-    private int m_textPartDisplayTime = 5000;
+    private int m_textPartDisplayTime = 3000;
 
     enum DialogueMode
     {
@@ -31,7 +31,7 @@ public class DialogueStage3 : MonoBehaviour
                                              "You must know, they believe the royal blood holds ancient power.",
                                              "Power they wanted to use to summon their Dark King from his -",
                                              "Hold on! Is that the Dark King's crown you have there?",
-                                             "What e relief. We shall take it with us, so that they may never be able to use it.",
+                                             "What a relief. We shall take it with us, so that they may never be able to use it.",
                                              "Come now, let us return to the castle at once!" };
     
     public bool PlayerProgressed { get; set; }

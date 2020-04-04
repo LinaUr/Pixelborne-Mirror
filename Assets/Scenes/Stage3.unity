@@ -8595,6 +8595,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28bea448875f9db5fa11d7dcc0ba8987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &168911396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168911394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a793ebf2b143244be2cbbcaff4fb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_dialog: {fileID: 1829028707}
 --- !u!1 &175240876
 GameObject:
   m_ObjectHideFlags: 0
@@ -78115,6 +78128,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364128076}
   m_CullTransparentMesh: 0
+--- !u!1 &1381245743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1381245744}
+  - component: {fileID: 1381245745}
+  m_Layer: 8
+  m_Name: Storytrigger1
+  m_TagString: Storytrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1381245744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381245743}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 124.12, y: 11.7, z: -0.97075933}
+  m_LocalScale: {x: 2.1635098, y: 4.33705, z: 0.75580996}
+  m_Children: []
+  m_Father: {fileID: 1865767607}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1381245745
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381245743}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1393975249
 GameObject:
   m_ObjectHideFlags: 0
@@ -78183,7 +78253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1457379063
 Transform:
   m_ObjectHideFlags: 0
@@ -78192,7 +78262,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457379062}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 124.56, y: 10.03, z: -0.20921773}
+  m_LocalPosition: {x: 124.53, y: 10.1, z: -0.20921773}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1865767607}
@@ -78231,7 +78301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907f5ca0e1c668d49afe9e4f313a9abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_dialogue: {fileID: 1829028707}
 --- !u!58 &1457379066
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -78828,10 +78897,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1829028705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33bbc8e201ed04b4cb5eb0d1ed6d3514, type: 3}
+  m_Script: {fileID: 11500000, guid: f912689af12f29f478520e5d573acc4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_textPartDisplayTime: 5000
+  m_textPartDisplayTime: 3000
 --- !u!114 &1829028708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78926,6 +78995,7 @@ Transform:
   - {fileID: 1457379063}
   - {fileID: 1492809821}
   - {fileID: 1593581760}
+  - {fileID: 1381245744}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
