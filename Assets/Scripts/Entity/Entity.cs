@@ -83,6 +83,11 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
+        // Undefeatable objects cannot be damaged. e.g. princess.
+        if(m_entityHealth == null)
+        {
+            return;
+        }
         if (!IsInputLocked)
         {
             if (collider.gameObject.name == DEATH_ZONES_NAME)

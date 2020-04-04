@@ -58,29 +58,29 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     // Normalize the movementDirection.
                     movementDirection = movementDirection < 0 ? -1 : 1;
                     m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
-                }
 
-                // Flip enemy direction if player now walks in opposite direction.
-                if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
-                {
-                    FlipEntity();
-                }
-                // Apply the movement to the physics.
-                m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
-
-                // Jump if the position is almost equal to the last position and jumping is turned on.
-                // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
-                if (m_isAutoJumping)
-                {
-                    m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
-                    if (m_currentTimeUntilResettingPlayerPosition <= 0)
+                    // Flip enemy direction if player now walks in opposite direction.
+                    if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
                     {
-                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                        FlipEntity();
+                    }
+                    // Apply the movement to the physics.
+                    m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+
+                    // Jump if the position is almost equal to the last position and jumping is turned on.
+                    // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
+                    if (m_isAutoJumping)
+                    {
+                        m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
+                        if (m_currentTimeUntilResettingPlayerPosition <= 0)
                         {
-                            OnJump(null);
+                            if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                            {
+                                OnJump(null);
+                            }
+                            m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
+                            m_lastPosition = gameObject.transform.position;
                         }
-                        m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
-                        m_lastPosition = gameObject.transform.position;
                     }
                 }
             }
