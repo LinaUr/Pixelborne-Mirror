@@ -31,6 +31,7 @@ public class DialogueStage4 : MonoBehaviour
                                              "OutroImages/dark_crown_destroyed" };
     private GameObject m_background;
     private GameObject m_backgroundPicture;
+    private GameObject m_demonKing;
     private GameObject m_dialogue;
     private DialogueMode m_dialogueMode;
     private int m_dialoguePart;
@@ -85,6 +86,7 @@ public class DialogueStage4 : MonoBehaviour
                                               "Knight!",
                                               "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!" };
     private int m_displayStartTime;
+    private GameObject m_endboss;
     private bool m_enemiesKilled;
     private GameObject m_filterImage;
     private GameObject m_nameTag;
@@ -99,6 +101,12 @@ public class DialogueStage4 : MonoBehaviour
         m_nameTag = GameObject.Find("NameTag");
         m_backgroundPicture = GameObject.Find("BackgroundPicture");
         m_filterImage = GameObject.Find("FilterImage");
+        m_demonKing = GameObject.Find("Demon_King");
+        m_endboss = GameObject.Find("Endboss");
+        m_demonKing.SetActive(false);
+        Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);
+        m_endboss.SetActive(false);
+        Singleplayer.Instance.ActiveEnemies.Remove(m_endboss);
         m_dialoguePart = 0;
         GetName();
         m_dialogueText = m_dialogueTextPart0;
@@ -111,13 +119,6 @@ public class DialogueStage4 : MonoBehaviour
     void Update()
     {
         m_enemiesKilled = EnemiesKilled();
-
-
-        //Debug-Code. Must be removed in final version
-        PlayerProgressed = true;
-        m_enemiesKilled = true;
-
-
         switch (m_dialogueMode)
         {
             case DialogueMode.Displaying:
@@ -180,10 +181,7 @@ public class DialogueStage4 : MonoBehaviour
         bool allKilled = true;
         foreach (GameObject enemy in Singleplayer.Instance.ActiveEnemies)
         {
-            if (enemy.name == "EnemyStartRight" || enemy.name == "EnemyStartLeft")
-            {
                 allKilled = false;
-            }
         }
         return allKilled;
     }
@@ -302,8 +300,9 @@ public class DialogueStage4 : MonoBehaviour
 
             case 13:
                 m_filterImage.GetComponent<SpriteRenderer>().enabled = false;
-
-                //TODO: change king sprite here
+                GameObject.Find("King").SetActive(false);
+                m_demonKing.SetActive(true);
+                Singleplayer.Instance.ActiveEnemies.Add(m_demonKing);
 
                 m_dialogueText = m_dialogueTextPart11;
                 ShowText();
@@ -328,9 +327,6 @@ public class DialogueStage4 : MonoBehaviour
                 break;
 
             case 17:
-
-                //TODO: king draws sword (?)
-
                 m_dialogueText = m_dialogueTextPart15;
                 ShowText();
                 break;
@@ -416,6 +412,9 @@ public class DialogueStage4 : MonoBehaviour
             case 30:
 
                 //TODO: spawn Dark King
+                //Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);     (only possible when object is not destroyed immediately)
+                m_endboss.SetActive(true);
+                Singleplayer.Instance.ActiveEnemies.Add(m_endboss);
 
                 m_filterImage.GetComponent<SpriteRenderer>().enabled = false;
                 m_dialogueText = m_dialogueTextPart25;
@@ -466,7 +465,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 PlayerProgressed = false;
-                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown
+                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown  (requires object not to be destroyed immediately)
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
