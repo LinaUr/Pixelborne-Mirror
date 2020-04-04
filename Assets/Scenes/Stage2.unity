@@ -25072,6 +25072,39 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chapterscreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_text
+      value: 'Chapter 1
+
+
+        A Dark Forest'
+      objectReference: {fileID: 0}
     - target: {fileID: 3285563062741989812, guid: f2b2859bfe51b604a9a66f2fab9073b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25201,39 +25234,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RenderMode
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_text
-      value: 'Chapter 1
-
-
-        A Dark Forest'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2b2859bfe51b604a9a66f2fab9073b1, type: 3}
