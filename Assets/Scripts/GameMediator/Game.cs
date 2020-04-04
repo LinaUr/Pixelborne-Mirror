@@ -8,7 +8,7 @@ public class Game : ScriptableObject
     public static IGame Current { get; set; }
     /// <summary>Gets or sets the mode.</summary>
     /// <value>The mode.</value>
-    public static Mode Mode { get; set; }
+    public static GameMode Mode { get; set; }
 
     /// <summary>Pauses this instance.</summary>
     public static void Pause()

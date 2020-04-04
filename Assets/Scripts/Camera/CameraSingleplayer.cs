@@ -33,6 +33,6 @@ public class CameraSingleplayer : GameCamera
     /// <summary>Fadeds the in.</summary>
     protected override void FadedIn()
     {
-        // Do nothing. Singleplayer does not need a fade in.
+        Singleplayer.Instance.FadedIn();
     }
 }

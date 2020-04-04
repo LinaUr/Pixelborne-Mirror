@@ -66,7 +66,7 @@ public class Singleplayer : ScriptableObject, IGame
     public void Go()
     {
         Game.Current = Instance;
-        Game.Mode = Mode.Singleplayer;
+        Game.Mode = GameMode.Singleplayer;
 
         SellingScreen.GetImportantFiles();
 
@@ -116,7 +116,11 @@ public class Singleplayer : ScriptableObject, IGame
     public void LockPlayerInput(bool isLocked)
     {
         m_playerMovement.IsInputLocked = isLocked;
-        foreach(GameObject enemy in ActiveEnemies)
+        if (Player != null)
+        {
+            m_playerMovement.ResetEntityAnimations();
+        }
+        foreach (GameObject enemy in ActiveEnemies)
         {
             enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
         }
@@ -159,8 +163,13 @@ public class Singleplayer : ScriptableObject, IGame
         DriveMusicManager.Instance.Go();
     }
 
-    /// <summary>Reacheds the end of stage.</summary>
-    public void ReachedEndOfStage()
+    public void BeginStage()
+    {
+        Camera.FadeIn();
+    }
+
+    /// <summary>Ends stage.</summary>
+    public void EndStage()
     {
         m_currentStageIndex++;
 
@@ -180,6 +189,11 @@ public class Singleplayer : ScriptableObject, IGame
     public void FadedOut()
     {
         PrepareStage();
+    }
+
+    public void FadedIn()
+    {
+        LockPlayerInput(false);
     }
 
     /// <summary>Enables the entity collision.</summary>

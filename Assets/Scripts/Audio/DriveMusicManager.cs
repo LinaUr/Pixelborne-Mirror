@@ -155,7 +155,7 @@ public class DriveMusicManager : MonoBehaviour
             {
                 yield return null;
             }
-            var wav = m_wavStore.First();
+            WAV wav = m_wavStore.First();
 
             AudioClip audioClip = AudioClip.Create(wav.Name, wav.SampleCount, 1, wav.Frequency, false);
             audioClip.SetData(wav.LeftChannel, 0);

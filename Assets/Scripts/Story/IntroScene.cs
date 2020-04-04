@@ -1,129 +1,122 @@
-﻿using TMPro;
+﻿using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This class manages the displaying of images and text in the intro scene of the singleplayer mode.
 /// <summary></summary>
 public class IntroScene : MonoBehaviour
 {
     [SerializeField]
-    private int m_fadeTime = 5000;
+    private float m_fadeTime = 3000;
+    [SerializeField]
+    private Image m_backgroundImage;
+    [SerializeField]
+    private TextMeshProUGUI m_story;
 
-    private enum IntroMode
+    private enum Mode
     {
-        Fading,
-        Displaying
+        FadeImage,
+        DisplayText
     }
 
-    private IntroMode m_introMode;
-    private GameObject m_background;
-    private GameObject m_story;
-    private int m_fadeStartTime;
-    private int m_storyPart;
-    private int m_textPart;
-    private string[] m_storyText;
-    private string[] m_storyTextPart0 = { "Prologue\n\nDarkness" };
-    private string[] m_storyTextPart1 = { "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
-                                          "The people lived content lives under the rule of a just king.",
-                                          "And everything was bright and colorful." };
-    private string[] m_storyTextPart2 = { "Until one day, darkness erupted.",
-                                          "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
-                                          "They burnt the towns. They slaughtered the people." };
-    private string[] m_storyTextPart3 = { "And eventually, they reached the castle gates.",
-                                          "The kingdom was weak, and the gates could not be held.",
-                                          "But a few brave knights remained, and they fought back with everything they had." };
-   
+    private Mode m_mode;
+    private int m_storyPart = 0;
+    private int m_textPart = 0;
+    private Stopwatch m_stopwatch = new Stopwatch();
+    private Sprite[] m_imageHolder;
+    private readonly string[][] m_storyHolder =
+    {
+        new string[] { "Prologue\n\nDarkness" },
+        new string[] {
+            "Once upon a time, there was a peaceful kingdom, full of light and happiness.",
+            "The people lived content lives under the rule of a just king.",
+            "And everything was bright and colorful."
+        },
+        new string[] {
+            "Until one day, darkness erupted.",
+            "A dark energy claimed the land, and with it came darker creatures, ancient and full of malice.",
+            "They burnt the towns. They slaughtered the people."
+        },
+        new string[] {
+            "And eventually, they reached the castle gates.",
+            "The kingdom was weak, and the gates could not be held.",
+            "But a few brave knights remained, and they fought back with everything they had."
+        }
+    };
+
     void Start()
     {
-        m_background = GameObject.Find("Background");
-        m_story = GameObject.Find("Story");
-        m_storyPart = 0;
-        m_storyText = m_storyTextPart0;
-        ShowText();
+        // Get the background images.
+        m_imageHolder = new Sprite[] {
+            null,
+            Resources.Load<Sprite>("IntroImages/peaceful"),
+            Resources.Load<Sprite>("IntroImages/war"),
+            Resources.Load<Sprite>("IntroImages/castle_gates")
+        };
+
+        m_mode = Mode.DisplayText;
+        m_story.text = m_storyHolder[m_storyPart][m_textPart];
+        m_stopwatch.Start();
     }
 
     void Update()
     {
-        if (m_introMode == IntroMode.Fading)
-        {
-            // Change the color to black.
-            Color tmp = m_background.GetComponent<Image>().color;
-            float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
-            float floatFadeTime = m_fadeTime * 1.0f;
-            float percentage = takenTime / floatFadeTime;
-            tmp.r = (1.0f - percentage) + 0.3f;
-            tmp.g = (1.0f - percentage) + 0.3f;
-            tmp.b = (1.0f - percentage) + 0.3f;
-            m_background.GetComponent<Image>().color = tmp;
+        long elapsedTime = m_stopwatch.ElapsedMilliseconds;
 
-            // Complete the fade to black when enough time has passed.
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+        if (m_mode == Mode.FadeImage)
+        {
+            // Fade the colors darker.
+            float percentage = elapsedTime / m_fadeTime;
+            float colorValue = (1.0f - percentage) + 0.3f;
+            m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
+
+            // Complete the fade when enough time has passed.
+            if (elapsedTime >= m_fadeTime)
             {
-                tmp.r = 0.3f;
-                tmp.g = 0.3f;
-                tmp.b = 0.3f;
-                m_background.GetComponent<Image>().color = tmp;
-                ShowText();
+                colorValue = 0.3f;
+                m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
+                m_story.gameObject.SetActive(true);
+                m_mode = Mode.DisplayText;
+                m_stopwatch.Restart();
             }
         }
-        else if (m_introMode == IntroMode.Displaying)
-        {
-            m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+        else if (m_mode == Mode.DisplayText)
+        {            
+            if (elapsedTime >= m_fadeTime)
             {
                 m_textPart++;
-                if (m_textPart == m_storyText.Length)
+
+                if (m_textPart == m_storyHolder[m_storyPart].Length)
                 {
-                    ChangePic();
+                    m_textPart = 0;
+                    ChangeStoryPart();
+                    m_mode = Mode.FadeImage;
+                    m_stopwatch.Restart();
+                    return;
                 }
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+
+                m_story.text = m_storyHolder[m_storyPart][m_textPart];
+                m_stopwatch.Restart();
             }
         }
     }
 
-    private void FadeOut()
-    {
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
-        m_introMode = IntroMode.Fading;
-    }
-
-    private void ShowText()
-    {
-        m_introMode = IntroMode.Displaying;
-        m_textPart = 0;
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
-    }
-
-    private void ChangePic()
+    private void ChangeStoryPart()
     {
         m_storyPart++;
-        switch (m_storyPart)
+
+        if (m_storyPart == m_storyHolder.Length)
         {
-            case 1:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/peaceful");
-                m_storyText = m_storyTextPart1;
-                break;
-
-            case 2:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/war");
-                m_storyText = m_storyTextPart2;
-                break;
-
-            case 3:
-                m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("IntroImages/castle_gates");
-                m_storyText = m_storyTextPart3;
-                break;
-
-            case 4:
-                ChangeScene();
-                break;
+            Singleplayer.Instance.EndStage();
+            return;
         }
-        m_background.GetComponent<Image>().color = Color.white;
-        m_story.GetComponent<TextMeshProUGUI>().text = "";
-        FadeOut();
-    }
 
-    private void ChangeScene()
-    {
-        Singleplayer.Instance.ReachedEndOfStage();
+        // Disable the text.
+        m_story.gameObject.SetActive(false);
+
+        // Change the background image.
+        m_backgroundImage.overrideSprite = m_imageHolder[m_storyPart];
+        m_backgroundImage.color = Color.white;
     }
 }

@@ -39,6 +39,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected int m_currentAttackingDirection = 0;
     /// <summary>The horizontal is grounded distance</summary>
     protected static readonly float HORIZONTAL_IS_GROUNDED_DISTANCE = 0.1f;
+    protected static readonly float VERTICAL_IS_GROUNDED_DISTANCE = 0.2f;
     /// <summary>The attack animator parameter names</summary>
     protected static readonly string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
     /// <summary>The jumping animator parameter name</summary>
@@ -48,8 +49,6 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     /// <summary>The death zones name</summary>
     public static readonly string DEATH_ZONES_NAME = "DeathZones";
-    /// <summary>The invalid position</summary>
-    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     /// <summary>Gets or sets a value indicating whether this instance is input locked.</summary>
     /// <value>
     ///   <c>true</c> if this instance is input locked; otherwise, <c>false</c>.</value>
@@ -57,7 +56,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     /// <summary>Gets or sets a value indicating whether this <see cref="Entity"/> is attacking.</summary>
     /// <value>
     ///   <c>true</c> if attacking; otherwise, <c>false</c>.</value>
-    public bool Attacking { get; protected set; }
+    public bool IsAttacking { get; protected set; }
     /// <summary>Gets or sets a value indicating whether this instance is rolling.</summary>
     /// <value>
     ///   <c>true</c> if this instance is rolling; otherwise, <c>false</c>.</value>
@@ -81,7 +80,7 @@ public abstract class Entity : MonoBehaviour, IAttack
             FlipEntity();
         }
         m_weaponCollider.enabled = false;
-        Attacking = false;
+        IsAttacking = false;
     }
 
     /// <summary>Updates this instance.</summary>
@@ -95,7 +94,8 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void UpdateIsGrounded()
     {
         m_isGrounded = Physics2D.OverlapArea((Vector2) m_collider.bounds.min - new Vector2(HORIZONTAL_IS_GROUNDED_DISTANCE, 0.0f),
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, 
+                        -VERTICAL_IS_GROUNDED_DISTANCE), m_whatIsGround);
     }
 
     // This method flips the entity sprite.
@@ -158,7 +158,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     /// <summary>Resets the attack animation.</summary>
     protected void ResetAttackAnimation()
     {
-        Attacking = false;
+        IsAttacking = false;
         foreach (string parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
         {
             m_animator.SetBool(parameter, false);
@@ -174,7 +174,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         {
             m_animator.SetBool(attack_parameter, false);
         }
-        Attacking = false;
+        IsAttacking = false;
     }
 
     /// <summary>Resets the movement.</summary>

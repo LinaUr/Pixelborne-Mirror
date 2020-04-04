@@ -9,22 +9,6 @@ using UnityEngine;
 /// <summary></summary>
 public static class Toolkit
 {
-    // This method returns the current time in the unix format.
-    /// <summary>Currents the time.</summary>
-    /// <returns></returns>
-    public static int CurrentTime()
-    {
-        return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-    }
-
-    // This method returns the number of milliseconds that passed since the start of the current day.
-    /// <summary>Currents the time milliseconds today.</summary>
-    /// <returns></returns>
-    public static int CurrentTimeMillisecondsToday()
-    {
-        return (int)DateTime.UtcNow.Subtract(DateTime.Today).TotalMilliseconds;
-    }
-
     // This method returns the time of the animation that is identified by the provided parameter string name.
     /// <summary>Gets the length of the animation.</summary>
     /// <param name="animator">The animator.</param>

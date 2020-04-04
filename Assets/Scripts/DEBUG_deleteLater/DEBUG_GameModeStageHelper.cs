@@ -6,20 +6,20 @@
 class DEBUG_GameModeStageHelper : MonoBehaviour
 {
     [SerializeField]
-    private Mode gameMode = Mode.Singleplayer;
+    private GameMode gameMode = GameMode.Singleplayer;
     [SerializeField]
     private int stageIndex;
 
     void Awake()
     {
-        if (gameMode == Mode.Singleplayer)
+        if (gameMode == GameMode.Singleplayer)
         {
             var sp = Singleplayer.Instance;
             Game.Current = sp;
             sp.DEBUG_currentStageIndex = stageIndex;
             sp.Go();
         }
-        else if (gameMode == Mode.Multiplayer)
+        else if (gameMode == GameMode.Multiplayer)
         {
             var mp = Multiplayer.Instance;
             Game.Current = mp;

@@ -1,5 +1,5 @@
 ﻿/// <summary></summary>
-public enum Mode
+public enum GameMode
 {
     /// <summary>The main menu</summary>
     MainMenu,
