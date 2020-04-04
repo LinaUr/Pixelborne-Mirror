@@ -30,15 +30,15 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     // TIMEOUT = float
     // ATTACK_INSTRUCTION = one of the constant strings below
 
-    public readonly static string ATTACK_UP_IDENTIFICATION = "AU";
-    public readonly static string ATTACK_MID_IDENTIFICATION = "AM";
-    public readonly static string ATTACK_DOWN_IDENTIFICATION = "AD";
-    public readonly static string JUMP_IDENTIFICATION = "JUMP";
-    public readonly static string START_FOLLOW_PLAYER_IDENTIFICATION = "STARTF";
-    public readonly static string STOP_FOLLOW_PLAYER_IDENTIFICATION = "STOPF";
-    public readonly static string START_AUTO_JUMPING_IDENTIFICATION = "STARTAUTOJUMP";
-    public readonly static string STOP_AUTO_JUMPING_IDENTIFICATION = "STOPAUTOJUMP";
-    public readonly static string SEPERATION_IDENTIFICATION = "|";
+    private readonly static string ATTACK_UP_IDENTIFICATION = "AU";
+    private readonly static string ATTACK_MID_IDENTIFICATION = "AM";
+    private readonly static string ATTACK_DOWN_IDENTIFICATION = "AD";
+    private readonly static string JUMP_IDENTIFICATION = "JUMP";
+    private readonly static string START_FOLLOW_PLAYER_IDENTIFICATION = "STARTF";
+    private readonly static string STOP_FOLLOW_PLAYER_IDENTIFICATION = "STOPF";
+    private readonly static string START_AUTO_JUMPING_IDENTIFICATION = "STARTAUTOJUMP";
+    private readonly static string STOP_AUTO_JUMPING_IDENTIFICATION = "STOPAUTOJUMP";
+    private readonly static string SEPERATION_IDENTIFICATION = "|";
 
     [SerializeField] 
     private string[] m_attackPatternStringsWhileInAttackRange;
