@@ -1,5 +1,5 @@
 // This interface must be implemented by enemies in order to have an AttackPatternExecutor 
-public interface IEnemyAttackAndMovement : IAttack
+public interface IEnemyAttackAndMovement 
 {
     bool IsPlayerInAttackRange();
     bool IsPlayerInSightRange();
