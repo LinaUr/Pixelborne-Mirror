@@ -12,7 +12,7 @@ public class Game : ScriptableObject
 
     public static void Finish()
     {
-        SceneChanger.SetWinningScreenAsActiveScene();
+        SceneChanger.SetMainMenuAsActiveScene();
     }
 
     public static void Freeze()

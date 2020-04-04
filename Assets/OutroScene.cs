@@ -40,8 +40,8 @@ public class OutroScene : MonoBehaviour
     private string[] m_storyTextPart2 = { "And what remained was a beautiful kingdom, battered, but unbroken.",
                                           "What remained were triumphant people under the wise rule of a just queen.",
                                           "What remained was light and warmth and hope." };
-    private string[] m_storyTextPart3 = { "THE END",
-                                          "THE END\n\nThank you for playing Pixelborne.\nPress Space to return to Main Menu."};
+    private string[] m_storyTextPart3 = { "THE END" };
+    private string[] m_storyTextPart4 = { "THE END\n\nThank you for playing Pixelborne.\nPress Space tu return to Main Menu." };
 
     void Start()
     {
@@ -84,7 +84,7 @@ public class OutroScene : MonoBehaviour
             if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
             {
                 m_textPart++;
-                if (m_textPart == m_storyText.Length || m_story.GetComponent<TextMeshProUGUI>().text == m_storyTextPart3[1])
+                if (m_textPart == m_storyText.Length)
                 {
                     ChangePic();
                 }
@@ -157,6 +157,7 @@ public class OutroScene : MonoBehaviour
                 return;
 
             case 5:
+                m_story.GetComponent<TextMeshProUGUI>().text = m_storyTextPart4[0];
                 m_fadeMode = FadeMode.done;
                 return;
         }

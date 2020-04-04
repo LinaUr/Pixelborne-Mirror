@@ -10,7 +10,7 @@ public class SceneChanger
     static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
     static readonly int SELLING_SCREEN_SCENE_INDEX = 4;
     static readonly int WINNING_SCREEN_SCENE_INDEX = 5;
-    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 , 10 };
+    static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 6, 7, 8 , 9 , 10, 11 };
 
     // This method checks if a scene has already been loaded to avoid loading scenes several times.
     private static bool IsSceneAlreadyLoaded(int index)
