@@ -5,6 +5,8 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
     [SerializeField]
+    private bool m_bodyShouldDisappear = true;
+    [SerializeField]
     private float m_attackRange = 10.0f;
     [SerializeField]
     private float m_minPlayerDistance = 0.25f;
@@ -19,13 +21,14 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private float m_currentTimeUntilResettingPlayerPosition = 0.0f;
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
+    protected Rigidbody2D m_playerRigidbody2D;
 
     private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
     private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
-    protected Rigidbody2D m_playerRigidbody2D;
 
     protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
+    protected static readonly string DEAD_ANIMATOR_PARAMETER_NAME = "IsDead";
 
     protected override void Awake()
     {
@@ -235,7 +238,18 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     // This method destroys the gameObject.
     void DestroySelf()
     {
-        Destroy(gameObject);
+        if(m_bodyShouldDisappear)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            int disabledCollisionLayer = LayerMask.NameToLayer("DisabledCollisionLayer");
+            gameObject.layer = disabledCollisionLayer;
+            ResetEntityAnimations();
+            m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, false);
+            m_animator.SetBool(DEAD_ANIMATOR_PARAMETER_NAME, true);
+        }
     }
 
     // It is called at the end of the death animation.

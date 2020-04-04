@@ -136,11 +136,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     {
         m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, false);
         m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
-        foreach (string attack_parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
-        {
-            m_animator.SetBool(attack_parameter, false);
-        }
-        Attacking = false;
+        ResetAttackAnimation();
     }
 
     public virtual void ResetMovement()

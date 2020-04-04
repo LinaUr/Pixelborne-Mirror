@@ -230,6 +230,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5888
   m_isFriendlyFireActive: 0
+  m_bodyShouldDisappear: 0
   m_attackRange: 4
   m_minPlayerDistance: 2
   m_sightRange: 9
