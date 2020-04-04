@@ -36,11 +36,6 @@ public class SceneChanger
         return true;
     }
 
-    public static void SetSingleplayerAsActiveScene()
-    {
-        LoadSceneAsActiveScene(SINGLEPLAYER_SCENE_INDEX);
-    }
-
     public static void SetMultiplayerAsActiveScene()
     {
         LoadSceneAsActiveScene(MULTIPLAYER_SCENE_INDEX);

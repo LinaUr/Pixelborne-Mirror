@@ -232,12 +232,6 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         m_isAttackChained = false;
     }
 
-    // This method destroys the gameObject.
-    void DestroySelf()
-    {
-        Destroy(gameObject);
-    }
-
     // It is called at the end of the death animation.
     // This method is automatically called when the gameObject is destroyed.
     void OnDestroy()
