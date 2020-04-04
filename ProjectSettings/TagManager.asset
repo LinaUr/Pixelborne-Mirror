@@ -22,7 +22,6 @@ TagManager:
   - UI
   - 
   - 
-  - Flashes
   - Player
   - Player_1
   - Player_2
@@ -30,6 +29,7 @@ TagManager:
   - King
   - Ground
   - Walls
+  - Flashes
   - 
   - 
   - 
