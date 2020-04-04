@@ -25,7 +25,7 @@ public abstract class Entity : MonoBehaviour, IAttack
 
     protected bool m_isGrounded = false;
     protected int m_currentAttackingDirection = 0;
-    protected static float s_ATTACK_DIRECTION_DEADZONE = 0.35f;
+    protected static readonly float HORIZONTAL_IS_GROUNDED_DISTANCE = 0.1f;
     protected static readonly string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
     protected static readonly string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
     protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
@@ -54,10 +54,16 @@ public abstract class Entity : MonoBehaviour, IAttack
         Attacking = false;
     }
 
-    protected virtual void Update() {
-        m_isGrounded = Physics2D.OverlapArea(m_collider.bounds.min,
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
+    protected virtual void Update() 
+    {
+        UpdateIsGrounded();
         m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, !m_isGrounded);
+    }
+
+    protected void UpdateIsGrounded()
+    {
+        m_isGrounded = Physics2D.OverlapArea((Vector2) m_collider.bounds.min - new Vector2(HORIZONTAL_IS_GROUNDED_DISTANCE, 0.0f),
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
     }
 
     // This method flips the entity sprite.
@@ -69,7 +75,8 @@ public abstract class Entity : MonoBehaviour, IAttack
         gameObject.transform.localScale = currentScale;
     }
 
-    protected virtual void Die(){
+    protected virtual void Die()
+    {
         StopAttacking();
     }
 

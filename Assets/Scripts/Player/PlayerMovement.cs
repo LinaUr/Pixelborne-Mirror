@@ -16,9 +16,11 @@ public class PlayerMovement : Entity
     private Transform m_playerPositionsTransform;
 
     private bool m_hasStablePosition = false; 
-    private double m_attackDuration; 
-    private double m_lastTimeAttacked = -1.0d;
+    private float m_attackDuration; 
     private float m_attackDirection;
+    private float m_lastTimeAttacked = -1.0f;
+    private float m_rollingDuration;
+    private float m_lastTimeRolled = -1.0f;
     private float m_rollingMovementX;
     private IGame m_activeGame;
     private SpriteRenderer m_swordRenderer;
@@ -28,10 +30,13 @@ public class PlayerMovement : Entity
     private Vector2 m_lastCheckedPosition;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
+    private static readonly float ROLLING_INVINCIBILITY_TIME_WINDOW_END = 0.2f;
+    private static readonly float ROLLING_INVINCIBILITY_TIME_WINDOW_START = 0.8f;
+    private static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
+    private static readonly string PLAYER_ROLLING_ANIMATION_NAME = "Player_1_roll";
+    private static readonly string ROLLING_ANIMATOR_NAME = "Rolling";
     // Time in milliseconds.
     private static readonly float INTERVAL_FOR_POSITION_CHECK = 400;
-    protected static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
-    protected static readonly string ROLLING_ANIMATION_NAME = "Rolling";
 
     public GameObject PlayerSword { get { return m_playerSword; } }
     // Positions from outer left to outer right stage as they are in the scene.
@@ -67,11 +72,11 @@ public class PlayerMovement : Entity
     protected override void Start()
     {
         base.Start();
-        RevivePosition = gameObject.transform.position;
         // Registration of player on start for safety reasons.
         m_activeGame = Game.Current;
         m_activeGame.RegisterPlayer(gameObject);
         m_attackDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ATTACK_ANIMATION_NAME);
+        m_rollingDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ROLLING_ANIMATION_NAME);
         m_stopwatch.Start();
     }
 
@@ -79,15 +84,70 @@ public class PlayerMovement : Entity
     {
         base.Update();
         UpdateRevivePosition();
+        UpdateRolling();
+        UpdateAttacking();
+    }
 
-        // Since to the ground is not slippery, we need to reapply the velocity.
+    // This method updates the revive position of the player. The revive position has to be stable. 
+    // A position is stable when the player continuously stays on ground for INTERVAL_FOR_POSITION_CHECK
+    // milliseconds.
+    private void UpdateRevivePosition()
+    {
+        if (!m_isGrounded)
+        {
+            m_hasStablePosition = false;
+        }
+        else if (!m_hasStablePosition || m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
+        {
+            // As soon as the player hits ground again or the time between checks is up, this part is executed.
+
+            if (m_hasStablePosition)
+            {
+                // Since the player was continiously grounded the last position is stable.
+                RevivePosition = m_lastCheckedPosition;
+            }
+            m_lastCheckedPosition = gameObject.transform.position;
+            m_hasStablePosition = true;
+            m_stopwatch.Restart();
+        }
+    }
+
+    private void UpdateRolling()
+    {
         if (IsRolling)
         {
+            m_lastTimeRolled -= Time.deltaTime;
+            // Since to the ground is not slippery, we need to reapply the velocity.
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
             manipulatedVelocity.x = m_rollingMovementX;
             m_rigidbody2D.velocity = manipulatedVelocity;
-        }
 
+            float currentAnimationLengthPercentage = m_lastTimeRolled / m_rollingDuration;
+            bool playerIsCurrentlyInvincible = ROLLING_INVINCIBILITY_TIME_WINDOW_END <= currentAnimationLengthPercentage 
+                && currentAnimationLengthPercentage <= ROLLING_INVINCIBILITY_TIME_WINDOW_START;
+            // Adjust the invincibility and collider size according to the invincibility window.
+            if (playerIsCurrentlyInvincible)
+            {
+                m_entityHealth.Invincible = true;
+                m_collider.size = m_rollingColliderSize;
+                m_activeGame.DisableEntityCollision(gameObject);
+            }
+            else
+            {
+                m_entityHealth.Invincible = false;
+                m_collider.size = m_nonRollingColliderSize;
+                m_activeGame.EnableEntityCollision(gameObject);
+            }
+            if (m_lastTimeRolled <= 0)
+            {
+                IsRolling = false;
+                m_animator.SetBool(ROLLING_ANIMATOR_NAME, false);
+            }
+        }
+    }
+
+    private void UpdateAttacking()
+    {
         // Set the player as not attacking when the time that the attack animation needs is over.
         // Set the Animator variable as well.
         if (Attacking)
@@ -118,10 +178,11 @@ public class PlayerMovement : Entity
     public override void ResetEntityAnimations()
     {
         base.ResetEntityAnimations();
-        m_animator.SetBool(ROLLING_ANIMATION_NAME, false);
-        StopRollingInvincibility();
+        m_animator.SetBool(ROLLING_ANIMATOR_NAME, false);
         IsRolling = false;
-        m_lastTimeAttacked = 0.0d;
+        m_lastTimeRolled = 0.0f;
+        m_collider.size = m_nonRollingColliderSize;
+        m_lastTimeAttacked = 0.0f;
     }
 
     public override void ResetMovement()
@@ -144,34 +205,17 @@ public class PlayerMovement : Entity
 
     // This method starts the player roll if he is not already rolling, is on the ground,
     // the input is not locked and the player is not attacking.
+    // The rest of the roll-functionality is implemented in the update method 
+    // because the unity animation event system caused a bug.
     public void OnRoll(InputValue value)
     {
         if (!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
         {
-            m_animator.SetBool(ROLLING_ANIMATION_NAME, true);
+            m_animator.SetBool(ROLLING_ANIMATOR_NAME, true);
             m_rollingMovementX = m_rigidbody2D.velocity.x;
             IsRolling = true;
+            m_lastTimeRolled = m_rollingDuration;
         }
-    }
-
-    public void StopRolling()
-    {
-        m_animator.SetBool(ROLLING_ANIMATION_NAME, false);
-        IsRolling = false;
-    }
-
-    public void StartRollingInvincibility()
-    {
-        m_entityHealth.Invincible = true;
-        m_collider.size = m_rollingColliderSize;
-        m_activeGame.DisableEntityCollision(gameObject);
-    }
-
-    public void StopRollingInvincibility()
-    {
-        m_entityHealth.Invincible = false;
-        m_collider.size = m_nonRollingColliderSize;
-        m_activeGame.EnableEntityCollision(gameObject);
     }
 
     public void OnPauseGame()
@@ -254,41 +298,17 @@ public class PlayerMovement : Entity
     // This method determines the attack direction.
     private void DetermineAttackingParameter(float attackDirectionAxisValue)
     {
-        if (attackDirectionAxisValue > s_ATTACK_DIRECTION_DEADZONE)
+        if (attackDirectionAxisValue > CONTROLLER_DEADZONE)
         {
             m_currentAttackingDirection = 0;
         }
-        else if (attackDirectionAxisValue > -s_ATTACK_DIRECTION_DEADZONE)
+        else if (attackDirectionAxisValue > -CONTROLLER_DEADZONE)
         {
             m_currentAttackingDirection = 1;
         }
         else 
         {
             m_currentAttackingDirection = 2;
-        }
-    }
-
-    // This method updates the revive position of the player. The revive position has to be stable. 
-    // A position is stable when the player continuously stays on ground for INTERVAL_FOR_POSITION_CHECK
-    // milliseconds.
-    private void UpdateRevivePosition()
-    {
-        if (!m_isGrounded)
-        {
-            m_hasStablePosition = false;
-        }
-        else if (!m_hasStablePosition || m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
-        {
-            // As soon as the player hits ground again or the time between checks is up, this part is executed.
-
-            if (m_hasStablePosition)
-            {
-                // Since the player was continiously grounded the last position is stable.
-                RevivePosition = m_lastCheckedPosition;
-            }
-            m_lastCheckedPosition = gameObject.transform.position;
-            m_hasStablePosition = true;
-            m_stopwatch.Restart();
         }
     }
 
