@@ -288,6 +288,7 @@ public class PlayerMovement : Entity
             }
             m_lastCheckedPosition = gameObject.transform.position;
             m_stopwatch.Restart();
+            m_hasStablePosition = true;
         }
     }
 
