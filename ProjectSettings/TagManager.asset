@@ -31,7 +31,7 @@ TagManager:
   - Walls
   - Flashes
   - Princess
-  - 
+  - "DisabledCollisionLayer\x13\x13\x13\x13"
   - 
   - 
   - 
