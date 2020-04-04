@@ -3,23 +3,33 @@ using System.Diagnostics;
 using UnityEngine;
 
 // This class implements the fading and hudsymbol swapping for cameras of the game.
+/// <summary></summary>
 public abstract class GameCamera : MonoBehaviour, ICamera
 {
+    /// <summary>The m fade time</summary>
     [SerializeField]
     protected float m_fadeTime = 1500;
+    /// <summary>The m fade image</summary>
     [SerializeField]
     protected GameObject m_fadeImage;
 
+    /// <summary>The m fade mode</summary>
     protected FadeMode m_fadeMode = FadeMode.NoFade;
+    /// <summary>The m fade stopwatch</summary>
     protected Stopwatch m_fadeStopwatch = new Stopwatch();
 
+    /// <summary></summary>
     protected enum FadeMode
     {
+        /// <summary>The fade in</summary>
         FadeIn,
+        /// <summary>The fade out</summary>
         FadeOut,
+        /// <summary>The no fade</summary>
         NoFade
     }
 
+    /// <summary>Updates this instance.</summary>
     protected virtual void Update()
     {
         Fade();
@@ -80,6 +90,7 @@ public abstract class GameCamera : MonoBehaviour, ICamera
     }
 
     // This method triggers the fade to black animation.
+    /// <summary>Fades the out.</summary>
     public void FadeOut()
     {
         m_fadeStopwatch.Start();
@@ -87,16 +98,22 @@ public abstract class GameCamera : MonoBehaviour, ICamera
     }
 
     // This method triggers the fade in animation.
+    /// <summary>Fades the in.</summary>
     public void FadeIn()
     {
         m_fadeStopwatch.Start();
         m_fadeMode = FadeMode.FadeIn;
     }
 
+    /// <summary>Fadeds the out.</summary>
     protected abstract void FadedOut();
 
+    /// <summary>Fadeds the in.</summary>
     protected abstract void FadedIn();
 
+    /// <summary>Swaps the hud symbol.</summary>
+    /// <param name="gameObject">The game object.</param>
+    /// <param name="sprite">The sprite.</param>
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
         GameObject hudObject = transform.Find($"{gameObject.name}HudSymbol").gameObject;

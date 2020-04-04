@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This class contains the Singleplayer game mode logic.
+/// <summary></summary>
 public class Singleplayer : ScriptableObject, IGame
 {
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
@@ -14,11 +15,21 @@ public class Singleplayer : ScriptableObject, IGame
 
     private const int m_START_STAGE_INDEX = 0;
 
+    /// <summary>Gets or sets the camera.</summary>
+    /// <value>The camera.</value>
     public CameraSingleplayer Camera { get; set; }
+    /// <summary>Gets or sets the price to pay.</summary>
+    /// <value>The price to pay.</value>
     public float PriceToPay { get; set; }
+    /// <summary>Gets or sets the player.</summary>
+    /// <value>The player.</value>
     public GameObject Player { get; set; } = null;
+    /// <summary>Gets or sets the active enemies.</summary>
+    /// <value>The active enemies.</value>
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
 
+    /// <summary>Gets the instance.</summary>
+    /// <value>The instance.</value>
     public static Singleplayer Instance
     {
         get
@@ -36,6 +47,8 @@ public class Singleplayer : ScriptableObject, IGame
 
     // This is for testing and debugging single stages quicker without having to start from the MainMenu.
     // TODO: Remove later.
+    /// <summary>Sets the index of the debug current stage.</summary>
+    /// <value>The index of the debug current stage.</value>
     public int DEBUG_currentStageIndex
     {
         set
@@ -49,6 +62,7 @@ public class Singleplayer : ScriptableObject, IGame
         s_instance = this;
     }
 
+    /// <summary>Goes this instance.</summary>
     public void Go()
     {
         Game.Current = Instance;
@@ -59,11 +73,16 @@ public class Singleplayer : ScriptableObject, IGame
         PrepareStage();
     }
 
+    /// <summary>Gets the winner.</summary>
+    /// <returns></returns>
     public string GetWinner()
     {
         return $"You";
     }
 
+    /// <summary>Registers the player.</summary>
+    /// <param name="player">The player.</param>
+    /// <exception cref="Exception">Error: Object \"{player.name}\" can not be registered. Player has already been assigned.</exception>
     public void RegisterPlayer(GameObject player)
     {
         if (Player == null)
@@ -78,17 +97,22 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Unregisters the player.</summary>
+    /// <param name="player">The player.</param>
     public void UnregisterPlayer(GameObject player)
     {
         Player = null;
     }
 
+    /// <summary>Revives the player.</summary>
     public void RevivePlayer()
     {
         m_playerMovement.SetPositionForRevive(m_playerRevivePosition);
         m_playerMovement.ResetEntityActions();
     }
 
+    /// <summary>Locks the player input.</summary>
+    /// <param name="isLocked">if set to <c>true</c> [is locked].</param>
     public void LockPlayerInput(bool isLocked)
     {
         m_playerMovement.IsInputLocked = isLocked;
@@ -98,6 +122,9 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Handles the death.</summary>
+    /// <param name="entity">The entity.</param>
+    /// <exception cref="ArgumentException">Expected player as argument but got: {entity}</exception>
     public void HandleDeath(GameObject entity)
     {
         if (entity == Player)
@@ -111,11 +138,13 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Resets the game.</summary>
     public void ResetGame()
     {
         m_currentStageIndex = m_START_STAGE_INDEX;
     }
 
+    /// <summary>Prepares the stage.</summary>
     public void PrepareStage()
     {
         bool isStageExistent = SceneChanger.LoadSingleplayerStageAsActiveScene(m_currentStageIndex);
@@ -130,6 +159,7 @@ public class Singleplayer : ScriptableObject, IGame
         DriveMusicManager.Instance.Go();
     }
 
+    /// <summary>Reacheds the end of stage.</summary>
     public void ReachedEndOfStage()
     {
         m_currentStageIndex++;
@@ -146,11 +176,14 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Fadeds the out.</summary>
     public void FadedOut()
     {
         PrepareStage();
     }
 
+    /// <summary>Enables the entity collision.</summary>
+    /// <param name="callingEntity">The calling entity.</param>
     public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
@@ -160,12 +193,17 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Disables the entity collision.</summary>
+    /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
         Physics2D.IgnoreLayerCollision(Player.layer, m_enemyLayer, true);
     }
 
+    /// <summary>Swaps the hud symbol.</summary>
+    /// <param name="gameObject">The game object.</param>
+    /// <param name="sprite">The sprite.</param>
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
         if (Camera != null)

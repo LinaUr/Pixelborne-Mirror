@@ -2,6 +2,7 @@
 
 // This class assigns the GameObject that functions as an ImageHolder to the ImageManager.
 // It needs to be assigned to a GameObject as a Script component.
+/// <summary></summary>
 public class ImageHolderPasser : MonoBehaviour
 {
     [SerializeField]
@@ -13,7 +14,7 @@ public class ImageHolderPasser : MonoBehaviour
         ImageManager.Instance.PrepareForFirstLoad(m_LoadAndSetSceneImages);
     }
 
-    private void Update()
+    void Update()
     {
         if (Game.Mode == Mode.Singleplayer)
         {
@@ -21,7 +22,7 @@ public class ImageHolderPasser : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         ImageManager.Instance.ImageHolder = null;
     }

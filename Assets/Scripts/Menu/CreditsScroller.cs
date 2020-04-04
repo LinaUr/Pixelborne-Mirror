@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary></summary>
 public class CreditsScroller : MonoBehaviour
 {
     [SerializeField]
@@ -19,7 +20,7 @@ public class CreditsScroller : MonoBehaviour
         m_originalPos = gameObject.transform.position;
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         gameObject.transform.position = m_originalPos;
     }
@@ -36,7 +37,7 @@ public class CreditsScroller : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
     }

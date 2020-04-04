@@ -2,12 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary></summary>
 public class IntroScene : MonoBehaviour
 {
     [SerializeField]
     private int m_fadeTime = 5000;
 
-    enum IntroMode
+    private enum IntroMode
     {
         Fading,
         Displaying
@@ -79,20 +80,20 @@ public class IntroScene : MonoBehaviour
         }
     }
 
-    public void FadeOut()
+    private void FadeOut()
     {
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
         m_introMode = IntroMode.Fading;
     }
 
-    public void ShowText()
+    private void ShowText()
     {
         m_introMode = IntroMode.Displaying;
         m_textPart = 0;
         m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
 
-    public void ChangePic()
+    private void ChangePic()
     {
         m_storyPart++;
         switch (m_storyPart)
@@ -121,7 +122,7 @@ public class IntroScene : MonoBehaviour
         FadeOut();
     }
 
-    public void ChangeScene()
+    private void ChangeScene()
     {
         Singleplayer.Instance.ReachedEndOfStage();
     }

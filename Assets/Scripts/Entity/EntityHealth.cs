@@ -1,14 +1,23 @@
 ﻿using UnityEngine;
 
 // This class manages the health of an entity.
+/// <summary></summary>
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField]
     private int m_maxHealth;
 
+    /// <summary>Gets or sets a value indicating whether this <see cref="EntityHealth"/> is invincible.</summary>
+    /// <value>
+    ///   <c>true</c> if invincible; otherwise, <c>false</c>.</value>
     public bool Invincible { get; set; }
+    /// <summary>Gets the current health.</summary>
+    /// <value>The current health.</value>
     public int CurrentHealth { get; private set; }
 
+    /// <summary>Gets a value indicating whether this instance is zero.</summary>
+    /// <value>
+    ///   <c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
     public bool IsZero 
     {
         get
@@ -17,6 +26,8 @@ public class EntityHealth : MonoBehaviour
         }
     }
 
+    /// <summary>Gets the maximum health.</summary>
+    /// <value>The maximum health.</value>
     public int MaxHealth
     {
         get
@@ -32,6 +43,7 @@ public class EntityHealth : MonoBehaviour
     }
 
     // This method revives the entity by resetting its m_currentHealth.
+    /// <summary>Revives this instance.</summary>
     public void Revive()
     {
         CurrentHealth = MaxHealth;
@@ -39,12 +51,15 @@ public class EntityHealth : MonoBehaviour
     }
 
     // This method ensures that the entity has 0 health.
+    /// <summary>Dies this instance.</summary>
     public void Die() 
     {
         TakeDamage(m_maxHealth);
     }
 
     // This method deals damage to the entity by reducing its m_currentHealth.
+    /// <summary>Takes the damage.</summary>
+    /// <param name="damage">The damage.</param>
     public void TakeDamage(int damage)
     {
         if (!Invincible)

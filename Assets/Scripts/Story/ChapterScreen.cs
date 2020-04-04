@@ -2,12 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary></summary>
 public class ChapterScreen : MonoBehaviour
 {
     [SerializeField]
     private int m_fadeTime = 5000;
 
-    enum FadeMode
+    private enum FadeMode
     {
         currentlyDisplayed,
         currentlyFading,

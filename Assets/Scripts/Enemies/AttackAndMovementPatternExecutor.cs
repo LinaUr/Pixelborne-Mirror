@@ -21,6 +21,7 @@ using UnityEngine;
     When the attack pattern changes the currently executed action is finished and 
     then the new attack pattern starts from the beginning.
 */
+/// <summary></summary>
 public class AttackAndMovementPatternExecutor : MonoBehaviour
 {
     // ATTACK PATTERN GRAMMAR:
@@ -103,7 +104,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         return attackPatternList.ToArray();
     }
 
-    void ResetAttackPattern()
+    private void ResetAttackPattern()
     {
         m_nextAttackPatternIndex = 0;
         m_timeToWaitUntilNextAction = 0;
@@ -174,7 +175,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         }
     }
 
-    void RandomlySelectNextAttackPatternInRange()
+    private void RandomlySelectNextAttackPatternInRange()
     {
         int indexOfFirstAttackPatternInRange = m_attackPatterns.Length - m_attackPatternStringsWhileInAttackRange.Length;
         int indexOfNextAttackPatternInRange = random.Next(indexOfFirstAttackPatternInRange, m_attackPatterns.Length);
@@ -207,7 +208,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         return newAttackPattern.ToArray();
     }
 
-    void PrepareAttackPatternParsingDict()
+    private void PrepareAttackPatternParsingDict()
     {
         m_attackPatternStringToInternalIdentifications = new Dictionary<string, Tuple<int, float>>
         {

@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEngine;
 
+/// <summary></summary>
 public class AudioRecorder : MonoBehaviour
 {
     private AudioClip m_microphoneClip;
@@ -41,12 +42,15 @@ public class AudioRecorder : MonoBehaviour
     }
 
     // This method returns if a microphone device was found in Start().
+    /// <summary>Microphones the available.</summary>
+    /// <returns></returns>
     public bool MicrophoneAvailable()
     {
         return !string.IsNullOrEmpty(m_selectedDevice);
     }
 
     // This method starts the recording.
+    /// <summary>Records this instance.</summary>
     public void Record()
     {
         if (MicrophoneAvailable()) 

@@ -2,6 +2,7 @@
 
 // This class marks a GameObject that functions as a trigger.
 // It needs to be assigned to a GameObject as a Script component.
+/// <summary></summary>
 public class StageEndPoint : MonoBehaviour
 {
     void OnTriggerEnter2D (Collider2D collider)

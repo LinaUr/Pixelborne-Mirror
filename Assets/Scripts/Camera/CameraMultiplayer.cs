@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 // This class controlls the camera movement and fade to black of the multiplayer scene camera.
+/// <summary></summary>
 public class CameraMultiplayer : GameCamera
 {
     [SerializeField]
@@ -9,6 +10,8 @@ public class CameraMultiplayer : GameCamera
     private Transform m_cameraPositionsTransform;
 
     // Positions from outer left to outer right stage as they are in the scene.
+    /// <summary>Gets or sets the positions.</summary>
+    /// <value>The positions.</value>
     public IList<Vector2> Positions { get; set; }
 
     // We need to get the positions on Awake so we can externally access them on Start.
@@ -29,15 +32,18 @@ public class CameraMultiplayer : GameCamera
         m_fadeImage.transform.position = gameObject.transform.position + new Vector3(0, 0, 1);
     }
 
+    /// <summary>Updates this instance.</summary>
     protected override void Update()
     {
         base.Update();
     }
 
+    /// <summary>Fadeds the out.</summary>
     protected override void FadedOut()
     {
         Multiplayer.Instance.FadedOut();
     }
+    /// <summary>Fadeds the in.</summary>
     protected override void FadedIn()
     {
         Multiplayer.Instance.FadedIn();
@@ -45,6 +51,8 @@ public class CameraMultiplayer : GameCamera
 
     // This method moves the center of both the camera and the fade to black canvas object to the given position
     // while retaining the z-position.
+    /// <summary>Sets the position.</summary>
+    /// <param name="index">The index.</param>
     public void SetPosition(int index)
     {
         Vector2 position = Positions[index];

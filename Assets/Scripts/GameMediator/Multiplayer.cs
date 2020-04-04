@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 // This class contains the Multiplayer game mode logic.
+/// <summary></summary>
 public class Multiplayer : ScriptableObject, IGame
 {
     private GameObject m_deadPlayer;
@@ -18,8 +19,12 @@ public class Multiplayer : ScriptableObject, IGame
     private const int m_AMOUNT_OF_STAGES = 5;
     private const int m_START_STAGE_INDEX = m_AMOUNT_OF_STAGES / 2;
 
+    /// <summary>Gets or sets the camera.</summary>
+    /// <value>The camera.</value>
     public CameraMultiplayer Camera { get; set; }
 
+    /// <summary>Gets the instance.</summary>
+    /// <value>The instance.</value>
     public static Multiplayer Instance
     {
         get
@@ -32,6 +37,8 @@ public class Multiplayer : ScriptableObject, IGame
 
     // This is for testing and debugging single stages quicker without having to start from the MainMenu.
     // TODO: Remove later.
+    /// <summary>Sets the index of the debug current stage.</summary>
+    /// <value>The index of the debug current stage.</value>
     public int DEBUG_currentStageIndex
     {
         set
@@ -40,11 +47,13 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Initializes a new instance of the <see cref="Multiplayer"/> class.</summary>
     public Multiplayer()
     {
         s_instance = this;
     }
 
+    /// <summary>Goes this instance.</summary>
     public async void Go()
     {
         Game.Current = this;
@@ -78,11 +87,16 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Gets the winner.</summary>
+    /// <returns></returns>
     public string GetWinner()
     {
         return $"Player {m_winnerIndex}";
     }
 
+    /// <summary>Registers the player.</summary>
+    /// <param name="player">The player.</param>
+    /// <exception cref="Exception">Error: Object \"{player.name}\" can not be registered. 2 players have already been assigned.</exception>
     public void RegisterPlayer(GameObject player)
     {
         if (m_players.Count < 2)
@@ -95,16 +109,22 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Unregisters the player.</summary>
+    /// <param name="player">The player.</param>
     public void UnregisterPlayer(GameObject player)
     {
         m_players.Remove(player);
     }
 
+    /// <summary>Locks the player input.</summary>
+    /// <param name="isLocked">if set to <c>true</c> [is locked].</param>
     public void LockPlayerInput(bool isLocked)
     {
         m_players.ForEach(player => player.GetComponent<PlayerMovement>().IsInputLocked = isLocked);
     }
 
+    /// <summary>Handles the death.</summary>
+    /// <param name="player">The player.</param>
     public void HandleDeath(GameObject player)
     {
         LockPlayerInput(true);
@@ -113,6 +133,7 @@ public class Multiplayer : ScriptableObject, IGame
     }
 
     // This method prepares the game after a camera fade out before fading in again.
+    /// <summary>Fadeds the out.</summary>
     public void FadedOut()
     {
         PlayerDied(m_deadPlayer);
@@ -121,6 +142,7 @@ public class Multiplayer : ScriptableObject, IGame
         m_deadPlayer = null;
     }
 
+    /// <summary>Fadeds the in.</summary>
     public void FadedIn()
     {
         LockPlayerInput(false);
@@ -131,12 +153,16 @@ public class Multiplayer : ScriptableObject, IGame
         m_currentStageIndex = m_START_STAGE_INDEX;
     }
 
+    /// <summary>Prepares the stage.</summary>
     public void PrepareStage()
     {
         ImageManager.Instance.SetNewSceneImages();
         SetGameToStage(m_currentStageIndex);
     }
 
+    /// <summary>Players the died.</summary>
+    /// <param name="player">The player.</param>
+    /// <exception cref="Exception">ERROR no player was given!</exception>
     public void PlayerDied(GameObject player)
     {
         int playerIndex = player.GetComponent<PlayerMovement>().Index;
@@ -175,6 +201,8 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Enables the entity collision.</summary>
+    /// <param name="callingEntity">The calling entity.</param>
     public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
@@ -184,12 +212,16 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Disables the entity collision.</summary>
+    /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
         Physics2D.IgnoreLayerCollision(m_players[0].layer, m_players[1].layer, true);
     }
 
+    /// <summary>Sets the game to stage.</summary>
+    /// <param name="stageIndex">Index of the stage.</param>
     public void SetGameToStage(int stageIndex)
     {
         Camera.SetPosition(stageIndex);
@@ -201,6 +233,9 @@ public class Multiplayer : ScriptableObject, IGame
         });
     }
 
+    /// <summary>Swaps the hud symbol.</summary>
+    /// <param name="gameObject">The game object.</param>
+    /// <param name="sprite">The sprite.</param>
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
         Camera.SwapHudSymbol(gameObject, sprite);

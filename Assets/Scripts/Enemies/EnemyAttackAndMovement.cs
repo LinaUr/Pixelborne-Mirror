@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+/// <summary></summary>
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
     [SerializeField]
@@ -23,16 +24,20 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
     private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
+    /// <summary>The m player rigidbody2 d</summary>
     protected Rigidbody2D m_playerRigidbody2D;
 
+    /// <summary>The dying animator parameter name</summary>
     protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
 
+    /// <summary>Awakes this instance.</summary>
     protected override void Awake()
     {
         base.Awake();
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
     }
 
+    /// <summary>Updates this instance.</summary>
     protected override void Update()
     {
         base.Update();
@@ -94,6 +99,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method initiates the entity dying animation and ensures that the enemy does nothing else.
+    /// <summary>Dies this instance.</summary>
     protected override void Die(){
         base.Die();
         m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, true);
@@ -116,6 +122,8 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
     }
 
+    /// <summary>Called when [trigger enter2 d].</summary>
+    /// <param name="collider">The collider.</param>
     protected override void OnTriggerEnter2D(Collider2D collider) {
         // We abort if the collider is not from a player when friendly fire is off.
         if (!m_isFriendlyFireActive && collider.gameObject.name != m_playerSwordName && collider.gameObject.name != DEATH_ZONES_NAME)
@@ -126,64 +134,84 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // These methods implement the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
+    /// <summary>Attacks up.</summary>
     public void AttackUp()
     {
         StartAttackIfPossible(0);
     }
 
+    /// <summary>Attacks the middle.</summary>
     public void AttackMiddle()
     {
         StartAttackIfPossible(1);
     }
 
+    /// <summary>Attacks down.</summary>
     public void AttackDown()
     {
         StartAttackIfPossible(2);
     }
 
+    /// <summary>Jumps this instance.</summary>
     public void Jump()
     {
         OnJump(null);
     }
 
+    /// <summary>Starts the follow player.</summary>
     public void StartFollowPlayer()
     {
         m_isFollowingPlayer = true;
     }
 
+    /// <summary>Stops the follow player.</summary>
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
         m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
     }
 
+    /// <summary>Starts the automatic jumping.</summary>
     public void StartAutoJumping(){
         m_isAutoJumping = true;
     }
 
+    /// <summary>Stops the automatic jumping.</summary>
     public void StopAutoJumping(){
         m_isAutoJumping = false;
     }
 
+    /// <summary>Gets the duration of the attack up.</summary>
+    /// <returns></returns>
     public float GetAttackUpDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[0]);
     }
 
+    /// <summary>Gets the duration of the attack middle.</summary>
+    /// <returns></returns>
     public float GetAttackMiddleDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[1]);
     }
 
+    /// <summary>Gets the duration of the attack down.</summary>
+    /// <returns></returns>
     public float GetAttackDownDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[2]);
     }
 
+    /// <summary>Determines whether [is player in range].</summary>
+    /// <returns>
+    ///   <c>true</c> if [is player in range]; otherwise, <c>false</c>.</returns>
     public bool IsPlayerInRange(){
         return m_isPlayerInRange;
     }
 
+    /// <summary>Determines whether [is player in attack range].</summary>
+    /// <returns>
+    ///   <c>true</c> if [is player in attack range]; otherwise, <c>false</c>.</returns>
     public bool IsPlayerInAttackRange()
     {
         if (m_playerRigidbody2D == null)
@@ -193,6 +221,9 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         return m_attackRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 
+    /// <summary>Determines whether [is player in sight range].</summary>
+    /// <returns>
+    ///   <c>true</c> if [is player in sight range]; otherwise, <c>false</c>.</returns>
     public bool IsPlayerInSightRange()
     {
         if (m_playerRigidbody2D == null)
@@ -202,12 +233,16 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         return m_sightRange >= Vector2.Distance(m_playerRigidbody2D.transform.position, gameObject.transform.position);
     }
 
+    /// <summary>Determines whether [is enemy on ground].</summary>
+    /// <returns>
+    ///   <c>true</c> if [is enemy on ground]; otherwise, <c>false</c>.</returns>
     public bool IsEnemyOnGround()
     {
         UpdateIsGrounded();
         return m_isGrounded;
     }
 
+    /// <summary>Stops the attacking.</summary>
     public override void StopAttacking()
     {
         base.StopAttacking();
@@ -217,6 +252,8 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     // This method is called at the end of the attack animation
     // and turns the attack off animation when no other attack is already registered.
     // This is part of the attack chaining problem.
+    /// <summary>Stops the attacking animation.</summary>
+    /// <param name="previousAttackingDirection">The previous attacking direction.</param>
     public void StopAttackingAnimation(int previousAttackingDirection)
     {
         if (!m_isAttackChained)
@@ -236,7 +273,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method destroys the gameObject.
-    void DestroySelf()
+    private void DestroySelf()
     {
         Destroy(gameObject);
     }

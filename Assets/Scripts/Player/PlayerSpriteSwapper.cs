@@ -6,6 +6,7 @@ using UnityEngine;
 
 // This class is responsible for swapping sprites at runtime.
 // NOTE: For reference see https://www.erikmoberg.net/article/unity3d-replace-sprite-programmatically-in-animation
+/// <summary></summary>
 public class PlayerSpriteSwapper : MonoBehaviour
 {
     [SerializeField]
@@ -31,13 +32,13 @@ public class PlayerSpriteSwapper : MonoBehaviour
         red
     }
 
-    private void Start()
+    void Start()
     {
         m_spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Runs after the animation has done its work.
-    private void LateUpdate()
+    void LateUpdate()
     {
         if (m_loadedSpriteColor != m_spriteColor)
         {

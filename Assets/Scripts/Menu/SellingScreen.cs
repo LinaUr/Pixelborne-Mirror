@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary></summary>
 public class SellingScreen : MonoBehaviour
 {
     [SerializeField]
@@ -28,6 +29,8 @@ public class SellingScreen : MonoBehaviour
     private const float m_DEFAULT_PRICE = 1.0f;
     private const string m_LOG_FILE = "SellingLog.txt";
 
+    /// <summary>The s is loading paths</summary>
+    //TODO GEHT DAS AUCH PRIVATE??
     public static bool s_isLoadingPaths = true;
 
     void Start()
@@ -63,6 +66,7 @@ public class SellingScreen : MonoBehaviour
         m_priceTextMesh.SetText(m_priceToPay);
     }
 
+    /// <summary>Gets the important files.</summary>
     public static async void GetImportantFiles()
     {
         s_isLoadingPaths = true;
@@ -79,6 +83,7 @@ public class SellingScreen : MonoBehaviour
     }
 
     // This method resumes the gameplay and logs the sold file.
+    /// <summary>Sells the file.</summary>
     public void SellFile()
     {
         Toolkit.LogToFile($"Sold {m_fileToSell}", m_LOG_FILE);
@@ -89,6 +94,7 @@ public class SellingScreen : MonoBehaviour
     }
 
     // This method resumes the gameplay and logs the payed price.
+    /// <summary>Pays the price.</summary>
     public void PayPrice()
     {
         Toolkit.LogToFile($"Payed {m_priceToPay}", m_LOG_FILE);
@@ -98,6 +104,7 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
     }
 
+    /// <summary>Rejects all.</summary>
     public void RejectAll()
     {
         // Reload current scene.

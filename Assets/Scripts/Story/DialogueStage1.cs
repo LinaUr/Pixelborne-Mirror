@@ -3,12 +3,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary></summary>
 public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
     private int m_textPartDisplayTime = 5000;
 
-    enum DialogueMode
+    private enum DialogueMode
     {
         NotStarted,
         Displaying,
@@ -33,7 +34,10 @@ public class DialogueStage1 : MonoBehaviour
                                              "Knight!",
                                              "Find them! Find my daughter and the stones or we are all doomed!",
                                              "Knight! You must hurry!" };
-    
+
+    /// <summary>Gets or sets a value indicating whether [player progressed].</summary>
+    /// <value>
+    ///   <c>true</c> if [player progressed]; otherwise, <c>false</c>.</value>
     public bool PlayerProgressed { get; set; }
  
     void Start()
@@ -81,7 +85,7 @@ public class DialogueStage1 : MonoBehaviour
         }
     }
 
-    public bool EnemiesKilled()
+    private bool EnemiesKilled()
     {
         bool allKilled = true;
         foreach(GameObject enemy in Singleplayer.Instance.ActiveEnemies)
@@ -94,7 +98,7 @@ public class DialogueStage1 : MonoBehaviour
         return allKilled;
     }
 
-    public void ShowText()
+    private void ShowText()
     {
         Singleplayer.Instance.LockPlayerInput(true);
         Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
@@ -105,7 +109,7 @@ public class DialogueStage1 : MonoBehaviour
         m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
     }
 
-    public void ChangePart()
+    private void ChangePart()
     {
         m_dialoguePart++;
         switch (m_dialoguePart)
@@ -135,7 +139,7 @@ public class DialogueStage1 : MonoBehaviour
         }
     }
 
-    public void GetName()
+    private void GetName()
     {
         m_userName = Environment.UserName;
         m_dialogueTextPart0[0] = "Knight " + m_userName + "! To me!";

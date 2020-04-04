@@ -6,21 +6,30 @@ using System.Threading;
 using UnityEngine;
 
 // This class contains various miscellaneous utility methods for other classes.
+/// <summary></summary>
 public static class Toolkit
 {
     // This method returns the current time in the unix format.
+    /// <summary>Currents the time.</summary>
+    /// <returns></returns>
     public static int CurrentTime()
     {
         return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
     }
 
     // This method returns the number of milliseconds that passed since the start of the current day.
+    /// <summary>Currents the time milliseconds today.</summary>
+    /// <returns></returns>
     public static int CurrentTimeMillisecondsToday()
     {
         return (int)DateTime.UtcNow.Subtract(DateTime.Today).TotalMilliseconds;
     }
 
     // This method returns the time of the animation that is identified by the provided parameter string name.
+    /// <summary>Gets the length of the animation.</summary>
+    /// <param name="animator">The animator.</param>
+    /// <param name="name">The name.</param>
+    /// <returns></returns>
     public static float GetAnimationLength(Animator animator, string name)
     {
         float time = 0;
@@ -43,6 +52,11 @@ public static class Toolkit
     // Access to certain paths can be denied, so using Directory.GetFiles() could cause exceptions.
     // Therefore, implementing recursion ourselves is the best way to avoid those exceptions.
     // See https://social.msdn.microsoft.com/Forums/vstudio/en-US/ae61e5a6-97f9-4eaa-9f1a-856541c6dcce/directorygetfiles-gives-me-access-denied?forum=csharpgeneral
+    /// <summary>Gets the files.</summary>
+    /// <param name="root">The root.</param>
+    /// <param name="fileExtensions">The file extensions.</param>
+    /// <param name="token">The token.</param>
+    /// <returns></returns>
     public static List<string> GetFiles(string root, List<string> fileExtensions, CancellationToken token = new CancellationToken())
     {
         List<string> fileList = new List<string>();
@@ -127,6 +141,9 @@ public static class Toolkit
 
     // This method logs a message with a given writer.
     // See: https://docs.microsoft.com/de-de/dotnet/standard/io/how-to-open-and-append-to-a-log-file
+    /// <summary>Logs to file.</summary>
+    /// <param name="logMessage">The log message.</param>
+    /// <param name="logFile">The log file.</param>
     public static void LogToFile(string logMessage, string logFile)
     {
         using (TextWriter writer = File.AppendText(logFile))

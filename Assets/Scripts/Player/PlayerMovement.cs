@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Recording;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
+/// <summary></summary>
 public class PlayerMovement : Entity
 {
     [SerializeField]
@@ -35,11 +35,19 @@ public class PlayerMovement : Entity
     private static readonly string PLAYER_ROLLING_ANIMATION_NAME = "Player_1_roll";
     private static readonly string ROLLING_ANIMATOR_NAME = "Rolling";
 
+    /// <summary>Gets the player sword.</summary>
+    /// <value>The player sword.</value>
     public GameObject PlayerSword { get { return m_playerSword; } }
+    /// <summary>Gets or sets the positions.</summary>
+    /// <value>The positions.</value>
     public IList<Vector2> Positions { get; set; }
+    /// <summary>Gets the revive position.</summary>
+    /// <value>The revive position.</value>
     public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
     // Positions from outer left to outer right stage as they are in the scene.
 
+    /// <summary>Gets the index.</summary>
+    /// <value>The index.</value>
     public int Index
     {
         get
@@ -48,6 +56,7 @@ public class PlayerMovement : Entity
         }
     }
 
+    /// <summary>Awakes this instance.</summary>
     protected override void Awake()
     {
         base.Awake();
@@ -65,6 +74,7 @@ public class PlayerMovement : Entity
         m_swordRenderer = PlayerSword.GetComponent<SpriteRenderer>();
     }
 
+    /// <summary>Starts this instance.</summary>
     protected override void Start()
     {
         base.Start();
@@ -75,6 +85,7 @@ public class PlayerMovement : Entity
         m_rollingDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ROLLING_ANIMATION_NAME);
     }
 
+    /// <summary>Updates this instance.</summary>
     protected override void Update()
     {
         base.Update();
@@ -153,6 +164,7 @@ public class PlayerMovement : Entity
         }
     }
 
+    /// <summary>Flips the entity.</summary>
     protected override void FlipEntity()
     {
         base.FlipEntity();
@@ -160,6 +172,7 @@ public class PlayerMovement : Entity
         ChangeOrderInLayer();
     }
 
+    /// <summary>Dies this instance.</summary>
     protected override void Die()
     {
         base.Die();
@@ -167,6 +180,7 @@ public class PlayerMovement : Entity
         m_activeGame.HandleDeath(gameObject);
     }
 
+    /// <summary>Resets the entity animations.</summary>
     public override void ResetEntityAnimations()
     {
         base.ResetEntityAnimations();
@@ -177,18 +191,23 @@ public class PlayerMovement : Entity
         m_lastTimeAttacked = 0.0f;
     }
 
+    /// <summary>Resets the movement.</summary>
     public override void ResetMovement()
     {
         base.ResetMovement();
         IsRolling = false;
     }
 
+    /// <summary>Sets the position.</summary>
+    /// <param name="index">The index.</param>
     public void SetPosition(int index)
     {
         Vector2 position = Positions[index];
         gameObject.transform.position = new Vector3(position.x, position.y, gameObject.transform.position.z);
     }
 
+    /// <summary>Sets the position for revive.</summary>
+    /// <param name="revivePosition">The revive position.</param>
     public void SetPositionForRevive(Vector2 revivePosition)
     {
         RevivePosition = revivePosition;
@@ -199,6 +218,8 @@ public class PlayerMovement : Entity
     // the input is not locked and the player is not attacking.
     // The rest of the roll-functionality is implemented in the update method 
     // because the unity animation event system caused a bug.
+    /// <summary>Called when [roll].</summary>
+    /// <param name="value">The value.</param>
     public void OnRoll(InputValue value)
     {
         if (!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
@@ -210,6 +231,7 @@ public class PlayerMovement : Entity
         }
     }
 
+    /// <summary>Called when [pause game].</summary>
     public void OnPauseGame()
     {
         if (!IsInputLocked)
@@ -220,6 +242,7 @@ public class PlayerMovement : Entity
 
     // This method changes the weapon of the entity to alternate between these two states:
     // Weapon rendered before player, Weapon rendered behind player.
+    /// <summary>Changes the order in layer.</summary>
     public void ChangeOrderInLayer()
     {
         m_swordRenderer.sortingOrder *= -1;
@@ -303,7 +326,7 @@ public class PlayerMovement : Entity
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         m_activeGame.UnregisterPlayer(gameObject);
     }

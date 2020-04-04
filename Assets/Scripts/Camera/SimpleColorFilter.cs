@@ -2,6 +2,7 @@
 using UnityEngine;
 
 // This class implements a simple color filter that gets stronger the further you go in a stage.
+/// <summary></summary>
 public class SimpleColorFilter : MonoBehaviour
 {
     [SerializeField]

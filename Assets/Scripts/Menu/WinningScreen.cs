@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
+/// <summary></summary>
 public class WinningScreen : MonoBehaviour
 {
     [SerializeField]
@@ -12,6 +13,7 @@ public class WinningScreen : MonoBehaviour
         m_winningTextMesh.SetText($"{Game.Current.GetWinner()} won!");
     }
 
+    /// <summary>Opens the main menu.</summary>
     public void OpenMainMenu()
     {
         SceneChanger.SetMainMenuAsActiveScene();

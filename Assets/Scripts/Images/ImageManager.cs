@@ -11,6 +11,7 @@ using UnityEngine.UI;
 // It is a Singleton.
 // NOTE: In order to be able to use coroutines (to be thread safe)
 // it has to derive from MonoBehaviour.
+/// <summary></summary>
 public class ImageManager : MonoBehaviour
 {
     private bool m_isLoadingPaths = true;
@@ -24,10 +25,19 @@ public class ImageManager : MonoBehaviour
     private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
     private static readonly int ALPHA_DISTANCE = 100;
 
+    /// <summary>Gets or sets a value indicating whether this instance is first load.</summary>
+    /// <value>
+    ///   <c>true</c> if this instance is first load; otherwise, <c>false</c>.</value>
     public bool IsFirstLoad { get; set; } = true;
+    /// <summary>Gets or sets the image holder.</summary>
+    /// <value>The image holder.</value>
     public GameObject ImageHolder { get; set; }
+    /// <summary>Gets or sets the player spawn position.</summary>
+    /// <value>The player spawn position.</value>
     public Vector2 PlayerSpawnPosition { get; set; }
 
+    /// <summary>Gets the instance.</summary>
+    /// <value>The instance.</value>
     public static ImageManager Instance
     {
         get
@@ -169,6 +179,8 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    /// <summary>Prepares for first load.</summary>
+    /// <param name="doSetNewSceneImages">if set to <c>true</c> [do set new scene images].</param>
     public void PrepareForFirstLoad(bool doSetNewSceneImages)
     {
         IsFirstLoad = true;
@@ -178,11 +190,13 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    /// <summary>Sets the new scene images.</summary>
     public void SetNewSceneImages()
     {
         StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
     }
 
+    /// <summary>Updates the alpha value.</summary>
     public void UpdateAlphaValue()
     {
         Vector3 currentPlayerPosition = Singleplayer.Instance.Player.transform.position;

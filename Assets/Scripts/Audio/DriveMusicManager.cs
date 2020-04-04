@@ -15,6 +15,7 @@ using UnityEngine.Networking;
 
 // This class searches for MP3-files in the user folder of the current user,
 // assignes a random file to an AudioSource component in the scene and plays them.
+/// <summary></summary>
 public class DriveMusicManager : MonoBehaviour
 {
     private static DriveMusicManager s_instance = null;
@@ -32,6 +33,8 @@ public class DriveMusicManager : MonoBehaviour
 
     private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
+    /// <summary>Gets the instance.</summary>
+    /// <value>The instance.</value>
     public static DriveMusicManager Instance
     {
         get
@@ -48,6 +51,7 @@ public class DriveMusicManager : MonoBehaviour
         }
     }
 
+    /// <summary>Goes this instance.</summary>
     public void Go()
     {
         m_audioPlayer = gameObject.AddComponent<AudioSource>();

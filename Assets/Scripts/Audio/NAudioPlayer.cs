@@ -9,8 +9,12 @@ using System;
 using NAudio.Wave;
 
 // This class is responsible for converting an MP3 byte streams into WAV.
+/// <summary></summary>
 public static class NAudioPlayer
 {
+    /// <summary>Froms the MP3 data.</summary>
+    /// <param name="data">The data.</param>
+    /// <returns></returns>
     public static WAV FromMp3Data(byte[] data)
     {
         // Load the data into a stream.
@@ -39,15 +43,30 @@ public static class NAudioPlayer
 }
 
 // From http://answers.unity3d.com/questions/737002/wav-byte-to-audioclip.html
+/// <summary></summary>
 public class WAV
 {
+    /// <summary>Gets the left channel.</summary>
+    /// <value>The left channel.</value>
     public float[] LeftChannel { get; internal set; }
+    /// <summary>Gets the right channel.</summary>
+    /// <value>The right channel.</value>
     public float[] RightChannel { get; internal set; }
+    /// <summary>Gets the channel count.</summary>
+    /// <value>The channel count.</value>
     public int ChannelCount { get; internal set; }
+    /// <summary>Gets the sample count.</summary>
+    /// <value>The sample count.</value>
     public int SampleCount { get; internal set; }
+    /// <summary>Gets the frequency.</summary>
+    /// <value>The frequency.</value>
     public int Frequency { get; internal set; }
+    /// <summary>Gets or sets the name.</summary>
+    /// <value>The name.</value>
     public string Name { get; set; }
 
+    /// <summary>Initializes a new instance of the <see cref="WAV"/> class.</summary>
+    /// <param name="wav">The wav.</param>
     public WAV(byte[] wav)
     {
         // Determine if mono or stereo.
