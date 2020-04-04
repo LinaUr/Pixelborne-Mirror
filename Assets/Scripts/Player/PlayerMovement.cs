@@ -269,7 +269,7 @@ public class PlayerMovement : Entity
     }
 
     // This method updates the revive position of the player. The revive position has to be stable. 
-    // For it to be stable the player has to continiously be grounded for INTERVAL_FOR_POSITION_CHECK
+    // A position is stable when the player continuously stays on ground for INTERVAL_FOR_POSITION_CHECK
     // milliseconds.
     private void UpdateRevivePosition()
     {
@@ -287,8 +287,8 @@ public class PlayerMovement : Entity
                 RevivePosition = m_lastCheckedPosition;
             }
             m_lastCheckedPosition = gameObject.transform.position;
-            m_stopwatch.Restart();
             m_hasStablePosition = true;
+            m_stopwatch.Restart();
         }
     }
 
