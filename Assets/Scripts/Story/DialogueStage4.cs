@@ -119,6 +119,7 @@ public class DialogueStage4 : MonoBehaviour
         m_dialogueMode = DialogueMode.NotStarted;
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
         m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
+        m_princess.GetComponent<EnemyAttackAndMovement>().IsInputLocked = false;
     }
 
     void Update()
