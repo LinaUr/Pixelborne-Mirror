@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,10 +22,10 @@ public class OutroScene : MonoBehaviour
     private FadeMode m_fadeMode;
     private GameObject m_background;
     private GameObject m_story;
-    private int m_fadeStartTime;
     private int m_storyPart;
     private int m_textPart;
     private int m_animationPart;
+    private Stopwatch m_textStopwatch = new Stopwatch();
     private string[] m_animationPictures;
     private string[] m_animationPictures0 = { "OutroImages/possessed_land",
                                               "OutroImages/retreating_shadows",
@@ -59,7 +60,7 @@ public class OutroScene : MonoBehaviour
         {
             // Change the color to black.
             Color tmp = m_background.GetComponent<Image>().color;
-            float takenTime = (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime) * 1.0f;
+            float takenTime = m_textStopwatch.ElapsedMilliseconds * 1.0f;
             float floatFadeTime = m_fadeTime * 1.0f;
             float percentage = takenTime / floatFadeTime;
             tmp.r = (1.0f - percentage) + 0.3f;
@@ -68,7 +69,7 @@ public class OutroScene : MonoBehaviour
             m_background.GetComponent<Image>().color = tmp;
 
             // Complete the fade to black when enough time has passed.
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (m_textStopwatch.ElapsedMilliseconds >= m_fadeTime)
             {
                 tmp.r = 0.3f;
                 tmp.g = 0.3f;
@@ -81,19 +82,19 @@ public class OutroScene : MonoBehaviour
         else if (m_fadeMode == FadeMode.currentlyDisplaying)
         {
             m_story.GetComponent<TextMeshProUGUI>().text = m_storyText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_fadeTime)
+            if (m_textStopwatch.ElapsedMilliseconds >= m_fadeTime)
             {
                 m_textPart++;
                 if (m_textPart == m_storyText.Length)
                 {
                     ChangePic();
                 }
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_textStopwatch.Restart();
             }
         }
         else if (m_fadeMode == FadeMode.currentlyAnimated)
         {
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_fadeStartTime >= m_animationTime || m_animationPart < 0)
+            if (m_textStopwatch.ElapsedMilliseconds >= m_animationTime || m_animationPart < 0)
             {
                 m_animationPart++;
                 if (m_animationPart == m_animationPictures.Length)
@@ -102,7 +103,7 @@ public class OutroScene : MonoBehaviour
                     return;
                 }
                 m_background.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
-                m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                m_textStopwatch.Restart();
             }
         }
         else if (m_fadeMode == FadeMode.done && Input.GetKeyDown("space"))
@@ -113,7 +114,7 @@ public class OutroScene : MonoBehaviour
 
     public void FadeOut()
     {
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
         m_fadeMode = FadeMode.currentlyFading;
     }
 
@@ -121,14 +122,14 @@ public class OutroScene : MonoBehaviour
     {
         m_fadeMode = FadeMode.currentlyDisplaying;
         m_textPart = 0;
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
     }
 
     public void Animate()
     {
         m_animationPart = -1;
         m_fadeMode = FadeMode.currentlyAnimated;
-        m_fadeStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
     }
 
     public void ChangePic()
@@ -171,6 +172,6 @@ public class OutroScene : MonoBehaviour
 
     public void ChangeScene()
     {
-        Singleplayer.Instance.ReachedEndOfStage();
+        Singleplayer.Instance.EndStage();
     }
 }

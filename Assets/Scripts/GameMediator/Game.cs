@@ -12,7 +12,7 @@ public class Game : ScriptableObject
 
     public static void Finish()
     {
-        if (Mode == Mode.Singleplayer)
+        if (Mode == GameMode.Singleplayer)
         {
             SceneChanger.SetMainMenuAsActiveScene();
         }
