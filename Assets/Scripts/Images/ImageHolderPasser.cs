@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-/// <summary>
-///     Assigns the GameObject that functions as an ImageHolder to the <see cref="ImageManager"/>.
-///     It needs to be assigned to a GameObject as a Script component.
-/// </summary>
+/// <summary>Assigns the GameObject that functions as an ImageHolder to the <see cref="ImageManager"/>.
+///     It needs to be assigned to a GameObject as a Script component.</summary>
 public class ImageHolderPasser : MonoBehaviour
 {
     [SerializeField]
