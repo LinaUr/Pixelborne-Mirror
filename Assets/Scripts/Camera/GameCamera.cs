@@ -2,40 +2,39 @@
 using System.Diagnostics;
 using UnityEngine;
 
-// This class implements the fading and hudsymbol swapping for cameras of the game.
-/// <summary></summary>
+/// <summary>This class implements the fading and hudsymbol swapping for cameras of the game.</summary>
 public abstract class GameCamera : MonoBehaviour, ICamera
 {
-    /// <summary>The m fade time</summary>
+    /// <summary>The time how log a fade takes.</summary>
     [SerializeField]
     protected float m_fadeTime = 1500;
-    /// <summary>The m fade image</summary>
+    /// <summary>The fade image</summary>
     [SerializeField]
     protected GameObject m_fadeImage;
 
-    /// <summary>The m fade mode</summary>
+    /// <summary>The fade mode</summary>
     protected FadeMode m_fadeMode = FadeMode.NoFade;
-    /// <summary>The m fade stopwatch</summary>
+    /// <summary>The fade stopwatch which is used to determine when the fading is finished.</summary>
     protected Stopwatch m_fadeStopwatch = new Stopwatch();
 
     /// <summary></summary>
     protected enum FadeMode
     {
-        /// <summary>The fade in</summary>
+        /// <summary>The fade in mode</summary>
         FadeIn,
-        /// <summary>The fade out</summary>
+        /// <summary>The fade out mode</summary>
         FadeOut,
-        /// <summary>The no fade</summary>
+        /// <summary>The no fade mode</summary>
         NoFade
     }
 
-    /// <summary>Updates this instance.</summary>
+    /// <summary>Updates this instance by executing the fade function.</summary>
     protected virtual void Update()
     {
         Fade();
     }
 
-    // This method implements the fade in and fade out logic.
+    /// <summary>This method implements the fade in and fade out logic.</summary>
     private void Fade()
     {
         // Skip function if fade in / fade out was succesfully completed and has not been triggered again.
@@ -82,33 +81,31 @@ public abstract class GameCamera : MonoBehaviour, ICamera
         }
     }
 
-    // This method resets important variables after a fade finished.
+    /// <summary>This method resets important variables after a fade finished.</summary>
     private void FadeCompleted()
     {
         m_fadeMode = FadeMode.NoFade;
         m_fadeStopwatch.Reset();
     }
 
-    // This method triggers the fade to black animation.
-    /// <summary>Fades the out.</summary>
+    /// <summary>This method triggers the fade to black animation.</summary>
     public void FadeOut()
     {
         m_fadeStopwatch.Start();
         m_fadeMode = FadeMode.FadeOut;
     }
 
-    // This method triggers the fade in animation.
-    /// <summary>Fades the in.</summary>
+    /// <summary>This method triggers the fade in animation.</summary>
     public void FadeIn()
     {
         m_fadeStopwatch.Start();
         m_fadeMode = FadeMode.FadeIn;
     }
 
-    /// <summary>Fadeds the out.</summary>
+    /// <summary>This method is invoked when the fade out has finished.</summary>
     protected abstract void FadedOut();
 
-    /// <summary>Fadeds the in.</summary>
+    /// <summary>This method is invoked when the fade in has finished.</summary>
     protected abstract void FadedIn();
 
     /// <summary>Swaps the hud symbol.</summary>

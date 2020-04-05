@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /// <summary>This class contains the Singleplayer game mode logic and 
-/// implements the <see cref="IGame"/> interface for the singleplayer mode.</summary>
+/// implements the <see cref="IGame"/> interface for the singleplayer mode. It is a singleton.</summary>
 public class Singleplayer : ScriptableObject, IGame
 {
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
