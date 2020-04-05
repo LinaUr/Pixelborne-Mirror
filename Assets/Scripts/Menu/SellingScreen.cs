@@ -81,7 +81,6 @@ public class SellingScreen : MonoBehaviour
             });
             s_isLoadingPaths = false;
         }
-        
     }
 
     // This method resumes the gameplay and logs the sold file.
