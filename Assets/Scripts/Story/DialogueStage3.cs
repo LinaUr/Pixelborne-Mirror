@@ -86,7 +86,7 @@ public class DialogueStage3 : MonoBehaviour
         bool allKilled = true;
         foreach (GameObject enemy in Singleplayer.Instance.ActiveEnemies)
         {
-                allKilled = false;
+            allKilled = false;
         }
         return allKilled;
     }
@@ -113,4 +113,3 @@ public class DialogueStage3 : MonoBehaviour
         m_dialogueTextPart0[0] = "Knight " + m_userName + "! Is that you?";
     }
 }
-
