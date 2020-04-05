@@ -29,7 +29,7 @@ public class ImageManager : MonoBehaviour
     ///     <c>true</c> if it is the first time loading images into the scene; otherwise, <c>false</c>.</value>
     public bool IsFirstLoad { get; set; } = true;
     /// <summary>Gets or sets the image holder.</summary>
-    /// <value>The <see cref="GameObject" that holds all images in a scene.</value>
+    /// <value>The <see cref="GameObject"> that holds all images in a scene.</value>
     public GameObject ImageHolder { get; set; }
     /// <summary>Gets or sets the player spawn position.</summary>
     /// <value>The player's spawn position.</value>
