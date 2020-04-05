@@ -32,7 +32,7 @@ public class ImageManager : MonoBehaviour
     /// <value>The <see cref="GameObject" that holds all images in a scene.</value>
     public GameObject ImageHolder { get; set; }
     /// <summary>Gets or sets the player spawn position.</summary>
-    /// <value>The player spawn position.</value>
+    /// <value>The player's spawn position.</value>
     public Vector2 PlayerSpawnPosition { get; set; }
 
     /// <summary>Gets the instance.</summary>
@@ -177,7 +177,7 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    /// <summary>Prepares for first load of images.</summary>
+    /// <summary>Prepares for first load of images for a scene.</summary>
     /// <param name="doSetNewSceneImages">if set to 
     ///     <c>true</c> if it is needed to set new images in the scene.</param>
     public void PrepareForFirstLoad(bool doSetNewSceneImages)
