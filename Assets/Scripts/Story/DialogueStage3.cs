@@ -53,31 +53,39 @@ public class DialogueStage3 : MonoBehaviour
     {
         m_enemiesKilled = EnemiesKilled();
 
-        if (m_dialogueMode == DialogueMode.Displaying && Input.GetKeyDown("space"))
+        switch (m_dialogueMode)
         {
-            m_displayStartTime -= m_textPartDisplayTime;
-        }
+            case DialogueMode.NotStarted:
+                if (PlayerProgressed && m_enemiesKilled)
+                {
+                    ShowText();
+                }
+                break;
 
-        if (m_dialogueMode == DialogueMode.NotStarted && PlayerProgressed && m_enemiesKilled)
-        {
-            ShowText();
-        }
-        else if (m_dialogueMode == DialogueMode.Displaying)
-        {
-            m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-            if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
-            {
-                m_textPart++;
-                if (m_textPart == m_dialogueText.Length)
+            case DialogueMode.Displaying:
+                if (Input.GetKeyDown("space"))
+                {
+                    m_displayStartTime -= m_textPartDisplayTime;
+                }
+                m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
+
+                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
+                {
+                    m_textPart++;
+                    if (m_textPart == m_dialogueText.Length)
+                    {
+                        ChangePart();
+                    }
+                    m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                }
+                break;
+
+            case DialogueMode.WaitingForTrigger:
+                if (PlayerProgressed && m_enemiesKilled)
                 {
                     ChangePart();
                 }
-                m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
-            }
-        }
-        else if (m_dialogueMode == DialogueMode.WaitingForTrigger && PlayerProgressed && m_enemiesKilled)
-        {
-            ChangePart();
+                break;
         }
     }
 
@@ -104,6 +112,12 @@ public class DialogueStage3 : MonoBehaviour
 
     public void ChangePart()
     {
+        m_dialogueMode = DialogueMode.WaitingForTrigger;
+        m_background.GetComponent<Image>().color = Color.clear;
+        m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
+        m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
+        PlayerProgressed = false;
+        Singleplayer.Instance.LockPlayerInput(false);
         Singleplayer.Instance.ReachedEndOfStage();
     }
     
