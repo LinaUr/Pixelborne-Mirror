@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>Pauses the game if the player died 
-///     and offers the player different options for continue.</summary>
+///     and offers the user different options for continue.</summary>
 public class SellingScreen : MonoBehaviour
 {
     [SerializeField]
@@ -101,7 +101,7 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
     }
 
-    /// <summary>Reload the current scene if all options were rejected.</summary>
+    /// <summary>Reloads the current scene if all options were rejected.</summary>
     public void RejectAll()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
