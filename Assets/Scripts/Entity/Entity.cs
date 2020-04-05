@@ -78,10 +78,16 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected virtual void Die()
     {
         StopAttacking();
+        Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
+        // Undefeatable objects cannot be damaged. e.g. princess.
+        if(m_entityHealth == null)
+        {
+            return;
+        }
         if (!IsInputLocked)
         {
             if (collider.gameObject.name == DEATH_ZONES_NAME)
@@ -130,11 +136,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     {
         m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, false);
         m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
-        foreach (string attack_parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
-        {
-            m_animator.SetBool(attack_parameter, false);
-        }
-        IsAttacking = false;
+        ResetAttackAnimation();
     }
 
     public virtual void ResetMovement()

@@ -223,7 +223,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_weaponCollider: {fileID: 5123333616783468766}
   m_isFacingRight: 1
-  m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_jumpForce: 22
   m_moveSpeed: 3
   m_attackDamage: 1
@@ -231,8 +230,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5888
   m_isFriendlyFireActive: 0
+  m_bodyShouldDisappear: 0
   m_attackRange: 4
-  m_minPlayerDistance: 0.5
+  m_minPlayerDistance: 2
   m_sightRange: 9
 --- !u!114 &5123333617976130931
 MonoBehaviour:

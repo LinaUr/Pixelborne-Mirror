@@ -164,19 +164,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad905837c4f30430ababdd3eb0707a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackDamage: 1
-  m_moveSpeed: 3
-  m_jumpForce: 22
+  m_weaponCollider: {fileID: 3989481648011033090}
   m_isFacingRight: 1
-  m_distanceInWhichEntityCountsAsGrounded: 0.1
+  m_jumpForce: 22
+  m_moveSpeed: 3
+  m_attackDamage: 1
   m_whatIsGround:
     serializedVersion: 2
     m_Bits: 5888
-  m_weaponCollider: {fileID: 3989481648011033090}
-  m_attackRange: 4
-  m_sightRange: 9
-  m_minPlayerDistance: 0.5
   m_isFriendlyFireActive: 0
+  m_attackRange: 4
+  m_minPlayerDistance: 1.2
+  m_sightRange: 9
 --- !u!114 &3989481646858570172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,12 +201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669ca2978ab747a5e83ecd146416224a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackPatternStringWhileInAttackRange: AM|AD|AM|5
   m_attackPatternStringsWhileInAttackRange:
   - AM|AD|AM|5
   m_attackPatternStringWhileInSightRange: STARTF|STARTAUTOJUMP
   m_attackPatternStringWhileOutOfSight: STOPF
-  m_entity: {fileID: 3989481646858570174}
 --- !u!1 &3989481648011033091
 GameObject:
   m_ObjectHideFlags: 0
