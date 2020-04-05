@@ -8,18 +8,6 @@ using UnityEngine;
 // This class contains various miscellaneous utility methods for other classes.
 public static class Toolkit
 {
-    // This method returns the current time in the unix format.
-    public static int CurrentTime()
-    {
-        return (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-    }
-
-    // This method returns the number of milliseconds that passed since the start of the current day.
-    public static int CurrentTimeMillisecondsToday()
-    {
-        return (int)DateTime.UtcNow.Subtract(DateTime.Today).TotalMilliseconds;
-    }
-
     // This method returns the time of the animation that is identified by the provided parameter string name.
     public static float GetAnimationLength(Animator animator, string name)
     {

@@ -7,7 +7,6 @@ public class SceneChanger
     static readonly int MAIN_MENU_SCENE_INDEX = 0;
     static readonly int PAUSE_MENU_SCENE_INDEX = 1;
     static readonly int MULTIPLAYER_SCENE_INDEX = 2;
-    static readonly int SINGLEPLAYER_SCENE_INDEX = 3;
     static readonly int SELLING_SCREEN_SCENE_INDEX = 3;
     static readonly int WINNING_SCREEN_SCENE_INDEX = 4;
     static readonly int[] SINGLEPLAYER_STAGES_INDICES = { 5, 6, 7, 8 , 9 };
@@ -34,11 +33,6 @@ public class SceneChanger
         }
         LoadSceneAsActiveScene(SINGLEPLAYER_STAGES_INDICES[index]);
         return true;
-    }
-
-    public static void SetSingleplayerAsActiveScene()
-    {
-        LoadSceneAsActiveScene(SINGLEPLAYER_SCENE_INDEX);
     }
 
     public static void SetMultiplayerAsActiveScene()
