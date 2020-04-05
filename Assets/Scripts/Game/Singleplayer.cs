@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/// <summary>It contains the Singleplayer game mode logic and 
-/// implements the <see cref="IGame"/> interface for the singleplayer mode. It is a singleton.</summary>
+/// <summary>Contains the Singleplayer game mode logic and implements the <see cref="IGame"/> interface
+///     for the singleplayer mode. It is a singleton.</summary>
 public class Singleplayer : ScriptableObject, IGame
 {
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
@@ -30,7 +30,6 @@ public class Singleplayer : ScriptableObject, IGame
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
 
     /// <summary>Gets the instance.</summary>
-    /// <value>The instance.</value>
     public static Singleplayer Instance
     {
         get
@@ -63,7 +62,7 @@ public class Singleplayer : ScriptableObject, IGame
         s_instance = this;
     }
 
-    /// <summary>Starts the game.</summary>
+    /// <summary>Starts the singleplayer.</summary>
     public void Go()
     {
         Game.Current = Instance;
@@ -128,7 +127,7 @@ public class Singleplayer : ScriptableObject, IGame
     }
 
     /// <summary>Handles the death of a player. Enemies should not call this method. 
-    /// It will throw an exception.</summary>
+    ///     It will throw an exception.</summary>
     /// <param name="entity">The player game object.</param>
     /// <exception cref="ArgumentException">Expected player as argument but got: {entity}</exception>
     public void HandleDeath(GameObject entity)
@@ -188,7 +187,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Is Invoked when the camera faded out and prepares the stage.</summary>
+    /// <summary>Is invoked when the camera faded out and prepares the stage.</summary>
     public void FadedOut()
     {
         PrepareStage();

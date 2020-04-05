@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-/// <summary>This interface must be implemented by cameras that get used in Singleplayer and Multiplayer mode.</summary>
+/// <summary>Is implemented by cameras that get used in Singleplayer and Multiplayer mode.</summary>
 public interface ICamera
 {
     /// <summary>Fades the camera out.</summary>
