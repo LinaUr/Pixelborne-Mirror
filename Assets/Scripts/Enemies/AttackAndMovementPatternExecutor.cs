@@ -23,6 +23,15 @@ using UnityEngine;
 ///    then the new attack pattern starts from the beginning.
 ///
 ///    The attack pattern need to be set in the unity editor.
+///
+/// <code>
+/// ATTACK PATTERN GRAMMAR:
+/// ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
+/// ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
+/// ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
+/// TIMEOUT = float
+/// ATTACK_INSTRUCTION = one of the constant strings below
+/// </code>
 ///</summary>
 /// <example>
 /// <code>
@@ -34,12 +43,6 @@ using UnityEngine;
 /// </example>
 public class ActionPatternExecutor : MonoBehaviour
 {
-    // ATTACK PATTERN GRAMMAR:
-    // ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
-    // ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
-    // ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
-    // TIMEOUT = float
-    // ATTACK_INSTRUCTION = one of the constant strings below
 
     private readonly static string ATTACK_UP_IDENTIFICATION = "AU";
     private readonly static string ATTACK_MID_IDENTIFICATION = "AM";
