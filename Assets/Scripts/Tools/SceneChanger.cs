@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-/// <summary>Provides static methods that implement various scene changing behavior.</summary>
+/// <summary>Provides static methods that implement various scene changing behaviour.</summary>
 public class SceneChanger
 {
     // The following indices represent the build index of the corresponding scene.
@@ -27,7 +27,7 @@ public class SceneChanger
 
     /// <summary>Loads the singleplayer stage as active scene.</summary>
     /// <param name="index">The index.</param>
-    /// <returns>Bool to indicate whether the requested stage exists and could be loaded.</returns>
+    /// <returns><c>true><c> if...; otherwise, <c>false<c></returns>
     public static bool LoadSingleplayerStageAsActiveScene(int index)
     {
         if (index > SINGLEPLAYER_STAGES_INDICES.Length - 1)
@@ -57,7 +57,7 @@ public class SceneChanger
     }
 
     /// <summary>Loads the scene as active scene.</summary>
-    /// <param name="index">The index of the scene from the build settings.</param>
+    /// <param name="index">The build index of the scene.</param>
     public static void LoadSceneAsActiveScene(int index)
     {
         if (!IsSceneAlreadyLoaded(index))
