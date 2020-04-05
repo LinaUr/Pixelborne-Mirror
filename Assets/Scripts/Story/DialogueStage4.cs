@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -85,7 +86,7 @@ public class DialogueStage4 : MonoBehaviour
                                               "Let it be known that from this day, our kingdom shall bow to no demon.",
                                               "Knight!",
                                               "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!" };
-    private int m_displayStartTime;
+    private Stopwatch m_textStopwatch = new Stopwatch();
     private GameObject m_endboss;
     private bool m_enemiesKilled;
     private GameObject m_filterImage;
@@ -128,17 +129,16 @@ public class DialogueStage4 : MonoBehaviour
             case DialogueMode.Displaying:
                 if(Input.GetKeyDown("space"))
                 {
-                    m_displayStartTime -= m_textPartDisplayTime;
                 }
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
+                if (m_textStopwatch.ElapsedMilliseconds >= m_textPartDisplayTime)
                 {
                     m_textPart++;
                     if (m_textPart == m_dialogueText.Length)
                     {
                         ChangePart();
                     }
-                    m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                    m_textStopwatch.Restart();
                 }
                 break;
 
@@ -157,14 +157,14 @@ public class DialogueStage4 : MonoBehaviour
                 break;
 
             case DialogueMode.Flashing:
-                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_flashDuration)
+                if (m_textStopwatch.ElapsedMilliseconds >= m_flashDuration)
                     {
                         ChangePart();
                     }
                 break;
 
             case DialogueMode.Animation:    
-                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_animationDuration || m_animationPart < 0)
+                if (m_textStopwatch.ElapsedMilliseconds >= m_animationDuration || m_animationPart < 0)
                 {
                     m_animationPart++;
                     if (m_animationPart == m_animationPictures.Length)
@@ -173,7 +173,7 @@ public class DialogueStage4 : MonoBehaviour
                         return;
                     }
                     m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
-                    m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                    m_textStopwatch.Restart();
                 }
                 break;
         }
@@ -197,7 +197,7 @@ public class DialogueStage4 : MonoBehaviour
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = m_activeCharacter;
-        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
     }
 
     public void FlashViolet()
@@ -207,7 +207,7 @@ public class DialogueStage4 : MonoBehaviour
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
         m_filterImage.GetComponent<SpriteRenderer>().enabled = true;
         m_dialogueMode = DialogueMode.Flashing;
-        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
     }
 
     public void Animate()
@@ -218,7 +218,7 @@ public class DialogueStage4 : MonoBehaviour
         m_dialogueMode = DialogueMode.Animation;
         m_animationPart = -1;
         m_backgroundPicture.GetComponent<Image>().color = Color.white;
-        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
     }
 
     public void ChangePart()
@@ -483,7 +483,7 @@ public class DialogueStage4 : MonoBehaviour
                 break;
 
             case 39:
-                Singleplayer.Instance.ReachedEndOfStage();
+                Singleplayer.Instance.EndStage();
                 break;
         }
     }
