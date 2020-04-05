@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>It contains the multiplayer game mode logic and 
-/// implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
+///     implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
 public class Multiplayer : ScriptableObject, IGame
 {
     private GameObject m_deadPlayer;

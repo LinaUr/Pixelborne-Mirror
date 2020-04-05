@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>It controlls the camera movement and fade to black of the multiplayer scene camera.</summary>
+/// <summary>It controlls the camera movement and fades to black of the multiplayer scene camera.</summary>
 public class CameraMultiplayer : GameCamera
 {
     [SerializeField]
@@ -14,7 +14,7 @@ public class CameraMultiplayer : GameCamera
 
     
     /// <summary>Acquires the necessary resources.
-    /// We need to get the positions on Awake so we can externally access them on Start.</summary>
+    ///     We need to get the positions on Awake so we can externally access them on Start.</summary>
     void Awake()
     {
         Multiplayer.Instance.Camera = this;
@@ -33,13 +33,13 @@ public class CameraMultiplayer : GameCamera
     }
 
     /// <summary>Is called when the camera faded out and 
-    /// invokes the FadedOut-Methdod on the current <see cref="Multiplayer"/> instance.</summary>
+    ///     invokes the FadedOut-Methdod on the current <see cref="Multiplayer"/> instance.</summary>
     protected override void FadedOut()
     {
         Multiplayer.Instance.FadedOut();
     }
     /// <summary>Is called when the camera faded in and 
-    /// invokes the FadedIn-Methdod on the current <see cref="Multiplayer"/> instance.</summary>
+    ///     invokes the FadedIn-Methdod on the current <see cref="Multiplayer"/> instance.</summary>
     protected override void FadedIn()
     {
         Multiplayer.Instance.FadedIn();
@@ -47,7 +47,7 @@ public class CameraMultiplayer : GameCamera
 
 
     /// <summary> This method moves the center of both the camera and the fade to black canvas object to the given position
-    /// while retaining the z-position.</summary>
+    ///     while retaining the z-position.</summary>
     /// <param name="index">The index in the camera spawn positions list.</param>
     public void SetPosition(int index)
     {

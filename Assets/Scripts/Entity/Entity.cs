@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
-/// <summary>Is the base class for all entities that can execute actions like walking or attacking.
-/// It unifies the duplicate state and behaviour from <see cref="EnemyActions"/> and <see cref="PlayerActions"/>.
+/// <summary>
+///     Is the base class for all entities that can execute actions like walking or attacking.
+///     It unifies the duplicate state and behaviour from <see cref="EnemyActions"/> and <see cref="PlayerActions"/>.
 /// </summary>
 public abstract class Entity : MonoBehaviour, IAttack
 {
@@ -75,8 +76,10 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_weaponCollider = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
     }
 
-    /// <summary>Starts this instance. Initially flips the enemy if it is not facing right.
-    /// It also ensures that the entity is currently not attacking and disables the weapon collider.</summary>
+    /// <summary>
+    ///     Starts this instance. Initially flips the enemy if it is not facing right.
+    ///     It also ensures that the entity is currently not attacking and disables the weapon collider.
+    /// </summary>
     protected virtual void Start()
     {
         if (!m_isFacingRight)

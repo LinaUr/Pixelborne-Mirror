@@ -26,7 +26,7 @@ public class AudioRecorder : MonoBehaviour
         }
         else
         {
-            Debug.Log("No microphone device found. Therefore recordings are not supported.");
+            UnityEngine.Debug.Log("No microphone device found. Therefore recordings are not supported.");
         }
     }
 

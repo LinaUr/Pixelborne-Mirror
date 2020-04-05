@@ -1,5 +1,7 @@
-/// <summary>This interface must be implemented by enemies in order
-/// to be compatible with the <see cref="AttackPatternExecutor"/>.</summary>
+/// <summary>
+///     This interface must be implemented by enemies in order
+///     to be compatible with the <see cref="AttackPatternExecutor"/>.
+/// </summary>
 public interface IEnemyActions 
 {
     /// <summary>Determines whether [is player in attack range].</summary>

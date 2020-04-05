@@ -2,17 +2,17 @@
 using System.Diagnostics;
 using UnityEngine;
 
-/// <summary>This class implements the fading and hudsymbol swapping for cameras of the game.</summary>
+/// <summary>It implements the fading and hudsymbol swapping for cameras of the game.</summary>
 public abstract class GameCamera : MonoBehaviour, ICamera
 {
-    /// <summary>The time how log a fade takes.</summary>
+    /// <summary>The time how long a fade takes.</summary>
     [SerializeField]
     protected float m_fadeTime = 1500;
-    /// <summary>The fade image</summary>
+    /// <summary>The fade image.</summary>
     [SerializeField]
     protected GameObject m_fadeImage;
 
-    /// <summary>The fade mode</summary>
+    /// <summary>The fade mode.</summary>
     protected FadeMode m_fadeMode = FadeMode.NoFade;
     /// <summary>The fade stopwatch which is used to determine when the fading is finished.</summary>
     protected Stopwatch m_fadeStopwatch = new Stopwatch();
@@ -20,11 +20,11 @@ public abstract class GameCamera : MonoBehaviour, ICamera
     /// <summary></summary>
     protected enum FadeMode
     {
-        /// <summary>The fade in mode</summary>
+        /// <summary>The fade in mode.</summary>
         FadeIn,
-        /// <summary>The fade out mode</summary>
+        /// <summary>The fade out mode.</summary>
         FadeOut,
-        /// <summary>The no fade mode</summary>
+        /// <summary>The no fade mode.</summary>
         NoFade
     }
 
@@ -34,10 +34,10 @@ public abstract class GameCamera : MonoBehaviour, ICamera
         Fade();
     }
 
-    /// <summary>This method implements the fade in and fade out logic.</summary>
+    /// <summary>Implements the fade in and fade out logic.</summary>
     private void Fade()
     {
-        // Skip function if fade in / fade out was succesfully completed and has not been triggered again.
+        // Skip function if fade in / fade out was successfully completed and has not been triggered again.
         if (m_fadeMode == FadeMode.NoFade)
         {
             return;
@@ -88,24 +88,24 @@ public abstract class GameCamera : MonoBehaviour, ICamera
         m_fadeStopwatch.Reset();
     }
 
-    /// <summary>This method triggers the fade to black animation.</summary>
+    /// <summary>Triggers the fade to black animation.</summary>
     public void FadeOut()
     {
         m_fadeStopwatch.Start();
         m_fadeMode = FadeMode.FadeOut;
     }
 
-    /// <summary>This method triggers the fade in animation.</summary>
+    /// <summary>Triggers the fade in animation.</summary>
     public void FadeIn()
     {
         m_fadeStopwatch.Start();
         m_fadeMode = FadeMode.FadeIn;
     }
 
-    /// <summary>This method is invoked when the fade out has finished.</summary>
+    /// <summary>Is invoked when the fade out has finished.</summary>
     protected abstract void FadedOut();
 
-    /// <summary>This method is invoked when the fade in has finished.</summary>
+    /// <summary>Is invoked when the fade in has finished.</summary>
     protected abstract void FadedIn();
 
     /// <summary>Swaps the hud symbol.</summary>
