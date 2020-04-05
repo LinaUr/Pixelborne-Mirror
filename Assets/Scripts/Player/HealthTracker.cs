@@ -2,8 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-// This class manages the display of the health of a player via a TextMeshProUGUI.
-/// <summary></summary>
+/// <summary>This class manages the display of the health of a player via a TextMeshProUGUI.</summary>
 public class HealthTracker : MonoBehaviour
 {
     [SerializeField]
@@ -16,6 +15,7 @@ public class HealthTracker : MonoBehaviour
         m_text = gameObject.GetComponent<TextMeshProUGUI>();
     }
     
+    /// <summary>It updates the UI by requesting the player HP and changing the UI to the new value.</summary>
     void Update()
     {
         int health = m_playerHealth.CurrentHealth;
