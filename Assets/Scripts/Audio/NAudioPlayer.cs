@@ -7,10 +7,10 @@ using System.IO;
 using System;
 using NAudio.Wave;
 
-/// <summary>Is responsible for converting an MP3 byte streams into WAV.</summary>
+/// <summary>Is responsible for converting an MP3 byte streams into <see cref="WAV"/>.</summary>
 public static class NAudioPlayer
 {
-    /// <summary>Converts an MP3 byte streams into WAV.</summary>
+    /// <summary>Converts an MP3 byte streams into <see cref="WAV"/>.</summary>
     /// <param name="data">The data byte stream.</param>
     /// <returns>A <see cref="WAV"/> instance.</returns>
     public static WAV FromMp3Data(byte[] data)
@@ -64,7 +64,7 @@ public class WAV
     public string Name { get; set; }
 
     /// <summary>Initializes a new instance of the <see cref="WAV"/> class.</summary>
-    /// <param name="wav">The wav byte stream.</param>
+    /// <param name="wav">The WAV byte stream.</param>
     public WAV(byte[] wav)
     {
         // Determine if mono or stereo.

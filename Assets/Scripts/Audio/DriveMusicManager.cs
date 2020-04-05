@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 // (see https://stackoverflow.com/questions/41330771/use-unity-api-from-another-thread-or-call-a-function-in-the-main-thread )
 
 /// <summary>Searches for MP3-files in the user folder of the current user, 
-/// assignes a random file to an AudioSource component in the scene and plays it.</summary>
+///     assignes a random file to an <see cref="AudioSource"/> component in the scene and plays it.</summary>
 public class DriveMusicManager : MonoBehaviour
 {
     private static DriveMusicManager s_instance = null;
