@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-// This class is responsible for swapping sprites at runtime.
-// NOTE: For reference see https://www.erikmoberg.net/article/unity3d-replace-sprite-programmatically-in-animation
-/// <summary></summary>
+/// <summary>Is responsible for swapping sprites at runtime.
+///     NOTE: For reference see https://www.erikmoberg.net/article/unity3d-replace-sprite-programmatically-in-animation</summary>
 public class PlayerSpriteSwapper : MonoBehaviour
 {
     [SerializeField]

@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using System.Diagnostics;
 
-/// <summary>This class is responsible for recording and saving the 10 seconds long audio clips.</summary>
+/// <summary>Is responsible for recording and saving the 10 seconds long audio clips.</summary>
 public class AudioRecorder : MonoBehaviour
 {
     private AudioClip m_microphoneClip;
@@ -15,7 +15,6 @@ public class AudioRecorder : MonoBehaviour
     private static readonly int RECORD_DURATION = 10000; // in milliseconds
     private static readonly string AUDIO_RECORD_DIR = "records";
 
-    /// <summary>Search for available microphones on the system.</summary>
     void Start()
     {
         if (Microphone.devices.Length > 0) 
@@ -30,7 +29,6 @@ public class AudioRecorder : MonoBehaviour
         }
     }
 
-    /// <summary>Checks if the recording is finished an initiates the file saving if that is the case.</summary>
     void FixedUpdate()
     {
         if (m_isRecording)
@@ -51,7 +49,7 @@ public class AudioRecorder : MonoBehaviour
         return !string.IsNullOrEmpty(m_selectedDevice);
     }
 
-    /// <summary>initiates the recording of an 10 seconds long audio clip if no recording is already running.</summary>
+    /// <summary>Initiates the recording of a 10 seconds long audio clip if no recording is already running.</summary>
     public void Record()
     {
         if (MicrophoneAvailable() && ! m_isRecording) 
@@ -62,7 +60,7 @@ public class AudioRecorder : MonoBehaviour
         }
     }
 
-    // This method converts the recording to a Wav file and saves it on the disk.
+    // Converts the recording to a Wav file and saves it on the disk.
     private void SaveRecording()
     {
         DateTime now = DateTime.Now;

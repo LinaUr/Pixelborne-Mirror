@@ -4,8 +4,8 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
-/// <summary>This class handles the player input and executes these actions. 
-/// It adds the user input dependent code, rolling and revive position functionality.</summary>
+/// <summary>Handles the player input and executes these actions. 
+///     It adds the user input dependent code, rolling and revive position functionality.</summary>
 public class PlayerMovement : Entity
 {
     [SerializeField]
@@ -43,16 +43,16 @@ public class PlayerMovement : Entity
     /// <value>The player sword.</value>
     public GameObject PlayerSword { get { return m_playerSword; } }
 
-    /// <summary>Gets or sets the positions as list of vectors which is used by the multiplayer.</summary>
+    /// <summary>Gets or sets the positions as a list of vectors which is used by the multiplayer.</summary>
     /// <value>The positions as a list of vectors.</value>
     public IList<Vector2> Positions { get; set; }
 
     /// <summary>Gets the revive position.</summary>
     /// <value>The revive position.</value>
-    public Vector2 RevivePosition {get; private set; }
+    public Vector2 RevivePosition { get; private set; }
 
-    /// <summary>Gets the playerIndex which is used by the multiplayer to differentiate between the two players.</summary>
-    /// <value>The player-index.</value>
+    /// <summary>Gets the player index which is used by the multiplayer to differentiate between the two players.</summary>
+    /// <value>The player index.</value>
     public int Index
     {
         get
@@ -79,7 +79,7 @@ public class PlayerMovement : Entity
         m_swordRenderer = PlayerSword.GetComponent<SpriteRenderer>();
     }
 
-    /// <summary>Starts this instance by acquireing resources that are now available.</summary>
+    /// <summary>Starts this instance by acquiring resources that are now available.</summary>
     protected override void Start()
     {
         base.Start();
@@ -126,7 +126,7 @@ public class PlayerMovement : Entity
         }
     }
 
-    // This method updates the rolling by setting the colider size and invincibility when rolling and we are in the invincible time window.
+    // Updates the rolling by setting the colider size and invincibility when rolling and we are in the invincible time window.
     private void UpdateRolling()
     {
         if (IsRolling)
@@ -225,13 +225,6 @@ public class PlayerMovement : Entity
         gameObject.transform.position = new Vector3(revivePosition.x, revivePosition.y, gameObject.transform.position.z);
     }
 
-    /// <summary>Called when the player hits the roll button.
-    /// This method starts the player roll if he is not already rolling, is on the ground,
-    /// the input is not locked and the player is not attacking.
-    /// The rest of the roll-functionality is implemented in the update method 
-    /// because the unity animation event system caused a bug.
-    ///</summary>
-    /// <param name="value">The input value which is ignored. It is needed for the unity interface.</param>
     void OnRoll(InputValue value)
     {
         if (!IsInputLocked && !IsAttacking && !IsRolling && m_isGrounded)
@@ -252,17 +245,13 @@ public class PlayerMovement : Entity
         }
     }
 
-    /// <summary> This method changes the weapon of the entity to alternate between these two states:
-    /// Weapon rendered before player, Weapon rendered behind player.</summary>
+    /// <summary> Changes the weapon of the entity to alternate between these two states:
+    ///     Weapon rendered before player, weapon rendered behind player.</summary>
     public void ChangeOrderInLayer()
     {
         m_swordRenderer.sortingOrder *= -1;
     }
     
-    /// <summary> This method is triggered when the player presses the attack button.
-    /// According to the current attack direction based on the player input the attack is executed
-    /// unless the input is locked or the entity is already attacking.</summary>
-    /// <param name="value">The input value which is ignored. It is needed for the unity interface.</param>
     void OnAttack(InputValue value)
     {
         if (!IsInputLocked && !IsRolling)
@@ -277,8 +266,6 @@ public class PlayerMovement : Entity
         }
     }
 
-    /// <summary> This method is invoked when the player changes the attack direction. </summary>
-    /// <param name="value">The input value that indicates in which direction the player wants to attack.</param>
     void OnAttackDirection(InputValue value)
     {
         if (!IsInputLocked)
@@ -287,8 +274,6 @@ public class PlayerMovement : Entity
         }
     }
 
-    /// <summary> This method is invoked when the player changes the movement direction. </summary>
-    /// <param name="value">The input value that indicates in which direction the player wants to move.</param>
     void OnMovement(InputValue value)
     {
         if (!IsInputLocked && !IsRolling)
@@ -319,8 +304,6 @@ public class PlayerMovement : Entity
         }
     }
 
-    /// <summary> This method is invoked when the player hits one of the record buttons. </summary>
-    /// <param name="value">The input value which is ignored. It is needed for the unity interface.</param>
     void OnRecord(InputValue value)
     {
         Recorder.Instance.Record();
@@ -343,8 +326,6 @@ public class PlayerMovement : Entity
         }
     }
 
-    /// <summary> This method is invoked when the player game object is destroyed. 
-    /// It deletes the reference from the game to the player.</summary>
     void OnDestroy()
     {
         m_activeGame.UnregisterPlayer(gameObject);
