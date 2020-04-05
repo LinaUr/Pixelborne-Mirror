@@ -41,14 +41,15 @@ public class PlayerMovement : Entity
     /// <summary>Gets the player sword.</summary>
     /// <value>The player sword.</value>
     public GameObject PlayerSword { get { return m_playerSword; } }
+
     /// <summary>Gets or sets the positions.</summary>
     /// <value>The positions.</value>
     // Positions from outer left to outer right stage as they are in the scene.
     public IList<Vector2> Positions { get; set; }
+
     /// <summary>Gets the revive position.</summary>
     /// <value>The revive position.</value>
-    public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
-    
+    public Vector2 RevivePosition {get; private set; }
 
     /// <summary>Gets the index.</summary>
     /// <value>The index.</value>
