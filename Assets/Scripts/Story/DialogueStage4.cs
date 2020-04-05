@@ -110,7 +110,7 @@ public class DialogueStage4 : MonoBehaviour
         m_endboss.SetActive(false);
         Singleplayer.Instance.ActiveEnemies.Remove(m_endboss);
         m_dialoguePart = 0;
-        GetName();
+        ReplaceNameInDialogueTexts();
         m_dialogueText = m_dialogueTextPart0;
         m_activeCharacter = "Princess";
         PlayerProgressed = false;
@@ -488,7 +488,7 @@ public class DialogueStage4 : MonoBehaviour
         }
     }
 
-    public void GetName()
+    public void ReplaceNameInDialogueTexts()
     {
         m_userName = Environment.UserName;
         m_dialogueTextPart1[1] = "Knight " + m_userName + "! My thanks as both father and king.";
