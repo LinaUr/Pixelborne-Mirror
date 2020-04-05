@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-/// <summary></summary>
+/// <summary>Provides static methods that implement various scene changing behavior.</summary>
 public class SceneChanger
 {
     // The following indices represent the build index of the corresponding scene.
@@ -25,10 +25,9 @@ public class SceneChanger
         return false;
     }
 
-    // This method returns a bool to indicate whether the requested stage exists and could be loaded.
     /// <summary>Loads the singleplayer stage as active scene.</summary>
     /// <param name="index">The index.</param>
-    /// <returns></returns>
+    /// <returns>Bool to indicate whether the requested stage exists and could be loaded.</returns>
     public static bool LoadSingleplayerStageAsActiveScene(int index)
     {
         if (index > SINGLEPLAYER_STAGES_INDICES.Length - 1)
@@ -39,6 +38,7 @@ public class SceneChanger
         return true;
     }
 
+    /// <summary>Sets the Multiplayer as active scene.</summary>
     public static void SetMultiplayerAsActiveScene()
     {
         LoadSceneAsActiveScene(MULTIPLAYER_SCENE_INDEX);
@@ -57,7 +57,7 @@ public class SceneChanger
     }
 
     /// <summary>Loads the scene as active scene.</summary>
-    /// <param name="index">The index.</param>
+    /// <param name="index">The index of the scene from the build settings.</param>
     public static void LoadSceneAsActiveScene(int index)
     {
         if (!IsSceneAlreadyLoaded(index))
@@ -78,29 +78,25 @@ public class SceneChanger
         }
     }
 
-    // This method loads PauseMenu additive to the scene.
-    /// <summary>Loads the pause menu additive.</summary>
+    /// <summary>Loads the pause menu additive to the scene.</summary>
     public static void LoadPauseMenuAdditive()
     {
         LoadSceneAdditive(PAUSE_MENU_SCENE_INDEX);
     }
 
-    // This method removes the PauseMenu as additive scene.
-    /// <summary>Unloads the pause menu additive.</summary>
+    /// <summary>Unloads the pause menu subtractive to the scene.</summary>
     public static void UnloadPauseMenuAdditive()
     {
         SceneManager.UnloadSceneAsync(PAUSE_MENU_SCENE_INDEX);
     }
 
-    // This method loads SellingScreen additive to the scene.
-    /// <summary>Loads the selling screen additive.</summary>
+    /// <summary>Loads the selling screen additive to the scene.</summary>
     public static void LoadSellingScreenAdditive()
     {
         LoadSceneAdditive(SELLING_SCREEN_SCENE_INDEX);
     }
 
-    // This method removes the SellingScreen as additive scene.
-    /// <summary>Unloads the selling screen additive.</summary>
+    /// <summary>Unloads the selling screen subtractive to the scene.</summary>
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
