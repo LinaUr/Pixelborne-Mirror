@@ -13,9 +13,8 @@ using UnityEngine.Networking;
 // throw an exception when its API is used from another thread.
 // (see https://stackoverflow.com/questions/41330771/use-unity-api-from-another-thread-or-call-a-function-in-the-main-thread )
 
-// This class searches for MP3-files in the user folder of the current user,
-// assignes a random file to an AudioSource component in the scene and plays them.
-/// <summary></summary>
+/// <summary>Searches for MP3-files in the user folder of the current user, 
+///     assignes a random file to an <see cref="AudioSource"/> component in the scene and plays it.</summary>
 public class DriveMusicManager : MonoBehaviour
 {
     private static DriveMusicManager s_instance = null;
@@ -34,7 +33,6 @@ public class DriveMusicManager : MonoBehaviour
     private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     /// <summary>Gets the instance.</summary>
-    /// <value>The instance.</value>
     public static DriveMusicManager Instance
     {
         get
@@ -51,7 +49,7 @@ public class DriveMusicManager : MonoBehaviour
         }
     }
 
-    /// <summary>Goes this instance.</summary>
+    /// <summary>Starts the <see cref="DriveMusicManager"/>.</summary>
     public void Go()
     {
         m_audioPlayer = gameObject.AddComponent<AudioSource>();
