@@ -158,6 +158,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyMiddlePillar
       objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -304,6 +309,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
@@ -19590,6 +19600,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyAtPrincess
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
@@ -78157,7 +78172,7 @@ Transform:
   m_LocalScale: {x: 2.1635098, y: 4.33705, z: 0.75580996}
   m_Children: []
   m_Father: {fileID: 1865767607}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1381245745
 BoxCollider2D:
@@ -78235,88 +78250,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!1 &1457379062
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1457379063}
-  - component: {fileID: 1457379066}
-  - component: {fileID: 1457379065}
-  - component: {fileID: 1457379064}
-  m_Layer: 8
-  m_Name: StageEndPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1457379063
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457379062}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 124.53, y: 10.1, z: -0.20921773}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1865767607}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &1457379064
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457379062}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &1457379065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457379062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 907f5ca0e1c668d49afe9e4f313a9abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!58 &1457379066
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457379062}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.00000008940697}
-  serializedVersion: 2
-  m_Radius: 0.1
 --- !u!1 &1492809820
 GameObject:
   m_ObjectHideFlags: 0
@@ -78347,7 +78280,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 1865767607}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1492809822
 SpriteRenderer:
@@ -78449,7 +78382,7 @@ Transform:
   - {fileID: 59068226}
   - {fileID: 59664432}
   m_Father: {fileID: 1865767607}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1604256663
 PrefabInstance:
@@ -78462,6 +78395,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyEntryCastle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
@@ -78687,6 +78625,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
+        type: 3}
+      propertyPath: m_AllowDynamicResolution
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8963107396226841011, guid: 77638236184868243bc8d662647950ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78772,11 +78715,6 @@ PrefabInstance:
       propertyPath: m_playerHealth
       value: 
       objectReference: {fileID: 168911395}
-    - target: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
-        type: 3}
-      propertyPath: m_AllowDynamicResolution
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77638236184868243bc8d662647950ea, type: 3}
 --- !u!1 &1727798088 stripped
@@ -78992,7 +78930,6 @@ Transform:
   - {fileID: 1393975250}
   - {fileID: 168911393}
   - {fileID: 987316860}
-  - {fileID: 1457379063}
   - {fileID: 1492809821}
   - {fileID: 1593581760}
   - {fileID: 1381245744}
@@ -79238,6 +79175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyCastle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123333617976130934, guid: d62d2b007cb942e4e88dd28208f24f3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5123333617976130929, guid: d62d2b007cb942e4e88dd28208f24f3e,
         type: 3}
