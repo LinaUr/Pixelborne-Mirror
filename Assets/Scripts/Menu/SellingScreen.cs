@@ -9,7 +9,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-/// <summary></summary>
+/// <summary>Pauses the game if the player died 
+///     and offers the player different options for continue.</summary>
 public class SellingScreen : MonoBehaviour
 {
     [SerializeField]
@@ -29,7 +30,6 @@ public class SellingScreen : MonoBehaviour
     private const float m_DEFAULT_PRICE = 1.0f;
     private const string m_LOG_FILE = "SellingLog.txt";
 
-    /// <summary>The s is loading paths</summary>
     private static bool s_isLoadingPaths = true;
 
     void Start()
@@ -81,8 +81,7 @@ public class SellingScreen : MonoBehaviour
         s_isLoadingPaths = false;
     }
 
-    // This method resumes the gameplay and logs the sold file.
-    /// <summary>Sells the file.</summary>
+    /// <summary>Resumes the gameplay and logs the sold file.</summary>
     public void SellFile()
     {
         Toolkit.LogToFile($"Sold {m_fileToSell}", m_LOG_FILE);
@@ -92,8 +91,7 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
     }
 
-    // This method resumes the gameplay and logs the payed price.
-    /// <summary>Pays the price.</summary>
+    /// <summary>Resumes the gameplay and logs the payed price.</summary>
     public void PayPrice()
     {
         Toolkit.LogToFile($"Payed {m_priceToPay}", m_LOG_FILE);
@@ -103,10 +101,9 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
     }
 
-    /// <summary>Rejects all.</summary>
+    /// <summary>Reload the current scene if all options were rejected.</summary>
     public void RejectAll()
     {
-        // Reload current scene.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         UnfreezeGame();
     }

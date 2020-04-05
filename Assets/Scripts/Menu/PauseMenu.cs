@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Handles the behaviour of the buttons in the pause menu.</summary>
 public class PauseMenu : MonoBehaviour
 {
     void Start()

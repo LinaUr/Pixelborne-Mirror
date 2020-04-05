@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary></summary>
+/// <summary>Highlights the volume slider in the settings.</summary>
 public class SliderHighlightColor : MonoBehaviour
 {
     [SerializeField]
