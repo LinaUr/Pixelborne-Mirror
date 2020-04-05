@@ -3,18 +3,16 @@
 // and got adapted our needs and coding standards.
 // It is used along the NAudio NuGet-package.
 
-using UnityEngine;
 using System.IO;
 using System;
 using NAudio.Wave;
 
-// This class is responsible for converting an MP3 byte streams into WAV.
-/// <summary></summary>
+/// <summary>Is responsible for converting an MP3 byte streams into WAV.</summary>
 public static class NAudioPlayer
 {
-    /// <summary>Froms the MP3 data.</summary>
-    /// <param name="data">The data.</param>
-    /// <returns></returns>
+    /// <summary>Converts an MP3 byte streams into WAV.</summary>
+    /// <param name="data">The data byte stream.</param>
+    /// <returns>A <see cref="WAV"/> instance.</returns>
     public static WAV FromMp3Data(byte[] data)
     {
         // Load the data into a stream.
@@ -43,7 +41,7 @@ public static class NAudioPlayer
 }
 
 // From http://answers.unity3d.com/questions/737002/wav-byte-to-audioclip.html
-/// <summary></summary>
+/// <summary>Stores WAV audio data.</summary>
 public class WAV
 {
     /// <summary>Gets the left channel.</summary>
@@ -52,11 +50,11 @@ public class WAV
     /// <summary>Gets the right channel.</summary>
     /// <value>The right channel.</value>
     public float[] RightChannel { get; internal set; }
-    /// <summary>Gets the channel count.</summary>
-    /// <value>The channel count.</value>
+    /// <summary>Gets the amount of channels.</summary>
+    /// <value>The amount of channels.</value>
     public int ChannelCount { get; internal set; }
-    /// <summary>Gets the sample count.</summary>
-    /// <value>The sample count.</value>
+    /// <summary>Gets the amount of samples.</summary>
+    /// <value>The amount of samples.</value>
     public int SampleCount { get; internal set; }
     /// <summary>Gets the frequency.</summary>
     /// <value>The frequency.</value>
@@ -66,7 +64,7 @@ public class WAV
     public string Name { get; set; }
 
     /// <summary>Initializes a new instance of the <see cref="WAV"/> class.</summary>
-    /// <param name="wav">The wav.</param>
+    /// <param name="wav">The wav byte stream.</param>
     public WAV(byte[] wav)
     {
         // Determine if mono or stereo.
