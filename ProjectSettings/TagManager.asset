@@ -12,6 +12,7 @@ TagManager:
   - WindowLandscape
   - WindowPortrait
   - Enemy
+  - Storytrigger
   layers:
   - Default
   - TransparentFX
@@ -28,9 +29,9 @@ TagManager:
   - King
   - Ground
   - Walls
-  - 
-  - 
-  - 
+  - Flashes
+  - Princess
+  - "DisabledCollisionLayer\x13\x13\x13\x13"
   - 
   - 
   - 
