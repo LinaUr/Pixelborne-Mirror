@@ -2,15 +2,15 @@
 using UnityEngine;
 
 /// <summary>
-/// This class can be attached to enemy game objects in order to simply let them execute actions that are defined in <see cref="IEnemyActions"/>.
-/// It takes care of the Animations, Physics and Health.
-/// This class is intended to be used with an <see cref="ActionPatternExecutor"/> attached to the same game object.
-/// Though it can be used without it.
+///     This class can be attached to enemy game objects in order to simply let them execute actions that are defined in <see cref="IEnemyActions"/>.
+///     It takes care of the Animations, Physics and Health.
+///     This class is intended to be used with an <see cref="ActionPatternExecutor"/> attached to the same game object.
+///     Though it can be used without it.
 /// </summary>
 /// <example>
 /// <code>
-/// m_princessActions = gameobjectFind("princess").GetComponent<IEnemyActions>();
-/// m_princess.StartFollowPlayer();
+///     m_princessActions = gameobjectFind("princess").GetComponent<IEnemyActions>();
+///     m_princess.StartFollowPlayer();
 /// </code>
 /// </example>
 public class EnemyActions : Entity, IEnemyActions
@@ -57,8 +57,8 @@ public class EnemyActions : Entity, IEnemyActions
     }
 
     /// <summary>
-    /// Updates this instance every frame.
-    /// It takes care of casing the player and automatic jumping.
+    ///     Updates this instance every frame.
+    ///     It takes care of casing the player and automatic jumping.
     /// </summary>
     protected override void Update()
     {
@@ -120,7 +120,7 @@ public class EnemyActions : Entity, IEnemyActions
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
 
-    /// <summary>This method initiates the entity dying animation and ensures that the enemy does nothing else.</summary>
+    /// <summary>Initiates the entity dying animation and ensures that the enemy does nothing else.</summary>
     protected override void Die(){
         base.Die();
         m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, true);
@@ -144,11 +144,11 @@ public class EnemyActions : Entity, IEnemyActions
     }
 
     /// <summary>
-    /// Called when a trigger-collider enters the collider of the enemy.
-    /// It is used to determine if the enemy got hit by a weapon and if that weapon is allowed to deal damage 
-    /// e.g. the attack is not canceled.
-    /// When no <see cref="EntityHealth"/> is attached to the game object the entity counts as not defeatable.
-    /// This is used for the princess.
+    ///     Called when a trigger-collider enters the collider of the enemy.
+    ///     It is used to determine if the enemy got hit by a weapon and if that weapon is allowed to deal damage 
+    ///     e.g. the attack is not canceled.
+    ///     When no <see cref="EntityHealth"/> is attached to the game object the entity counts as not defeatable.
+    ///     This is used for the princess.
     /// </summary>
     /// <param name="collider">The collider that entered the collider of the entity.</param>
     protected override void OnTriggerEnter2D(Collider2D collider) {
@@ -278,9 +278,9 @@ public class EnemyActions : Entity, IEnemyActions
     }
 
     /// <summary> 
-    /// This method is called at the end of the attack animation
-    /// and turns the attack off animation when no other attack is already registered.
-    /// This is part of the attack chaining problem.
+    ///     Is called at the end of the attack animation
+    ///     and turns the attack off animation when no other attack is already registered.
+    ///     This is part of the attack chaining problem.
     /// </summary>
     /// <param name="previousAttackingDirection">The attacking direction from the attack animation that called this function.</param>
     public void StopAttackingAnimation(int previousAttackingDirection)
@@ -301,17 +301,15 @@ public class EnemyActions : Entity, IEnemyActions
         m_isAttackChained = false;
     }
 
-    /// <summary> It is called at the end of the death animation.
-    /// This method destroys the gameObject if the body should disappear. 
-    /// Otherwise it changes the layer to disabled collision layer and plays the dead animation.</summary>
+    /// <summary> Is called at the end of the death animation.
+    ///     This method destroys the gameObject if the body should disappear. 
+    ///     Otherwise it changes the layer to disabled collision layer and plays the dead animation.
+    /// </summary>
     void DestroySelf()
     {
         Destroy(gameObject);
     }
 
-
-    /// <summary>. It is called at the end of the death animation.
-    /// This method is automatically called when the gameObject is destroyed.</summary>
     void OnDestroy()
     {
         Singleplayer.Instance.ActiveEnemies.Remove(gameObject);

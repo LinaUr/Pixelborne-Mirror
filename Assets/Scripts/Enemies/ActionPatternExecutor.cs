@@ -25,25 +25,24 @@ using UnityEngine;
 ///    The attack pattern need to be set in the unity editor.
 ///
 /// <code>
-/// ATTACK PATTERN GRAMMAR:
-/// ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
-/// ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
-/// ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
-/// TIMEOUT = float
-/// ATTACK_INSTRUCTION = one of the constant strings below
+///     ATTACK PATTERN GRAMMAR:
+///     ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
+///     ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
+///     ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
+///     TIMEOUT = float
+///     ATTACK_INSTRUCTION = one of the constant strings below
 /// </code>
-///</summary>
+/// </summary>
 /// <example>
 /// <code>
-/// Example assignment of the attack pattern in the unity editor.
-/// m_attackPatternStringWhileOutOfSight = "STOPF";
-/// m_attackPatternStringWhileInSightRange = "STARTF";
-/// m_attackPatternStringWhileInAttackRange = ["AU|AM|AD|2", "AD|JUMP|0.5|AD|3|AU"];
+///     Example assignment of the attack pattern in the unity editor.
+///     m_attackPatternStringWhileOutOfSight = "STOPF";
+///     m_attackPatternStringWhileInSightRange = "STARTF";
+///     m_attackPatternStringWhileInAttackRange = ["AU|AM|AD|2", "AD|JUMP|0.5|AD|3|AU"];
 /// </code>
 /// </example>
 public class ActionPatternExecutor : MonoBehaviour
 {
-
     private readonly static string ATTACK_UP_IDENTIFICATION = "AU";
     private readonly static string ATTACK_MID_IDENTIFICATION = "AM";
     private readonly static string ATTACK_DOWN_IDENTIFICATION = "AD";
@@ -80,8 +79,6 @@ public class ActionPatternExecutor : MonoBehaviour
         IN_ATTACK_RANGE = 2, 
     };
 
-    /// <summary> Prepares the ActionPatternExecutor by parsing the patterns into an internal format.
-    /// </summary>
     void Start()
     {
         m_entityAttackAndMovement = gameObject.GetComponent<IEnemyActions>();
@@ -126,9 +123,6 @@ public class ActionPatternExecutor : MonoBehaviour
         m_currentEntityMode = EntityMode.OUT_OF_SIGHT_RANGE;
     }
 
-    /// <summary> It executes the actions of the <see cref="IEnemyActions"/> instance.
-    /// It checks every frame if a new action needs to be executed and if the mode changes and changes the internal state accordingly.
-    /// </summary>
     void Update()
     {
         // Determint the new attack pattern.

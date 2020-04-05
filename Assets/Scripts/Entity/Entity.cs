@@ -74,8 +74,10 @@ public abstract class Entity : MonoBehaviour, IAttack
         m_weaponCollider = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
     }
 
-    /// <summary>Starts this instance. Initially flips the enemy if it is not facing right.
-    /// It also ensures that the entity is currently not attacking and disables the weapon collider.</summary>
+    /// <summary>
+    ///     Starts this instance. Initially flips the enemy if it is not facing right.
+    ///     It also ensures that the entity is currently not attacking and disables the weapon collider.
+    /// </summary>
     protected virtual void Start()
     {
         if (!m_isFacingRight)
