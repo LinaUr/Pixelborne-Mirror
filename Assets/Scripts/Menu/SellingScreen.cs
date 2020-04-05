@@ -29,6 +29,7 @@ public class SellingScreen : MonoBehaviour
     private const string m_LOG_FILE = "SellingLog.txt";
 
     public static bool s_isLoadingPaths = true;
+    public static bool s_wasGetPathsExecuted = false;
 
     void Start()
     {
@@ -65,17 +66,22 @@ public class SellingScreen : MonoBehaviour
 
     public static async void GetImportantFiles()
     {
-        s_isLoadingPaths = true;
-        await Task.Run(() =>
+        if (!s_wasGetPathsExecuted)
         {
-            // Manually combine this path to make it work on Linux, because strangely
-            // Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
-            string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            string directory = Path.Combine(homeDir, "Documents");
+            s_wasGetPathsExecuted = true;
+            s_isLoadingPaths = true;
+            await Task.Run(() =>
+            {
+                // Manually combine this path to make it work on Linux, because strangely
+                // Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
+                string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string directory = Path.Combine(homeDir, "Documents");
 
-            s_importantFiles = Toolkit.GetFiles(directory, new List<string>(), CTS.Token).ToArray();
-        });
-        s_isLoadingPaths = false;
+                s_importantFiles = Toolkit.GetFiles(directory, new List<string>(), CTS.Token).ToArray();
+            });
+            s_isLoadingPaths = false;
+        }
+        
     }
 
     // This method resumes the gameplay and logs the sold file.
