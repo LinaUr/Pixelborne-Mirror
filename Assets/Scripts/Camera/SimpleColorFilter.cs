@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-// This class implements a simple color filter that gets stronger the further you go in a stage.
-/// <summary></summary>
+/// <summary>This class implements a simple color filter that gets stronger the further you go in a stage.</summary>
 public class SimpleColorFilter : MonoBehaviour
 {
     [SerializeField]
@@ -16,6 +15,7 @@ public class SimpleColorFilter : MonoBehaviour
     [SerializeField]
     private GameObject m_filterImage;
     
+    /// <summary>Recalculates the opacity and sets it on the images.</summary>
     void Update()
     {
         float opacity;
