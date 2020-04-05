@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-/// <summary>This class provides basic global game functionality and 
-/// holds a reference to the currently running <see cref="IGame"/> It only has static methods an attributes.</summary>
+/// <summary>Provides basic global game functionality and holds a reference to the currently running <see cref="IGame"/>.
+///     It has only static methods and attributes.</summary>
 public class Game : ScriptableObject
 {
     /// <summary>Gets or sets the currently active game instance.</summary>
     /// <value>The currently active game.</value>
     public static IGame Current { get; set; }
     /// <summary>Gets or sets the game mode.</summary>
-    /// <value>The mode.</value>
+    /// <value>The game mode.</value>
     public static GameMode Mode { get; set; }
 
     /// <summary>Pauses the game.</summary>

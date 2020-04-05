@@ -1,8 +1,6 @@
 ﻿
-/// <summary>
-///     Basic interface that defines all necessary methods to determine
-///     if an entity got hit and what damage the hit deals in the OnTriggerEnter2D-methods.
-/// </summary>
+/// <summary>Defines all necessary methods to determine if an entity got hit
+///     and what damage the hit deals in the OnTriggerEnter2D-methods.</summary>
 public interface IAttack
 {
     /// <summary>Determines whether [is facing right].</summary>

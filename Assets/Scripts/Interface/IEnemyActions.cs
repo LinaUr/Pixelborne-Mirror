@@ -1,7 +1,5 @@
-/// <summary>
-///     This interface must be implemented by enemies in order
-///     to be compatible with the <see cref="AttackPatternExecutor"/>.
-/// </summary>
+/// <summary>Is implemented by enemies in order
+/// to be compatible with the <see cref="AttackPatternExecutor"/>.</summary>
 public interface IEnemyActions 
 {
     /// <summary>Determines whether [is player in attack range].</summary>
@@ -18,14 +16,14 @@ public interface IEnemyActions
     bool IsEnemyOnGround();
 
     /// <summary>Gets the duration of the down attack.</summary>
-    /// <returns></returns>
+    /// <returns>The down attack duration as a float.</returns>
     float GetAttackDownDuration();
-    /// <summary>Gets the duration of the up attack.</summary>
-    /// <returns></returns>
-    float GetAttackUpDuration();
     /// <summary>Gets the duration of the middle attack.</summary>
-    /// <returns></returns>
+    /// <returns>The middle attack duration as a float.</returns>
     float GetAttackMiddleDuration();
+    /// <summary>Gets the duration of the up attack.</summary>
+    /// <returns>The up attack duration as a float.</returns>
+    float GetAttackUpDuration();
 
     /// <summary>Starts the down attack.</summary>
     void AttackDown();
@@ -39,7 +37,7 @@ public interface IEnemyActions
     /// <summary>Stops following the player.</summary>
     void StopFollowPlayer();
 
-    /// <summary>Executes a Jumps.</summary>
+    /// <summary>Executes a jump.</summary>
     void Jump();
 
     /// <summary>Starts the automatic jumping.</summary>

@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-/// <summary>It contains the multiplayer game mode logic and 
-///     implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
+/// <summary>Contains the multiplayer game mode logic and 
+/// implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
 public class Multiplayer : ScriptableObject, IGame
 {
     private GameObject m_deadPlayer;
@@ -24,7 +24,6 @@ public class Multiplayer : ScriptableObject, IGame
     public CameraMultiplayer Camera { get; set; }
 
     /// <summary>Gets the instance.</summary>
-    /// <value>The instance.</value>
     public static Multiplayer Instance
     {
         get
@@ -53,7 +52,7 @@ public class Multiplayer : ScriptableObject, IGame
         s_instance = this;
     }
 
-    /// <summary>Starts the game.</summary>
+    /// <summary>Starts the multiplayer.</summary>
     public async void Go()
     {
         Game.Current = this;
@@ -88,7 +87,7 @@ public class Multiplayer : ScriptableObject, IGame
     }
 
     /// <summary>Gets the winner.</summary>
-    /// <returns>The winner identified by his index.</returns>
+    /// <returns>The winner identified by its index.</returns>
     public string GetWinner()
     {
         return $"Player {m_winnerIndex}";
@@ -164,9 +163,6 @@ public class Multiplayer : ScriptableObject, IGame
         SetGameToStage(m_currentStageIndex);
     }
 
-    /// <summary>Initiates all actions that need to be taken care of when a player died.</summary>
-    /// <param name="player">The player.</param>
-    /// <exception cref="Exception">ERROR no player was given!</exception>
     private void PlayerDied(GameObject player)
     {
         int playerIndex = player.GetComponent<PlayerMovement>().Index;
@@ -216,7 +212,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Disables the collision between the player.</summary>
+    /// <summary>Disables the collision between the player and the calling entity.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {

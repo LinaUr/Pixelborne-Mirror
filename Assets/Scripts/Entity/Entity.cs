@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
-/// <summary>
-///     Is the base class for all entities that can execute actions like walking or attacking.
-///     It unifies the duplicate state and behaviour from <see cref="EnemyActions"/> and <see cref="PlayerActions"/>.
-/// </summary>
+/// <summary>Is the base class for all entities that can execute actions like walking or attacking.
+///     It unifies the duplicate state and behaviour from <see cref="EnemyActions"/> and <see cref="PlayerActions"/>.</summary>
 public abstract class Entity : MonoBehaviour, IAttack
 {
     /// <summary>The weapon collider from the entity.</summary>
