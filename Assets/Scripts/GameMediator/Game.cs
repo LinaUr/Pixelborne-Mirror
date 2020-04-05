@@ -12,7 +12,14 @@ public class Game : ScriptableObject
 
     public static void Finish()
     {
-        SceneChanger.SetWinningScreenAsActiveScene();
+        if (Mode == GameMode.Singleplayer)
+        {
+            SceneChanger.SetMainMenuAsActiveScene();
+        }
+        else
+        {
+            SceneChanger.SetWinningScreenAsActiveScene();
+        }
     }
 
     public static void Freeze()
