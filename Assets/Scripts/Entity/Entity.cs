@@ -8,8 +8,6 @@ public abstract class Entity : MonoBehaviour, IAttack
     [SerializeField]
     protected bool m_isFacingRight;
     [SerializeField]
-    private float m_distanceInWhichEntityCountsAsGrounded = 0.1f;
-    [SerializeField]
     protected float m_jumpForce = 22.0f;
     [SerializeField]
     protected float m_moveSpeed = 10.0f;
@@ -26,14 +24,14 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected bool m_isGrounded = false;
     protected int m_currentAttackingDirection = 0;
     protected static readonly float HORIZONTAL_IS_GROUNDED_DISTANCE = 0.1f;
+    protected static readonly float VERTICAL_IS_GROUNDED_DISTANCE = 0.2f;
     protected static readonly string[] ATTACK_ANIMATOR_PARAMETER_NAMES = { "AttackingUp", "Attacking", "AttackingDown" };
     protected static readonly string JUMPING_ANIMATOR_PARAMETER_NAME = "IsJumping";
     protected static readonly string SPEED_ANIMATOR_PARAMETER_NAME = "Speed";
 
     public static readonly string DEATH_ZONES_NAME = "DeathZones";
-    public static readonly Vector2 INVALID_POSITION = new Vector2(-99999999, -99999999);
     public bool IsInputLocked { get; set; } = false;
-    public bool Attacking { get; protected set; }
+    public bool IsAttacking { get; protected set; }
     public bool IsRolling { get; protected set; } = false;
 
     protected virtual void Awake()
@@ -52,7 +50,7 @@ public abstract class Entity : MonoBehaviour, IAttack
             FlipEntity();
         }
         m_weaponCollider.enabled = false;
-        Attacking = false;
+        IsAttacking = false;
     }
 
     protected virtual void Update() 
@@ -64,7 +62,8 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void UpdateIsGrounded()
     {
         m_isGrounded = Physics2D.OverlapArea((Vector2) m_collider.bounds.min - new Vector2(HORIZONTAL_IS_GROUNDED_DISTANCE, 0.0f),
-                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, m_distanceInWhichEntityCountsAsGrounded), m_whatIsGround);
+                        (Vector2)m_collider.bounds.min + new Vector2(m_collider.bounds.size.x + HORIZONTAL_IS_GROUNDED_DISTANCE, 
+                        -VERTICAL_IS_GROUNDED_DISTANCE), m_whatIsGround);
     }
 
     // This method flips the entity sprite.
@@ -79,10 +78,16 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected virtual void Die()
     {
         StopAttacking();
+        Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
+        // Undefeatable objects cannot be damaged. e.g. princess.
+        if(m_entityHealth == null)
+        {
+            return;
+        }
         if (!IsInputLocked)
         {
             if (collider.gameObject.name == DEATH_ZONES_NAME)
@@ -120,7 +125,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     // This method resets the attack including the animator.
     protected void ResetAttackAnimation()
     {
-        Attacking = false;
+        IsAttacking = false;
         foreach (string parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
         {
             m_animator.SetBool(parameter, false);
@@ -131,11 +136,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     {
         m_animator.SetBool(JUMPING_ANIMATOR_PARAMETER_NAME, false);
         m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
-        foreach (string attack_parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
-        {
-            m_animator.SetBool(attack_parameter, false);
-        }
-        Attacking = false;
+        ResetAttackAnimation();
     }
 
     public virtual void ResetMovement()

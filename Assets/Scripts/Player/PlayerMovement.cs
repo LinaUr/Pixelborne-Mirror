@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Recording;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
@@ -14,31 +15,33 @@ public class PlayerMovement : Entity
     // Transforms from outer left to outer right stage.
     private Transform m_playerPositionsTransform;
 
+    private bool m_hasStablePosition = false; 
     private float m_attackDuration; 
-    private float m_lastTimeAttacked = -1.0f;
-    private float m_rollingDuration;
-    private float m_lastTimeRolled = -1.0f;
     private float m_attackDirection;
+    private float m_rollingDuration;
     private float m_rollingMovementX;
-    private float m_timeToNextSetRevivePosition = 0.0f;
     private IGame m_activeGame;
     private SpriteRenderer m_swordRenderer;
-    private Vector2 m_nextPotentialRevivePosition;
+    private Stopwatch m_stopwatchRevive = new Stopwatch();
+    private Stopwatch m_stopwatchAttack = new Stopwatch();
+    private Stopwatch m_stopwatchRolling = new Stopwatch();
     private Vector2 m_nonRollingColliderSize;
     private Vector2 m_rollingColliderSize;
+    private Vector2 m_lastCheckedPosition;
 
     private static readonly float CONTROLLER_DEADZONE = 0.3f;
-    private static readonly float ROLLING_INVINCIBILITY_TIME_WINDOW_END = 0.2f;
-    private static readonly float ROLLING_INVINCIBILITY_TIME_WINDOW_START = 0.8f;
-    private static readonly float TIME_BETWEEN_REVIVE_POSITION_SETTING = 0.4f;
+    private static readonly float ROLLING_INVINCIBILITY_TIME_SPAN_START = 0.2f;
+    private static readonly float ROLLING_INVINCIBILITY_TIME_SPAN_END = 0.8f;
     private static readonly string PLAYER_ATTACK_ANIMATION_NAME = "Player_1_attack";
     private static readonly string PLAYER_ROLLING_ANIMATION_NAME = "Player_1_roll";
     private static readonly string ROLLING_ANIMATOR_NAME = "Rolling";
+    // Time in milliseconds.
+    private static readonly float INTERVAL_FOR_POSITION_CHECK = 400;
 
     public GameObject PlayerSword { get { return m_playerSword; } }
-    public IList<Vector2> Positions { get; set; }
-    public Vector2 RevivePosition {get; private set; } = INVALID_POSITION;
     // Positions from outer left to outer right stage as they are in the scene.
+    public IList<Vector2> Positions { get; set; }
+    public Vector2 RevivePosition { get; private set; }
 
     public int Index
     {
@@ -71,8 +74,11 @@ public class PlayerMovement : Entity
         // Registration of player on start for safety reasons.
         m_activeGame = Game.Current;
         m_activeGame.RegisterPlayer(gameObject);
-        m_attackDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ATTACK_ANIMATION_NAME);
-        m_rollingDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ROLLING_ANIMATION_NAME);
+        // Times 1000 to get the duration in milliseconds.
+        m_attackDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ATTACK_ANIMATION_NAME) * 1000;
+        // Times 1000 to get the duration in milliseconds.
+        m_rollingDuration = Toolkit.GetAnimationLength(m_animator, PLAYER_ROLLING_ANIMATION_NAME) * 1000;
+        m_stopwatchRevive.Start();
     }
 
     protected override void Update()
@@ -83,40 +89,45 @@ public class PlayerMovement : Entity
         UpdateAttacking();
     }
 
+    // This method updates the revive position of the player. The revive position has to be stable. 
+    // A position is stable when the player continuously stays on ground for INTERVAL_FOR_POSITION_CHECK
+    // milliseconds.
     private void UpdateRevivePosition()
     {
-        m_timeToNextSetRevivePosition -= Time.deltaTime;
-        // Reset m_nextPotentialRevivePosition when the player is not on the ground.
         if (!m_isGrounded)
         {
-            m_timeToNextSetRevivePosition = 0;
-            m_nextPotentialRevivePosition = INVALID_POSITION;
+            m_hasStablePosition = false;
         }
-        else if (m_timeToNextSetRevivePosition <= 0)
+        else if (!m_hasStablePosition || m_stopwatchRevive.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
         {
-            if (m_nextPotentialRevivePosition != INVALID_POSITION)
+            // As soon as the player hits ground again or the time between checks is up, this part is executed.
+
+            if (m_hasStablePosition)
             {
-                RevivePosition = m_nextPotentialRevivePosition;
+                // Since the player was continiously grounded the last position is stable.
+                RevivePosition = m_lastCheckedPosition;
             }
-            m_nextPotentialRevivePosition = gameObject.transform.position; 
-            m_timeToNextSetRevivePosition = TIME_BETWEEN_REVIVE_POSITION_SETTING;
+            m_lastCheckedPosition = gameObject.transform.position;
+            m_hasStablePosition = true;
+            m_stopwatchRevive.Restart();
         }
     }
-
 
     private void UpdateRolling()
     {
         if (IsRolling)
         {
-            m_lastTimeRolled -= Time.deltaTime;
+            var elapsedTime = m_stopwatchRolling.ElapsedMilliseconds;
+
             // Since to the ground is not slippery, we need to reapply the velocity.
             Vector2 manipulatedVelocity = m_rigidbody2D.velocity;
             manipulatedVelocity.x = m_rollingMovementX;
             m_rigidbody2D.velocity = manipulatedVelocity;
 
-            float currentAnimationLengthPercentage = m_lastTimeRolled / m_rollingDuration;
-            bool playerIsCurrentlyInvincible = ROLLING_INVINCIBILITY_TIME_WINDOW_END <= currentAnimationLengthPercentage 
-                && currentAnimationLengthPercentage <= ROLLING_INVINCIBILITY_TIME_WINDOW_START;
+            float currentAnimationLengthPercentage = elapsedTime / m_rollingDuration;
+            bool playerIsCurrentlyInvincible = ROLLING_INVINCIBILITY_TIME_SPAN_START <= currentAnimationLengthPercentage 
+                && currentAnimationLengthPercentage <= ROLLING_INVINCIBILITY_TIME_SPAN_END;
+
             // Adjust the invincibility and collider size according to the invincibility window.
             if (playerIsCurrentlyInvincible)
             {
@@ -130,10 +141,12 @@ public class PlayerMovement : Entity
                 m_collider.size = m_nonRollingColliderSize;
                 m_activeGame.EnableEntityCollision(gameObject);
             }
-            if (m_lastTimeRolled <= 0)
+
+            if (elapsedTime > m_rollingDuration)
             {
                 IsRolling = false;
-                m_animator.SetBool(ROLLING_ANIMATOR_NAME, false);
+                m_stopwatchRolling.Reset();
+                m_animator.SetBool(ROLLING_ANIMATOR_NAME, IsRolling);
             }
         }
     }
@@ -142,13 +155,13 @@ public class PlayerMovement : Entity
     {
         // Set the player as not attacking when the time that the attack animation needs is over.
         // Set the Animator variable as well.
-        if (Attacking)
+        if (IsAttacking)
         {
-            m_lastTimeAttacked -= Time.deltaTime;
-            if (m_lastTimeAttacked < 0)
+            if (m_stopwatchAttack.ElapsedMilliseconds > m_attackDuration)
             {
-                Attacking = false;
-                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], Attacking);
+                IsAttacking = false;
+                m_stopwatchAttack.Reset();
+                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], IsAttacking);
             }
         }
     }
@@ -172,9 +185,10 @@ public class PlayerMovement : Entity
         base.ResetEntityAnimations();
         m_animator.SetBool(ROLLING_ANIMATOR_NAME, false);
         IsRolling = false;
-        m_lastTimeRolled = 0.0f;
+        m_stopwatchRolling.Reset();
         m_collider.size = m_nonRollingColliderSize;
-        m_lastTimeAttacked = 0.0f;
+        IsAttacking = false;
+        m_stopwatchAttack.Reset();
     }
 
     public override void ResetMovement()
@@ -199,14 +213,14 @@ public class PlayerMovement : Entity
     // the input is not locked and the player is not attacking.
     // The rest of the roll-functionality is implemented in the update method 
     // because the unity animation event system caused a bug.
-    public void OnRoll(InputValue value)
+    void OnRoll(InputValue value)
     {
-        if (!IsInputLocked && !Attacking && !IsRolling && m_isGrounded)
+        if (!IsInputLocked && !IsAttacking && !IsRolling && m_isGrounded)
         {
             m_animator.SetBool(ROLLING_ANIMATOR_NAME, true);
             m_rollingMovementX = m_rigidbody2D.velocity.x;
             IsRolling = true;
-            m_lastTimeRolled = m_rollingDuration;
+            m_stopwatchRolling.Start();
         }
     }
 
@@ -232,17 +246,18 @@ public class PlayerMovement : Entity
     {
         if (!IsInputLocked && !IsRolling)
         {
-            if (m_lastTimeAttacked <= 0)
+            if (!IsAttacking || m_stopwatchAttack.ElapsedMilliseconds > m_attackDuration)
             {
-                Attacking = true;
+                IsAttacking = true;
                 DetermineAttackingParameter(m_attackDirection);
-                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], Attacking);
-                m_lastTimeAttacked = m_attackDuration;
+                m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], IsAttacking);
+                m_stopwatchAttack.Start();
             }
         }
     }
 
-    // This method is invoked when the entity changes the attack direction e.g. PlayerInput and sets it to the current m_attackDirection.
+    // This method is invoked when the entity changes the attack direction, 
+    // e.g. PlayerInput and sets it to the current m_attackDirection.
     void OnAttackDirection(InputValue value)
     {
         if (!IsInputLocked)
@@ -303,7 +318,7 @@ public class PlayerMovement : Entity
         }
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         m_activeGame.UnregisterPlayer(gameObject);
     }

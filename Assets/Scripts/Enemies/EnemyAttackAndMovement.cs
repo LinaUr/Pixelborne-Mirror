@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
 {
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
+    [SerializeField]
+    private bool m_bodyShouldDisappear = true;
     [SerializeField]
     private float m_attackRange = 10.0f;
     [SerializeField]
@@ -15,22 +18,30 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private bool m_isAutoJumping = false;
     private bool m_isFollowingPlayer = false;
     private bool m_isPlayerInRange = false;
-    private float m_autoJumpingActivationDistance = 0.001f;
-    private float m_currentTimeUntilResettingPlayerPosition = 0.0f;
+    private Stopwatch m_stopwatch = new Stopwatch(); 
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
-
-    private static readonly float SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION = 0.2f;
-    private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
-
     protected Rigidbody2D m_playerRigidbody2D;
 
+    // Time in milliseconds.
+    private static readonly float INTERVAL_FOR_POSITION_CHECK = 200;
+    private static readonly float AUTO_JUMPING_ACTIVATION_DISTANCE = 0.001f;
+    private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
+
+
     protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
+    protected static readonly string DEAD_ANIMATOR_PARAMETER_NAME = "IsDead";
 
     protected override void Awake()
     {
         base.Awake();
         Singleplayer.Instance.ActiveEnemies.Add(gameObject);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        m_stopwatch.Start();
     }
 
     protected override void Update()
@@ -49,16 +60,13 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
         else
         {
-            if (m_isFollowingPlayer && !IsInputLocked)
+            float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
+            // Only walk if we chase the player, the input is not locked and the player is not too close.
+            if (m_isFollowingPlayer && !IsInputLocked && Mathf.Abs(movementDirection) > m_minPlayerDistance)
             {
-                float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-                // Only walk closer to the player if the player is not already too close.
-                if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
-                {
-                    // Normalize the movementDirection.
-                    movementDirection = movementDirection < 0 ? -1 : 1;
-                    m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
-                }
+                // Normalize the movementDirection.
+                movementDirection = movementDirection < 0 ? -1 : 1;
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
 
                 // Flip enemy direction if player now walks in opposite direction.
                 if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
@@ -68,19 +76,19 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                 // Apply the movement to the physics.
                 m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
 
-                // Jump if the position is almost equal to the last position and jumping is turned on.
-                // The jumping is only checked every SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION.
                 if (m_isAutoJumping)
                 {
-                    m_currentTimeUntilResettingPlayerPosition -= Time.deltaTime;
-                    if (m_currentTimeUntilResettingPlayerPosition <= 0)
+                    // If jumping is turned on then jump if the current position is almost equal to the last position.
+                    // It is only checked every INTERVALL_FOR_POSITION_CHECK.
+
+                    if (m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
                     {
-                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < m_autoJumpingActivationDistance)
+                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
                         {
                             OnJump(null);
                         }
-                        m_currentTimeUntilResettingPlayerPosition = SECONDS_UNTIL_RESETTING_OLD_PLAYER_POSITION;
                         m_lastPosition = gameObject.transform.position;
+                        m_stopwatch.Restart();
                     }
                 }
             }
@@ -236,10 +244,23 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // This method destroys the gameObject.
+    // It is called by the death animation.
     void DestroySelf()
     {
-        Destroy(gameObject);
+        if(m_bodyShouldDisappear)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            int disabledCollisionLayer = LayerMask.NameToLayer("DisabledCollisionLayer");
+            gameObject.layer = disabledCollisionLayer;
+            ResetEntityAnimations();
+            m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, false);
+            m_animator.SetBool(DEAD_ANIMATOR_PARAMETER_NAME, true);
+        }
     }
+
 
     // It is called at the end of the death animation.
     // This method is automatically called when the gameObject is destroyed.
