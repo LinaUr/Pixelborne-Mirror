@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,7 @@ public class DialogueStage3 : MonoBehaviour
     private int m_dialoguePart;
     private string m_userName;
     private string[] m_dialogueText;
+    private Stopwatch m_textStopwatch = new Stopwatch();
     private string[] m_dialogueTextPart0 = { "Knight! Is that you?",
                                              "You found me! Thank goodness.",
                                              "And I started to fear those vile demons might succeed.",
@@ -69,14 +71,14 @@ public class DialogueStage3 : MonoBehaviour
                 }
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
 
-                if (Toolkit.CurrentTimeMillisecondsToday() - m_displayStartTime >= m_textPartDisplayTime)
+                if (m_textStopwatch.ElapsedMilliseconds >= m_textPartDisplayTime)
                 {
                     m_textPart++;
                     if (m_textPart == m_dialogueText.Length)
                     {
                         ChangePart();
                     }
-                    m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+                    m_textStopwatch.Restart();
                 }
                 break;
 
@@ -107,7 +109,7 @@ public class DialogueStage3 : MonoBehaviour
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "Princess";
-        m_displayStartTime = Toolkit.CurrentTimeMillisecondsToday();
+        m_textStopwatch.Restart();
     }
 
     public void ChangePart()
@@ -118,7 +120,7 @@ public class DialogueStage3 : MonoBehaviour
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
         PlayerProgressed = false;
         Singleplayer.Instance.LockPlayerInput(false);
-        Singleplayer.Instance.ReachedEndOfStage();
+        Singleplayer.Instance.EndStage();
     }
     
     public void GetName()
