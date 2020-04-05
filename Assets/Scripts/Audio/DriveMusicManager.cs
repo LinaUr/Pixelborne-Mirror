@@ -49,7 +49,7 @@ public class DriveMusicManager : MonoBehaviour
         }
     }
 
-    /// <summary>Sets up the instance for the following game mode.</summary>
+    /// <summary>Starts the <see cref="DriveMusicManager"/>.</summary>
     public void Go()
     {
         m_audioPlayer = gameObject.AddComponent<AudioSource>();
