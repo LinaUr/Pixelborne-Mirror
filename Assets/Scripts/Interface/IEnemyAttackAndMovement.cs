@@ -1,6 +1,6 @@
 // This interface must be implemented by enemies in order to have an AttackPatternExecutor 
 /// <summary></summary>
-public interface IEnemyAttackAndMovement 
+public interface IEnemyActions 
 {
     /// <summary>Determines whether [is player in attack range].</summary>
     /// <returns>

@@ -122,7 +122,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
         foreach (GameObject enemy in ActiveEnemies)
         {
-            enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
+            enemy.GetComponent<EnemyActions>().IsInputLocked = isLocked;
         }
     }
 

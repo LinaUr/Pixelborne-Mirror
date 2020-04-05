@@ -1,8 +1,19 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
 
-/// <summary></summary>
-public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
+/// <summary>
+/// This class can be attached to enemy game objects in order to simply let them execute actions that are defined in <see cref="IEnemyActions"/>.
+/// It takes care of the Animations, Physics and Health.
+/// This class is intended to be used with an <see cref="ActionPatternExecutor"/> attached to the same game object.
+/// Though it can be used without it.
+/// </summary>
+/// <example>
+/// <code>
+/// m_princessActions = gameobjectFind("princess").GetComponent<IEnemyActions>();
+/// m_princess.StartFollowPlayer();
+/// </code>
+/// </example>
+public class EnemyActions : Entity, IEnemyActions
 {
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
@@ -17,7 +28,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private bool m_isAutoJumping = false;
     private bool m_isFollowingPlayer = false;
     private bool m_isPlayerInRange = false;
-    private Stopwatch m_stopwatch = new Stopwatch(); 
+    private Stopwatch m_stopwatchForRevivePositionTiming = new Stopwatch(); 
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
 
@@ -26,13 +37,13 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     private static readonly float AUTO_JUMPING_ACTIVATION_DISTANCE = 0.001f;
     private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
-    /// <summary>The m player rigidbody2 d</summary>
+    /// <summary>The rigidbody2D-component from the player that is targeted.</summary>
     protected Rigidbody2D m_playerRigidbody2D;
 
-    /// <summary>The dying animator parameter name</summary>
+    /// <summary>The animator parameter name for the dying animation.</summary>
     protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
 
-    /// <summary>Awakes this instance.</summary>
+    /// <summary>Awakes this instance and registers to enemy in the singleplayer instance.</summary>
     protected override void Awake()
     {
         base.Awake();
@@ -42,10 +53,13 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     protected override void Start()
     {
         base.Start();
-        m_stopwatch.Start();
+        m_stopwatchForRevivePositionTiming.Start();
     }
 
-    /// <summary>Updates this instance.</summary>
+    /// <summary>
+    /// Updates this instance every frame.
+    /// It takes care of casing the player and automatic jumping.
+    /// </summary>
     protected override void Update()
     {
         base.Update();
@@ -86,14 +100,14 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
                     // If jumping is turned on then jump if the current position is almost equal to the last position.
                     // It is only checked every INTERVALL_FOR_POSITION_CHECK.
 
-                    if (m_stopwatch.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
+                    if (m_stopwatchForRevivePositionTiming.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
                     {
                         if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
                         {
                             OnJump(null);
                         }
                         m_lastPosition = gameObject.transform.position;
-                        m_stopwatch.Restart();
+                        m_stopwatchForRevivePositionTiming.Restart();
                     }
                 }
             }
@@ -106,8 +120,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
     }
 
-    // This method initiates the entity dying animation and ensures that the enemy does nothing else.
-    /// <summary>Dies this instance.</summary>
+    /// <summary>This method initiates the entity dying animation and ensures that the enemy does nothing else.</summary>
     protected override void Die(){
         base.Die();
         m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, true);
@@ -130,8 +143,14 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
     }
 
-    /// <summary>Called when [trigger enter2 d].</summary>
-    /// <param name="collider">The collider.</param>
+    /// <summary>
+    /// Called when a trigger-collider enters the collider of the enemy.
+    /// It is used to determine if the enemy got hit by a weapon and if that weapon is allowed to deal damage 
+    /// e.g. the attack is not canceled.
+    /// When no <see cref="EntityHealth"/> is attached to the game object the entity counts as not defeatable.
+    /// This is used for the princess.
+    /// </summary>
+    /// <param name="collider">The collider that entered the collider of the entity.</param>
     protected override void OnTriggerEnter2D(Collider2D collider) {
         // We abort if the collider is not from a player when friendly fire is off.
         if (!m_isFriendlyFireActive && collider.gameObject.name != m_playerSwordName && collider.gameObject.name != DEATH_ZONES_NAME)
@@ -142,37 +161,38 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
     }
 
     // These methods implement the IEnemyAttackAndMovement that is needed by the AttackPatternExecutor.
-    /// <summary>Attacks up.</summary>
+
+    /// <summary>Starts an upper attack when possible from the current enemy state.</summary>
     public void AttackUp()
     {
         StartAttackIfPossible(0);
     }
 
-    /// <summary>Attacks the middle.</summary>
+    /// <summary>Starts a middle attack when possible from the current enemy state.</summary>
     public void AttackMiddle()
     {
         StartAttackIfPossible(1);
     }
 
-    /// <summary>Attacks down.</summary>
+    /// <summary>Starts a down attack when possible from the current enemy state.</summary>
     public void AttackDown()
     {
         StartAttackIfPossible(2);
     }
 
-    /// <summary>Jumps this instance.</summary>
+    /// <summary>Lets the enemy jump.</summary>
     public void Jump()
     {
         OnJump(null);
     }
 
-    /// <summary>Starts the follow player.</summary>
+    /// <summary>The enemy starts following the player.</summary>
     public void StartFollowPlayer()
     {
         m_isFollowingPlayer = true;
     }
 
-    /// <summary>Stops the follow player.</summary>
+    /// <summary>The enemy stops following the player.</summary>
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
@@ -189,22 +209,22 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         m_isAutoJumping = false;
     }
 
-    /// <summary>Gets the duration of the attack up.</summary>
-    /// <returns></returns>
+    /// <summary>Gets the duration of the attack up animation.</summary>
+    /// <returns>The attack up animation length.</returns>
     public float GetAttackUpDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[0]);
     }
 
-    /// <summary>Gets the duration of the attack middle.</summary>
-    /// <returns></returns>
+    /// <summary>Gets the duration of the attack middle animation.</summary>
+    /// <returns>The attack middle animation length.</returns>
     public float GetAttackMiddleDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[1]);
     }
 
-    /// <summary>Gets the duration of the attack down.</summary>
-    /// <returns></returns>
+    /// <summary>Gets the duration of the attack down animation.</summary>
+    /// <returns>The attack down animation length.</returns>
     public float GetAttackDownDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[2]);
@@ -257,11 +277,12 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         m_isAttackChained = false;
     }
 
-    // This method is called at the end of the attack animation
-    // and turns the attack off animation when no other attack is already registered.
-    // This is part of the attack chaining problem.
-    /// <summary>Stops the attacking animation.</summary>
-    /// <param name="previousAttackingDirection">The previous attacking direction.</param>
+    /// <summary> 
+    /// This method is called at the end of the attack animation
+    /// and turns the attack off animation when no other attack is already registered.
+    /// This is part of the attack chaining problem.
+    /// </summary>
+    /// <param name="previousAttackingDirection">The attacking direction from the attack animation that called this function.</param>
     public void StopAttackingAnimation(int previousAttackingDirection)
     {
         if (!m_isAttackChained)
@@ -273,23 +294,24 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         {
             // Stop the ended attack.
             m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[previousAttackingDirection], false);
-            // Start the new attack that has a different direction
+            // Start the new attack that has a different direction.
             m_animator.SetBool(ATTACK_ANIMATOR_PARAMETER_NAMES[m_currentAttackingDirection], true);
         }
-        // Reset the attribute
+        // Reset the attribute.
         m_isAttackChained = false;
     }
 
-    // This method destroys the gameObject.
-    // It is called by the death animation.
+    /// <summary> It is called at the end of the death animation.
+    /// This method destroys the gameObject if the body should disappear. 
+    /// Otherwise it changes the layer to disabled collision layer and plays the dead animation.</summary>
     void DestroySelf()
     {
         Destroy(gameObject);
     }
 
 
-    // It is called at the end of the death animation.
-    // This method is automatically called when the gameObject is destroyed.
+    /// <summary>. It is called at the end of the death animation.
+    /// This method is automatically called when the gameObject is destroyed.</summary>
     void OnDestroy()
     {
         Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
