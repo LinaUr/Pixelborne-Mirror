@@ -7,10 +7,10 @@ public interface IAttack
     /// <returns>
     ///   <c>true</c> if [is facing right]; otherwise, <c>false</c>.</returns>
     bool IsFacingRight();
-    /// <summary>Returns the attack damage.</summary>
+    /// <summary>Gets the attack damage.</summary>
     /// <returns>The attack damage.</returns>
     int GetAttackDamage();
-    /// <summary>Returns the attack direction.</summary>
+    /// <summary>Gets the attack direction.</summary>
     /// <returns>The attack direction: Up = 0, Middle = 1, Down = 2.</returns>
     int GetAttackDirection();
 }

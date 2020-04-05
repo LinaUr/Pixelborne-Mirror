@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-/// <summary>This class contains the Multiplayer game mode logic and 
+/// <summary>It contains the multiplayer game mode logic and 
 /// implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
 public class Multiplayer : ScriptableObject, IGame
 {
@@ -87,7 +87,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Returns the winner.</summary>
+    /// <summary>Gets the winner.</summary>
     /// <returns>The winner identified by his index.</returns>
     public string GetWinner()
     {

@@ -146,7 +146,7 @@ public abstract class Entity : MonoBehaviour, IAttack
         }
     }
 
-    /// <summary>Called when teh entity should jump. e.g.false the player presses the jump button.</summary>
+    /// <summary>Called when teh entity should jump. e.g. the player presses the jump button.</summary>
     /// <param name="value">The Inputvalue which is not used but necessary to fit the PlayerInput-Interface from Unity.</param>
     protected void OnJump(InputValue value)
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>This class controlls the camera movement and fade to black of the multiplayer scene camera.</summary>
+/// <summary>It controlls the camera movement and fade to black of the multiplayer scene camera.</summary>
 public class CameraMultiplayer : GameCamera
 {
     [SerializeField]

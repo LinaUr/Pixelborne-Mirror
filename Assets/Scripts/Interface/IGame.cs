@@ -3,20 +3,20 @@
 /// <summary>This interface must be implemented by Singleplayer and Multiplayer class. and defines the common methods.
 /// It is important to note that the game-instances <see cref="Singleplayer"/> and <see cref="Multiplayer"/>
 /// work closely together with the camera.
-/// When a player dies ist tells the active game that it dies.false this initiates a fade out in the camera.false When the camera finished the fade out
+/// When a player dies it tells the active game that it dies. This initiates a fade out in the camera When the camera finished the fade out
 /// it notifies the game and the game can take further actions. e.g. changing the multiplayer stage and fading in again.
 /// Fading in has the same communication structure between the camera and the game.
 ///</summary>
 public interface IGame
 {
-    /// <summary>Returns the winner.</summary>
+    /// <summary>Gets the winner.</summary>
     /// <returns>The winner as a string.</returns>
     string GetWinner();
 
     /// <summary>Registers the player to the game.</summary>
     /// <param name="player">The player.</param>
     void RegisterPlayer(GameObject player);
-    /// <summary>Unregisters the player from th game.</summary>
+    /// <summary>Unregisters the player from the game.</summary>
     /// <param name="player">The player.</param>
     void UnregisterPlayer(GameObject player);
     /// <summary>Locks the player input.</summary>

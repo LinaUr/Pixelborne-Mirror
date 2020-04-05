@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/// <summary>This class contains the Singleplayer game mode logic and 
+/// <summary>It contains the Singleplayer game mode logic and 
 /// implements the <see cref="IGame"/> interface for the singleplayer mode. It is a singleton.</summary>
 public class Singleplayer : ScriptableObject, IGame
 {
@@ -74,8 +74,8 @@ public class Singleplayer : ScriptableObject, IGame
         PrepareStage();
     }
 
-    /// <summary>Returns the winner represented as a string.</summary>
-    /// <returns>Retruns "You".</returns>
+    /// <summary>Gets the winner.</summary>
+    /// <returns>"You".</returns>
     public string GetWinner()
     {
         return $"You";
@@ -105,7 +105,7 @@ public class Singleplayer : ScriptableObject, IGame
         Player = null;
     }
 
-    /// <summary>Revives the player on the revive position.</summary>
+    /// <summary>Revives the player at the revive position.</summary>
     public void RevivePlayer()
     {
         m_playerMovement.SetPositionForRevive(m_playerRevivePosition);
@@ -127,7 +127,8 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Handles the death of a player. Enemies should not call this method.false It will throw an exception.</summary>
+    /// <summary>Handles the death of a player. Enemies should not call this method. 
+    /// It will throw an exception.</summary>
     /// <param name="entity">The player game object.</param>
     /// <exception cref="ArgumentException">Expected player as argument but got: {entity}</exception>
     public void HandleDeath(GameObject entity)
@@ -187,13 +188,13 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>This method is invoked when the camera faded out and prepares the stage.</summary>
+    /// <summary>Is Invoked when the camera faded out and prepares the stage.</summary>
     public void FadedOut()
     {
         PrepareStage();
     }
 
-    /// <summary>This method is invoked when the camera faded in and starts the stage by disabling the input lock.</summary>
+    /// <summary>Is invoked when the camera faded in and starts the stage by disabling the input lock.</summary>
     public void FadedIn()
     {
         LockPlayerInput(false);
@@ -210,7 +211,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Disables Enables the collision between the player and enemy layer.</summary>
+    /// <summary>Disables the collision between the player and enemy layer.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {
