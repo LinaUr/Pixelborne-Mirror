@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-// This class contains the Multiplayer game mode logic.
-/// <summary></summary>
+/// <summary>This class contains the Multiplayer game mode logic and 
+/// implements the <see cref="IGame"/> interface for the multiplayer mode.</summary>
 public class Multiplayer : ScriptableObject, IGame
 {
     private GameObject m_deadPlayer;
@@ -48,12 +48,12 @@ public class Multiplayer : ScriptableObject, IGame
     }
 
     /// <summary>Initializes a new instance of the <see cref="Multiplayer"/> class.</summary>
-    public Multiplayer()
+    private Multiplayer()
     {
         s_instance = this;
     }
 
-    /// <summary>Goes this instance.</summary>
+    /// <summary>Starts the game.</summary>
     public async void Go()
     {
         Game.Current = this;
@@ -87,8 +87,8 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Gets the winner.</summary>
-    /// <returns></returns>
+    /// <summary>Returns the winner.</summary>
+    /// <returns>The winner identified by his index.</returns>
     public string GetWinner()
     {
         return $"Player {m_winnerIndex}";
@@ -128,7 +128,7 @@ public class Multiplayer : ScriptableObject, IGame
         });
     }
 
-    /// <summary>Handles the death.</summary>
+    /// <summary>Handles the death of a player.</summary>
     /// <param name="player">The player.</param>
     public void HandleDeath(GameObject player)
     {
@@ -137,8 +137,7 @@ public class Multiplayer : ScriptableObject, IGame
         Camera.FadeOut();
     }
 
-    // This method prepares the game after a camera fade out before fading in again.
-    /// <summary>Fadeds the out.</summary>
+    /// <summary>Prepares the game after a camera fade out before fading in again.</summary>
     public void FadedOut()
     {
         PlayerDied(m_deadPlayer);
@@ -147,7 +146,7 @@ public class Multiplayer : ScriptableObject, IGame
         m_deadPlayer = null;
     }
 
-    /// <summary>Fadeds the in.</summary>
+    /// <summary>Prepares the game after a camera fade in finished.</summary>
     public void FadedIn()
     {
         LockPlayerInput(false);
@@ -165,10 +164,10 @@ public class Multiplayer : ScriptableObject, IGame
         SetGameToStage(m_currentStageIndex);
     }
 
-    /// <summary>Players the died.</summary>
+    /// <summary>Initiates all actions that need to be taken care of when a player died.</summary>
     /// <param name="player">The player.</param>
     /// <exception cref="Exception">ERROR no player was given!</exception>
-    public void PlayerDied(GameObject player)
+    private void PlayerDied(GameObject player)
     {
         int playerIndex = player.GetComponent<PlayerMovement>().Index;
         if (playerIndex == 1)
@@ -206,7 +205,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Enables the entity collision.</summary>
+    /// <summary>Enables the collision between the player.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void EnableEntityCollision(GameObject callingEntity)
     {
@@ -217,7 +216,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Disables the entity collision.</summary>
+    /// <summary>Disables the collision between the player.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {

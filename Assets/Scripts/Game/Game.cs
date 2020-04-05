@@ -1,42 +1,42 @@
 ﻿using UnityEngine;
 
-/// <summary></summary>
+/// <summary>This class provides basic global game functionality and holds a reference to the currently running <see cref="IGame"/></summary>
 public class Game : ScriptableObject
 {
-    /// <summary>Gets or sets the current.</summary>
-    /// <value>The current.</value>
+    /// <summary>Gets or sets the currently active game instance.</summary>
+    /// <value>The currently active game.</value>
     public static IGame Current { get; set; }
-    /// <summary>Gets or sets the mode.</summary>
+    /// <summary>Gets or sets the game mode.</summary>
     /// <value>The mode.</value>
     public static GameMode Mode { get; set; }
 
-    /// <summary>Pauses this instance.</summary>
+    /// <summary>Pauses the game.</summary>
     public static void Pause()
     {
         SceneChanger.LoadPauseMenuAdditive();
     }
 
-    /// <summary>Finishes this instance.</summary>
+    /// <summary>Finishes the game and changes to the winning screen.</summary>
     public static void Finish()
     {
         SceneChanger.SetWinningScreenAsActiveScene();
     }
 
-    /// <summary>Freezes this instance.</summary>
+    /// <summary>Freezes the game.</summary>
     public static void Freeze()
     {
         Time.timeScale = 0;
         Current.LockPlayerInput(true);
     }
 
-    /// <summary>Unfreezes this instance.</summary>
+    /// <summary>Unfreezes the game.</summary>
     public static void Unfreeze()
     {
         Time.timeScale = 1;
         Current.LockPlayerInput(false);
     }
 
-    /// <summary>Swaps the hud symbol.</summary>
+    /// <summary>Swaps the sprite symbol in the hud.</summary>
     /// <param name="gameObject">The game object.</param>
     /// <param name="sprite">The sprite.</param>
     public static void SwapHudSymbol(GameObject gameObject, Sprite sprite)

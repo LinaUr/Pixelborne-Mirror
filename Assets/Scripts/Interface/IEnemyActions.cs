@@ -1,5 +1,4 @@
-// This interface must be implemented by enemies in order to have an AttackPatternExecutor 
-/// <summary></summary>
+/// <summary>This interface must be implemented by enemies in order to be compatible with the AttackPatternExecutor.</summary>
 public interface IEnemyActions 
 {
     /// <summary>Determines whether [is player in attack range].</summary>
@@ -10,34 +9,34 @@ public interface IEnemyActions
     /// <returns>
     ///   <c>true</c> if [is player in sight range]; otherwise, <c>false</c>.</returns>
     bool IsPlayerInSightRange();
-    /// <summary>Determines whether [is enemy on ground].</summary>
+    /// <summary>Determines whether [is enemy on the ground].</summary>
     /// <returns>
-    ///   <c>true</c> if [is enemy on ground]; otherwise, <c>false</c>.</returns>
+    ///   <c>true</c> if [is enemy on the ground]; otherwise, <c>false</c>.</returns>
     bool IsEnemyOnGround();
 
-    /// <summary>Gets the duration of the attack down.</summary>
+    /// <summary>Gets the duration of the down attack.</summary>
     /// <returns></returns>
     float GetAttackDownDuration();
-    /// <summary>Gets the duration of the attack up.</summary>
+    /// <summary>Gets the duration of the up attack.</summary>
     /// <returns></returns>
     float GetAttackUpDuration();
-    /// <summary>Gets the duration of the attack middle.</summary>
+    /// <summary>Gets the duration of the middle attack.</summary>
     /// <returns></returns>
     float GetAttackMiddleDuration();
 
-    /// <summary>Attacks down.</summary>
+    /// <summary>Starts the down attack.</summary>
     void AttackDown();
-    /// <summary>Attacks the middle.</summary>
+    /// <summary>Starts the middle attack.</summary>
     void AttackMiddle();
-    /// <summary>Attacks up.</summary>
+    /// <summary>Starts the up attack.</summary>
     void AttackUp();
 
-    /// <summary>Starts the follow player.</summary>
+    /// <summary>Starts following the player.</summary>
     void StartFollowPlayer();
-    /// <summary>Stops the follow player.</summary>
+    /// <summary>Stops following the player.</summary>
     void StopFollowPlayer();
 
-    /// <summary>Jumps this instance.</summary>
+    /// <summary>Executes a Jumps.</summary>
     void Jump();
 
     /// <summary>Starts the automatic jumping.</summary>

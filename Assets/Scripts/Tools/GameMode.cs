@@ -1,4 +1,4 @@
-﻿/// <summary></summary>
+﻿/// <summary>This enum describes the basic mode of the game.</summary>
 public enum GameMode
 {
     /// <summary>The main menu</summary>
