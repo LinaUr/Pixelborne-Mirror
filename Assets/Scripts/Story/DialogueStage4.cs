@@ -116,7 +116,6 @@ public class DialogueStage4 : MonoBehaviour
         PlayerProgressed = false;
         m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
-        DisableCollisionsOfPrincessWithOtherEntities();
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
         m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
     }
@@ -178,14 +177,6 @@ public class DialogueStage4 : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    private void DisableCollisionsOfPrincessWithOtherEntities()
-    {
-        int playerLayer = LayerMask.NameToLayer("Player");
-        int enemyLayer = LayerMask.NameToLayer("Enemy");
-        Physics2D.IgnoreLayerCollision(playerLayer, m_princess.layer, true);
-        Physics2D.IgnoreLayerCollision(enemyLayer, m_princess.layer, true);
     }
 
     public bool EnemiesKilled()

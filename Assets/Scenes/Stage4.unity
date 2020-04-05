@@ -51239,7 +51239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1883027013}
   - component: {fileID: 1883027014}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: EmpyWeaponForCompability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60553,7 +60553,7 @@ GameObject:
   - component: {fileID: 2128049654}
   - component: {fileID: 2128049658}
   - component: {fileID: 2128049657}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Princess
   m_TagString: Untagged
   m_Icon: {fileID: 0}
