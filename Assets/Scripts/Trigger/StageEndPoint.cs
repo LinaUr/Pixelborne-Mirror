@@ -9,7 +9,7 @@ public class StageEndPoint : MonoBehaviour
         if (collider.gameObject == Singleplayer.Instance.Player && Singleplayer.Instance.ActiveEnemies.Count == 0)
         {
             // The Player reached end of the stage.
-            Singleplayer.Instance.ReachedEndOfStage();
+            Singleplayer.Instance.EndStage();
         }
     }
 }
