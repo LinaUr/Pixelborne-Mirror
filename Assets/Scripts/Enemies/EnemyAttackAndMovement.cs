@@ -253,6 +253,7 @@ public class EnemyAttackAndMovement : Entity, IEnemyAttackAndMovement
         }
         else
         {
+            Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
             int disabledCollisionLayer = LayerMask.NameToLayer("DisabledCollisionLayer");
             gameObject.layer = disabledCollisionLayer;
             ResetEntityAnimations();

@@ -78,7 +78,6 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected virtual void Die()
     {
         StopAttacking();
-        Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
