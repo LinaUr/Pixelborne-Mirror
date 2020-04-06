@@ -3,7 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class CutScene : MonoBehaviour
+/// <summary>Implements basic functionality of a cutscene.</summary>
+public abstract class Cutscene : MonoBehaviour
 {
     [SerializeField]
     protected float m_fadeTime = 3000;

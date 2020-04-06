@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-// This class manages the displaying of the dialog in stage 1 of the singleplayer mode.
+/// <summary>Manages the displaying of the dialog in stage 1 of the singleplayer mode.</summary>
 public class DialogueStage1 : Dialogue
 {
-    enum Mode
+    private enum Mode
     {
         Displaying,
         WaitingForTrigger

@@ -25,10 +25,6 @@ the existing images from the game.
 when the player accidentally hits two keys without other game functionality.
 
 
-## Scripts
-The Scripts can be found in Assets/Scripts.
-
-
 ## Requirements and Setup
 The Game is made with [Unity](https://unity3d.com/get-unity/download/archive) 2018.4.12f1.
 
@@ -39,6 +35,12 @@ You can build the game by yourself in Unity or directly take one of the compiled
 
 To build the project open Unity in the root directory of this project 
 and click File->Build Settings or File->Build And Run.
+
+## Documentation
+Find the start page - *index.html* - of the documentation in Documentation/html/.
+
+## Scripts
+Our Scripts can be found in Assets/Scripts.
 
 ## Links to 3rd-Party Assets and Scripts that we use
 Throughout the project we are using some 3rd party scripts and free assets. 
