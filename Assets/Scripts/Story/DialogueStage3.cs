@@ -56,8 +56,8 @@ public class DialogueStage3 : Dialogue
                     if (m_textPart == DialogueHolder[m_dialoguePart].Length)
                     {
                         m_stopwatch.Stop();
-                        Singleplayer.Instance.LockPlayerInput(false);
                         Singleplayer.Instance.EndStage();
+                        Destroy(gameObject);
                         return;
                     }
                     m_stopwatch.Restart();
