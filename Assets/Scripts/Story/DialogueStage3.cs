@@ -34,7 +34,6 @@ public class DialogueStage3 : Dialogue
     {
         bool enemiesKilled = Singleplayer.Instance.ActiveEnemies.Count == 0;
 
-
         switch (m_mode)
         {
             case Mode.WaitingForTrigger:

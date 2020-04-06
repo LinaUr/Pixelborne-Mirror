@@ -32,8 +32,8 @@ public class DialogueStage4 : Dialogue
     private Mode m_mode;
     private string[] m_dialogueText;
     private string m_activeCharacter;
-    private int m_animationPart;
     private string[] m_animationImages;
+    private int m_animationPart;
     private string[] m_animationImages0 = { "OutroImages/spilled_stones_blood_3",
                                              "OutroImages/awakening" };
     private string[] m_animationImages1 = { "OutroImages/dark_crown",
@@ -143,7 +143,6 @@ public class DialogueStage4 : Dialogue
         DARK_KING,
         PRINCESS,
         DARK_KING
-
     };
 
     private static readonly string PRINCESS = "Princess";
@@ -258,9 +257,8 @@ public class DialogueStage4 : Dialogue
 
     public void ChangePart()
     {
-        // Due to some animations, fights etc between dialog parts the index that refers
-        // to the correct dialogPart gets shiftet more and more.
-
+        // Due to some animations, fights etc between dialogue parts the index that refers
+        // to the correct dialoguePart gets shifted more and more.
         m_dialoguePart++;
         switch (m_dialoguePart)
         {
