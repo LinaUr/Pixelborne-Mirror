@@ -35,6 +35,11 @@ The Game is made with [Unity](https://unity3d.com/get-unity/download/archive) 20
 We are using a VS-Plugin [NAudio](https://github.com/naudio/NAudio) in order to read mp3 files.
 The Plugin should be in the plugin folder and thus should not need further setup.
 
+You can build the game by yourself in Unity or directly take one of the compiled versions from the bin folder.
+
+To build the project open Unity in the root directory of this project 
+and click File->Build Settings or File->Build And Run.
+
 ## Links to 3rd-Party Assets and Scripts that we use
 Throughout the projects we are using some 3rd party scripts and free assets. 
 We manipulated the assets to our needs.
