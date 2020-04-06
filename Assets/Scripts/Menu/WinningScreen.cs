@@ -1,7 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Shows a winning message if a player wins 
+///     and handles the behaviour of a button in the winning scene.</summary>
 public class WinningScreen : MonoBehaviour
 {
     [SerializeField]

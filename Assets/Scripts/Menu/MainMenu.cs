@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Handles the behaviour of the buttons in the main menu.</summary>
 public class MainMenu : MonoBehaviour
 {
     /// <summary>Starts the singleplayer.</summary>
