@@ -57,6 +57,5 @@ for converting a unity audio clip to wav and save it to the disk.
 - [Crystal](https://assetstore.unity.com/packages/2d/gui/icons/crystals-collection-42748)
 
 ## Known Issues
-
 - possible sharing violation on AudioFilePaths.txt
 - possible sharing violation on ImportantDocuments.txt
