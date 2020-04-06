@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>Manages the displaying of the dialog in stage 4 of the singleplayer mode.</summary>
 public class DialogueStage4 : Dialogue
 {
     [SerializeField]
@@ -20,7 +21,7 @@ public class DialogueStage4 : Dialogue
     [SerializeField]
     private GameObject m_king;
 
-    enum Mode
+    private enum Mode
     {
         NotStarted,
         Displaying,
@@ -126,24 +127,23 @@ public class DialogueStage4 : Dialogue
         PRINCESS,
         KING,
         PRINCESS,
-        PRINCESS,
         KING,
         KING,
         PRINCESS,
-        PRINCESS,
-        PRINCESS,
-        UNKNOWN,
+        KING,
         PRINCESS,
         UNKNOWN,
         PRINCESS,
         UNKNOWN,
-        DARK_KING,
+        PRINCESS,
+        UNKNOWN,
         PRINCESS,
         DARK_KING,
         PRINCESS,
         DARK_KING,
-        PRINCESS,
-        DARK_KING
+        DARK_KING,
+        DARK_KING,
+        PRINCESS
     };
 
     private static readonly string PRINCESS = "Princess";
@@ -239,7 +239,7 @@ public class DialogueStage4 : Dialogue
         }
     }
 
-    public void FlashViolet()
+    private void FlashViolet()
     {
         SetDialogueVisibility(false);
         m_filterImage.enabled = true;
@@ -247,7 +247,7 @@ public class DialogueStage4 : Dialogue
         m_stopwatch.Restart();
     }
 
-    public void Animate()
+    private void Animate()
     {
         SetDialogueVisibility(false);
         m_mode = Mode.Animating;
@@ -256,7 +256,7 @@ public class DialogueStage4 : Dialogue
         m_stopwatch.Restart();
     }
 
-    public void ChangePart()
+    private void ChangePart()
     {
         // Due to some animations, fights etc between dialogue parts the index that refers
         // to the correct dialoguePart gets shifted more and more.

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>Implements basic functionality of a dialogue.</summary>
 public class Dialogue : MonoBehaviour
 {
     [SerializeField]
@@ -19,6 +20,9 @@ public class Dialogue : MonoBehaviour
     protected int m_dialoguePart = 0;
     protected Stopwatch m_stopwatch = new Stopwatch();
 
+    /// <summary>Gets or sets a value indicating whether the player has progressed in a singleplayer stage.</summary>
+    /// <value>
+    ///   <c>true</c> if the player has progressed; otherwise, <c>false</c>.</value>
     public bool HasPlayerProgressed { get; set; } = false;
     protected static readonly string DEFAULT_KNIGHT = "Ni";
 
