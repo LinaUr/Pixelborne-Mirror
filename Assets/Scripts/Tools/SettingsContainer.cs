@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Contains the volume settings that is needed by the <see cref="BackgroundMusicVolumeSlider"/> 
+///     and sets the background music volume. It is a Singleton.</summary>
 public class SettingsContainer : ScriptableObject
 {
     private static SettingsContainer s_instance = null;
@@ -34,8 +35,7 @@ public class SettingsContainer : ScriptableObject
         private set { }
     }
 
-    /// <summary>Initializes a new instance of the <see cref="SettingsContainer"/> class.</summary>
-    public SettingsContainer()
+    private SettingsContainer()
     {
         s_instance = this;
     }
