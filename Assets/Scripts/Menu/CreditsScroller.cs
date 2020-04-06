@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>Handles the behaviour of the credits in the menu.</summary>
 public class CreditsScroller : MonoBehaviour
 {
     [SerializeField]

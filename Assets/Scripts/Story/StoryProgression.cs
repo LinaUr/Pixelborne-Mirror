@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 
+/// <summary></summary>
 public class StoryProgression : MonoBehaviour
 {
     [SerializeField]
-    DialogueStage1 m_dialog;
+    private Dialogue m_dialog;
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.tag == "Storytrigger" && !m_dialog.PlayerProgressed)
+        if (collider.CompareTag("Storytrigger") && !m_dialog.HasPlayerProgressed)
         {
-            m_dialog.PlayerProgressed = true;
+            m_dialog.HasPlayerProgressed = true;
             collider.enabled = false;
         }
     }

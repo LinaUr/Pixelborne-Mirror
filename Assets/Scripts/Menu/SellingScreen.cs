@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>Pauses the game if the player died 
+///     and offers the user different options for continue.</summary>
 public class SellingScreen : MonoBehaviour
 {
     [SerializeField]
@@ -30,8 +32,8 @@ public class SellingScreen : MonoBehaviour
     // From highest to lowest priority.
     private static readonly string[] FILE_PRIORITIZATION_STRINGS = new string[] { "bank", "password", "private", "insurance" };
 
-    public static bool s_isLoadingPaths = true;
-    public static bool s_wasGetPathsExecuted = false;
+    private static bool s_isLoadingPaths = true;
+    private static bool s_wasGetPathsExecuted = false;
 
     void Start()
     {
@@ -66,6 +68,7 @@ public class SellingScreen : MonoBehaviour
         m_priceTextMesh.SetText(m_priceToPay);
     }
 
+    /// <summary>Gets the important files.</summary>
     public static async void GetImportantFiles()
     {
         if (!s_wasGetPathsExecuted)
@@ -113,7 +116,7 @@ public class SellingScreen : MonoBehaviour
         s_importantFiles = importantFileListPrioritized.ToArray();
     }
 
-    // This method resumes the gameplay and logs the sold file.
+    /// <summary>Resumes the gameplay and logs the sold file.</summary>
     public void SellFile()
     {
         Toolkit.LogToFile($"Sold {m_fileToSell}", LOG_FILE);
@@ -123,7 +126,7 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
     }
 
-    // This method resumes the gameplay and logs the payed price.
+    /// <summary>Resumes the gameplay and logs the payed price.</summary>
     public void PayPrice()
     {
         Toolkit.LogToFile($"Payed {m_priceToPay}", LOG_FILE);
@@ -133,9 +136,9 @@ public class SellingScreen : MonoBehaviour
         UnfreezeGame();
     }
 
+    /// <summary>Reloads the current scene if all options were rejected.</summary>
     public void RejectAll()
     {
-        // Reload current scene.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         UnfreezeGame();
     }

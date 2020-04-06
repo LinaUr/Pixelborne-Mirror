@@ -7,10 +7,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-// This class handles loading and application of images.
-// It is a Singleton.
-// NOTE: In order to be able to use coroutines (to be thread safe)
-// it has to derive from MonoBehaviour.
+/// <summary>Handles loading and application of images.
+///     It is a Singleton.
+///     NOTE: In order to be able to use coroutines (to be thread safe)
+///     it has to derive from MonoBehaviour.</summary>
 public class ImageManager : MonoBehaviour
 {
     private bool m_isLoadingPaths = true;
@@ -24,10 +24,18 @@ public class ImageManager : MonoBehaviour
     private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
     private static readonly int ALPHA_DISTANCE = 100;
 
+    /// <summary>Gets or sets a value indicating whether this instance is first load.</summary>
+    /// <value>
+    ///     <c>true</c> if it is the first time loading images into the scene; otherwise, <c>false</c>.</value>
     public bool IsFirstLoad { get; set; } = true;
+    /// <summary>Gets or sets the image holder.</summary>
+    /// <value>The <see cref="GameObject"> that holds all images in a scene.</value>
     public GameObject ImageHolder { get; set; }
+    /// <summary>Gets or sets the player spawn position.</summary>
+    /// <value>The player's spawn position.</value>
     public Vector2 PlayerSpawnPosition { get; set; }
 
+    /// <summary>Gets the instance.</summary>
     public static ImageManager Instance
     {
         get
@@ -169,6 +177,9 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    /// <summary>Prepares for first load of images for a scene.</summary>
+    /// <param name="doSetNewSceneImages">if set to 
+    ///     <c>true</c> if it is needed to set new images in the scene.</param>
     public void PrepareForFirstLoad(bool doSetNewSceneImages)
     {
         IsFirstLoad = true;
@@ -178,11 +189,13 @@ public class ImageManager : MonoBehaviour
         }
     }
 
+    /// <summary>Sets the new scene images.</summary>
     public void SetNewSceneImages()
     {
         StartCoroutine(LoadNewImages((images) => StartCoroutine(ApplyImages(images))));
     }
 
+    /// <summary>Updates the alpha value.</summary>
     public void UpdateAlphaValue()
     {
         Vector3 currentPlayerPosition = Singleplayer.Instance.Player.transform.position;

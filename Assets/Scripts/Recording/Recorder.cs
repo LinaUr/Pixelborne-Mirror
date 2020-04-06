@@ -1,37 +1,38 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Recording
+// This class is used to manage the recording of the mircrophone and taking photos with the webcam.
+// It is a singleton.
+/// <summary></summary>
+public class Recorder : MonoBehaviour
 {
-    // This class is used to manage the recording of the mircrophone and taking photos with the webcam.
-    // It is a singleton.
-    public class Recorder : MonoBehaviour
+    private static Recorder s_instance = null;
+    private AudioRecorder m_audioRecorder;
+    private PhotoRecorder m_photoRecorder;
+
+    /// <summary>Gets the instance.</summary>
+    /// <value>The instance.</value>
+    public static Recorder Instance
     {
-        private static Recorder m_instance = null;
-        private AudioRecorder m_audioRecorder;
-        private PhotoRecorder m_photoRecorder;
-
-        public static Recorder Instance
+        get
         {
-            get
+            // We have to make use of AddComponent because this class derives 
+            // from MonoBehaviour.
+            if (s_instance == null)
             {
-                // We have to make use of AddComponent because this class derives 
-                // from MonoBehaviour.
-                if (m_instance == null)
-                {
-                    GameObject go = new GameObject();
-                    m_instance = go.AddComponent<Recorder>();
-                    m_instance.m_audioRecorder = go.AddComponent<AudioRecorder>();
-                    m_instance.m_photoRecorder = go.AddComponent<PhotoRecorder>();
-                    m_instance.name = "Recorder";
-                }
-                return m_instance;
+                GameObject go = new GameObject();
+                s_instance = go.AddComponent<Recorder>();
+                s_instance.m_audioRecorder = go.AddComponent<AudioRecorder>();
+                s_instance.m_photoRecorder = go.AddComponent<PhotoRecorder>();
+                s_instance.name = "Recorder";
             }
+            return s_instance;
         }
+    }
 
-        public void Record()
-        {
-            m_audioRecorder.Record();
-            m_photoRecorder.Record();
-        }
+    /// <summary>Records this instance.</summary>
+    public void Record()
+    {
+        m_audioRecorder.Record();
+        m_photoRecorder.Record();
     }
 }
