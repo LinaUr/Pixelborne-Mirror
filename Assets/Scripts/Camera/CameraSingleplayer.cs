@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-// This class controlls the camera of the singleplayer scene.
-/// <summary></summary>
+/// <summary>Controls the camera of the singleplayer scene.</summary>
 public class CameraSingleplayer : GameCamera
 {    
     void Start()
@@ -11,7 +10,7 @@ public class CameraSingleplayer : GameCamera
         m_fadeImage.transform.position = gameObject.transform.position + new Vector3(0, 0, 1);
     }
 
-    /// <summary>Updates this instance.</summary>
+    /// <summary>Updates this instance by setting the position to the player position.</summary>
     protected override void Update()
     {
         base.Update();
@@ -25,12 +24,15 @@ public class CameraSingleplayer : GameCamera
         }
     }
 
-    /// <summary>Fadeds the out.</summary>
+    /// <summary>Is called when the camera faded out and 
+    ///     invokes the FadedOut-Methdod on the current <see cref="Singleplayer"/> instance.</summary>
     protected override void FadedOut()
     {
         Singleplayer.Instance.FadedOut();
     }
-    /// <summary>Fadeds the in.</summary>
+
+    /// <summary>Is called when the camera faded in and 
+    ///     invokes the FadedIn-Methdod on the current <see cref="Singleplayer"/> instance.</summary>
     protected override void FadedIn()
     {
         Singleplayer.Instance.FadedIn();

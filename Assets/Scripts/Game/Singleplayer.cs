@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This class contains the Singleplayer game mode logic.
-/// <summary></summary>
+
+/// <summary>Contains the Singleplayer game mode logic and implements the <see cref="IGame"/> interface
+///     for the singleplayer mode. It is a singleton.</summary>
 public class Singleplayer : ScriptableObject, IGame
 {
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private int m_enemyLayer;
-    private PlayerMovement m_playerMovement;
+    private PlayerActions m_playerMovement;
     private Vector2 m_playerRevivePosition;
     private static Singleplayer s_instance = null;
 
@@ -18,7 +19,7 @@ public class Singleplayer : ScriptableObject, IGame
     /// <summary>Gets or sets the camera.</summary>
     /// <value>The camera.</value>
     public CameraSingleplayer Camera { get; set; }
-    /// <summary>Gets or sets the price to pay.</summary>
+    /// <summary>Gets or sets the price to pay for a revive.</summary>
     /// <value>The price to pay.</value>
     public float PriceToPay { get; set; }
     /// <summary>Gets or sets the player.</summary>
@@ -29,7 +30,6 @@ public class Singleplayer : ScriptableObject, IGame
     public List<GameObject> ActiveEnemies { get; set; } = new List<GameObject>();
 
     /// <summary>Gets the instance.</summary>
-    /// <value>The instance.</value>
     public static Singleplayer Instance
     {
         get
@@ -62,7 +62,7 @@ public class Singleplayer : ScriptableObject, IGame
         s_instance = this;
     }
 
-    /// <summary>Goes this instance.</summary>
+    /// <summary>Starts the singleplayer.</summary>
     public void Go()
     {
         Game.Current = Instance;
@@ -74,7 +74,7 @@ public class Singleplayer : ScriptableObject, IGame
     }
 
     /// <summary>Gets the winner.</summary>
-    /// <returns></returns>
+    /// <returns>"You".</returns>
     public string GetWinner()
     {
         return $"You";
@@ -88,7 +88,7 @@ public class Singleplayer : ScriptableObject, IGame
         if (Player == null)
         {
             Player = player;
-            m_playerMovement = player.GetComponent<PlayerMovement>();
+            m_playerMovement = player.GetComponent<PlayerActions>();
             ImageManager.Instance.PlayerSpawnPosition = player.transform.position;
         }
         else
@@ -104,14 +104,14 @@ public class Singleplayer : ScriptableObject, IGame
         Player = null;
     }
 
-    /// <summary>Revives the player.</summary>
+    /// <summary>Revives the player at the revive position.</summary>
     public void RevivePlayer()
     {
         m_playerMovement.SetPositionForRevive(m_playerRevivePosition);
         m_playerMovement.ResetEntityActions();
     }
 
-    /// <summary>Locks the player input.</summary>
+    /// <summary>Locks the player and enemy input.</summary>
     /// <param name="isLocked">if set to <c>true</c> [is locked].</param>
     public void LockPlayerInput(bool isLocked)
     {
@@ -122,12 +122,13 @@ public class Singleplayer : ScriptableObject, IGame
         }
         foreach (GameObject enemy in ActiveEnemies)
         {
-            enemy.GetComponent<EnemyAttackAndMovement>().IsInputLocked = isLocked;
+            enemy.GetComponent<EnemyActions>().IsInputLocked = isLocked;
         }
     }
 
-    /// <summary>Handles the death.</summary>
-    /// <param name="entity">The entity.</param>
+    /// <summary>Handles the death of a player. Enemies should not call this method. 
+    ///     It will throw an exception.</summary>
+    /// <param name="entity">The player game object.</param>
     /// <exception cref="ArgumentException">Expected player as argument but got: {entity}</exception>
     public void HandleDeath(GameObject entity)
     {
@@ -163,12 +164,13 @@ public class Singleplayer : ScriptableObject, IGame
         DriveMusicManager.Instance.Go();
     }
 
+    /// <summary>Begins the stage.</summary>
     public void BeginStage()
     {
         Camera.FadeIn();
     }
 
-    /// <summary>Ends stage.</summary>
+    /// <summary>Ends the stage.</summary>
     public void EndStage()
     {
         m_currentStageIndex++;
@@ -185,18 +187,19 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Fadeds the out.</summary>
+    /// <summary>Is invoked when the camera faded out and prepares the stage.</summary>
     public void FadedOut()
     {
         PrepareStage();
     }
 
+    /// <summary>Is invoked when the camera faded in and starts the stage by disabling the input lock.</summary>
     public void FadedIn()
     {
         LockPlayerInput(false);
     }
 
-    /// <summary>Enables the entity collision.</summary>
+    /// <summary>Enables the collision between the player and enemy layer.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void EnableEntityCollision(GameObject callingEntity)
     {
@@ -207,7 +210,7 @@ public class Singleplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Disables the entity collision.</summary>
+    /// <summary>Disables the collision between the player and enemy layer.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {

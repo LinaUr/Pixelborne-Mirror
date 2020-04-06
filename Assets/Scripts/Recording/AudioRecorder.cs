@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using System.Diagnostics;
 
-/// <summary></summary>
+/// <summary>Is responsible for recording and saving the 10 seconds long audio clips.</summary>
 public class AudioRecorder : MonoBehaviour
 {
     private AudioClip m_microphoneClip;
-    private float m_timeLeftRecording = 0.0f;
+    private bool m_isRecording = false;
+    private Stopwatch m_stopwatchForRecording = new Stopwatch(); 
     private string m_filedir;
     private string m_selectedDevice;
 
-    private static readonly int RECORD_DURATION = 10; // in seconds
+    private static readonly int RECORD_DURATION = 10000; // in milliseconds
     private static readonly string AUDIO_RECORD_DIR = "records";
 
-    // This method sets the microphone to the first device that has been found.
     void Start()
     {
         if (Microphone.devices.Length > 0) 
@@ -24,43 +25,42 @@ public class AudioRecorder : MonoBehaviour
         }
         else
         {
-            Debug.Log("No microphone device found. Therefore recordings are not supported.");
+            UnityEngine.Debug.Log("No microphone device found. Therefore recordings are not supported.");
         }
     }
 
-    // This method counts down the time until the recording is over and then saves the file.
     void FixedUpdate()
     {
-        if (m_timeLeftRecording > 0)
+        if (m_isRecording)
         {
-            m_timeLeftRecording -= Time.fixedDeltaTime;
-            if (m_timeLeftRecording <= 0 )
+            // If the recording is over wit a little puffer.
+            if (m_stopwatchForRecording.ElapsedMilliseconds >= RECORD_DURATION * 1.1f)
             {
                 SaveRecording();
+                m_isRecording = false;
             }
         }
     }
 
-    // This method returns if a microphone device was found in Start().
-    /// <summary>Microphones the available.</summary>
-    /// <returns></returns>
+    /// <summary>Returns if a microphone is available.</summary>
+    /// <returns>Is a microphone available.</returns>
     public bool MicrophoneAvailable()
     {
         return !string.IsNullOrEmpty(m_selectedDevice);
     }
 
-    // This method starts the recording.
-    /// <summary>Records this instance.</summary>
+    /// <summary>Initiates the recording of a 10 seconds long audio clip if no recording is already running.</summary>
     public void Record()
     {
-        if (MicrophoneAvailable()) 
+        if (MicrophoneAvailable() && ! m_isRecording) 
         {
             m_microphoneClip = Microphone.Start(m_selectedDevice, false, RECORD_DURATION, 44100);
-            m_timeLeftRecording = ((float) RECORD_DURATION) * 1.1f; // puffer
+            m_stopwatchForRecording.Restart();
+            m_isRecording = true;
         }
     }
 
-    // This method converts the recording to a Wav file and saves it on the disk.
+    // Converts the recording to a Wav file and saves it on the disk.
     private void SaveRecording()
     {
         DateTime now = DateTime.Now;

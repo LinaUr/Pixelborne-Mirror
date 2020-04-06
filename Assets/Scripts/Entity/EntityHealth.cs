@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-// This class manages the health of an entity.
-/// <summary></summary>
+/// <summary>Manages the health of an entity.</summary>
 public class EntityHealth : MonoBehaviour
 {
     [SerializeField]
@@ -9,15 +8,15 @@ public class EntityHealth : MonoBehaviour
 
     /// <summary>Gets or sets a value indicating whether this <see cref="EntityHealth"/> is invincible.</summary>
     /// <value>
-    ///   <c>true</c> if invincible; otherwise, <c>false</c>.</value>
+    ///     <c>true</c> if invincible; otherwise, <c>false</c>.</value>
     public bool Invincible { get; set; }
     /// <summary>Gets the current health.</summary>
     /// <value>The current health.</value>
     public int CurrentHealth { get; private set; }
 
-    /// <summary>Gets a value indicating whether this instance is zero.</summary>
+    /// <summary>Gets a value indicating whether this instance has zero health.</summary>
     /// <value>
-    ///   <c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
+    ///     <c>true</c> if this instance has zero health; otherwise, <c>false</c>.</value>
     public bool IsZero 
     {
         get
@@ -42,24 +41,22 @@ public class EntityHealth : MonoBehaviour
         Revive();
     }
 
-    // This method revives the entity by resetting its m_currentHealth.
-    /// <summary>Revives this instance.</summary>
+    /// <summary>Revives the entity by resetting its m_currentHealth.</summary>
     public void Revive()
     {
         CurrentHealth = MaxHealth;
         Invincible = false;
     }
 
-    // This method ensures that the entity has 0 health.
-    /// <summary>Dies this instance.</summary>
+    /// <summary>Ensures that the entity has 0 health.
+    ///     It is used to ensure that the health are zero when dying by a death zone.</summary>
     public void Die() 
     {
         TakeDamage(m_maxHealth);
     }
 
-    // This method deals damage to the entity by reducing its m_currentHealth.
-    /// <summary>Takes the damage.</summary>
-    /// <param name="damage">The damage.</param>
+    /// <summary>Deals damage to the entity by reducing its m_currentHealth.</summary>
+    /// <param name="damage">The damage that the entity should take.</param>
     public void TakeDamage(int damage)
     {
         if (!Invincible)

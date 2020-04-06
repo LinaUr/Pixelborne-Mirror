@@ -1,12 +1,11 @@
-﻿// This interface must be implemented by cameras that get used in Singleplayer and Multiplayer mode. 
-using UnityEngine;
+﻿using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Is implemented by cameras that get used in Singleplayer and Multiplayer mode.</summary>
 public interface ICamera
 {
-    /// <summary>Fades the out.</summary>
+    /// <summary>Fades the camera out.</summary>
     void FadeOut();
-    /// <summary>Fades the in.</summary>
+    /// <summary>Fades the camera in.</summary>
     void FadeIn();
     /// <summary>Swaps the hud symbol.</summary>
     /// <param name="gameObject">The game object.</param>

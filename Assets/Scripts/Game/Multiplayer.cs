@@ -5,8 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-// This class contains the Multiplayer game mode logic.
-/// <summary></summary>
+/// <summary>Contains the multiplayer game mode logic and 
+/// implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
 public class Multiplayer : ScriptableObject, IGame
 {
     private GameObject m_deadPlayer;
@@ -24,7 +24,6 @@ public class Multiplayer : ScriptableObject, IGame
     public CameraMultiplayer Camera { get; set; }
 
     /// <summary>Gets the instance.</summary>
-    /// <value>The instance.</value>
     public static Multiplayer Instance
     {
         get
@@ -48,12 +47,12 @@ public class Multiplayer : ScriptableObject, IGame
     }
 
     /// <summary>Initializes a new instance of the <see cref="Multiplayer"/> class.</summary>
-    public Multiplayer()
+    private Multiplayer()
     {
         s_instance = this;
     }
 
-    /// <summary>Goes this instance.</summary>
+    /// <summary>Starts the multiplayer.</summary>
     public async void Go()
     {
         Game.Current = this;
@@ -88,7 +87,7 @@ public class Multiplayer : ScriptableObject, IGame
     }
 
     /// <summary>Gets the winner.</summary>
-    /// <returns></returns>
+    /// <returns>The winner identified by its index.</returns>
     public string GetWinner()
     {
         return $"Player {m_winnerIndex}";
@@ -122,13 +121,13 @@ public class Multiplayer : ScriptableObject, IGame
     {
         m_players.ForEach(player =>
         {
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerActions playerMovement = player.GetComponent<PlayerActions>();
             playerMovement.IsInputLocked = isLocked;
             playerMovement.ResetEntityAnimations();
         });
     }
 
-    /// <summary>Handles the death.</summary>
+    /// <summary>Handles the death of a player.</summary>
     /// <param name="player">The player.</param>
     public void HandleDeath(GameObject player)
     {
@@ -137,8 +136,7 @@ public class Multiplayer : ScriptableObject, IGame
         Camera.FadeOut();
     }
 
-    // This method prepares the game after a camera fade out before fading in again.
-    /// <summary>Fadeds the out.</summary>
+    /// <summary>Prepares the game after a camera fade out before fading in again.</summary>
     public void FadedOut()
     {
         PlayerDied(m_deadPlayer);
@@ -147,7 +145,7 @@ public class Multiplayer : ScriptableObject, IGame
         m_deadPlayer = null;
     }
 
-    /// <summary>Fadeds the in.</summary>
+    /// <summary>Prepares the game after a camera fade in finished.</summary>
     public void FadedIn()
     {
         LockPlayerInput(false);
@@ -165,12 +163,9 @@ public class Multiplayer : ScriptableObject, IGame
         SetGameToStage(m_currentStageIndex);
     }
 
-    /// <summary>Players the died.</summary>
-    /// <param name="player">The player.</param>
-    /// <exception cref="Exception">ERROR no player was given!</exception>
-    public void PlayerDied(GameObject player)
+    private void PlayerDied(GameObject player)
     {
-        int playerIndex = player.GetComponent<PlayerMovement>().Index;
+        int playerIndex = player.GetComponent<PlayerActions>().Index;
         if (playerIndex == 1)
         {
             m_currentStageIndex--;
@@ -198,7 +193,7 @@ public class Multiplayer : ScriptableObject, IGame
             }
 
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
-            m_winnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
+            m_winnerIndex = winningPlayer.GetComponent<PlayerActions>().Index;
             Game.Finish();
 
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
@@ -206,7 +201,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Enables the entity collision.</summary>
+    /// <summary>Enables the collision between the player.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void EnableEntityCollision(GameObject callingEntity)
     {
@@ -217,7 +212,7 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    /// <summary>Disables the entity collision.</summary>
+    /// <summary>Disables the collision between the player and the calling entity.</summary>
     /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {
@@ -232,7 +227,7 @@ public class Multiplayer : ScriptableObject, IGame
         Camera.SetPosition(stageIndex);
         m_players.ForEach(player =>
         {
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerActions playerMovement = player.GetComponent<PlayerActions>();
             playerMovement.SetPosition(stageIndex);
             playerMovement.ResetEntityActions();
         });

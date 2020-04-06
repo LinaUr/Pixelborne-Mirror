@@ -3,34 +3,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
-    This class can automatically execute attack and movement actions on objects that 
-    have a proper implementation of the IEnemyAttackAndMovement interface.
-    The Entity that is executed by this class should have an attack and sight range.
-    The actions are divided into 3 pattern.
-    The first pattern is the m_attackPatternStringWhileOutOfSight. It is executed if not IsPlayerInSightRange().
-    The second pattern is the m_attackPatternStringWhileInSightRange. It is executed if IsPlayerInoAttackRange() and not IsPlayerInSAttackRange.
-    The last pattern is the m_attackPatternStringWhileInAttackRange. It is executed if IsPlayerInAttackRange().
-    This pattern is actually a list of individual patterns. After one individual pattern has finished the next one
-    is chosen randomly.
-
-    Each pattern is provided as a string with the grammar below. It basically contains a series of actions that are looped infinitely.
-    The identifications of these actions can be found below. After each action a waiting time can be specified. 
-    If no waiting time is specified, the duration of that action is taken as the waiting time.
-
-    When the attack pattern changes the currently executed action is finished and 
-    then the new attack pattern starts from the beginning.
-*/
-/// <summary></summary>
-public class AttackAndMovementPatternExecutor : MonoBehaviour
+/// <summary>Executes automatically actions on objects that 
+///    have a proper implementation of the <see cref="IEnemyActions"/> interface.
+///    The entity that is executed by this class should have an attack and sight range.
+///
+///    The actions are divided into 3 pattern.
+///    The first pattern is the m_attackPatternStringWhileOutOfSight. It is executed if not IsPlayerInSightRange().
+///    The second pattern is the m_attackPatternStringWhileInSightRange. It is executed if IsPlayerInoAttackRange() and not IsPlayerInSAttackRange.
+///    The last pattern is the m_attackPatternStringWhileInAttackRange. It is executed if IsPlayerInAttackRange().
+///    This pattern is actually a list of individual patterns. After one individual pattern has finished the next one
+///    is chosen randomly.
+///
+///    Each pattern is provided as a string with the grammar below. It basically contains a series of actions that are looped infinitely.
+///    The identifications of these actions can be found below. After each action a waiting time can be specified. 
+///    If no waiting time is specified, the duration of that action is taken as the waiting time.
+///
+///    When the attack pattern changes the currently executed action is finished and 
+///    then the new attack pattern starts from the beginning.
+///
+///    The attack pattern need to be set in the unity editor.
+///
+/// <code>
+///     ATTACK PATTERN GRAMMAR:
+///     ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
+///     ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
+///     ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
+///     TIMEOUT = float
+///     ATTACK_INSTRUCTION = one of the constant strings below
+/// </code>
+/// </summary>
+/// <example>
+/// <code>
+///     Example assignment of the attack pattern in the unity editor.
+///     m_attackPatternStringWhileOutOfSight = "STOPF";
+///     m_attackPatternStringWhileInSightRange = "STARTF";
+///     m_attackPatternStringWhileInAttackRange = ["AU|AM|AD|2", "AD|JUMP|0.5|AD|3|AU"];
+/// </code>
+/// </example>
+public class ActionPatternExecutor : MonoBehaviour
 {
-    // ATTACK PATTERN GRAMMAR:
-    // ATTACK_PATTERN = ATTACK_TOKEN ATTACK_PATTERN_1 or epsilon
-    // ATTACK_PATTERN_1 = |ATTACK_TOKEN or epsilon
-    // ATTACK_TOKEN = ATTACK_INSTRUCTION or ATTACK_INSTRUCTION|TIMEOUT
-    // TIMEOUT = float
-    // ATTACK_INSTRUCTION = one of the constant strings below
-
     private readonly static string ATTACK_UP_IDENTIFICATION = "AU";
     private readonly static string ATTACK_MID_IDENTIFICATION = "AM";
     private readonly static string ATTACK_DOWN_IDENTIFICATION = "AD";
@@ -48,7 +59,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     [SerializeField] 
     private string m_attackPatternStringWhileOutOfSight;
 
-    private IEnemyAttackAndMovement m_entityAttackAndMovement;
+    private IEnemyActions m_entityAttackAndMovement;
     private List<Action> m_actions;
     private Random random = new Random();
     private int m_nextAttackPatternIndex;
@@ -67,13 +78,9 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         IN_ATTACK_RANGE = 2, 
     };
 
-    void Awake()
-    {
-        m_entityAttackAndMovement = gameObject.GetComponent<IEnemyAttackAndMovement>();
-    }
-
     void Start()
     {
+        m_entityAttackAndMovement = gameObject.GetComponent<IEnemyActions>();
         m_actions = new List<Action>()
         { 
             m_entityAttackAndMovement.AttackUp, 
@@ -86,11 +93,12 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
             m_entityAttackAndMovement.Jump,
         };
         PrepareAttackPatternParsingDict();
-        m_attackPatterns = createAttackPatterns();
-        ResetAttackPattern();
+        m_attackPatterns = parseAttackPatterns();
+        ResetActionPattern();
     }
 
-    Tuple<int, float>[][] createAttackPatterns()
+    // Parses all attack pattern and translates them into the internal representation.
+    Tuple<int, float>[][] parseAttackPatterns()
     {
         List<Tuple<int, float>[]> attackPatternList = new List<Tuple<int, float>[]>
         {
@@ -104,7 +112,8 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
         return attackPatternList.ToArray();
     }
 
-    private void ResetAttackPattern()
+    // Resets the currently executed action pattern. It is a state reset.
+    private void ResetActionPattern()
     {
         m_nextAttackPatternIndex = 0;
         m_timeToWaitUntilNextAction = 0;
@@ -186,6 +195,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
     {
         List<Tuple<int, float>> newAttackPattern = new List<Tuple<int, float>>();
         string[] actions = attackPatternString.Split(SEPERATION_IDENTIFICATION.ToCharArray());
+        // Parse every action from the pattern.
         for (int i = 0; i < actions.Length; i++)
         {
             string nextAction = i < actions.Length - 1 ? actions[i + 1] : null;
@@ -199,6 +209,7 @@ public class AttackAndMovementPatternExecutor : MonoBehaviour
                 // Consume the next action.
                 i++;
             }
+            // Otherwise take the animation duration.
             else
             {
                 currentWaitingTime = currentAnimationDuration;

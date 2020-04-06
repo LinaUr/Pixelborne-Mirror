@@ -11,7 +11,6 @@ public class ChapterScreen : MonoBehaviour
   
     void Start()
     {
-        Singleplayer.Instance.LockPlayerInput(true);
         m_stopwatch.Start();
     }
 
@@ -23,6 +22,10 @@ public class ChapterScreen : MonoBehaviour
             Singleplayer.Instance.LockPlayerInput(false);
             Singleplayer.Instance.BeginStage();
             Destroy(gameObject);
+        }
+        else
+        {
+            Singleplayer.Instance.LockPlayerInput(true);
         }
     }
 }
