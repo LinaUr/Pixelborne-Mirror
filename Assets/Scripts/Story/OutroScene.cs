@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-/// <summary>Manages the displaying of images and text in the intro scene of the singleplayer mode.</summary>
+/// <summary>Manages the displaying of images and text in the outro scene of the singleplayer mode.</summary>
 public class OutroScene : Cutscene
 {
     [SerializeField]
