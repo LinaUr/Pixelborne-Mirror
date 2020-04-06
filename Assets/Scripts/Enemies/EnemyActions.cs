@@ -27,7 +27,6 @@ public class EnemyActions : Entity, IEnemyActions
     private bool m_isAttackChained = false;
     private bool m_isAutoJumping = false;
     private bool m_isFollowingPlayer = false;
-    private bool m_isPlayerInRange = false;
     private Stopwatch m_stopwatchForRevivePositionTiming = new Stopwatch(); 
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
@@ -73,45 +72,49 @@ public class EnemyActions : Entity, IEnemyActions
         }
         else
         {
-            float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-            // Only walk if we chase the player, the input is not locked and the player is not too close.
-            if (m_isFollowingPlayer && !IsInputLocked && Mathf.Abs(movementDirection) > m_minPlayerDistance)
+            UpdateMovementAndAutoJumping();
+        }
+    }
+
+    private void UpdateMovementAndAutoJumping()
+    {
+        float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
+        // Only walk if we chase the player, the input is not locked and the player is not too close.
+        if (m_isFollowingPlayer && !IsInputLocked && Mathf.Abs(movementDirection) > m_minPlayerDistance)
+        {
+            // Normalize the movementDirection.
+            movementDirection = movementDirection < 0 ? -1 : 1;
+            m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
+
+            // Flip enemy direction if player now walks in opposite direction.
+            if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
             {
-                // Normalize the movementDirection.
-                movementDirection = movementDirection < 0 ? -1 : 1;
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
-
-                // Flip enemy direction if player now walks in opposite direction.
-                if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
-                {
-                    FlipEntity();
-                }
-                // Apply the movement to the physics.
-                m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
-
-                if (m_isAutoJumping)
-                {
-                    // If jumping is turned on then jump if the current position is almost equal to the last position.
-                    // It is only checked every INTERVALL_FOR_POSITION_CHECK.
-
-                    if (m_stopwatchForRevivePositionTiming.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
-                    {
-                        if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
-                        {
-                            OnJump(null);
-                        }
-                        m_lastPosition = gameObject.transform.position;
-                        m_stopwatchForRevivePositionTiming.Restart();
-                    }
-                }
+                FlipEntity();
             }
-            else
+            // Apply the movement to the physics.
+            m_rigidbody2D.velocity = new Vector2(movementDirection * m_moveSpeed, m_rigidbody2D.velocity.y);
+
+            if (m_isAutoJumping)
             {
-                // Stop the walking animation if the enemy is too close to the player.
-                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
+                // If jumping is turned on then jump if the current position is almost equal to the last position.
+                // It is only checked every INTERVALL_FOR_POSITION_CHECK.
+
+                if (m_stopwatchForRevivePositionTiming.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
+                {
+                    if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
+                    {
+                        OnJump(null);
+                    }
+                    m_lastPosition = gameObject.transform.position;
+                    m_stopwatchForRevivePositionTiming.Restart();
+                }
             }
         }
-        m_isPlayerInRange = m_attackRange >= Vector2.Distance(m_rigidbody2D.position, m_playerRigidbody2D.position);
+        else
+        {
+            // Stop the walking animation if the enemy is too close to the player.
+            m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
+        }
     }
 
     /// <summary>Initiates the entity dying animation and ensures that the enemy does nothing else.</summary>
@@ -220,13 +223,6 @@ public class EnemyActions : Entity, IEnemyActions
     public float GetAttackDownDuration()
     {
         return Toolkit.GetAnimationLength(m_animator, ATTACK_ANIMATION_NAMES[2]);
-    }
-
-    /// <summary>Determines whether [is player in range].</summary>
-    /// <returns>
-    ///     <c>true</c> if [is player in range]; otherwise, <c>false</c>.</returns>
-    public bool IsPlayerInRange(){
-        return m_isPlayerInRange;
     }
 
     /// <summary>Determines whether [is player in attack range].</summary>
