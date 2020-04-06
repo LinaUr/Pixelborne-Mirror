@@ -8617,7 +8617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ff25f462667154492911fb0c2642b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_dialog: {fileID: 1829028707}
+  m_dialogue: {fileID: 1829028707}
 --- !u!1 &175240876
 GameObject:
   m_ObjectHideFlags: 0
@@ -78394,11 +78394,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
-        type: 3}
-      propertyPath: m_AllowDynamicResolution
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8963107396226841011, guid: 77638236184868243bc8d662647950ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78484,6 +78479,11 @@ PrefabInstance:
       propertyPath: m_playerHealth
       value: 
       objectReference: {fileID: 168911395}
+    - target: {fileID: 8963107396226840908, guid: 77638236184868243bc8d662647950ea,
+        type: 3}
+      propertyPath: m_AllowDynamicResolution
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77638236184868243bc8d662647950ea, type: 3}
 --- !u!1 &1727798088 stripped

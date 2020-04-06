@@ -19316,7 +19316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ff25f462667154492911fb0c2642b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_dialog: {fileID: 716139417}
+  m_dialogue: {fileID: 716139417}
 --- !u!114 &1231367614 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8339711130081627928, guid: def835497ab99be438b308c531dbe69c,
