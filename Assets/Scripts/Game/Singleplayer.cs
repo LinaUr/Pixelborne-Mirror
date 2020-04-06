@@ -14,7 +14,7 @@ public class Singleplayer : ScriptableObject, IGame
     private Vector2 m_playerRevivePosition;
     private static Singleplayer s_instance = null;
 
-    private const int m_START_STAGE_INDEX = 0;
+    private static readonly int m_START_STAGE_INDEX = 0;
 
     /// <summary>Gets or sets the camera.</summary>
     /// <value>The camera.</value>

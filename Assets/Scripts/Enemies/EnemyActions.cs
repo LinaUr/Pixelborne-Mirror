@@ -16,6 +16,8 @@ public class EnemyActions : Entity, IEnemyActions
     [SerializeField]
     private bool m_isFriendlyFireActive = false;
     [SerializeField]
+    private bool m_bodyShouldDisappear = true;
+    [SerializeField]
     private float m_attackRange = 10.0f;
     [SerializeField]
     private float m_minPlayerDistance = 0.25f;
@@ -29,17 +31,16 @@ public class EnemyActions : Entity, IEnemyActions
     private Stopwatch m_stopwatchForRevivePositionTiming = new Stopwatch(); 
     private string m_playerSwordName;
     private Vector2 m_lastPosition = new Vector2();
+    protected Rigidbody2D m_playerRigidbody2D;
 
     // Time in milliseconds.
     private static readonly float INTERVAL_FOR_POSITION_CHECK = 200;
     private static readonly float AUTO_JUMPING_ACTIVATION_DISTANCE = 0.001f;
     private static readonly string[] ATTACK_ANIMATION_NAMES = { "attack_up", "attack_mid", "attack_down" };
 
-    /// <summary>The rigidbody2D-component from the player that is targeted.</summary>
-    protected Rigidbody2D m_playerRigidbody2D;
-
     /// <summary>The animator parameter name for the dying animation.</summary>
     protected static readonly string DYING_ANIMATOR_PARAMETER_NAME = "IsDying";
+    protected static readonly string DEAD_ANIMATOR_PARAMETER_NAME = "IsDead";
 
     /// <summary>Awakes this instance and registers to enemy in the singleplayer instance.</summary>
     protected override void Awake()
@@ -72,16 +73,13 @@ public class EnemyActions : Entity, IEnemyActions
         }
         else
         {
-            if (m_isFollowingPlayer && !IsInputLocked)
+            float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
+            // Only walk if we chase the player, the input is not locked and the player is not too close.
+            if (m_isFollowingPlayer && !IsInputLocked && Mathf.Abs(movementDirection) > m_minPlayerDistance)
             {
-                float movementDirection = m_playerRigidbody2D.position.x - m_rigidbody2D.position.x;
-                // Only walk closer to the player if the player is not already too close.
-                if (Mathf.Abs(movementDirection) > m_minPlayerDistance)
-                {
-                    // Normalize the movementDirection.
-                    movementDirection = movementDirection < 0 ? -1 : 1;
-                    m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
-                }
+                // Normalize the movementDirection.
+                movementDirection = movementDirection < 0 ? -1 : 1;
+                m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, Mathf.Abs(movementDirection));
 
                 // Flip enemy direction if player now walks in opposite direction.
                 if (movementDirection < 0.0f && m_isFacingRight || movementDirection > 0.0f && !m_isFacingRight)
@@ -297,7 +295,19 @@ public class EnemyActions : Entity, IEnemyActions
     // Otherwise it changes the layer to disabled collision layer and plays the dead animation.
     void DestroySelf()
     {
-        Destroy(gameObject);
+        if(m_bodyShouldDisappear)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            int disabledCollisionLayer = LayerMask.NameToLayer("DisabledCollisionLayer");
+            gameObject.layer = disabledCollisionLayer;
+            ResetEntityAnimations();
+            m_animator.SetBool(DYING_ANIMATOR_PARAMETER_NAME, false);
+            m_animator.SetBool(DEAD_ANIMATOR_PARAMETER_NAME, true);
+            Singleplayer.Instance.ActiveEnemies.Remove(gameObject);
+        }
     }
 
     void OnDestroy()

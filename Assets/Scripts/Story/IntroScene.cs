@@ -1,31 +1,16 @@
-﻿using System.Diagnostics;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 // This class manages the displaying of images and text in the intro scene of the singleplayer mode.
-/// <summary></summary>
-public class IntroScene : MonoBehaviour
+public class IntroScene : CutScene
 {
-    [SerializeField]
-    private float m_fadeTime = 3000;
-    [SerializeField]
-    private Image m_backgroundImage;
-    [SerializeField]
-    private TextMeshProUGUI m_story;
-
-    private enum Mode
+    private string[] m_imageHolder =
     {
-        FadeImage,
-        DisplayText
-    }
+        "IntroImages/peaceful",
+        "IntroImages/war",
+        "IntroImages/castle_gates"
+    };
 
-    private Mode m_mode;
-    private int m_storyPart = 0;
-    private int m_textPart = 0;
-    private Stopwatch m_stopwatch = new Stopwatch();
-    private Sprite[] m_imageHolder;
-    private readonly string[][] m_storyHolder =
+    protected override string[][] StoryHolder { get; set; } =
     {
         new string[] { "Prologue\n\nDarkness" },
         new string[] {
@@ -45,78 +30,32 @@ public class IntroScene : MonoBehaviour
         }
     };
 
-    void Start()
+    protected override void Start()
     {
-        // Get the background images.
-        m_imageHolder = new Sprite[] {
-            null,
-            Resources.Load<Sprite>("IntroImages/peaceful"),
-            Resources.Load<Sprite>("IntroImages/war"),
-            Resources.Load<Sprite>("IntroImages/castle_gates")
-        };
-
-        m_mode = Mode.DisplayText;
-        m_story.text = m_storyHolder[m_storyPart][m_textPart];
-        m_stopwatch.Start();
+        m_story.text = StoryHolder[m_storyPart][m_textPart];
+        m_mode = CutSceneMode.DisplayText;
+        base.Start();
     }
 
-    void Update()
-    {
-        long elapsedTime = m_stopwatch.ElapsedMilliseconds;
-
-        if (m_mode == Mode.FadeImage)
-        {
-            // Fade the colors darker.
-            float percentage = elapsedTime / m_fadeTime;
-            float colorValue = (1.0f - percentage) + 0.3f;
-            m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
-
-            // Complete the fade when enough time has passed.
-            if (elapsedTime >= m_fadeTime)
-            {
-                colorValue = 0.3f;
-                m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
-                m_story.gameObject.SetActive(true);
-                m_mode = Mode.DisplayText;
-                m_stopwatch.Restart();
-            }
-        }
-        else if (m_mode == Mode.DisplayText)
-        {            
-            if (elapsedTime >= m_fadeTime)
-            {
-                m_textPart++;
-
-                if (m_textPart == m_storyHolder[m_storyPart].Length)
-                {
-                    m_textPart = 0;
-                    ChangeStoryPart();
-                    m_mode = Mode.FadeImage;
-                    m_stopwatch.Restart();
-                    return;
-                }
-
-                m_story.text = m_storyHolder[m_storyPart][m_textPart];
-                m_stopwatch.Restart();
-            }
-        }
-    }
-
-    private void ChangeStoryPart()
+    protected override CutSceneMode ChangeStoryPart()
     {
         m_storyPart++;
 
-        if (m_storyPart == m_storyHolder.Length)
+        if (m_storyPart == StoryHolder.Length)
         {
             Singleplayer.Instance.EndStage();
-            return;
+            return CutSceneMode.Nothing;
         }
 
         // Disable the text.
         m_story.gameObject.SetActive(false);
+        m_story.text = string.Empty;
 
         // Change the background image.
-        m_backgroundImage.overrideSprite = m_imageHolder[m_storyPart];
+        // m_storyPart - 1 because the StoryHolder's first element ist the prologue screen that does not have an image.
+        // So the images are a  litte shifted.
+        m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart - 1]);
         m_backgroundImage.color = Color.white;
+        return CutSceneMode.FadeImage;
     }
 }

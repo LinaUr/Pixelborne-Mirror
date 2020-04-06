@@ -822,7 +822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 2
-  stageIndex: 2
+  stageIndex: 4
 --- !u!4 &2078979227
 Transform:
   m_ObjectHideFlags: 0

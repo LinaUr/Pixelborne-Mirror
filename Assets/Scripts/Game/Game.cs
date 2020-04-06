@@ -20,7 +20,14 @@ public class Game : ScriptableObject
     /// <summary>Finishes the game and changes to the winning screen.</summary>
     public static void Finish()
     {
-        SceneChanger.SetWinningScreenAsActiveScene();
+        if (Mode == GameMode.Singleplayer)
+        {
+            SceneChanger.SetMainMenuAsActiveScene();
+        }
+        else
+        {
+            SceneChanger.SetWinningScreenAsActiveScene();
+        }
     }
 
     /// <summary>Freezes the game.</summary>
