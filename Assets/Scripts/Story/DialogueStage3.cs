@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DialogueStage3 : Dialogue
 {
     [SerializeField]
-    private int m_textPartDisplayTime = 3000;
+    private int m_displayTime = 3000;
 
     enum DialogueMode
     {
@@ -67,11 +67,11 @@ public class DialogueStage3 : Dialogue
             case DialogueMode.Displaying:
                 if (Input.GetKeyDown("space"))
                 {
-                    m_displayStartTime -= m_textPartDisplayTime;
+                    m_displayStartTime -= m_displayTime;
                 }
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
 
-                if (m_textStopwatch.ElapsedMilliseconds >= m_textPartDisplayTime)
+                if (m_textStopwatch.ElapsedMilliseconds >= m_displayTime)
                 {
                     m_textPart++;
                     if (m_textPart == m_dialogueText.Length)
