@@ -11,7 +11,7 @@ public class DialogueStage4 : Dialogue
     [SerializeField]
     private int m_flashDuration = 100;
 
-    enum DialogueMode
+    enum Mode
     {
         NotStarted,
         Displaying,
@@ -34,9 +34,8 @@ public class DialogueStage4 : Dialogue
     private GameObject m_filterImage;
     private GameObject m_princess;
     
-    private DialogueMode m_dialogueMode;
-    private int m_dialoguePart = 0;
-    private int m_textPart = 0;
+    private Mode m_mode;
+
     private string[] m_dialogueText;
     private string[] m_dialogueTextPart0 = { "Father!" };
     private string[] m_dialogueTextPart1 = { "My child! You are here!",
@@ -87,7 +86,12 @@ public class DialogueStage4 : Dialogue
                                               "Let it be known that from this day, our kingdom shall bow to no demon.",
                                               $"Knight {DEFAULT_KNIGHT}!",
                                               "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!" };
-    
+
+    //protected override string[][] DialogueHolder { get; set; } =
+    //{
+    //    new string[] { 
+    //    }
+    //}
 
     void Start()
     {
@@ -103,7 +107,7 @@ public class DialogueStage4 : Dialogue
         InsertName();
         m_dialogueText = m_dialogueTextPart0;
         m_activeCharacter = "Princess";
-        m_dialogueMode = DialogueMode.NotStarted;
+        m_mode = Mode.NotStarted;
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
         m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
         m_princess.GetComponent<EnemyAttackAndMovement>().IsInputLocked = false;
@@ -112,9 +116,9 @@ public class DialogueStage4 : Dialogue
     void Update()
     {
         bool enemiesKilled = Singleplayer.Instance.ActiveEnemies.Count == 0;
-        switch (m_dialogueMode)
+        switch (m_mode)
         {
-            case DialogueMode.Displaying:
+            case Mode.Displaying:
                 if(Input.GetKeyDown("space"))
                 {
                 }
@@ -130,28 +134,32 @@ public class DialogueStage4 : Dialogue
                 }
                 break;
 
-            case DialogueMode.NotStarted:
+            case Mode.NotStarted:
                 if (HasPlayerProgressed && enemiesKilled)
                 {
                     ShowText();
                 }
                 break;
 
-            case DialogueMode.WaitingForTrigger:
+            case Mode.WaitingForTrigger:
                 if (HasPlayerProgressed && enemiesKilled)
                 {
-                    ChangePart();
+                    Singleplayer.Instance.LockPlayerInput(true);
+                    m_mode = Mode.Displaying;
+                    SetDialogueVisibility(true);
+                    m_stopwatch.Start();
+                    // ShowText();
                 }
                 break;
 
-            case DialogueMode.Flashing:
+            case Mode.Flashing:
                 if (m_stopwatch.ElapsedMilliseconds >= m_flashDuration)
                     {
                         ChangePart();
                     }
                 break;
 
-            case DialogueMode.Animation:    
+            case Mode.Animation:    
                 if (m_stopwatch.ElapsedMilliseconds >= m_animationDuration || m_animationPart < 0)
                 {
                     m_animationPart++;
@@ -171,7 +179,7 @@ public class DialogueStage4 : Dialogue
     {
         Singleplayer.Instance.LockPlayerInput(true);
         Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
-        m_dialogueMode = DialogueMode.Displaying;
+        m_mode = Mode.Displaying;
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = m_activeCharacter;
@@ -184,7 +192,7 @@ public class DialogueStage4 : Dialogue
         m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
         m_filterImage.GetComponent<SpriteRenderer>().enabled = true;
-        m_dialogueMode = DialogueMode.Flashing;
+        m_mode = Mode.Flashing;
         m_stopwatch.Restart();
     }
 
@@ -193,7 +201,7 @@ public class DialogueStage4 : Dialogue
         m_background.GetComponent<Image>().color = Color.clear;
         m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-        m_dialogueMode = DialogueMode.Animation;
+        m_mode = Mode.Animation;
         m_animationPart = -1;
         m_backgroundPicture.GetComponent<Image>().color = Color.white;
         m_stopwatch.Restart();
@@ -227,7 +235,7 @@ public class DialogueStage4 : Dialogue
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 HasPlayerProgressed = false;
-                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to king
+                m_mode = Mode.WaitingForTrigger;            //player supposed to walk to king
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
@@ -316,7 +324,7 @@ public class DialogueStage4 : Dialogue
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to kill king
+                m_mode = Mode.WaitingForTrigger;            //player supposed to kill king
                 m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
@@ -431,7 +439,7 @@ public class DialogueStage4 : Dialogue
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to kill dark king
+                m_mode = Mode.WaitingForTrigger;            //player supposed to kill dark king
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
@@ -446,7 +454,7 @@ public class DialogueStage4 : Dialogue
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 HasPlayerProgressed = false;
-                m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown
+                m_mode = Mode.WaitingForTrigger;            //player supposed to walk to crown
                 int playerLayer = LayerMask.NameToLayer("Player");
                 int enemyLayer = LayerMask.NameToLayer("Enemy");
                 Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
