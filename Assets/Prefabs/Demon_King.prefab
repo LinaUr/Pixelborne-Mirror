@@ -232,7 +232,7 @@ MonoBehaviour:
   m_isFriendlyFireActive: 0
   m_bodyShouldDisappear: 0
   m_attackRange: 4
-  m_minPlayerDistance: 1.7
+  m_minPlayerDistance: 1.2
   m_sightRange: 9
 --- !u!114 &5123333617976130931
 MonoBehaviour:
@@ -260,8 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackPatternStringsWhileInAttackRange:
-  - AU|AU|AU|2
-  - JUMP|AU
-  - JUMP|1|AU
+  - STARTF|AU|AU|AU|2
+  - STARTF|JUMP|AU
+  - STARTF|JUMP|1|AU
   m_attackPatternStringWhileInSightRange: STARTF|STARTAUTOJUMP
   m_attackPatternStringWhileOutOfSight: STOPF
