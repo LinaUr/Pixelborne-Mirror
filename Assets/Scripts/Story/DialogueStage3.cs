@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueStage3 : MonoBehaviour
+public class DialogueStage3 : Dialogue
 {
     [SerializeField]
     private int m_textPartDisplayTime = 3000;
@@ -36,7 +36,7 @@ public class DialogueStage3 : MonoBehaviour
                                              "What a relief. We shall take it with us, so that they may never be able to use it.",
                                              "Come now, let us return to the castle at once!" };
     
-    public bool PlayerProgressed { get; set; }
+    public override bool HasPlayerProgressed { get; set; }
 
     void Start()
     {
@@ -46,7 +46,7 @@ public class DialogueStage3 : MonoBehaviour
         m_dialoguePart = 0;
         GetName();
         m_dialogueText = m_dialogueTextPart0;
-        PlayerProgressed = false;
+        HasPlayerProgressed = false;
         m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
     }
@@ -58,7 +58,7 @@ public class DialogueStage3 : MonoBehaviour
         switch (m_dialogueMode)
         {
             case DialogueMode.NotStarted:
-                if (PlayerProgressed && m_enemiesKilled)
+                if (HasPlayerProgressed && m_enemiesKilled)
                 {
                     ShowText();
                 }
@@ -83,7 +83,7 @@ public class DialogueStage3 : MonoBehaviour
                 break;
 
             case DialogueMode.WaitingForTrigger:
-                if (PlayerProgressed && m_enemiesKilled)
+                if (HasPlayerProgressed && m_enemiesKilled)
                 {
                     ChangePart();
                 }
@@ -118,7 +118,7 @@ public class DialogueStage3 : MonoBehaviour
         m_background.GetComponent<Image>().color = Color.clear;
         m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-        PlayerProgressed = false;
+        HasPlayerProgressed = false;
         Singleplayer.Instance.LockPlayerInput(false);
         Singleplayer.Instance.EndStage();
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // This class manages the displaying of the dialog in stage 1 of the singleplayer mode.
-public class DialogueStage1 : MonoBehaviour
+public class DialogueStage1 : Dialogue
 {
     [SerializeField]
     private int m_displayTime = 3000;
@@ -43,7 +43,7 @@ public class DialogueStage1 : MonoBehaviour
 
     private static readonly string DEFAULT_KNIGHT = "Ni";
 
-    public bool PlayerProgressed { get; set; } = false;
+    public override bool HasPlayerProgressed { get; set; } = false;
  
     void Start()
     {
@@ -80,7 +80,7 @@ public class DialogueStage1 : MonoBehaviour
                 m_stopwatch.Restart();
             }
         }
-        else if (m_mode == Mode.WaitingForTrigger && PlayerProgressed && enemiesKilled) 
+        else if (m_mode == Mode.WaitingForTrigger && HasPlayerProgressed && enemiesKilled) 
         {
             Singleplayer.Instance.LockPlayerInput(true);
             m_mode = Mode.Displaying;
@@ -105,7 +105,7 @@ public class DialogueStage1 : MonoBehaviour
     {
         Singleplayer.Instance.LockPlayerInput(false);
         SetDialogueVisibility(false);
-        PlayerProgressed = false;
+        HasPlayerProgressed = false;
         m_mode = Mode.WaitingForTrigger;
         m_textPart = 0;
         m_dialoguePart++;

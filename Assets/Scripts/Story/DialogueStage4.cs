@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueStage4 : MonoBehaviour
+public class DialogueStage4 : Dialogue
 {
     [SerializeField]
     private int m_animationDuration = 500;
@@ -91,7 +91,7 @@ public class DialogueStage4 : MonoBehaviour
     private bool m_enemiesKilled;
     private GameObject m_filterImage;
     private GameObject m_nameTag;
-    public bool PlayerProgressed { get; set; }
+    public  override bool HasPlayerProgressed { get; set; }
     private GameObject m_princess;
     private int m_textPart;
     private string m_userName;
@@ -114,7 +114,7 @@ public class DialogueStage4 : MonoBehaviour
         ReplaceNameInDialogueTexts();
         m_dialogueText = m_dialogueTextPart0;
         m_activeCharacter = "Princess";
-        PlayerProgressed = false;
+        HasPlayerProgressed = false;
         m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
@@ -144,14 +144,14 @@ public class DialogueStage4 : MonoBehaviour
                 break;
 
             case DialogueMode.NotStarted:
-                if (PlayerProgressed && m_enemiesKilled)
+                if (HasPlayerProgressed && m_enemiesKilled)
                 {
                     ShowText();
                 }
                 break;
 
             case DialogueMode.WaitingForTrigger:
-                if (PlayerProgressed && m_enemiesKilled)
+                if (HasPlayerProgressed && m_enemiesKilled)
                 {
                     ChangePart();
                 }
@@ -249,7 +249,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                PlayerProgressed = false;
+                HasPlayerProgressed = false;
                 m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to king
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
@@ -468,7 +468,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_background.GetComponent<Image>().color = Color.clear;
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                PlayerProgressed = false;
+                HasPlayerProgressed = false;
                 m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to walk to crown
                 int playerLayer = LayerMask.NameToLayer("Player");
                 int enemyLayer = LayerMask.NameToLayer("Enemy");

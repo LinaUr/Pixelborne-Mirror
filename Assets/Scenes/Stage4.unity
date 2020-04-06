@@ -792,44 +792,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chapterscreen
       objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_text
-      value: 'Epiloque
-
-
-        Free'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3285563062741989812, guid: f2b2859bfe51b604a9a66f2fab9073b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -934,6 +896,44 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_text
+      value: 'Epiloque
+
+
+        Free'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2b2859bfe51b604a9a66f2fab9073b1, type: 3}
@@ -6345,7 +6345,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 967572739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59142649912b9644898bb7f1cbe1af01, type: 3}
+  m_Script: {fileID: 11500000, guid: b9ff25f462667154492911fb0c2642b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_dialog: {fileID: 1781782527}
