@@ -260,6 +260,7 @@ public class DialogueStage4 : Dialogue
         // Due to some animations, fights etc between dialogue parts the index that refers
         // to the correct dialoguePart gets shifted more and more.
         m_dialoguePart++;
+        Debug.Log(m_dialoguePart);
         switch (m_dialoguePart)
         {
             case 1:
