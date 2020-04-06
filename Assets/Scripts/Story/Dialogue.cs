@@ -33,6 +33,10 @@ public class Dialogue : MonoBehaviour
 
     protected virtual void SetDialogueVisibility(bool isVisible)
     {
+        if (!isVisible)
+        {
+            m_dialogue.text = string.Empty;
+        }
         m_dialogueBackground.gameObject.SetActive(isVisible);
         m_dialogue.gameObject.SetActive(isVisible);
         m_nameTag.gameObject.SetActive(isVisible);

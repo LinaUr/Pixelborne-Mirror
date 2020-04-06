@@ -29,16 +29,17 @@ public class DialogueStage4 : Dialogue
         Animating
     }
 
-    private Mode m_mode;
-    private string[] m_dialogueText;
-    private string m_activeCharacter;
-    private string[] m_animationImages;
     private int m_animationPart;
+    private Mode m_mode;
+    private string m_activeCharacter;
+    private string[] m_dialogueText;
+    private string[] m_animationImages;
     private string[] m_animationImages0 = { "OutroImages/spilled_stones_blood_3",
-                                             "OutroImages/awakening" };
+                                            "OutroImages/awakening" };
     private string[] m_animationImages1 = { "OutroImages/dark_crown",
-                                             "OutroImages/hit_animation",
-                                             "OutroImages/dark_crown_destroyed" };
+                                            "OutroImages/hit_animation",
+                                            "OutroImages/dark_crown_destroyed" };
+
     protected override string[][] DialogueHolder { get; set; } =
     {
         new string[] { "Father!" },
@@ -107,8 +108,8 @@ public class DialogueStage4 : Dialogue
             $"Knight {DEFAULT_KNIGHT}!",
             "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!"
         }
-
     };
+    
     private string[] m_characterHolder =
     {
         PRINCESS,
@@ -164,7 +165,7 @@ public class DialogueStage4 : Dialogue
         InsertName();
         m_dialogueText = DialogueHolder[0];
         m_activeCharacter = m_characterHolder[0];
-        m_mode = Mode.WaitingForTrigger;
+        m_mode = Mode.NotStarted;
         m_dialogueBackground.color = Color.black;
         SetDialogueVisibility(false);
     }

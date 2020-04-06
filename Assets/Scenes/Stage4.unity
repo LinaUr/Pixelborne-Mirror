@@ -19944,7 +19944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1309910153
 Transform:
   m_ObjectHideFlags: 0
@@ -51230,7 +51230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46292d22e15117842854d119c5c4826b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_displayTime: 1500
+  m_displayTime: 3000
   m_dialogueBackground: {fileID: 31209685}
   m_dialogue: {fileID: 1244181012}
   m_nameTag: {fileID: 1259221795}
