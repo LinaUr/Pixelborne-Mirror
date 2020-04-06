@@ -33,7 +33,7 @@ public class IntroScene : CutScene
     void Start()
     {
         m_story.text = StoryHolder[m_storyPart][m_textPart];
-        m_mode = Mode.DisplayText;
+        m_mode = CutSceneMode.DisplayText;
         base.Start();
     }
 
@@ -42,14 +42,14 @@ public class IntroScene : CutScene
         base.Update(m_stopwatch.ElapsedMilliseconds * 1.0f);
     }
 
-    protected override Mode ChangeStoryPart()
+    protected override CutSceneMode ChangeStoryPart()
     {
         m_storyPart++;
 
         if (m_storyPart == StoryHolder.Length)
         {
             Singleplayer.Instance.EndStage();
-            return Mode.Nothing;
+            return CutSceneMode.Nothing;
         }
 
         // Disable the text.
@@ -59,6 +59,6 @@ public class IntroScene : CutScene
         // Change the background image.
         m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart - 1]);
         m_backgroundImage.color = Color.white;
-        return Mode.FadeImage;
+        return CutSceneMode.FadeImage;
     }
 }

@@ -46,7 +46,7 @@ public class OutroScene : CutScene
         m_story.text = StoryHolder[m_storyPart][m_textPart];
         m_story.gameObject.SetActive(false);
         m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart][m_animationPart]);
-        m_mode = Mode.AnimateImages;
+        m_mode = CutSceneMode.AnimateImages;
         base.Start();
     }
 
@@ -56,7 +56,7 @@ public class OutroScene : CutScene
 
         base.Update(elapsedTime);
 
-        if (m_mode == Mode.AnimateImages)
+        if (m_mode == CutSceneMode.AnimateImages)
         {
             if (elapsedTime >= m_animationTime)
             {
@@ -64,31 +64,31 @@ public class OutroScene : CutScene
                 if (m_animationPart == m_imageHolder[m_storyPart].Length)
                 {
                     m_animationPart = 0;
-                    m_mode = Mode.FadeImage;
+                    m_mode = CutSceneMode.FadeImage;
                     return;
                 }
                 m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart][m_animationPart]);
                 m_stopwatch.Restart();
             }
         }
-        else if (m_mode == Mode.Done && Input.GetKeyDown("space"))
+        else if (m_mode == CutSceneMode.Done && Input.GetKeyDown("space"))
         {
             Singleplayer.Instance.EndStage();
         }
     }
 
-    protected override Mode ChangeStoryPart()
+    protected override CutSceneMode ChangeStoryPart()
     {
         m_storyPart++;
 
         if (m_storyPart == StoryHolder.Length)
         {
-            return Mode.Done;
+            return CutSceneMode.Done;
         }
         else if (m_storyPart >= StoryHolder.Length - 2)
         {
             m_backgroundImage.color = Color.black;
-            return Mode.DisplayText;
+            return CutSceneMode.DisplayText;
         }
 
         // Disable the text.
@@ -98,6 +98,6 @@ public class OutroScene : CutScene
         // Change the background image.
         m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart][m_animationPart]);
         m_backgroundImage.color = Color.white;
-        return Mode.AnimateImages;
+        return CutSceneMode.AnimateImages;
     }
 }

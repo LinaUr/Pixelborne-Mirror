@@ -12,7 +12,7 @@ public abstract class CutScene : MonoBehaviour
     [SerializeField]
     protected TextMeshProUGUI m_story;
 
-    protected enum Mode
+    protected enum CutSceneMode
     {
         FadeImage,
         DisplayText,
@@ -21,7 +21,7 @@ public abstract class CutScene : MonoBehaviour
         Nothing
     }
 
-    protected Mode m_mode;
+    protected CutSceneMode m_mode;
     protected int m_storyPart = 0;
     protected int m_textPart = 0;
     protected Stopwatch m_stopwatch = new Stopwatch();
@@ -35,7 +35,7 @@ public abstract class CutScene : MonoBehaviour
 
     protected virtual void Update(float elapsedTime)
     {
-        if (m_mode == Mode.FadeImage)
+        if (m_mode == CutSceneMode.FadeImage)
         {
             // Fade the colors darker.
             float percentage = elapsedTime / m_fadeTime;
@@ -48,11 +48,11 @@ public abstract class CutScene : MonoBehaviour
                 colorValue = 0.3f;
                 m_backgroundImage.color = new Color(colorValue, colorValue, colorValue);
                 m_story.gameObject.SetActive(true);
-                m_mode = Mode.DisplayText;
+                m_mode = CutSceneMode.DisplayText;
                 m_stopwatch.Restart();
             }
         }
-        else if (m_mode == Mode.DisplayText)
+        else if (m_mode == CutSceneMode.DisplayText)
         {
             m_story.text = StoryHolder[m_storyPart][m_textPart];
             if (elapsedTime >= m_fadeTime)
@@ -62,7 +62,7 @@ public abstract class CutScene : MonoBehaviour
                 if (m_textPart == StoryHolder[m_storyPart].Length)
                 {
                     m_textPart = 0;
-                    Mode nextMode = ChangeStoryPart();
+                    CutSceneMode nextMode = ChangeStoryPart();
                     m_mode = nextMode;
                     m_stopwatch.Restart();
                     return;
@@ -72,5 +72,5 @@ public abstract class CutScene : MonoBehaviour
         }
     }
 
-    protected abstract Mode ChangeStoryPart();
+    protected abstract CutSceneMode ChangeStoryPart();
 }
