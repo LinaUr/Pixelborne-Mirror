@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+/// <summary>Manages the displaying of the dialog in stage 3 of the singleplayer mode.</summary>
 public class DialogueStage3 : Dialogue
 {
     private enum Mode

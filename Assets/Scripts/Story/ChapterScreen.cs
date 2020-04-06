@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
 
-/// <summary></summary>
+/// <summary>Handles the displaying of a chapter screen.</summary>
 public class ChapterScreen : MonoBehaviour
 {
     [SerializeField]

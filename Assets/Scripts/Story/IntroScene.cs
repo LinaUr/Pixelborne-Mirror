@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-// This class manages the displaying of images and text in the intro scene of the singleplayer mode.
-public class IntroScene : CutScene
+/// <summary>Manages the displaying of images and text in the intro scene of the singleplayer mode.</summary>
+public class IntroScene : Cutscene
 {
     private string[] m_imageHolder =
     {

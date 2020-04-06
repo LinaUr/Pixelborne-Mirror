@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class OutroScene : CutScene
+/// <summary>Manages the displaying of images and text in the intro scene of the singleplayer mode.</summary>
+public class OutroScene : Cutscene
 {
     [SerializeField]
     private float m_animationTime = 500;
