@@ -127,7 +127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &126944944
 Transform:
   m_ObjectHideFlags: 0
@@ -688,9 +688,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fadeTime: 3000
-  m_animationTime: 500
   m_backgroundImage: {fileID: 378021398}
   m_story: {fileID: 374615483}
+  m_animationTime: 500
 --- !u!114 &1783262021
 MonoBehaviour:
   m_ObjectHideFlags: 0
