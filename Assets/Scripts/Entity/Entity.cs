@@ -160,6 +160,7 @@ public abstract class Entity : MonoBehaviour, IAttack
     protected void ResetAttackAnimation()
     {
         IsAttacking = false;
+        m_weaponCollider.enabled = false;
         foreach (string parameter in ATTACK_ANIMATOR_PARAMETER_NAMES)
         {
             m_animator.SetBool(parameter, false);
