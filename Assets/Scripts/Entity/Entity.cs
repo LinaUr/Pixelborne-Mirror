@@ -11,8 +11,6 @@ public abstract class Entity : MonoBehaviour, IAttack
     /// <summary>Is the entity facing in right.</summary>
     [SerializeField]
     protected bool m_isFacingRight;
-    [SerializeField]
-    private float m_distanceInWhichEntityCountsAsGrounded = 0.1f;
     /// <summary>The jump force of the entity.</summary>
     [SerializeField]
     protected float m_jumpForce = 22.0f;

@@ -305,7 +305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_weaponCollider: {fileID: 0}
   m_isFacingRight: 0
-  m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_jumpForce: 22
   m_moveSpeed: 10
   m_attackDamage: 1
@@ -374,16 +373,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_weaponCollider: {fileID: 0}
+  m_weaponCollider: {fileID: 8339711128838995857}
   m_isFacingRight: 0
-  m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_jumpForce: 22
   m_moveSpeed: 10
   m_attackDamage: 1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
-  m_playerSword: {fileID: 0}
+    m_Bits: 7680
+  m_playerSword: {fileID: 8339711128838995858}
   m_playerIndex: 1
   m_playerPositionsTransform: {fileID: 0}
 --- !u!1 &8339711130441321048
