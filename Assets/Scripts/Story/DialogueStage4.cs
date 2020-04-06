@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogueStage4 : Dialogue
@@ -10,6 +7,18 @@ public class DialogueStage4 : Dialogue
     private int m_animationDuration = 500;
     [SerializeField]
     private int m_flashDuration = 100;
+    [SerializeField]
+    private SpriteRenderer m_filterImage;
+    [SerializeField]
+    private Image m_backgroundImage;
+    [SerializeField]
+    private GameObject m_demonKing;
+    [SerializeField]
+    private GameObject m_endboss;
+    [SerializeField]
+    private GameObject m_princess;
+    [SerializeField]
+    private GameObject m_king;
 
     enum Mode
     {
@@ -17,127 +26,163 @@ public class DialogueStage4 : Dialogue
         Displaying,
         WaitingForTrigger,
         Flashing,
-        Animation
+        Animating
     }
 
+    private Mode m_mode;
+    private string[] m_dialogueText;
     private string m_activeCharacter;
     private int m_animationPart;
-    private string[] m_animationPictures;
-    private string[] m_animationPictures0 = { "OutroImages/spilled_stones_blood_3",
+    private string[] m_animationImages;
+    private string[] m_animationImages0 = { "OutroImages/spilled_stones_blood_3",
                                              "OutroImages/awakening" };
-    private string[] m_animationPictures1 = { "OutroImages/dark_crown",
+    private string[] m_animationImages1 = { "OutroImages/dark_crown",
                                              "OutroImages/hit_animation",
                                              "OutroImages/dark_crown_destroyed" };
-    private GameObject m_backgroundPicture;
-    private GameObject m_demonKing;
-    private GameObject m_endboss;
-    private GameObject m_filterImage;
-    private GameObject m_princess;
-    
-    private Mode m_mode;
-
-    private string[] m_dialogueText;
-    private string[] m_dialogueTextPart0 = { "Father!" };
-    private string[] m_dialogueTextPart1 = { "My child! You are here!",
-                                             $"Knight {DEFAULT_KNIGHT}! My thanks as both father and king.",
-                                             "My daughter and my kingdom are safe once more.",
-                                             "...",
-                                             "Is that the Dark King's Crown you're carrying with you?" };
-    private string[] m_dialogueTextPart2 = { "Yes, Father. We found it in his lair." };
-    private string[] m_dialogueTextPart3 = { $"Give it to me, Knight {DEFAULT_KNIGHT}!",
-                                             "And give me the shards of Dark Crystal you recovered." };
-    private string[] m_dialogueTextPart4 = { "Marvelous!",
-                                             "Let it be known that from this day, our kingdom shall bow to no demon!" };
-    private string[] m_dialogueTextPart5 = { "Let it be known that today will mark the beginning of a new era!" };
-    private string[] m_dialogueTextPart6 = { "Ah..!" };
-    private string[] m_dialogueTextPart7 = { "Father! Are you well?" };
-    private string[] m_dialogueTextPart8 = { "I... huh... just... dizzy... huh... huh..." };
-    private string[] m_dialogueTextPart9 = { "Aaaaargh!" };
-    private string[] m_dialogueTextPart10 = { "Father!" };
-    private string[] m_dialogueTextPart11 = { "F-Father?" };
-    private string[] m_dialogueTextPart12 = { "Haha... your father is gone, child.",
-                                              "His body is mine now." };
-    private string[] m_dialogueTextPart13 = { "No..!" };
-    private string[] m_dialogueTextPart14 = { "Don't worry, child. I will have plenty of time for you later.",
-                                              "But first..!" };
-    private string[] m_dialogueTextPart15 = { $"First, maggot {DEFAULT_KNIGHT}, it is time for you to die!" };
-    private string[] m_dialogueTextPart16 = { "O Father..." };
-    private string[] m_dialogueTextPart17 = { "Please forgive me..." };
-    private string[] m_dialogueTextPart18 = { "I love you, Father..." };
-    private string[] m_dialogueTextPart19 = { "Hah... Hahaha..." };
-    private string[] m_dialogueTextPart20 = { "What..?" };
-    private string[] m_dialogueTextPart21 = { "Hahahaha!" };
-    private string[] m_dialogueTextPart22 = { "Who..?",
-                                              "...",
-                                              "No..! The stones..!" };
-    private string[] m_dialogueTextPart23 = { "At last..!" };
-    private string[] m_dialogueTextPart24 = { "NO!" };
-    private string[] m_dialogueTextPart25 = { "At last, I'm free once more!" };
-    private string[] m_dialogueTextPart26 = { "The Dark King!" };
-    private string[] m_dialogueTextPart27 = { "Indeed. The only king left standing, it seems." };
-    private string[] m_dialogueTextPart28 = { "I curse you, Dark King!",
-                                              "You will die for what you have done!" };
-    private string[] m_dialogueTextPart29 = { "Really? Hahaha... You are mistaken, I fear.",
-                                              "YOU will die.",
-                                              "You will all die.",
-                                              "Your whole kingdom will perish!",
-                                              "And then, it shall be mine!" };
-    private string[] m_dialogueTextPart30 = { "Not this day, Dark King. And not on any other.",
-                                              "Let it be known that from this day, our kingdom shall bow to no demon.",
-                                              $"Knight {DEFAULT_KNIGHT}!",
-                                              "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!" };
-
-    //protected override string[][] DialogueHolder { get; set; } =
-    //{
-    //    new string[] { 
-    //    }
-    //}
-
-    void Start()
+    protected override string[][] DialogueHolder { get; set; } =
     {
-        m_backgroundPicture = GameObject.Find("BackgroundPicture");
-        m_filterImage = GameObject.Find("FilterImage");
-        m_demonKing = GameObject.Find("Demon_King");
-        m_endboss = GameObject.Find("Endboss");
-        m_princess = GameObject.Find("Princess");
+        new string[] { "Father!" },
+        new string[] {
+            "My child! You are here!",
+            $"Knight {DEFAULT_KNIGHT}! My thanks as both father and king.",
+            "My daughter and my kingdom are safe once more.",
+            "...",
+            "Is that the Dark King's Crown you're carrying with you?"
+        },
+        new string[] { "Yes, Father. We found it in his lair." },
+        new string[] {
+            $"Give it to me, Knight {DEFAULT_KNIGHT}!",
+            "And give me the shards of Dark Crystal you recovered."
+        },
+        new string[] {
+            "Marvelous!",
+            "Let it be known that from this day, our kingdom shall bow to no demon!"
+        },
+        new string[] { "Let it be known that today will mark the beginning of a new era!" },
+        new string[] { "Ah..!" },
+        new string[] { "Father! Are you well?" },
+        new string[] { "I... huh... just... dizzy... huh... huh..." },
+        new string[] { "Aaaaargh!" },
+        new string[] { "Father!" },
+        new string[] { "F-Father?" },
+        new string[] {
+            "Haha... your father is gone, child.",
+            "His body is mine now."
+        },
+        new string[] { "No..!" },
+        new string[] {
+            "Don't worry, child. I will have plenty of time for you later.",
+            "But first..!"
+        },
+        new string[] { $"First, maggot {DEFAULT_KNIGHT}, it is time for you to die!" },
+        new string[] { "O Father..." },
+        new string[] { "Please forgive me..." },
+        new string[] { "I love you, Father..." },
+        new string[] { "Hah... Hahaha..." },
+        new string[] { "What..?" },
+        new string[] { "Hahahaha!" },
+        new string[] {
+            "Who..?",
+            "...",
+            "No..! The stones..!"
+        },
+        new string[] { "At last..!" },
+        new string[] { "NO!" },
+        new string[] { "At last, I'm free once more!" },
+        new string[] { "The Dark King!" },
+        new string[] { "Indeed. The only king left standing, it seems." },
+        new string[] {
+            "I curse you, Dark King!",
+            "You will die for what you have done!"
+        },
+        new string[] {
+            "Really? Hahaha... You are mistaken, I fear.",
+            "YOU will die.",
+            "You will all die.",
+            "Your whole kingdom will perish!",
+            "And then, it shall be mine!"
+        },
+        new string[] { "Not this day, Dark King. And not on any other.",
+            "Let it be known that from this day, our kingdom shall bow to no demon.",
+            $"Knight {DEFAULT_KNIGHT}!",
+            "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!"
+        }
+
+    };
+    private string[] m_characterHolder =
+    {
+        PRINCESS,
+        KING,
+        PRINCESS,
+        KING,
+        KING,
+        KING,
+        KING,
+        PRINCESS,
+        KING,
+        KING,
+        PRINCESS,
+        PRINCESS,
+        KING,
+        PRINCESS,
+        PRINCESS,
+        KING,
+        KING,
+        PRINCESS,
+        PRINCESS,
+        PRINCESS,
+        UNKNOWN,
+        PRINCESS,
+        UNKNOWN,
+        PRINCESS,
+        UNKNOWN,
+        DARK_KING,
+        PRINCESS,
+        DARK_KING,
+        PRINCESS,
+        DARK_KING,
+        PRINCESS,
+        DARK_KING
+
+    };
+
+    private static readonly string PRINCESS = "Princess";
+    private static readonly string KING = "King";
+    private static readonly string DARK_KING = "Dark King";
+    private static readonly string UNKNOWN = "???";
+
+    protected override void Start()
+    {
         m_demonKing.SetActive(false);
         Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);
         m_endboss.SetActive(false);
         Singleplayer.Instance.ActiveEnemies.Remove(m_endboss);
-        InsertName();
-        m_dialogueText = m_dialogueTextPart0;
-        m_activeCharacter = "Princess";
-        m_mode = Mode.NotStarted;
+
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
         m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
         m_princess.GetComponent<EnemyAttackAndMovement>().IsInputLocked = false;
+
+        InsertName();
+        m_dialogueText = DialogueHolder[0];
+        m_activeCharacter = m_characterHolder[0];
+        m_mode = Mode.WaitingForTrigger;
+        m_dialogueBackground.color = Color.black;
+        SetDialogueVisibility(false);
     }
 
     void Update()
     {
         bool enemiesKilled = Singleplayer.Instance.ActiveEnemies.Count == 0;
+
         switch (m_mode)
         {
-            case Mode.Displaying:
-                if(Input.GetKeyDown("space"))
-                {
-                }
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-                if (m_stopwatch.ElapsedMilliseconds >= m_displayTime)
-                {
-                    m_textPart++;
-                    if (m_textPart == m_dialogueText.Length)
-                    {
-                        ChangePart();
-                    }
-                    m_stopwatch.Restart();
-                }
-                break;
-
             case Mode.NotStarted:
                 if (HasPlayerProgressed && enemiesKilled)
                 {
-                    ShowText();
+                    Singleplayer.Instance.LockPlayerInput(true);
+                    m_mode = Mode.Displaying;
+                    SetDialogueVisibility(true);
+                    m_stopwatch.Restart();
                 }
                 break;
 
@@ -145,254 +190,206 @@ public class DialogueStage4 : Dialogue
                 if (HasPlayerProgressed && enemiesKilled)
                 {
                     Singleplayer.Instance.LockPlayerInput(true);
-                    m_mode = Mode.Displaying;
                     SetDialogueVisibility(true);
-                    m_stopwatch.Start();
-                    // ShowText();
+                    m_mode = Mode.Displaying;
+                    ChangePart();
+                }
+                break;
+
+            case Mode.Displaying:
+                m_dialogue.text = m_dialogueText[m_textPart];
+                m_nameTag.text = m_activeCharacter;
+
+                if (m_stopwatch.ElapsedMilliseconds >= m_displayTime || Input.GetKeyDown("space"))
+                {
+                    m_textPart++;
+                    if (m_textPart == m_dialogueText.Length)
+                    {
+                        m_textPart = 0;
+                        ChangePart();
+                    }
+                    m_stopwatch.Restart();
                 }
                 break;
 
             case Mode.Flashing:
                 if (m_stopwatch.ElapsedMilliseconds >= m_flashDuration)
-                    {
-                        ChangePart();
-                    }
+                {
+                    m_filterImage.enabled = false;
+                    m_mode = Mode.Displaying;
+                    SetDialogueVisibility(true);
+                    ChangePart();
+                }
                 break;
 
-            case Mode.Animation:    
+            case Mode.Animating:
                 if (m_stopwatch.ElapsedMilliseconds >= m_animationDuration || m_animationPart < 0)
                 {
                     m_animationPart++;
-                    if (m_animationPart == m_animationPictures.Length)
+                    if (m_animationPart == m_animationImages.Length)
                     {
+                        m_animationPart = 0;
                         ChangePart();
                         return;
                     }
-                    m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
+                    m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_animationImages[m_animationPart]);
                     m_stopwatch.Restart();
                 }
                 break;
         }
     }
 
-    public void ShowText()
-    {
-        Singleplayer.Instance.LockPlayerInput(true);
-        Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
-        m_mode = Mode.Displaying;
-        m_textPart = 0;
-        m_background.GetComponent<Image>().color = Color.black;
-        m_nameTag.GetComponent<TextMeshProUGUI>().text = m_activeCharacter;
-        m_stopwatch.Restart();
-    }
-
     public void FlashViolet()
     {
-        m_background.GetComponent<Image>().color = Color.clear;
-        m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-        m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-        m_filterImage.GetComponent<SpriteRenderer>().enabled = true;
+        SetDialogueVisibility(false);
+        m_filterImage.enabled = true;
         m_mode = Mode.Flashing;
         m_stopwatch.Restart();
     }
 
     public void Animate()
     {
-        m_background.GetComponent<Image>().color = Color.clear;
-        m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-        m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-        m_mode = Mode.Animation;
+        SetDialogueVisibility(false);
+        m_mode = Mode.Animating;
         m_animationPart = -1;
-        m_backgroundPicture.GetComponent<Image>().color = Color.white;
+        m_backgroundImage.color = Color.white;
         m_stopwatch.Restart();
     }
 
     public void ChangePart()
     {
+        // Due to some animations, fights etc between dialog parts the index that refers
+        // to the correct dialogPart gets shiftet more and more.
+
         m_dialoguePart++;
         switch (m_dialoguePart)
         {
             case 1:
-                m_dialogueText = m_dialogueTextPart1;
-                m_activeCharacter = "King";
-                ShowText();
-                break;
-
             case 2:
-                m_dialogueText = m_dialogueTextPart2;
-                m_activeCharacter = "Princess";
-                ShowText();
-                break;
-
             case 3:
-                m_dialogueText = m_dialogueTextPart3;
-                m_activeCharacter = "King";
-                ShowText();
+                m_dialogueText = DialogueHolder[m_dialoguePart];
+                m_activeCharacter = m_characterHolder[m_dialoguePart];
                 break;
 
             case 4:
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-                m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
+                SetDialogueVisibility(false);
                 HasPlayerProgressed = false;
                 m_mode = Mode.WaitingForTrigger;            //player supposed to walk to king
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 
             case 5:
-                m_dialogueText = m_dialogueTextPart4;
-                ShowText();
+                m_dialogueText = DialogueHolder[4];
+                m_activeCharacter = m_characterHolder[4];
                 break;
 
             case 6:
-                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/taking_the_crown");
-                m_backgroundPicture.GetComponent<Image>().color = Color.white;
-                m_dialogueText = m_dialogueTextPart5;
-                ShowText();
-                m_background.GetComponent<Image>().color = Color.clear;
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("OutroImages/taking_the_crown");
+                m_backgroundImage.color = Color.white;
+                m_dialogueBackground.color = Color.clear;
+                m_dialogueText = DialogueHolder[5];
+                m_activeCharacter = m_characterHolder[5];
                 break;
 
             case 7:
-                m_backgroundPicture.GetComponent<Image>().color = Color.clear;
+                m_backgroundImage.color = Color.clear;
                 FlashViolet();
                 break;
 
             case 8:
-                m_filterImage.GetComponent<SpriteRenderer>().enabled = false;
-                m_dialogueText = m_dialogueTextPart6;
-                ShowText();
+                m_dialogueBackground.color = Color.black;
+                m_dialogueText = DialogueHolder[6];
+                m_activeCharacter = m_characterHolder[6];
                 break;
-
             case 9:
-                m_dialogueText = m_dialogueTextPart7;
-                m_activeCharacter = "Princess";
-                ShowText();
-                break;
-
             case 10:
-                m_dialogueText = m_dialogueTextPart8;
-                m_activeCharacter = "King";
-                ShowText();
+                m_dialogueText = DialogueHolder[m_dialoguePart - 2];
+                m_activeCharacter = m_characterHolder[m_dialoguePart - 2];
                 break;
 
             case 11:
-                m_filterImage.GetComponent<SpriteRenderer>().enabled = true;
-                m_dialogueText = m_dialogueTextPart9;
-                ShowText();
+                m_filterImage.enabled = true;
+                m_dialogueText = DialogueHolder[9];
+                m_activeCharacter = m_characterHolder[9];
                 break;
 
             case 12:
-                m_dialogueText = m_dialogueTextPart10;
-                m_activeCharacter = "Princess";
-                ShowText();
+                m_dialogueText = DialogueHolder[10];
+                m_activeCharacter = m_characterHolder[10];
                 break;
 
             case 13:
-                m_filterImage.GetComponent<SpriteRenderer>().enabled = false;
-                GameObject.Find("King").SetActive(false);
+                m_filterImage.enabled = false;
+                m_king.SetActive(false);
                 m_demonKing.SetActive(true);
                 Singleplayer.Instance.ActiveEnemies.Add(m_demonKing);
-
-                m_dialogueText = m_dialogueTextPart11;
-                ShowText();
+                m_dialogueText = DialogueHolder[11];
+                m_activeCharacter = m_characterHolder[11];
                 break;
 
             case 14:
-                m_dialogueText = m_dialogueTextPart12;
-                m_activeCharacter = "King";
-                ShowText();
-                break;
-
             case 15:
-                m_dialogueText = m_dialogueTextPart13;
-                m_activeCharacter = "Princess";
-                ShowText();
-                break;
-
             case 16:
-                m_dialogueText = m_dialogueTextPart14;
-                m_activeCharacter = "King";
-                ShowText();
-                break;
-
             case 17:
-                m_dialogueText = m_dialogueTextPart15;
-                ShowText();
+                m_dialogueText = DialogueHolder[m_dialoguePart - 2];
+                m_activeCharacter = m_characterHolder[m_dialoguePart - 2];
                 break;
 
-            case 18:  //bossfight #1 begins here
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-                m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_mode = Mode.WaitingForTrigger;            //player supposed to kill king
+            case 18:  // Bossfight #1 begins here.
+                SetDialogueVisibility(false);
                 m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
                 Singleplayer.Instance.LockPlayerInput(false);
+                // Player is supposed to kill the king.
+                m_mode = Mode.WaitingForTrigger;
                 break;
 
             case 19:
-                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones");
-                m_backgroundPicture.GetComponent<Image>().color = Color.white;
-                m_dialogueText = m_dialogueTextPart16;
-                m_activeCharacter = "Princess";
-                ShowText();
-                m_background.GetComponent<Image>().color = Color.clear;
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones");
+                m_backgroundImage.color = Color.white;
+                m_dialogueBackground.color = Color.clear;
+                m_dialogueText = DialogueHolder[16];
+                m_activeCharacter = m_characterHolder[16];
                 break;
 
             case 20:
-                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones_blood_1");
-                m_dialogueText = m_dialogueTextPart17;
-                ShowText();
-                m_background.GetComponent<Image>().color = Color.clear;
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones_blood_1");
+                m_dialogueBackground.color = Color.clear;
+                m_dialogueText = DialogueHolder[17];
+                m_activeCharacter = m_characterHolder[17];
                 break;
 
             case 21:
-                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones_blood_2");
-                m_dialogueText = m_dialogueTextPart18;
-                ShowText();
-                m_background.GetComponent<Image>().color = Color.clear;
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>("OutroImages/spilled_stones_blood_2");
+                m_dialogueBackground.color = Color.clear;
+                m_dialogueText = DialogueHolder[18];
+                m_activeCharacter = m_characterHolder[18];
                 break;
 
             case 22:
-                m_animationPictures = m_animationPictures0;
+                m_animationImages = m_animationImages0;
                 Animate();
                 break;
 
             case 23:
-                m_dialogueText = m_dialogueTextPart19;
-                m_activeCharacter = "???";
-                ShowText();
-                m_background.GetComponent<Image>().color = Color.clear;
+                m_mode = Mode.Displaying;
+                m_dialogueBackground.color = Color.clear;
+                m_dialogueText = DialogueHolder[19];
+                m_activeCharacter = m_characterHolder[19];
                 break;
 
             case 24:
-                m_backgroundPicture.GetComponent<Image>().color = Color.clear;
-                m_dialogueText = m_dialogueTextPart20;
-                m_activeCharacter = "Princess";
-                ShowText();
+                m_backgroundImage.color = Color.clear;
+                m_dialogueBackground.color = Color.black;
+                m_dialogueText = DialogueHolder[20];
+                m_activeCharacter = m_characterHolder[20];
                 break;
 
             case 25:
-                m_dialogueText = m_dialogueTextPart21;
-                m_activeCharacter = "???";
-                ShowText();
-                break;
-
             case 26:
-                m_dialogueText = m_dialogueTextPart22;
-                m_activeCharacter = "Princess";
-                ShowText();
-                break;
-
             case 27:
-                m_dialogueText = m_dialogueTextPart23;
-                m_activeCharacter = "???";
-                ShowText();
-                break;
-
             case 28:
-                m_dialogueText = m_dialogueTextPart24;
-                m_activeCharacter = "Princess";
-                ShowText();
+                m_dialogueText = DialogueHolder[m_dialoguePart - 4];
+                m_activeCharacter = m_characterHolder[m_dialoguePart - 4];
                 break;
 
             case 29:
@@ -404,67 +401,44 @@ public class DialogueStage4 : Dialogue
                 m_demonKing.SetActive(false);
                 m_endboss.SetActive(true);
                 Singleplayer.Instance.ActiveEnemies.Add(m_endboss);
-
-                m_filterImage.GetComponent<SpriteRenderer>().enabled = false;
-                m_dialogueText = m_dialogueTextPart25;
-                m_activeCharacter = "Dark King";
-                ShowText();
+                Singleplayer.Instance.LockPlayerInput(true);
+                m_dialogueText = DialogueHolder[25];
+                m_activeCharacter = m_characterHolder[25];
                 break;
 
             case 31:
-                m_dialogueText = m_dialogueTextPart26;
-                m_activeCharacter = "Princess";
-                ShowText();
-                break;
-
             case 32:
-                m_dialogueText = m_dialogueTextPart27;
-                m_activeCharacter = "Dark King";
-                ShowText();
-                break;
-
             case 33:
-                m_dialogueText = m_dialogueTextPart28;
-                m_activeCharacter = "Princess";
-                ShowText();
-                break;
-
             case 34:
-                m_dialogueText = m_dialogueTextPart29;
-                m_activeCharacter = "Dark King";
-                ShowText();
+                m_dialogueText = DialogueHolder[m_dialoguePart - 5];
+                m_activeCharacter = m_characterHolder[m_dialoguePart - 5];
                 break;
 
-            case 35: //bossfight #2 begins here
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-                m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-                m_mode = Mode.WaitingForTrigger;            //player supposed to kill dark king
+            case 35: // Bossfight #2 begins here.
+                SetDialogueVisibility(false);
                 Singleplayer.Instance.LockPlayerInput(false);
+                // Player is supposed to kill the dark king.
+                m_mode = Mode.WaitingForTrigger;            
                 break;
 
             case 36:
-                m_dialogueText = m_dialogueTextPart30;
-                m_activeCharacter = "Princess";
-                ShowText();
+                m_dialogueText = DialogueHolder[30];
+                m_activeCharacter = m_characterHolder[30];
                 break;
 
             case 37:
-                m_background.GetComponent<Image>().color = Color.clear;
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-                m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
+                SetDialogueVisibility(false);
                 HasPlayerProgressed = false;
-                m_mode = Mode.WaitingForTrigger;            //player supposed to walk to crown
-                int playerLayer = LayerMask.NameToLayer("Player");
-                int enemyLayer = LayerMask.NameToLayer("Enemy");
-                Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+                Singleplayer.Instance.DisableEntityCollision(Singleplayer.Instance.Player);
                 Singleplayer.Instance.LockPlayerInput(false);
+                // Player is supposed to walk to the crown.
+                m_mode = Mode.WaitingForTrigger;            
                 break;
 
             case 38:
                 Singleplayer.Instance.LockPlayerInput(true);
-                m_animationPictures = m_animationPictures1;
-                m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[0]);
+                m_animationImages = m_animationImages1;
+                m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_animationImages[0]);
                 Animate();
                 break;
 
@@ -472,25 +446,7 @@ public class DialogueStage4 : Dialogue
                 Singleplayer.Instance.EndStage();
                 break;
         }
-    }
 
-    private void InsertName()
-    {
-        m_dialogueTextPart1[1] = "Knight " + Environment.UserName + "! My thanks as both father and king.";
-        m_dialogueTextPart3[0] = "Give it to me, Knight " + Environment.UserName + "!";
-        m_dialogueTextPart15[0] = "First, maggot " + Environment.UserName + ", it is time for you to die!";
-        m_dialogueTextPart30[2] = "Knight " + Environment.UserName + "!";
-
-        //if (!string.IsNullOrWhiteSpace(Environment.UserName))
-        //{
-        //    for (int i = 0; i < m_dialogueHolder.Length; i++)
-        //    {
-        //        for (int j = 0; j < m_dialogueHolder[i].Length; j++)
-        //        {
-        //            m_dialogueHolder[i][j] = m_dialogueHolder[i][j].Replace(DEFAULT_KNIGHT, Environment.UserName);
-        //        }
-        //    }
-        //}   
+        m_stopwatch.Restart();
     }
 }
-

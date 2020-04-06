@@ -9,7 +9,7 @@ public class Dialogue : MonoBehaviour
     [SerializeField]
     protected int m_displayTime = 3000;
     [SerializeField]
-    protected GameObject m_background;
+    protected Image m_dialogueBackground;
     [SerializeField]
     protected TextMeshProUGUI m_dialogue;
     [SerializeField]
@@ -27,13 +27,13 @@ public class Dialogue : MonoBehaviour
     protected virtual void Start()
     {
         InsertName();
-        m_background.GetComponent<Image>().color = Color.black;
+        m_dialogueBackground.color = Color.black;
         SetDialogueVisibility(false);
     }
 
     protected virtual void SetDialogueVisibility(bool isVisible)
     {
-        m_background.SetActive(isVisible);
+        m_dialogueBackground.gameObject.SetActive(isVisible);
         m_dialogue.gameObject.SetActive(isVisible);
         m_nameTag.gameObject.SetActive(isVisible);
     }
