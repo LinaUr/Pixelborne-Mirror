@@ -6,7 +6,10 @@ public class BackgroundMusic : MonoBehaviour
 
     public static void SetVolume(float value)
     {
-        s_player.volume = value;
+        if (s_player != null)
+        {
+            s_player.volume = value;
+        }
     }
 
     void Start()
