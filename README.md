@@ -4,7 +4,7 @@ This game has been programmed in the seminar Game Programming from the computer 
 Our supervisor was [Willy Scheibel](https://github.com/scheibel). 
 
 
-This PC-game is a 2D souls-like side scroller with a multiplayer and singleplayer mode. 
+This computer game is a 2D souls-like side scroller with a multiplayer and singleplayer mode. 
 The singleplayer involves a story.
 
 The fighting system is inspired by [Nidhogg](http://nidhogggame.com/).
