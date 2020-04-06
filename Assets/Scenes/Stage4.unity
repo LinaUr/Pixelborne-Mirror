@@ -792,6 +792,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chapterscreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_text
+      value: 'Epiloque
+
+
+        Free'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3285563062741989812, guid: f2b2859bfe51b604a9a66f2fab9073b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -896,44 +934,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_text
-      value: 'Epiloque
-
-
-        Free'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2b2859bfe51b604a9a66f2fab9073b1, type: 3}
@@ -5215,51 +5215,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &479332940
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 479332942}
-  - component: {fileID: 479332941}
-  m_Layer: 0
-  m_Name: DEBUG_StageHelper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &479332941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479332940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32afc62b426f0264e9ebe58b34fbb0b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameMode: 2
-  stageIndex: 4
---- !u!4 &479332942
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479332940}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.8970335, y: 1.5276012, z: 0.78236556}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &480923135
 GameObject:
   m_ObjectHideFlags: 0
