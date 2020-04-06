@@ -98,7 +98,6 @@ public class EnemyActions : Entity, IEnemyActions
             {
                 // If jumping is turned on then jump if the current position is almost equal to the last position.
                 // It is only checked every INTERVALL_FOR_POSITION_CHECK.
-
                 if (m_stopwatchForRevivePositionTiming.ElapsedMilliseconds >= INTERVAL_FOR_POSITION_CHECK)
                 {
                     if (Vector2.Distance(m_lastPosition, gameObject.transform.position) < AUTO_JUMPING_ACTIVATION_DISTANCE)
@@ -175,31 +174,31 @@ public class EnemyActions : Entity, IEnemyActions
         StartAttackIfPossible(2);
     }
 
-    /// <summary>Lets the enemy jump.</summary>
+    /// <summary>Starts a jump.</summary>
     public void Jump()
     {
         OnJump(null);
     }
 
-    /// <summary>The enemy starts following the player.</summary>
+    /// <summary>Starts following the player</summary>
     public void StartFollowPlayer()
     {
         m_isFollowingPlayer = true;
     }
 
-    /// <summary>The enemy stops following the player.</summary>
+    /// <summary>Stops following the player</summary>
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
         m_animator.SetFloat(SPEED_ANIMATOR_PARAMETER_NAME, 0);
     }
 
-    /// <summary>Starts the automatic jumping.</summary>
+    /// <summary>Starts automatic jumping.</summary>
     public void StartAutoJumping(){
         m_isAutoJumping = true;
     }
 
-    /// <summary>Stops the automatic jumping.</summary>
+    /// <summary>Stops automatic jumping.</summary>
     public void StopAutoJumping(){
         m_isAutoJumping = false;
     }
