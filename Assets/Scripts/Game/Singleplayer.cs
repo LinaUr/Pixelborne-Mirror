@@ -85,7 +85,6 @@ public class Singleplayer : ScriptableObject, IGame
     /// <exception cref="Exception">Error: Object \"{player.name}\" can not be registered. Player has already been assigned.</exception>
     public void RegisterPlayer(GameObject player)
     {
-        Debug.Log("registering");
         if (Player == null)
         {
             Player = player;
@@ -112,7 +111,7 @@ public class Singleplayer : ScriptableObject, IGame
         m_playerMovement.ResetEntityActions();
     }
 
-    /// <summary>Locks the player input.</summary>
+    /// <summary>Locks the player and enemy input.</summary>
     /// <param name="isLocked">if set to <c>true</c> [is locked].</param>
     public void LockPlayerInput(bool isLocked)
     {
