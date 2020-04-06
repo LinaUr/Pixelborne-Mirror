@@ -13,7 +13,7 @@ public class IntroScene : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_story;
 
-    enum Mode
+    private enum Mode
     {
         FadeImage,
         DisplayText
@@ -23,7 +23,12 @@ public class IntroScene : MonoBehaviour
     private int m_storyPart = 0;
     private int m_textPart = 0;
     private Stopwatch m_stopwatch = new Stopwatch();
-    private Sprite[] m_imageHolder;
+    private string[] m_imageHolder =
+    {
+        "IntroImages/peaceful",
+        "IntroImages/war",
+        "IntroImages/castle_gates"
+    };
     private readonly string[][] m_storyHolder =
     {
         new string[] { "Prologue\n\nDarkness" },
@@ -46,14 +51,6 @@ public class IntroScene : MonoBehaviour
 
     void Start()
     {
-        // Get the background images.
-        m_imageHolder = new Sprite[] {
-            null,
-            Resources.Load<Sprite>("IntroImages/peaceful"),
-            Resources.Load<Sprite>("IntroImages/war"),
-            Resources.Load<Sprite>("IntroImages/castle_gates")
-        };
-
         m_mode = Mode.DisplayText;
         m_story.text = m_storyHolder[m_storyPart][m_textPart];
         m_stopwatch.Start();
@@ -61,7 +58,7 @@ public class IntroScene : MonoBehaviour
 
     void Update()
     {
-        long elapsedTime = m_stopwatch.ElapsedMilliseconds;
+        float elapsedTime = m_stopwatch.ElapsedMilliseconds * 1.0f;
 
         if (m_mode == Mode.FadeImage)
         {
@@ -81,7 +78,7 @@ public class IntroScene : MonoBehaviour
             }
         }
         else if (m_mode == Mode.DisplayText)
-        {            
+        {
             if (elapsedTime >= m_fadeTime)
             {
                 m_textPart++;
@@ -115,7 +112,7 @@ public class IntroScene : MonoBehaviour
         m_story.gameObject.SetActive(false);
 
         // Change the background image.
-        m_backgroundImage.overrideSprite = m_imageHolder[m_storyPart];
+        m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart]);
         m_backgroundImage.color = Color.white;
     }
 }
