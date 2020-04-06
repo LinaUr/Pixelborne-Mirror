@@ -9,7 +9,7 @@ The singleplayer involves a story.
 
 The fighting system is inspired by [Nidhogg](http://nidhogggame.com/).
 
-## Games of Life
+## Game Programming
 The seminar was about programming a game and integrating a critical component into the game.
 A critical component is something that does something morally wrong by abusing technology.
 This reaches from spying on the user to discrimination of any kind.
@@ -41,11 +41,11 @@ To build the project open Unity in the root directory of this project
 and click File->Build Settings or File->Build And Run.
 
 ## Links to 3rd-Party Assets and Scripts that we use
-Throughout the projects we are using some 3rd party scripts and free assets. 
+Throughout the project we are using some 3rd party scripts and free assets. 
 We manipulated the assets to our needs.
 
 ##### Scripts
-- [SawWav](http://forum.unity3d.com/threads/119295-Writing-AudioListener.GetOutputData-to-wav-problem?p=806734&viewfull=1#post806734)
+- [SavWav](http://forum.unity3d.com/threads/119295-Writing-AudioListener.GetOutputData-to-wav-problem?p=806734&viewfull=1#post806734)
 for converting a unity audio clip to wav and save it to the disk.
 - We used small code snippets from other sources as well. Please read the docs.
 
@@ -54,9 +54,9 @@ for converting a unity audio clip to wav and save it to the disk.
 - [Enemies](https://assetstore.unity.com/packages/2d/characters/hero-nad-opponents-animation-140776)
 - [Dark King](https://assetstore.unity.com/packages/2d/characters/bandits-pixel-art-104130)
 - [Player](https://ramirov.itch.io/vai-drogul)
-- [crystal](https://assetstore.unity.com/packages/2d/gui/icons/crystals-collection-42748)
+- [Crystal](https://assetstore.unity.com/packages/2d/gui/icons/crystals-collection-42748)
 
 ## Known Issues
 
-- possible sharing violation on audioFilePath.txt
+- possible sharing violation on AudioFilePaths.txt
 - possible sharing violation on ImportantDocuments.txt
