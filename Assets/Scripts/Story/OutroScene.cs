@@ -17,7 +17,6 @@ public class OutroScene : CutScene
             "OutroImages/free_once_more"
         }
     };
-    private Mode m_changeToMode;
 
     protected override string[][] StoryHolder { get; set; } =
     {
@@ -48,7 +47,6 @@ public class OutroScene : CutScene
         m_story.gameObject.SetActive(false);
         m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart][m_animationPart]);
         m_mode = Mode.AnimateImages;
-        m_changeToMode = Mode.AnimateImages;
         base.Start();
     }
 
