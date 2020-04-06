@@ -792,44 +792,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chapterscreen
       objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_text
-      value: 'Epiloque
-
-
-        Free'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3285563062741989812, guid: f2b2859bfe51b604a9a66f2fab9073b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -934,6 +896,44 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_text
+      value: 'Epiloque
+
+
+        Free'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285563062217574120, guid: f2b2859bfe51b604a9a66f2fab9073b1,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2b2859bfe51b604a9a66f2fab9073b1, type: 3}
@@ -3518,6 +3518,12 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &392778177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5123333617976130934, guid: 26cb7f73f49f67a2bbd88f091685ea8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2085898676}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &432852897
 GameObject:
   m_ObjectHideFlags: 0
@@ -5225,7 +5231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &479332941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6345,7 +6351,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 967572739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59142649912b9644898bb7f1cbe1af01, type: 3}
+  m_Script: {fileID: 11500000, guid: b9ff25f462667154492911fb0c2642b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_dialog: {fileID: 1781782527}
@@ -51224,9 +51230,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46292d22e15117842854d119c5c4826b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_displayTime: 3000
+  m_dialogueBackground: {fileID: 31209685}
+  m_dialogue: {fileID: 1244181012}
+  m_nameTag: {fileID: 1259221795}
   m_animationDuration: 500
   m_flashDuration: 200
-  m_textPartDisplayTime: 3000
+  m_filterImage: {fileID: 11529328}
+  m_backgroundImage: {fileID: 1666469331}
+  m_demonKing: {fileID: 2009873157}
+  m_endboss: {fileID: 392778177}
+  m_princess: {fileID: 2128049652}
+  m_king: {fileID: 885676069}
 --- !u!114 &1781782528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51634,6 +51649,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976756376}
   m_CullTransparentMesh: 0
+--- !u!1 &2009873157 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5123333617976130934, guid: 2354fe1cc167e12f7baecd604d42b545,
+    type: 3}
+  m_PrefabInstance: {fileID: 669564634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2085898676
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,131 +1,68 @@
-﻿using System;
-using System.Diagnostics;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class DialogueStage3 : MonoBehaviour
+public class DialogueStage3 : Dialogue
 {
-    [SerializeField]
-    private int m_textPartDisplayTime = 3000;
-
-    enum DialogueMode
+    private enum Mode
     {
-        NotStarted,
         Displaying,
         WaitingForTrigger
     }
 
-    private bool m_enemiesKilled;
-    private DialogueMode m_dialogueMode;
-    private GameObject m_background;
-    private GameObject m_dialogue;
-    private GameObject m_nameTag;
-    private int m_displayStartTime;
-    private int m_textPart;
-    private int m_dialoguePart;
-    private string m_userName;
-    private string[] m_dialogueText;
-    private Stopwatch m_textStopwatch = new Stopwatch();
-    private string[] m_dialogueTextPart0 = { "Knight! Is that you?",
-                                             "You found me! Thank goodness.",
-                                             "And I started to fear those vile demons might succeed.",
-                                             "You must know, they believe the royal blood holds ancient power.",
-                                             "Power they wanted to use to summon their Dark King from his -",
-                                             "Hold on! Is that the Dark King's crown you have there?",
-                                             "What a relief. We shall take it with us, so that they may never be able to use it.",
-                                             "Come now, let us return to the castle at once!" };
-    
-    public bool PlayerProgressed { get; set; }
+    private Mode m_mode = Mode.WaitingForTrigger;
 
-    void Start()
+    protected override string[][] DialogueHolder { get; set; } =
+    { 
+        new string[] {
+            $"Knight {DEFAULT_KNIGHT}! Is that you?",
+            "You found me! Thank goodness.",
+            "And I started to fear those vile demons might succeed.",
+            "You must know, they believe the royal blood holds ancient power.",
+            "Power they wanted to use to summon their Dark King from his -",
+            "Hold on! Is that the Dark King's crown you have there?",
+            "What a relief. We shall take it with us, so that they may never be able to use it.",
+            "Come now, let us return to the castle at once!"
+        }
+    };
+
+    protected override void Start()
     {
-        m_background = GameObject.Find("Background");
-        m_dialogue = GameObject.Find("Speech");
-        m_nameTag = GameObject.Find("NameTag");
-        m_dialoguePart = 0;
-        GetName();
-        m_dialogueText = m_dialogueTextPart0;
-        PlayerProgressed = false;
-        m_enemiesKilled = false;
-        m_dialogueMode = DialogueMode.NotStarted;
+        base.Start();
+        m_nameTag.text = "Princess";
     }
 
     void Update()
     {
-        m_enemiesKilled = EnemiesKilled();
+        bool enemiesKilled = Singleplayer.Instance.ActiveEnemies.Count == 0;
 
-        switch (m_dialogueMode)
+        switch (m_mode)
         {
-            case DialogueMode.NotStarted:
-                if (PlayerProgressed && m_enemiesKilled)
+            case Mode.WaitingForTrigger:
+                if (HasPlayerProgressed && enemiesKilled)
                 {
-                    ShowText();
+                    Singleplayer.Instance.LockPlayerInput(true);
+                    m_mode = Mode.Displaying;
+                    SetDialogueVisibility(true);
+                    m_stopwatch.Start();
                 }
                 break;
 
-            case DialogueMode.Displaying:
-                if (Input.GetKeyDown("space"))
-                {
-                    m_displayStartTime -= m_textPartDisplayTime;
-                }
-                m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
+            case Mode.Displaying:
+                m_dialogue.text = DialogueHolder[m_dialoguePart][m_textPart];
 
-                if (m_textStopwatch.ElapsedMilliseconds >= m_textPartDisplayTime)
+                if (m_stopwatch.ElapsedMilliseconds >= m_displayTime || Input.GetKeyDown("space"))
                 {
                     m_textPart++;
-                    if (m_textPart == m_dialogueText.Length)
+
+                    if (m_textPart == DialogueHolder[m_dialoguePart].Length)
                     {
-                        ChangePart();
+                        m_stopwatch.Stop();
+                        Singleplayer.Instance.EndStage();
+                        Destroy(gameObject);
+                        return;
                     }
-                    m_textStopwatch.Restart();
-                }
-                break;
-
-            case DialogueMode.WaitingForTrigger:
-                if (PlayerProgressed && m_enemiesKilled)
-                {
-                    ChangePart();
+                    m_stopwatch.Restart();
                 }
                 break;
         }
-    }
-
-    public bool EnemiesKilled()
-    {
-        bool allKilled = true;
-        foreach (GameObject enemy in Singleplayer.Instance.ActiveEnemies)
-        {
-            allKilled = false;
-        }
-        return allKilled;
-    }
-
-    public void ShowText()
-    {
-        Singleplayer.Instance.LockPlayerInput(true);
-        Singleplayer.Instance.Player.GetComponent<PlayerActions>().ResetEntityAnimations();
-        m_dialogueMode = DialogueMode.Displaying;
-        m_textPart = 0;
-        m_background.GetComponent<Image>().color = Color.black;
-        m_nameTag.GetComponent<TextMeshProUGUI>().text = "Princess";
-        m_textStopwatch.Restart();
-    }
-
-    public void ChangePart()
-    {
-        m_dialogueMode = DialogueMode.WaitingForTrigger;
-        m_background.GetComponent<Image>().color = Color.clear;
-        m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
-        m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
-        PlayerProgressed = false;
-        Singleplayer.Instance.LockPlayerInput(false);
-        Singleplayer.Instance.EndStage();
-    }
-    
-    public void GetName()
-    {
-        m_userName = Environment.UserName;
-        m_dialogueTextPart0[0] = "Knight " + m_userName + "! Is that you?";
     }
 }
