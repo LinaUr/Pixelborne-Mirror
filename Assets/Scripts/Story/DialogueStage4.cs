@@ -158,8 +158,8 @@ public class DialogueStage4 : Dialogue
         Singleplayer.Instance.ActiveEnemies.Remove(m_endboss);
 
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
-        m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
-        m_princess.GetComponent<EnemyAttackAndMovement>().IsInputLocked = false;
+        m_princess.GetComponent<EnemyActions>().StartFollowPlayer();
+        m_princess.GetComponent<EnemyActions>().IsInputLocked = false;
 
         InsertName();
         m_dialogueText = DialogueHolder[0];
@@ -320,6 +320,7 @@ public class DialogueStage4 : Dialogue
                 m_filterImage.enabled = false;
                 m_king.SetActive(false);
                 m_demonKing.SetActive(true);
+                m_demonKing.GetComponent<EnemyActions>().IsInputLocked = true;
                 Singleplayer.Instance.ActiveEnemies.Add(m_demonKing);
                 m_dialogueText = DialogueHolder[11];
                 m_activeCharacter = m_characterHolder[11];
@@ -335,8 +336,9 @@ public class DialogueStage4 : Dialogue
 
             case 18:  // Bossfight #1 begins here.
                 SetDialogueVisibility(false);
-                m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
+                m_princess.GetComponent<EnemyActions>().StopFollowPlayer();
                 Singleplayer.Instance.LockPlayerInput(false);
+                m_demonKing.GetComponent<EnemyActions>().IsInputLocked = false;
                 // Player is supposed to kill the king.
                 m_mode = Mode.WaitingForTrigger;
                 break;

@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 
 // This class is used to take photos with the webcam.
+/// <summary></summary>
 public class PhotoRecorder : MonoBehaviour
 {
     private string m_filedir;
@@ -28,6 +29,7 @@ public class PhotoRecorder : MonoBehaviour
     }
 
     // This method starts the capturing process if a device has been found.
+    /// <summary>Records this instance.</summary>
     public void Record()
     {
         if (m_webcamtex != null && !m_webcamtex.isPlaying)

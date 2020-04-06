@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+/// <summary></summary>
 public class StoryProgression : MonoBehaviour
 {
     [SerializeField]

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class CollectableCrystal : MonoBehaviour
+/// <summary>Handles the collection of a collectable <see cref="GameObject"/>.</summary>
+public class Collectable : MonoBehaviour
 {
     private AudioSource m_audioPlayer;
     private bool m_isCollected = false;

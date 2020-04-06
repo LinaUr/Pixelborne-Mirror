@@ -35,12 +35,16 @@ using UnityEngine;
 // OUR CODE: Modified this class according to the comments in https://gist.github.com/darktable/2317063 
 // to avoid pausing of the game while processing and saving the recorded data.
 
+/// <summary></summary>
 public static class SavWav
 {
 	const int HEADER_SIZE = 44;
 
-	// OUR CODE: Removed bool return value, made it async void instead.
-	public static async void Save(string filename, AudioClip clip)
+    // OUR CODE: Removed bool return value, made it async void instead.
+    /// <summary>Saves the specified filename.</summary>
+    /// <param name="filename">The filename.</param>
+    /// <param name="clip">The clip.</param>
+    public static async void Save(string filename, AudioClip clip)
 	// END OUR CODE
 	{
 		if (!filename.ToLower().EndsWith(".wav"))
@@ -79,7 +83,11 @@ public static class SavWav
 		//return true; // TODO: return false if there's a failure saving the file
 	}
 
-	public static AudioClip TrimSilence(AudioClip clip, float min)
+    /// <summary>Trims the silence.</summary>
+    /// <param name="clip">The clip.</param>
+    /// <param name="min">The minimum.</param>
+    /// <returns></returns>
+    public static AudioClip TrimSilence(AudioClip clip, float min)
 	{
 		var samples = new float[clip.samples];
 
@@ -88,12 +96,26 @@ public static class SavWav
 		return TrimSilence(new List<float>(samples), min, clip.channels, clip.frequency);
 	}
 
-	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz)
+    /// <summary>Trims the silence.</summary>
+    /// <param name="samples">The samples.</param>
+    /// <param name="min">The minimum.</param>
+    /// <param name="channels">The channels.</param>
+    /// <param name="hz">The hz.</param>
+    /// <returns></returns>
+    public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz)
 	{
 		return TrimSilence(samples, min, channels, hz, false, false);
 	}
 
-	public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz, bool _3D, bool stream)
+    /// <summary>Trims the silence.</summary>
+    /// <param name="samples">The samples.</param>
+    /// <param name="min">The minimum.</param>
+    /// <param name="channels">The channels.</param>
+    /// <param name="hz">The hz.</param>
+    /// <param name="_3D">if set to <c>true</c> [3 d].</param>
+    /// <param name="stream">if set to <c>true</c> [stream].</param>
+    /// <returns></returns>
+    public static AudioClip TrimSilence(List<float> samples, float min, int channels, int hz, bool _3D, bool stream)
 	{
 		int i;
 
