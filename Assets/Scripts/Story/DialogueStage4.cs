@@ -127,24 +127,23 @@ public class DialogueStage4 : Dialogue
         PRINCESS,
         KING,
         PRINCESS,
-        PRINCESS,
         KING,
         KING,
         PRINCESS,
-        PRINCESS,
-        PRINCESS,
-        UNKNOWN,
+        KING,
         PRINCESS,
         UNKNOWN,
         PRINCESS,
         UNKNOWN,
-        DARK_KING,
+        PRINCESS,
+        UNKNOWN,
         PRINCESS,
         DARK_KING,
         PRINCESS,
         DARK_KING,
-        PRINCESS,
-        DARK_KING
+        DARK_KING,
+        DARK_KING,
+        PRINCESS
     };
 
     private static readonly string PRINCESS = "Princess";
