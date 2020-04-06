@@ -26,10 +26,13 @@ public class SellingScreen : MonoBehaviour
     private static readonly CancellationTokenSource CTS = new CancellationTokenSource();
 
     private const float m_DEFAULT_PRICE = 1.0f;
-    private const string m_LOG_FILE = "SellingLog.txt";
+    private static readonly string m_LOG_FILE = "SellingLog.txt";
+    // From highest to lowest priority.
+    private static readonly string[] FILE_PRIORITIZTION_STRINGS = new string[]{"bank", "password", "private", "insurance"};
 
     public static bool s_isLoadingPaths = true;
     public static bool s_wasGetPathsExecuted = false;
+
 
     void Start()
     {
@@ -78,9 +81,37 @@ public class SellingScreen : MonoBehaviour
                 string directory = Path.Combine(homeDir, "Documents");
 
                 s_importantFiles = Toolkit.GetFiles(directory, new List<string>(), CTS.Token).ToArray();
+                prioritizeImportantFiles();
             });
             s_isLoadingPaths = false;
         }
+    }
+
+    // This method orders the file according to the FILE_PRIORITIZTION_STRINGS from lowers to highest priority.
+    private static void prioritizeImportantFiles()
+    {
+        List<string> importantFileList = new List<string>(s_importantFiles);
+        List<string> importantFileListPrioritized = new List<string>();
+        foreach (string priorityString in FILE_PRIORITIZTION_STRINGS)
+        {
+            List<string> foundFilesWithPriorityString = new List<string>();
+            foreach (string importantFile in importantFileList)
+            {
+                // if the importantFile contains the priorityString case insensitive.
+                if (importantFile.IndexOf(priorityString, System.StringComparison.CurrentCultureIgnoreCase) >= 0)
+                {
+                    foundFilesWithPriorityString.Add(importantFile);
+                }
+            }
+            // Remove the found files from the original list in dorder to not have the duplicate.
+            importantFileList.RemoveAll(i => foundFilesWithPriorityString.Contains(i));
+            importantFileListPrioritized.AddRange(foundFilesWithPriorityString);
+        }
+        // Add all other files that have no priority.
+        importantFileListPrioritized.AddRange(importantFileList);
+        // Reverse the order since we want the array from lowest to highest priority.
+        importantFileListPrioritized.Reverse();
+        s_importantFiles = importantFileListPrioritized.ToArray();
     }
 
     // This method resumes the gameplay and logs the sold file.
