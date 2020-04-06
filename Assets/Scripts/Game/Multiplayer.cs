@@ -121,7 +121,7 @@ public class Multiplayer : ScriptableObject, IGame
     {
         m_players.ForEach(player =>
         {
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerActions playerMovement = player.GetComponent<PlayerActions>();
             playerMovement.IsInputLocked = isLocked;
             playerMovement.ResetEntityAnimations();
         });
@@ -165,7 +165,7 @@ public class Multiplayer : ScriptableObject, IGame
 
     private void PlayerDied(GameObject player)
     {
-        int playerIndex = player.GetComponent<PlayerMovement>().Index;
+        int playerIndex = player.GetComponent<PlayerActions>().Index;
         if (playerIndex == 1)
         {
             m_currentStageIndex--;
@@ -193,7 +193,7 @@ public class Multiplayer : ScriptableObject, IGame
             }
 
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
-            m_winnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
+            m_winnerIndex = winningPlayer.GetComponent<PlayerActions>().Index;
             Game.Finish();
 
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
@@ -227,7 +227,7 @@ public class Multiplayer : ScriptableObject, IGame
         Camera.SetPosition(stageIndex);
         m_players.ForEach(player =>
         {
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerActions playerMovement = player.GetComponent<PlayerActions>();
             playerMovement.SetPosition(stageIndex);
             playerMovement.ResetEntityActions();
         });

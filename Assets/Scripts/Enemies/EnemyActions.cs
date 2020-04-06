@@ -68,7 +68,7 @@ public class EnemyActions : Entity, IEnemyActions
         {
             GameObject player = Singleplayer.Instance.Player;
             m_playerRigidbody2D = player.GetComponent<Rigidbody2D>();
-            m_playerSwordName = player.GetComponent<PlayerMovement>().PlayerSword.name;
+            m_playerSwordName = player.GetComponent<PlayerActions>().PlayerSword.name;
         }
         else
         {

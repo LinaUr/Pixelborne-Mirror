@@ -10,7 +10,7 @@ public class Singleplayer : ScriptableObject, IGame
     private HashSet<GameObject> m_entitiesThatRequestedDisableEntityCollision = new HashSet<GameObject>();
     private int m_currentStageIndex = m_START_STAGE_INDEX;
     private int m_enemyLayer;
-    private PlayerMovement m_playerMovement;
+    private PlayerActions m_playerMovement;
     private Vector2 m_playerRevivePosition;
     private static Singleplayer s_instance = null;
 
@@ -85,10 +85,11 @@ public class Singleplayer : ScriptableObject, IGame
     /// <exception cref="Exception">Error: Object \"{player.name}\" can not be registered. Player has already been assigned.</exception>
     public void RegisterPlayer(GameObject player)
     {
+        Debug.Log("registering");
         if (Player == null)
         {
             Player = player;
-            m_playerMovement = player.GetComponent<PlayerMovement>();
+            m_playerMovement = player.GetComponent<PlayerActions>();
             ImageManager.Instance.PlayerSpawnPosition = player.transform.position;
         }
         else

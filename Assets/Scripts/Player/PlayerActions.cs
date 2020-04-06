@@ -6,7 +6,7 @@ using UnityEngine.Experimental.Input.Plugins.PlayerInput;
 
 /// <summary>Handles the player input and executes these actions. 
 ///     It adds the user input dependent code, rolling and revive position functionality.</summary>
-public class PlayerMovement : Entity
+public class PlayerActions : Entity
 {
     [SerializeField]
     private GameObject m_playerSword;
