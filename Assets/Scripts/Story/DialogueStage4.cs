@@ -177,7 +177,7 @@ public class DialogueStage4 : Dialogue
         switch (m_mode)
         {
             case Mode.NotStarted:
-                if (HasPlayerProgressed && enemiesKilled)
+                if (HasPlayerProgressed && enemiesKilled  )
                 {
                     Singleplayer.Instance.LockPlayerInput(true);
                     m_mode = Mode.Displaying;
@@ -202,7 +202,7 @@ public class DialogueStage4 : Dialogue
 
                 if (m_stopwatch.ElapsedMilliseconds >= m_displayTime || Input.GetKeyDown("space"))
                 {
-                    m_textPart++;
+                     m_textPart++;
                     if (m_textPart == m_dialogueText.Length)
                     {
                         m_textPart = 0;
@@ -371,7 +371,8 @@ public class DialogueStage4 : Dialogue
 
             case 23:
                 m_mode = Mode.Displaying;
-                m_dialogueBackground.color = Color.clear;
+                SetDialogueVisibility(true);
+                m_dialogueBackground.color = Color.black;
                 m_dialogueText = DialogueHolder[19];
                 m_activeCharacter = m_characterHolder[19];
                 break;
