@@ -687,7 +687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1f32733b3d0604fa7c2a3065fc6d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fadeTime: 5000
+  m_fadeTime: 3000
+  m_backgroundImage: {fileID: 378021398}
+  m_story: {fileID: 374615483}
   m_animationTime: 500
 --- !u!114 &1783262021
 MonoBehaviour:
