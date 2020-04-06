@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using UnityEngine;
 
-/// <summary>It implements the fading and hudsymbol swapping for cameras of the game.</summary>
+/// <summary>Implements the fading and hudsymbol swapping for cameras of the game.</summary>
 public abstract class GameCamera : MonoBehaviour, ICamera
 {
     /// <summary>The time how long a fade takes.</summary>
@@ -17,7 +17,7 @@ public abstract class GameCamera : MonoBehaviour, ICamera
     /// <summary>The fade stopwatch which is used to determine when the fading is finished.</summary>
     protected Stopwatch m_fadeStopwatch = new Stopwatch();
 
-    /// <summary></summary>
+    /// <summary>Describes the fade mode of the game.</summary>
     protected enum FadeMode
     {
         /// <summary>The fade in mode.</summary>
@@ -34,7 +34,7 @@ public abstract class GameCamera : MonoBehaviour, ICamera
         Fade();
     }
 
-    /// <summary>Implements the fade in and fade out logic.</summary>
+    // Implements the fade in and fade out logic.
     private void Fade()
     {
         // Skip function if fade in / fade out was successfully completed and has not been triggered again.
@@ -81,7 +81,6 @@ public abstract class GameCamera : MonoBehaviour, ICamera
         }
     }
 
-    /// <summary>This method resets important variables after a fade finished.</summary>
     private void FadeCompleted()
     {
         m_fadeMode = FadeMode.NoFade;

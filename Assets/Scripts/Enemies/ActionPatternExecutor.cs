@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-///    This class can automatically execute actions on objects that 
+/// <summary>Executes automatically actions on objects that 
 ///    have a proper implementation of the <see cref="IEnemyActions"/> interface.
-///    The Entity that is executed by this class should have an attack and sight range.
+///    The entity that is executed by this class should have an attack and sight range.
 ///
 ///    The actions are divided into 3 pattern.
 ///    The first pattern is the m_attackPatternStringWhileOutOfSight. It is executed if not IsPlayerInSightRange().
