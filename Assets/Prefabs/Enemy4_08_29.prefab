@@ -230,6 +230,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5888
   m_isFriendlyFireActive: 0
+  m_bodyShouldDisappear: 1
   m_attackRange: 4
   m_minPlayerDistance: 1.5
   m_sightRange: 9
@@ -259,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackPatternStringsWhileInAttackRange:
-  - AM|AM|AM|5
-  - AM|5
+  - AM|AM|AM|2
+  - AM|2
   m_attackPatternStringWhileInSightRange: STARTF|STARTAUTOJUMP
   m_attackPatternStringWhileOutOfSight: STOPF

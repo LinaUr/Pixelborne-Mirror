@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_attackPatternStringsWhileInAttackRange:
-  - AU|AU|AU|5
+  - AU|AU|AU|2
   - JUMP|AU
   - JUMP|1|AU
   m_attackPatternStringWhileInSightRange: STARTF|STARTAUTOJUMP
