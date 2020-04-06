@@ -137,7 +137,6 @@ GameObject:
   - component: {fileID: 8339711130081627929}
   - component: {fileID: 8339711130081627928}
   - component: {fileID: 8339711130081627931}
-  - component: {fileID: 2938570099456641631}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player_1
@@ -303,17 +302,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_weaponCollider: {fileID: 0}
-  m_isFacingRight: 0
-  m_jumpForce: 22
-  m_moveSpeed: 10
   m_attackDamage: 1
+  m_moveSpeed: 10
+  m_jumpForce: 22
+  m_isFacingRight: 1
+  m_distanceInWhichEntityCountsAsGrounded: 0.1
   m_whatIsGround:
     serializedVersion: 2
-    m_Bits: 12032
-  m_playerSword: {fileID: 0}
+    m_Bits: 7680
+  m_weaponCollider: {fileID: 8339711128838995857}
   m_playerIndex: 1
   m_playerPositionsTransform: {fileID: 0}
+  m_playerSword: {fileID: 8339711128838995858}
 --- !u!95 &8339711130081627929
 Animator:
   serializedVersion: 3
@@ -358,32 +358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd54fc5d0bc3454a894861d7b2225de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spriteColor: 2
   m_resourceSubfolderName: VaiDrogulChar 1
   m_spriteBaseName: VaiDrogulChar
---- !u!114 &2938570099456641631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8339711130081627933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e105693f42b91542bf355f9228d48cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_weaponCollider: {fileID: 8339711128838995857}
-  m_isFacingRight: 0
-  m_jumpForce: 22
-  m_moveSpeed: 10
-  m_attackDamage: 1
-  m_whatIsGround:
-    serializedVersion: 2
-    m_Bits: 7680
-  m_playerSword: {fileID: 8339711128838995858}
-  m_playerIndex: 1
-  m_playerPositionsTransform: {fileID: 0}
+  m_spriteColor: 2
 --- !u!1 &8339711130441321048
 GameObject:
   m_ObjectHideFlags: 0
