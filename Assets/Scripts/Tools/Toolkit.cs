@@ -29,8 +29,7 @@ public static class Toolkit
     
     /// <summary>Gets all file paths for files with a certain fileEnding in the root
     ///     directory and all subdirectories. Additionally, it writes and saves 
-    ///     the found file paths in an extra file only if this file does not exist 
-    ///     to prevent duplicates after restart of the game 
+    ///     the found file paths in an extra file.
     ///     (<see href="https://docs.microsoft.com/en-us/previous-versions/aa735748(v=vs.71)?redirectedfrom=MSDN">source</see>).
     ///     Access to certain paths can be denied, so using Directory.GetFiles() could cause exceptions.
     ///     Therefore, implementing recursion ourselves is the best way to avoid those exceptions.

@@ -27,7 +27,7 @@ public class SceneChanger
 
     /// <summary>Loads the singleplayer stage as active scene.</summary>
     /// <param name="index">The index.</param>
-    /// <returns><c>true><c> if...; otherwise, <c>false<c></returns>
+    /// <returns><c>true><c> if loading the singleplayer scene was successful; otherwise, <c>false<c></returns>
     public static bool LoadSingleplayerStageAsActiveScene(int index)
     {
         if (index > SINGLEPLAYER_STAGES_INDICES.Length - 1)
@@ -78,25 +78,25 @@ public class SceneChanger
         }
     }
 
-    /// <summary>Loads the pause menu additive to the scene.</summary>
+    /// <summary>Loads the pause menu from the scene.</summary>
     public static void LoadPauseMenuAdditive()
     {
         LoadSceneAdditive(PAUSE_MENU_SCENE_INDEX);
     }
 
-    /// <summary>Unloads the pause menu subtractive to the scene.</summary>
+    /// <summary>Unloads the pause menu from the scene.</summary>
     public static void UnloadPauseMenuAdditive()
     {
         SceneManager.UnloadSceneAsync(PAUSE_MENU_SCENE_INDEX);
     }
 
-    /// <summary>Loads the selling screen additive to the scene.</summary>
+    /// <summary>Loads the selling screen from scene.</summary>
     public static void LoadSellingScreenAdditive()
     {
         LoadSceneAdditive(SELLING_SCREEN_SCENE_INDEX);
     }
 
-    /// <summary>Unloads the selling screen subtractive to the scene.</summary>
+    /// <summary>Unloads the selling screen from the scene.</summary>
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);
