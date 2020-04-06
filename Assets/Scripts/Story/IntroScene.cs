@@ -30,16 +30,16 @@ public class IntroScene : CutScene
         }
     };
 
-    void Start()
+    protected override void Start()
     {
         m_story.text = StoryHolder[m_storyPart][m_textPart];
         m_mode = CutSceneMode.DisplayText;
         base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
-        base.Update(m_stopwatch.ElapsedMilliseconds * 1.0f);
+        base.Update();
     }
 
     protected override CutSceneMode ChangeStoryPart()

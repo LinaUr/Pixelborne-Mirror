@@ -41,7 +41,7 @@ public class OutroScene : CutScene
 
     private static readonly string THE_END = "THE END";
 
-    void Start()
+    protected override void Start()
     {
         m_story.text = StoryHolder[m_storyPart][m_textPart];
         m_story.gameObject.SetActive(false);
@@ -50,15 +50,13 @@ public class OutroScene : CutScene
         base.Start();
     }
 
-    void Update()
+    protected override void Update()
     {
-        float elapsedTime = m_stopwatch.ElapsedMilliseconds * 1.0f;
-
-        base.Update(elapsedTime);
+        base.Update();
 
         if (m_mode == CutSceneMode.AnimateImages)
         {
-            if (elapsedTime >= m_animationTime)
+            if (m_stopwatch.ElapsedMilliseconds >= m_animationTime)
             {
                 m_animationPart++;
                 if (m_animationPart == m_imageHolder[m_storyPart].Length)

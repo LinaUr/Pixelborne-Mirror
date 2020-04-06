@@ -33,8 +33,10 @@ public abstract class CutScene : MonoBehaviour
         m_stopwatch.Start();
     }
 
-    protected virtual void Update(float elapsedTime)
+    protected virtual void Update()
     {
+        float elapsedTime = m_stopwatch.ElapsedMilliseconds * 1.0f;
+
         if (m_mode == CutSceneMode.FadeImage)
         {
             // Fade the colors darker.
