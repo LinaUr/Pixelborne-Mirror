@@ -10,8 +10,6 @@ public class DialogueStage4 : Dialogue
     private int m_animationDuration = 500;
     [SerializeField]
     private int m_flashDuration = 100;
-    [SerializeField]
-    private int m_textPartDisplayTime = 3000;
 
     enum DialogueMode
     {
@@ -30,21 +28,24 @@ public class DialogueStage4 : Dialogue
     private string[] m_animationPictures1 = { "OutroImages/dark_crown",
                                              "OutroImages/hit_animation",
                                              "OutroImages/dark_crown_destroyed" };
-    private GameObject m_background;
     private GameObject m_backgroundPicture;
     private GameObject m_demonKing;
-    private GameObject m_dialogue;
+    private GameObject m_endboss;
+    private GameObject m_filterImage;
+    private GameObject m_princess;
+    
     private DialogueMode m_dialogueMode;
-    private int m_dialoguePart;
+    private int m_dialoguePart = 0;
+    private int m_textPart = 0;
     private string[] m_dialogueText;
     private string[] m_dialogueTextPart0 = { "Father!" };
     private string[] m_dialogueTextPart1 = { "My child! You are here!",
-                                             "Knight! My thanks as both father and king.",
+                                             $"Knight {DEFAULT_KNIGHT}! My thanks as both father and king.",
                                              "My daughter and my kingdom are safe once more.",
                                              "...",
                                              "Is that the Dark King's Crown you're carrying with you?" };
     private string[] m_dialogueTextPart2 = { "Yes, Father. We found it in his lair." };
-    private string[] m_dialogueTextPart3 = { "Give it to me, Knight!",
+    private string[] m_dialogueTextPart3 = { $"Give it to me, Knight {DEFAULT_KNIGHT}!",
                                              "And give me the shards of Dark Crystal you recovered." };
     private string[] m_dialogueTextPart4 = { "Marvelous!",
                                              "Let it be known that from this day, our kingdom shall bow to no demon!" };
@@ -60,7 +61,7 @@ public class DialogueStage4 : Dialogue
     private string[] m_dialogueTextPart13 = { "No..!" };
     private string[] m_dialogueTextPart14 = { "Don't worry, child. I will have plenty of time for you later.",
                                               "But first..!" };
-    private string[] m_dialogueTextPart15 = { "First, maggot, it is time for you to die!" };
+    private string[] m_dialogueTextPart15 = { $"First, maggot {DEFAULT_KNIGHT}, it is time for you to die!" };
     private string[] m_dialogueTextPart16 = { "O Father..." };
     private string[] m_dialogueTextPart17 = { "Please forgive me..." };
     private string[] m_dialogueTextPart18 = { "I love you, Father..." };
@@ -84,23 +85,12 @@ public class DialogueStage4 : Dialogue
                                               "And then, it shall be mine!" };
     private string[] m_dialogueTextPart30 = { "Not this day, Dark King. And not on any other.",
                                               "Let it be known that from this day, our kingdom shall bow to no demon.",
-                                              "Knight!",
+                                              $"Knight {DEFAULT_KNIGHT}!",
                                               "Destroy his crown, so that he shall stay in Hell, where he belongs, for all eternity!" };
-    private Stopwatch m_textStopwatch = new Stopwatch();
-    private GameObject m_endboss;
-    private bool m_enemiesKilled;
-    private GameObject m_filterImage;
-    private GameObject m_nameTag;
-    public  override bool HasPlayerProgressed { get; set; }
-    private GameObject m_princess;
-    private int m_textPart;
-    private string m_userName;
+    
 
     void Start()
     {
-        m_background = GameObject.Find("Background");
-        m_dialogue = GameObject.Find("Speech");
-        m_nameTag = GameObject.Find("NameTag");
         m_backgroundPicture = GameObject.Find("BackgroundPicture");
         m_filterImage = GameObject.Find("FilterImage");
         m_demonKing = GameObject.Find("Demon_King");
@@ -110,12 +100,9 @@ public class DialogueStage4 : Dialogue
         Singleplayer.Instance.ActiveEnemies.Remove(m_demonKing);
         m_endboss.SetActive(false);
         Singleplayer.Instance.ActiveEnemies.Remove(m_endboss);
-        m_dialoguePart = 0;
-        ReplaceNameInDialogueTexts();
+        InsertName();
         m_dialogueText = m_dialogueTextPart0;
         m_activeCharacter = "Princess";
-        HasPlayerProgressed = false;
-        m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
         m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
@@ -124,7 +111,7 @@ public class DialogueStage4 : Dialogue
 
     void Update()
     {
-        m_enemiesKilled = EnemiesKilled();
+        bool enemiesKilled = Singleplayer.Instance.ActiveEnemies.Count == 0;
         switch (m_dialogueMode)
         {
             case DialogueMode.Displaying:
@@ -132,40 +119,40 @@ public class DialogueStage4 : Dialogue
                 {
                 }
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = m_dialogueText[m_textPart];
-                if (m_textStopwatch.ElapsedMilliseconds >= m_textPartDisplayTime)
+                if (m_stopwatch.ElapsedMilliseconds >= m_displayTime)
                 {
                     m_textPart++;
                     if (m_textPart == m_dialogueText.Length)
                     {
                         ChangePart();
                     }
-                    m_textStopwatch.Restart();
+                    m_stopwatch.Restart();
                 }
                 break;
 
             case DialogueMode.NotStarted:
-                if (HasPlayerProgressed && m_enemiesKilled)
+                if (HasPlayerProgressed && enemiesKilled)
                 {
                     ShowText();
                 }
                 break;
 
             case DialogueMode.WaitingForTrigger:
-                if (HasPlayerProgressed && m_enemiesKilled)
+                if (HasPlayerProgressed && enemiesKilled)
                 {
                     ChangePart();
                 }
                 break;
 
             case DialogueMode.Flashing:
-                if (m_textStopwatch.ElapsedMilliseconds >= m_flashDuration)
+                if (m_stopwatch.ElapsedMilliseconds >= m_flashDuration)
                     {
                         ChangePart();
                     }
                 break;
 
             case DialogueMode.Animation:    
-                if (m_textStopwatch.ElapsedMilliseconds >= m_animationDuration || m_animationPart < 0)
+                if (m_stopwatch.ElapsedMilliseconds >= m_animationDuration || m_animationPart < 0)
                 {
                     m_animationPart++;
                     if (m_animationPart == m_animationPictures.Length)
@@ -174,20 +161,10 @@ public class DialogueStage4 : Dialogue
                         return;
                     }
                     m_backgroundPicture.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>(m_animationPictures[m_animationPart]);
-                    m_textStopwatch.Restart();
+                    m_stopwatch.Restart();
                 }
                 break;
         }
-    }
-
-    public bool EnemiesKilled()
-    {
-        bool allKilled = true;
-        foreach (GameObject enemy in Singleplayer.Instance.ActiveEnemies)
-        {
-                allKilled = false;
-        }
-        return allKilled;
     }
 
     public void ShowText()
@@ -198,7 +175,7 @@ public class DialogueStage4 : Dialogue
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
         m_nameTag.GetComponent<TextMeshProUGUI>().text = m_activeCharacter;
-        m_textStopwatch.Restart();
+        m_stopwatch.Restart();
     }
 
     public void FlashViolet()
@@ -208,7 +185,7 @@ public class DialogueStage4 : Dialogue
         m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
         m_filterImage.GetComponent<SpriteRenderer>().enabled = true;
         m_dialogueMode = DialogueMode.Flashing;
-        m_textStopwatch.Restart();
+        m_stopwatch.Restart();
     }
 
     public void Animate()
@@ -219,7 +196,7 @@ public class DialogueStage4 : Dialogue
         m_dialogueMode = DialogueMode.Animation;
         m_animationPart = -1;
         m_backgroundPicture.GetComponent<Image>().color = Color.white;
-        m_textStopwatch.Restart();
+        m_stopwatch.Restart();
     }
 
     public void ChangePart()
@@ -489,13 +466,23 @@ public class DialogueStage4 : Dialogue
         }
     }
 
-    public void ReplaceNameInDialogueTexts()
+    private void InsertName()
     {
-        m_userName = Environment.UserName;
-        m_dialogueTextPart1[1] = "Knight " + m_userName + "! My thanks as both father and king.";
-        m_dialogueTextPart3[0] = "Give it to me, Knight " + m_userName + "!";
-        m_dialogueTextPart15[0] = "First, maggot " + m_userName + ", it is time for you to die!";
-        m_dialogueTextPart30[2] = "Knight " + m_userName + "!";
+        m_dialogueTextPart1[1] = "Knight " + Environment.UserName + "! My thanks as both father and king.";
+        m_dialogueTextPart3[0] = "Give it to me, Knight " + Environment.UserName + "!";
+        m_dialogueTextPart15[0] = "First, maggot " + Environment.UserName + ", it is time for you to die!";
+        m_dialogueTextPart30[2] = "Knight " + Environment.UserName + "!";
+
+        //if (!string.IsNullOrWhiteSpace(Environment.UserName))
+        //{
+        //    for (int i = 0; i < m_dialogueHolder.Length; i++)
+        //    {
+        //        for (int j = 0; j < m_dialogueHolder[i].Length; j++)
+        //        {
+        //            m_dialogueHolder[i][j] = m_dialogueHolder[i][j].Replace(DEFAULT_KNIGHT, Environment.UserName);
+        //        }
+        //    }
+        //}   
     }
 }
 

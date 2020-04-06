@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 // This class manages the displaying of the dialog in stage 1 of the singleplayer mode.
 public class DialogueStage1 : Dialogue
 {
-    [SerializeField]
-    private int m_displayTime = 3000;
-    [SerializeField]
-    private GameObject m_background;
-    [SerializeField]
-    private TextMeshProUGUI m_dialogue;
-    [SerializeField]
-    private TextMeshProUGUI m_nameTag;
-
     enum Mode
     {
         Displaying,
@@ -40,10 +30,6 @@ public class DialogueStage1 : Dialogue
             $"Knight {DEFAULT_KNIGHT}! You must hurry!"
         }
     };
-
-    private static readonly string DEFAULT_KNIGHT = "Ni";
-
-    public override bool HasPlayerProgressed { get; set; } = false;
  
     void Start()
     {
@@ -57,19 +43,13 @@ public class DialogueStage1 : Dialogue
     {
         bool enemiesKilled = AreFirstEnemiesKilled();
 
-        if (m_mode == Mode.Displaying && Input.GetKeyDown("space"))
-        {
-            m_skipPart = true;
-        }
-
         if (m_mode == Mode.Displaying) 
         {
             m_dialogue.text = m_dialogueHolder[m_dialoguePart][m_textPart];
 
-            if (m_stopwatch.ElapsedMilliseconds >= m_displayTime || m_skipPart)
+            if (m_stopwatch.ElapsedMilliseconds >= m_displayTime || Input.GetKeyDown("space"))
             {
                 m_textPart++;
-                m_skipPart = false;
 
                 if (m_textPart == m_dialogueHolder[m_dialoguePart].Length)
                 {
