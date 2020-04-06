@@ -43,7 +43,7 @@ public class DialogueStage1 : Dialogue
                     Singleplayer.Instance.LockPlayerInput(true);
                     m_mode = Mode.Displaying;
                     SetDialogueVisibility(true);
-                    m_stopwatch.Start();
+                    m_stopwatch.Restart();
                 }
                 break;
 

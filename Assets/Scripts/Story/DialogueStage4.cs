@@ -165,7 +165,7 @@ public class DialogueStage4 : Dialogue
         InsertName();
         m_dialogueText = DialogueHolder[0];
         m_activeCharacter = m_characterHolder[0];
-        m_mode = Mode.WaitingForTrigger;
+        m_mode = Mode.NotStarted;
         m_dialogueBackground.color = Color.black;
         SetDialogueVisibility(false);
     }
