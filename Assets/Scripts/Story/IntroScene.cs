@@ -37,11 +37,6 @@ public class IntroScene : CutScene
         base.Start();
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override CutSceneMode ChangeStoryPart()
     {
         m_storyPart++;
