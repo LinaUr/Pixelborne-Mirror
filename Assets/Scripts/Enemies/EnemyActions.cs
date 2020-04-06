@@ -180,13 +180,13 @@ public class EnemyActions : Entity, IEnemyActions
         OnJump(null);
     }
 
-    /// <summary>Starts following the player</summary>
+    /// <summary>Starts following the player.</summary>
     public void StartFollowPlayer()
     {
         m_isFollowingPlayer = true;
     }
 
-    /// <summary>Stops following the player</summary>
+    /// <summary>Stops following the player.</summary>
     public void StopFollowPlayer()
     {
         m_isFollowingPlayer = false;
