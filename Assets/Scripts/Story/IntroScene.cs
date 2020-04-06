@@ -57,6 +57,8 @@ public class IntroScene : CutScene
         m_story.text = string.Empty;
 
         // Change the background image.
+        // m_storyPart - 1 because the StoryHolder's first element ist the prologue screen that does not have an image.
+        // So the images are a  litte shifted.
         m_backgroundImage.overrideSprite = Resources.Load<Sprite>(m_imageHolder[m_storyPart - 1]);
         m_backgroundImage.color = Color.white;
         return CutSceneMode.FadeImage;
