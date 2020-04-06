@@ -104,7 +104,7 @@ public class DialogueStage3 : MonoBehaviour
     public void ShowText()
     {
         Singleplayer.Instance.LockPlayerInput(true);
-        Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
+        Singleplayer.Instance.Player.GetComponent<PlayerActions>().ResetEntityAnimations();
         m_dialogueMode = DialogueMode.Displaying;
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;

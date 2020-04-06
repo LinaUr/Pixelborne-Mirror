@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-// This class implements a simple color filter that gets stronger the further you go in a stage.
+/// <summary>Implements a simple color filter that gets stronger the further you go in a stage.</summary>
 public class SimpleColorFilter : MonoBehaviour
 {
     [SerializeField]

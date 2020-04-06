@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // This class manages the displaying of the dialog in stage 1 of the singleplayer mode.
+/// <summary></summary>
 public class DialogueStage1 : MonoBehaviour
 {
     [SerializeField]
@@ -16,7 +17,7 @@ public class DialogueStage1 : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI m_nameTag;
 
-    enum Mode
+    private enum Mode
     {
         Displaying,
         WaitingForTrigger

@@ -5,7 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-// This class contains the Multiplayer game mode logic.
+/// <summary>Contains the multiplayer game mode logic and 
+/// implements the <see cref="IGame"/> interface for the multiplayer mode. It is a singleton.</summary>
 public class Multiplayer : ScriptableObject, IGame
 {
     private GameObject m_deadPlayer;
@@ -18,8 +19,11 @@ public class Multiplayer : ScriptableObject, IGame
     private const int m_AMOUNT_OF_STAGES = 5;
     private const int m_START_STAGE_INDEX = m_AMOUNT_OF_STAGES / 2;
 
+    /// <summary>Gets or sets the camera.</summary>
+    /// <value>The camera.</value>
     public CameraMultiplayer Camera { get; set; }
 
+    /// <summary>Gets the instance.</summary>
     public static Multiplayer Instance
     {
         get
@@ -32,6 +36,8 @@ public class Multiplayer : ScriptableObject, IGame
 
     // This is for testing and debugging single stages quicker without having to start from the MainMenu.
     // TODO: Remove later.
+    /// <summary>Sets the index of the debug current stage.</summary>
+    /// <value>The index of the debug current stage.</value>
     public int DEBUG_currentStageIndex
     {
         set
@@ -40,11 +46,13 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
-    public Multiplayer()
+    /// <summary>Initializes a new instance of the <see cref="Multiplayer"/> class.</summary>
+    private Multiplayer()
     {
         s_instance = this;
     }
 
+    /// <summary>Starts the multiplayer.</summary>
     public async void Go()
     {
         Game.Current = this;
@@ -78,11 +86,16 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Gets the winner.</summary>
+    /// <returns>The winner identified by its index.</returns>
     public string GetWinner()
     {
         return $"Player {m_winnerIndex}";
     }
 
+    /// <summary>Registers the player.</summary>
+    /// <param name="player">The player.</param>
+    /// <exception cref="Exception">Error: Object \"{player.name}\" can not be registered. 2 players have already been assigned.</exception>
     public void RegisterPlayer(GameObject player)
     {
         if (m_players.Count < 2)
@@ -95,21 +108,27 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Unregisters the player.</summary>
+    /// <param name="player">The player.</param>
     public void UnregisterPlayer(GameObject player)
     {
         m_players.Remove(player);
     }
 
+    /// <summary>Locks the player input.</summary>
+    /// <param name="isLocked">if set to <c>true</c> [is locked].</param>
     public void LockPlayerInput(bool isLocked)
     {
         m_players.ForEach(player =>
         {
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerActions playerMovement = player.GetComponent<PlayerActions>();
             playerMovement.IsInputLocked = isLocked;
             playerMovement.ResetEntityAnimations();
         });
     }
 
+    /// <summary>Handles the death of a player.</summary>
+    /// <param name="player">The player.</param>
     public void HandleDeath(GameObject player)
     {
         LockPlayerInput(true);
@@ -117,7 +136,7 @@ public class Multiplayer : ScriptableObject, IGame
         Camera.FadeOut();
     }
 
-    // This method prepares the game after a camera fade out before fading in again.
+    /// <summary>Prepares the game after a camera fade out before fading in again.</summary>
     public void FadedOut()
     {
         PlayerDied(m_deadPlayer);
@@ -126,6 +145,7 @@ public class Multiplayer : ScriptableObject, IGame
         m_deadPlayer = null;
     }
 
+    /// <summary>Prepares the game after a camera fade in finished.</summary>
     public void FadedIn()
     {
         LockPlayerInput(false);
@@ -136,15 +156,16 @@ public class Multiplayer : ScriptableObject, IGame
         m_currentStageIndex = m_START_STAGE_INDEX;
     }
 
+    /// <summary>Prepares the stage.</summary>
     public void PrepareStage()
     {
         ImageManager.Instance.SetNewSceneImages();
         SetGameToStage(m_currentStageIndex);
     }
 
-    public void PlayerDied(GameObject player)
+    private void PlayerDied(GameObject player)
     {
-        int playerIndex = player.GetComponent<PlayerMovement>().Index;
+        int playerIndex = player.GetComponent<PlayerActions>().Index;
         if (playerIndex == 1)
         {
             m_currentStageIndex--;
@@ -172,7 +193,7 @@ public class Multiplayer : ScriptableObject, IGame
             }
 
             GameObject winningPlayer = player == players.First() ? players.Last() : players.First();
-            m_winnerIndex = winningPlayer.GetComponent<PlayerMovement>().Index;
+            m_winnerIndex = winningPlayer.GetComponent<PlayerActions>().Index;
             Game.Finish();
 
             // Reset the game to avoid OutOfRangeException with m_currentStageIndex.
@@ -180,6 +201,8 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Enables the collision between the player.</summary>
+    /// <param name="callingEntity">The calling entity.</param>
     public void EnableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Remove(callingEntity);
@@ -189,23 +212,30 @@ public class Multiplayer : ScriptableObject, IGame
         }
     }
 
+    /// <summary>Disables the collision between the player and the calling entity.</summary>
+    /// <param name="callingEntity">The calling entity.</param>
     public void DisableEntityCollision(GameObject callingEntity)
     {
         m_entitiesThatRequestedDisableEntityCollision.Add(callingEntity);
         Physics2D.IgnoreLayerCollision(m_players[0].layer, m_players[1].layer, true);
     }
 
+    /// <summary>Sets the game to stage.</summary>
+    /// <param name="stageIndex">Index of the stage.</param>
     public void SetGameToStage(int stageIndex)
     {
         Camera.SetPosition(stageIndex);
         m_players.ForEach(player =>
         {
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            PlayerActions playerMovement = player.GetComponent<PlayerActions>();
             playerMovement.SetPosition(stageIndex);
             playerMovement.ResetEntityActions();
         });
     }
 
+    /// <summary>Swaps the hud symbol.</summary>
+    /// <param name="gameObject">The game object.</param>
+    /// <param name="sprite">The sprite.</param>
     public void SwapHudSymbol(GameObject gameObject, Sprite sprite)
     {
         Camera.SwapHudSymbol(gameObject, sprite);

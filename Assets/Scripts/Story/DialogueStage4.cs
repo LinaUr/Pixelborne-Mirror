@@ -118,8 +118,8 @@ public class DialogueStage4 : MonoBehaviour
         m_enemiesKilled = false;
         m_dialogueMode = DialogueMode.NotStarted;
         Singleplayer.Instance.ActiveEnemies.Remove(m_princess);
-        m_princess.GetComponent<EnemyAttackAndMovement>().StartFollowPlayer();
-        m_princess.GetComponent<EnemyAttackAndMovement>().IsInputLocked = false;
+        m_princess.GetComponent<EnemyActions>().StartFollowPlayer();
+        m_princess.GetComponent<EnemyActions>().IsInputLocked = false;
     }
 
     void Update()
@@ -193,7 +193,7 @@ public class DialogueStage4 : MonoBehaviour
     public void ShowText()
     {
         Singleplayer.Instance.LockPlayerInput(true);
-        Singleplayer.Instance.Player.GetComponent<PlayerMovement>().ResetEntityAnimations();
+        Singleplayer.Instance.Player.GetComponent<PlayerActions>().ResetEntityAnimations();
         m_dialogueMode = DialogueMode.Displaying;
         m_textPart = 0;
         m_background.GetComponent<Image>().color = Color.black;
@@ -340,7 +340,7 @@ public class DialogueStage4 : MonoBehaviour
                 m_dialogue.GetComponent<TextMeshProUGUI>().text = "";
                 m_nameTag.GetComponent<TextMeshProUGUI>().text = "";
                 m_dialogueMode = DialogueMode.WaitingForTrigger;            //player supposed to kill king
-                m_princess.GetComponent<EnemyAttackAndMovement>().StopFollowPlayer();
+                m_princess.GetComponent<EnemyActions>().StopFollowPlayer();
                 Singleplayer.Instance.LockPlayerInput(false);
                 break;
 

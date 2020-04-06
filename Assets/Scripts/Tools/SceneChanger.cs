@@ -1,5 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
+/// <summary>Provides static methods that implement various scene changing behaviour.</summary>
 public class SceneChanger
 {
     // The following indices represent the build index of the corresponding scene.
@@ -24,7 +25,9 @@ public class SceneChanger
         return false;
     }
 
-    // This method returns a bool to indicate whether the requested stage exists and could be loaded.
+    /// <summary>Loads the singleplayer stage as active scene.</summary>
+    /// <param name="index">The index.</param>
+    /// <returns><c>true><c> if loading the singleplayer scene was successful; otherwise, <c>false<c></returns>
     public static bool LoadSingleplayerStageAsActiveScene(int index)
     {
         if (index > SINGLEPLAYER_STAGES_INDICES.Length - 1)
@@ -35,21 +38,26 @@ public class SceneChanger
         return true;
     }
 
+    /// <summary>Sets the Multiplayer as active scene.</summary>
     public static void SetMultiplayerAsActiveScene()
     {
         LoadSceneAsActiveScene(MULTIPLAYER_SCENE_INDEX);
     }
 
+    /// <summary>Sets the main menu as active scene.</summary>
     public static void SetMainMenuAsActiveScene()
     {
         LoadSceneAsActiveScene(MAIN_MENU_SCENE_INDEX);
     }
-    
+
+    /// <summary>Sets the winning screen as active scene.</summary>
     public static void SetWinningScreenAsActiveScene()
     {
         LoadSceneAsActiveScene(WINNING_SCREEN_SCENE_INDEX);
     }
 
+    /// <summary>Loads the scene as active scene.</summary>
+    /// <param name="index">The build index of the scene.</param>
     public static void LoadSceneAsActiveScene(int index)
     {
         if (!IsSceneAlreadyLoaded(index))
@@ -59,6 +67,8 @@ public class SceneChanger
     }
 
     // This method loads a scene with the index additive to the current scene.
+    /// <summary>Loads the scene additive.</summary>
+    /// <param name="index">The index.</param>
     public static void LoadSceneAdditive(int index)
     {
         // Check if the scene has already been loaded additive.
@@ -68,25 +78,25 @@ public class SceneChanger
         }
     }
 
-    // This method loads PauseMenu additive to the scene.
+    /// <summary>Loads the pause menu from the scene.</summary>
     public static void LoadPauseMenuAdditive()
     {
         LoadSceneAdditive(PAUSE_MENU_SCENE_INDEX);
     }
 
-    // This method removes the PauseMenu as additive scene.
+    /// <summary>Unloads the pause menu from the scene.</summary>
     public static void UnloadPauseMenuAdditive()
     {
         SceneManager.UnloadSceneAsync(PAUSE_MENU_SCENE_INDEX);
     }
 
-    // This method loads SellingScreen additive to the scene.
+    /// <summary>Loads the selling screen from scene.</summary>
     public static void LoadSellingScreenAdditive()
     {
         LoadSceneAdditive(SELLING_SCREEN_SCENE_INDEX);
     }
 
-    // This method removes the SellingScreen as additive scene.
+    /// <summary>Unloads the selling screen from the scene.</summary>
     public static void UnloadSellingScreenAdditive()
     {
         SceneManager.UnloadSceneAsync(SELLING_SCREEN_SCENE_INDEX);

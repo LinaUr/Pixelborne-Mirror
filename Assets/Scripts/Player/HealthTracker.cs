@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-// This class manages the display of the health of a player via a TextMeshProUGUI.
+/// <summary>Manages the display of the health of a player via a TextMeshProGUI.</summary>
 public class HealthTracker : MonoBehaviour
 {
     [SerializeField]
