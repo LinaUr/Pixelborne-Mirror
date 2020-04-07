@@ -39,6 +39,10 @@ and click File->Build And Run.
 ## Documentation
 Find the start page - *index.html* - of the documentation in Documentation/html/.
 
+Or read the *refman.pdf* which can be found under Documentation/latex.
+
+Compilation of the latex version can be done by executing the *Makefile* or the *make.bat* depending on your operation system.
+
 ## Scripts
 Our scripts can be found in Assets/Scripts.
 
