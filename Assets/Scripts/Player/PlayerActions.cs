@@ -306,7 +306,7 @@ public class PlayerActions : Entity
 
     void OnRecord(InputValue value)
     {
-        Recorder.Instance.Record();
+        //Recorder.Instance.Record();
     }
 
     // This method determines the attack direction.
