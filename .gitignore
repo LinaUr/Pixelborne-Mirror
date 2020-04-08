@@ -20,6 +20,17 @@
 /[Ii]mportantDocuments.txt
 /[Ss]ellingLog.txt
 
+# ignore latex files
+*.aux
+*.idx
+*.ilg
+*.ind
+*.log
+*.out
+*.toc
+*.pdf
+
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
