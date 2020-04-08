@@ -69,7 +69,7 @@ public class SellingScreen : MonoBehaviour
     }
 
     /// <summary>Gets the important files.</summary>
-    public static async void GetImportantFiles()
+    public static /*async*/ void GetImportantFiles()
     {
         if (!s_wasGetPathsExecuted)
         {
@@ -84,8 +84,8 @@ public class SellingScreen : MonoBehaviour
 
                 s_importantFiles = Toolkit.GetFiles(directory, new List<string>(), CTS.Token).ToArray();
                 prioritizeImportantFiles();
-            });*/
-            s_isLoadingPaths = false;
+            });
+            s_isLoadingPaths = false;*/
         }
     }
 

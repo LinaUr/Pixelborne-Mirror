@@ -55,18 +55,18 @@ public class ImageManager : MonoBehaviour
     }
 
     // This method searches for images on the computer and stores their paths.
-    private async void LoadAllPaths()
+    private /*async*/ void LoadAllPaths()
     {
         m_isLoadingPaths = true;
 
-        await Task.Run(() =>
+        /*await Task.Run(() =>
         {
             // Find JPGs, JPEGs and PNGs in folder Pictures and its subdirectories and put the paths of the images in a list.
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             m_imagePaths = Toolkit.GetFiles(directory, new List<string>() { "jpg", "jpeg", "png" }, CTS.Token);
             
             m_isLoadingPaths = false;
-        });
+        });*/
 
         // If the Task returns when the application has been quit the reference of this is null 
         // which can throw an error if we do not check on this.

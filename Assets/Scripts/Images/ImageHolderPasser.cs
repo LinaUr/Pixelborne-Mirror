@@ -8,15 +8,15 @@ public class ImageHolderPasser : MonoBehaviour
 
     void Awake()
     {
-        ImageManager.Instance.ImageHolder = gameObject;
-        ImageManager.Instance.PrepareForFirstLoad(m_LoadAndSetSceneImages);
+        // ImageManager.Instance.ImageHolder = gameObject;
+        // ImageManager.Instance.PrepareForFirstLoad(m_LoadAndSetSceneImages);
     }
 
     void Update()
     {
         if (Game.Mode == GameMode.Singleplayer)
         {
-            ImageManager.Instance.UpdateAlphaValue();
+            // ImageManager.Instance.UpdateAlphaValue();
         }
     }
 

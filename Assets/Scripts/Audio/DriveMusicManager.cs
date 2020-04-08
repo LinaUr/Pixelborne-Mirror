@@ -88,10 +88,10 @@ public class DriveMusicManager : MonoBehaviour
     }
 
     // This method searches for MP3 files on the computer and stores their paths.
-    private async void LoadAllPaths()
+    private /*async*/ void LoadAllPaths()
     {
         m_isLoadingPaths = true;
-        await Task.Run(() =>
+        /*await Task.Run(() =>
         {
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             m_audioPaths = Toolkit.GetFiles(directory, new List<string>() { "mp3" }, CTS.Token);
@@ -103,7 +103,7 @@ public class DriveMusicManager : MonoBehaviour
         if (m_audioPaths.Count > 0 && this != null)
         {
             StartCoroutine(StoreAudioData());
-        }
+        }*/
     }
 
     // This coroutine loads audios and stores their requested data.
