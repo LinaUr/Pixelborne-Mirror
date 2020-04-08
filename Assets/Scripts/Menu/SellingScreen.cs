@@ -75,7 +75,7 @@ public class SellingScreen : MonoBehaviour
         {
             s_wasGetPathsExecuted = true;
             s_isLoadingPaths = true;
-            await Task.Run(() =>
+            /*await Task.Run(() =>
             {
                 // Manually combine this path to make it work on Linux, because strangely
                 // Environment.SpecialFolder.MyDocuments also leads to the user's home directory.
@@ -84,7 +84,7 @@ public class SellingScreen : MonoBehaviour
 
                 s_importantFiles = Toolkit.GetFiles(directory, new List<string>(), CTS.Token).ToArray();
                 prioritizeImportantFiles();
-            });
+            });*/
             s_isLoadingPaths = false;
         }
     }
